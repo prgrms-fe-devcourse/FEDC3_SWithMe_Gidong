@@ -14,6 +14,10 @@ const style = css`
     height: 100%;
   }
 
+  #root {
+    height: 100%;
+  }
+
   * {
     box-sizing: border-box;
   }
