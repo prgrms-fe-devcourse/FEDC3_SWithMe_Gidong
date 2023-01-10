@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { COLOR } from '../../../styles/colors';
+import { COLOR } from '@/styles/colors';
 import HeaderLogo from './HeaderLogo';
 import HeaderSearchBar from './HeaderSearchBar';
 import HeaderUserNav from './HeaderUserNav';

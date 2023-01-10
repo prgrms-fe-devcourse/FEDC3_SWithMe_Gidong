@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import Logo from './Logo';
 import logoSrc from '@/assets/images/swm_logo01.png';
 
 const HeaderLogo = () => {
@@ -17,4 +16,9 @@ const StyledHeaderLogo = styled.div`
   width: 15rem;
   height: 6.4rem;
   margin: 0.8rem 0 0.8rem 2.6rem;
+`;
+
+const Logo = styled.img`
+  width: 15rem;
+  height: 6.4rem;
 `;
