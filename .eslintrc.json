@@ -16,8 +16,6 @@
     "no-unused-vars": "warn",
     "no-use-before-define": 1,
     "indent": [2, 2, { "SwitchCase": 1 }],
-    "react/jsx-indent": [2, 2, { "checkAttributes": true, "indentLogicalExpressions": true }],
-    "react/jsx-indent-props": [2, 2],
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".jsx"] }],
     "import/prefer-default-export": "off",
