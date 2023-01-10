@@ -8,7 +8,7 @@
     "sourceType": "module"
   },
   "plugins": ["react"],
-  "extends": ["react-app", "eslint:recommended", "plugin:react/recommended", "plugin:prettier/recommended", "prettier"],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:prettier/recommended", "prettier"],
   "rules": {
     "linebreak-style": 0,
     "object-curly-newline": 0,
