@@ -1,7 +1,8 @@
 {
   "env": {
     "browser": true,
-    "es6": true
+    "es6": true,
+    "node": true
   },
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -14,7 +15,7 @@
     "object-curly-newline": 0,
     "no-unused-vars": "warn",
     "no-use-before-define": 1,
-    "indent": ["error", 2],
+    "indent": [2, 2, { "SwitchCase": 1 }],
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".jsx"] }],
     "import/prefer-default-export": "off",
