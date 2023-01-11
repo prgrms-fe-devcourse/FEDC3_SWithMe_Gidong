@@ -1,5 +1,6 @@
 export const COLOR = {
   WHITE: '#fff',
+  BLACK: '#000',
   DARK: '#3A3A3A',
 
   MY_GROUP_BG: '#F4F5FF',
@@ -14,4 +15,6 @@ export const COLOR = {
   HEADER_DIVIDELINE: '#e8e7eb',
   HEADER_SEARCHBAR_INPUT_FONT: '#0000003d',
   HEADER_SEARCHBAR_SUBMIT_BG: '#f7456e',
+
+  SIGNUP_BUTTON_BG: '#617CEB',
 };
