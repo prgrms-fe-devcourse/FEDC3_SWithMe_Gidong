@@ -17,23 +17,28 @@ export default {
 };
 
 export const Default = (args) => {
-  return <Text {...args}>Text</Text>;
+  return (
+    <>
+      <Text {...args}>Text</Text>
+      <Text {...args}>Text</Text>
+    </>
+  );
 };
 
 export const Size = (args) => {
   return (
     <>
-      <Text {...args} size='small'>
-        Small Text
+      <Text {...args} size='large'>
+        Large
       </Text>
       <Text {...args} size='normal'>
-        Normal Text
+        Normal
       </Text>
-      <Text {...args} size='large'>
-        Large Text
+      <Text {...args} size='small'>
+        Small
       </Text>
       <Text {...args} size={24}>
-        Custom Text
+        Custom
       </Text>
     </>
   );
