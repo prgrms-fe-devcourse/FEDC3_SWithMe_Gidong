@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
-import { COLOR } from '../styles/color';
-import { imgPuzzle } from '../assets/images';
-import Image from '../components/base/Image';
-import Header from '../components/base/Header';
-import Text from '../components/base/Text';
+import { COLOR } from '@/styles/color';
+import { imgPuzzle } from '@/assets/images';
+import Image from '@/components/base/Image';
+import Header from '@/components/base/Header';
+import Text from '@/components/base/Text';
 
 const tempGroupData = [
   {
