@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { COLOR } from '../styles/color';
-import { ImgPuzzle } from '../assets/images';
+import { imgPuzzle } from '../assets/images';
 import Image from '../components/base/Image';
 import Header from '../components/base/Header';
 import Text from '../components/base/Text';
@@ -48,7 +48,7 @@ function MyGroup() {
               그룹 내의 멤버들과 소통하며 <Text>오늘의 TIL</Text>을 작성해보세요.
             </Text>
           </div>
-          <Image src={ImgPuzzle} width={300} />
+          <Image src={imgPuzzle} width={300} />
         </StyledDesc>
         <StyledGroupList>
           {tempGroupData.map((group) => (

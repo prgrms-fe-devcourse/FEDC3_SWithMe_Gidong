@@ -1,9 +1,7 @@
 import styled from '@emotion/styled';
 import UserNavButton from './UserNavButton';
 import UserSignInButton from './UserSignInButton';
-import myGroup from '@/assets/icons/myGroup.svg';
-import myAlertOn from '@/assets/icons/myAlertOn.svg';
-import myInfo from '@/assets/icons/myInfo.svg';
+import { icMyGroup, icMyAlertOn, icMyInfo } from '@/assets/icons';
 
 const HeaderUserNav = () => {
   const isLogined = false;
@@ -12,9 +10,9 @@ const HeaderUserNav = () => {
     <StyledHeaderUserNav>
       {isLogined ? (
         <>
-          <UserNavButton variant={myGroup} />
-          <UserNavButton variant={myAlertOn} />
-          <UserNavButton variant={myInfo} />
+          <UserNavButton variant={icMyGroup} />
+          <UserNavButton variant={icMyAlertOn} />
+          <UserNavButton variant={icMyInfo} />
           <UserSignInButton variant={'로그아웃'} />
         </>
       ) : (

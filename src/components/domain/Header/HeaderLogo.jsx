@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
-import logoSrc from '@/assets/images/swm_logo01.png';
+import { imgLogo } from '@/assets/images';
 
 const HeaderLogo = () => {
   return (
     <StyledHeaderLogo>
-      <Logo src={logoSrc} />
+      <Logo src={imgLogo} />
     </StyledHeaderLogo>
   );
 };
