@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { COLOR } from '@/styles/colors';
-import searchSubmit from '@/assets/icons/searchSubmit.svg';
+import { icSearchSubmit } from '@/assets/icons';
 
 const HeaderSearchBar = () => {
   return (
@@ -9,7 +9,7 @@ const HeaderSearchBar = () => {
       <SearchDivideLine />
       <StyledSearchInput type='text' defaultValue='스터디 그룹 검색' />
       <StyledSearchSubmitButton>
-        <SearchSubmitIcon src={searchSubmit} />
+        <SearchSubmitIcon src={icSearchSubmit} />
       </StyledSearchSubmitButton>
     </StyledHeaderSearchBar>
   );
