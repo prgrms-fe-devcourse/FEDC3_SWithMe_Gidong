@@ -1,6 +1,7 @@
 export const COLOR = {
   WHITE: '#fff',
   BLACK: '#000',
+  RED: '#f00',
   DARK: '#3A3A3A',
 
   MY_GROUP_BG: '#F4F5FF',
