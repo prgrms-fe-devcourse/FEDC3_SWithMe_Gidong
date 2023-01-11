@@ -1,6 +1,6 @@
-export { default as Modal } from './modal';
-export { default as Button } from './button';
-export { default as Text } from './text';
-export { default as Input } from './input';
-export { default as Textarea } from './textarea';
-export { default as Tag } from './tag';
+export { default as Modal } from './Modal';
+export { default as Button } from './Button';
+export { default as Text } from './Text';
+export { default as Input } from './Input';
+export { default as Textarea } from './Textarea';
+export { default as Tag } from './Tag';
