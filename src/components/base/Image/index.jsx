@@ -12,14 +12,14 @@ const onIntersection = (entries, io) => {
   });
 };
 
-const Image = ({ lazy, threshold = 0.5, placeholder, src, block, width, height, alt, mode, ...props }) => {
+function Image({ lazy, threshold = 0.5, placeholder, src, block, width, height, alt, mode, ...props }) {
   const [loaded, setLoaded] = useState(false);
   const imgRef = useRef(null);
 
   const imageStyle = {
     display: block ? 'block' : undefined,
-    width,
-    height,
+    width: `${width}rem`,
+    height: `${height}rem`,
     objectFit: mode,
   };
 
@@ -46,6 +46,6 @@ const Image = ({ lazy, threshold = 0.5, placeholder, src, block, width, height, 
   }, [lazy, threshold]);
 
   return <img ref={imgRef} src={loaded ? src : placeholder} alt={alt} style={{ ...props.style, ...imageStyle }} />;
-};
+}
 
 export default Image;
