@@ -1,10 +1,21 @@
-import PropTypes from 'prop-types';
-
-const Text = ({ children, block, paragraph, size, strong, underline, delete: del, color, mark, code, ...props }) => {
+const Text = ({
+  children,
+  block,
+  paragraph,
+  size,
+  strong,
+  weight,
+  underline,
+  delete: del,
+  color,
+  mark,
+  code,
+  ...props
+}) => {
   const Tag = block ? 'div' : paragraph ? 'p' : 'span';
   const fontStyle = {
-    fontWeight: strong ? 'bold' : undefined,
-    fontSize: typeof size === 'number' ? size : undefined,
+    fontWeight: strong ? 'bold' : weight ? `${weight}` : undefined,
+    fontSize: typeof size === 'number' ? `${size}rem` : undefined,
     textDecoration: underline ? 'underline' : undefined,
     color,
   };
@@ -27,18 +38,6 @@ const Text = ({ children, block, paragraph, size, strong, underline, delete: del
       {children}
     </Tag>
   );
-};
-
-Text.propTypes = {
-  children: PropTypes.node.isRequired,
-  size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  block: PropTypes.bool,
-  paragraph: PropTypes.bool,
-  delete: PropTypes.bool,
-  code: PropTypes.bool,
-  mark: PropTypes.bool,
-  strong: PropTypes.bool,
-  color: PropTypes.string,
 };
 
 export default Text;
