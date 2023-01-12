@@ -4,14 +4,21 @@ import GroupItem from '@/components/domain/GroupItem';
 import { COLOR } from '@/styles/color';
 import { imgSearch } from '@/assets/images';
 import { Text } from '@/components/base';
+import TILList from '@/components/domain/TILList';
+import { Fragment } from 'react';
 
 function GroupList() {
-  const { groups } = useGroupContext();
+  const { groups, openedGroupId } = useGroupContext();
 
   return (
-    <StyledGroupList isEmpty={!groups.length}>
-      {groups.length ? (
-        groups?.map((group, i) => <GroupItem key={group._id} group={group} isLastGroup={groups.length - 1 === i} />)
+    <StyledGroupList isEmpty={!groups?.length}>
+      {groups?.length ? (
+        groups.map((group, i) => (
+          <Fragment key={group._id}>
+            <GroupItem group={group} isLastGroup={groups.length - 1 === i} />
+            {openedGroupId === group._id && <TILList groupId={group._id} />}
+          </Fragment>
+        ))
       ) : (
         <StyledGroupEmpty>
           <img src={imgSearch} alt='그룹에 참여해보세요.' />

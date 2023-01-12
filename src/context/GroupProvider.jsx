@@ -1,4 +1,4 @@
-import { useReducer, useEffect, createContext, useContext } from 'react';
+import { useReducer, useEffect, createContext, useContext, useState } from 'react';
 
 const GroupContext = createContext();
 export const useGroupContext = () => useContext(GroupContext);
@@ -29,12 +29,13 @@ const reducer = (state, action) => {
 
 const GroupProvider = ({ children, initialGroups }) => {
   const [groups, dispatch] = useReducer(reducer, initialGroups);
+  const [openedGroupId, setOpenedGroupId] = useState('');
 
   useEffect(() => {
     dispatch({ type: 'INIT_GROUPS', payload: initialGroups || [] });
   }, [initialGroups]);
 
-  return <GroupContext.Provider value={{ groups }}>{children}</GroupContext.Provider>;
+  return <GroupContext.Provider value={{ groups, openedGroupId, setOpenedGroupId }}>{children}</GroupContext.Provider>;
 };
 
 export default GroupProvider;
