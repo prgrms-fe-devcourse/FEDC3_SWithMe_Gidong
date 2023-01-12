@@ -11,6 +11,10 @@ export const COLOR = {
   MY_GROUP_BTN_FONT: '#738DFA',
   MY_GROUP_BOX_BG: '#F7E9EC',
 
+  GRAY_30: '#BAB7C3',
+  GRAY_10: '#ededed',
+  TAG_COLOR: ['#F78289', '#9398DB', '#6082F5', '#4C4DAE'],
+
   HEADER_BG_GRADIENT_LEFT: '#fba194',
   HEADER_BG_GRADIENT_RIGHT: '#f6416c',
   HEADER_SEARCHBAR_BG: '#fdfdfd',
