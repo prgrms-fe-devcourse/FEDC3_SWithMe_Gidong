@@ -80,14 +80,14 @@ function CreateGroupModal({ visible, onClose, ...props }) {
 
   return (
     <Modal visible={visible} onClose={handleModalClose} width='50rem' style={{ ...props.style }} {...props}>
-      <HeaderContainer>
+      <StyledHeaderContainer>
         <Text size='normal' weight={400}>
           STEP {step} / {MAX_STEP_SIZE}
         </Text>
         <i className='fa-solid fa-xmark fa-4x' style={{ cursor: 'pointer' }} onClick={handleModalClose}></i>
-      </HeaderContainer>
+      </StyledHeaderContainer>
       {visible && (
-        <ContentContainer>
+        <StyledContentContainer>
           {step === 1 ? (
             <>
               <Text size={3} weight={300}>
@@ -156,9 +156,9 @@ function CreateGroupModal({ visible, onClose, ...props }) {
               <Tag ref={groupTagInputRef} />
             </>
           )}
-        </ContentContainer>
+        </StyledContentContainer>
       )}
-      <ButtonContainer>
+      <StyledButtonContainer>
         <Button
           as='button'
           style={{ fontSize: '1.8rem', width: '12rem', height: '4rem' }}
@@ -175,21 +175,21 @@ function CreateGroupModal({ visible, onClose, ...props }) {
           onClick={handleNextButtonClick}>
           {step === MAX_STEP_SIZE ? '완료' : '다음'}
         </Button>
-      </ButtonContainer>
+      </StyledButtonContainer>
     </Modal>
   );
 }
 
 export default CreateGroupModal;
 
-const HeaderContainer = styled.div`
+const StyledHeaderContainer = styled.div`
   padding: 0.5rem 2rem 0 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 
-const ContentContainer = styled.div`
+const StyledContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -198,7 +198,7 @@ const ContentContainer = styled.div`
   padding: 0 15%;
 `;
 
-const ButtonContainer = styled.div`
+const StyledButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0 15% 2rem;

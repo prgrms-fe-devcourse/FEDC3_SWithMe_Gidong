@@ -49,7 +49,7 @@ const Textarea = forwardRef(
     }, [defaultValue]);
 
     return (
-      <TextareaContainer block={block} {...wrapperProps}>
+      <StyledTextareaContainer block={block} {...wrapperProps}>
         <StyledTextarea
           invalid={invalid}
           required={required}
@@ -68,7 +68,7 @@ const Textarea = forwardRef(
             {label ? label : max ? value.length + ' / ' + max : ''}
           </Text>
         </StyledLabel>
-      </TextareaContainer>
+      </StyledTextareaContainer>
     );
   },
 );
@@ -76,7 +76,7 @@ Textarea.displayName = 'Textarea';
 
 export default Textarea;
 
-const TextareaContainer = styled.div`
+const StyledTextareaContainer = styled.div`
   position: relative;
   display: ${({ block }) => (block ? 'block' : 'inline-block')};
   margin: 1rem 0 2rem 0;

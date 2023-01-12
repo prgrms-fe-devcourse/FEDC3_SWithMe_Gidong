@@ -17,18 +17,18 @@ function Modal({ children, width = 500, height, visible = false, round = true, o
     };
   });
   return ReactDOM.createPortal(
-    <BackgroundDim style={{ display: visible ? 'block' : 'none' }}>
-      <ModalContainer ref={ref} round={round} {...props} style={{ ...props.style, ...containerStyle }}>
+    <StyledBackgroundDim style={{ display: visible ? 'block' : 'none' }}>
+      <StyledModalContainer ref={ref} round={round} {...props} style={{ ...props.style, ...containerStyle }}>
         {children}
-      </ModalContainer>
-    </BackgroundDim>,
+      </StyledModalContainer>
+    </StyledBackgroundDim>,
     modal,
   );
 }
 
 export default Modal;
 
-const BackgroundDim = styled.div`
+const StyledBackgroundDim = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -38,7 +38,7 @@ const BackgroundDim = styled.div`
   z-index: 1000;
 `;
 
-const ModalContainer = styled.div`
+const StyledModalContainer = styled.div`
   position: fixed;
   top: 50%;
   left: 50%;

@@ -3,20 +3,20 @@ import { Button, Text } from '@/components/base';
 
 function TagItem({ tag, onDeleteTagButtonClick }) {
   return (
-    <TagItemContanier>
+    <StyledTagItem>
       <Text size={1} weight={300} color='#ffffff'>
         {tag}
         <Button bgcolor='transparent' onClick={onDeleteTagButtonClick} style={{ fontSize: '1rem', fontWeight: '700' }}>
           X
         </Button>
       </Text>
-    </TagItemContanier>
+    </StyledTagItem>
   );
 }
 
 export default TagItem;
 
-const TagItemContanier = styled.div`
+const StyledTagItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;

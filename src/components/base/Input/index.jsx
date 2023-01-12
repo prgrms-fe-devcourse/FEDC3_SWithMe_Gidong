@@ -46,7 +46,7 @@ const Input = forwardRef(
     }, [defaultValue]);
 
     return (
-      <InputContainer block={block} {...wrapperProps}>
+      <StyledInputContainer block={block} {...wrapperProps}>
         <StyledInput
           type='text'
           placeholder={placeholder}
@@ -70,7 +70,7 @@ const Input = forwardRef(
             {label ? label : max ? value.length + ' / ' + max : ''}
           </Text>
         </StyledLabel>
-      </InputContainer>
+      </StyledInputContainer>
     );
   },
 );
@@ -78,7 +78,7 @@ Input.displayName = 'Input';
 
 export default Input;
 
-const InputContainer = styled.div`
+const StyledInputContainer = styled.div`
   position: relative;
   display: ${({ block }) => (block ? 'block' : 'inline-block')};
   margin: 1rem 0 2rem 0;

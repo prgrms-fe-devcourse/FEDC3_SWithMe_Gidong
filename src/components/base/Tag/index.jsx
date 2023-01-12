@@ -34,9 +34,9 @@ const Tag = forwardRef((props, ref) => {
   return (
     <>
       {tagList.length !== 0 && (
-        <TagContainer disabled={tagList.length === 5}>
+        <StyledTagListWrapper disabled={tagList.length === 5}>
           <TagList tagList={tagList} onDeleteTagButtonClick={removeTagItem} />
-        </TagContainer>
+        </StyledTagListWrapper>
       )}
       {tagList.length < 5 ? (
         <Input
@@ -61,7 +61,7 @@ Tag.displayName = 'Tag';
 
 export default Tag;
 
-const TagContainer = styled.div`
+const StyledTagListWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
