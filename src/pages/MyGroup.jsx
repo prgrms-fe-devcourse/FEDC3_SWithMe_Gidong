@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import { COLOR } from '@/styles/color';
 import { imgPuzzle } from '@/assets/images';
-import { Image, Header, Text } from '@/components';
-import { getChannelList } from '../api/channel';
+import { Image, Header, Text } from '@/components/base';
+import { getChannelList } from '@/api/channel';
 import { useAsync } from '@/hooks';
 import GroupList from '@/components/domain/GroupList';
 import GroupProvider from '@/context/GroupProvider';
@@ -15,7 +15,9 @@ function MyGroup() {
       <StyledPageWrapper>
         <StyledMyGroup>
           <StyledHeader>
-            <Header size={30}>내 그룹</Header>
+            <Header strong size={30}>
+              내 그룹
+            </Header>
             <button>
               <i className='fa-solid fa-circle-plus'></i>
               그룹 만들기
@@ -23,11 +25,11 @@ function MyGroup() {
           </StyledHeader>
           <StyledDesc>
             <div>
-              <Text paragraph color={COLOR.DARK} size={21}>
-                내가 <Text>가입한 그룹의 목록</Text>입니다.
+              <Text paragraph color={COLOR.DARK} size={2.1} weight={500}>
+                내가 <Text color={COLOR.TAG_COLOR[0]}>가입한 그룹의 목록</Text>입니다.
               </Text>
-              <Text paragraph color={COLOR.DARK} size={21}>
-                그룹 내의 멤버들과 소통하며 <Text>오늘의 TIL</Text>을 작성해보세요.
+              <Text paragraph color={COLOR.DARK} size={2.1} weight={500}>
+                그룹 내의 멤버들과 소통하며 <Text color={COLOR.TAG_COLOR[1]}>오늘의 TIL</Text>을 작성해보세요.
               </Text>
             </div>
             <Image src={imgPuzzle} width={300} />
@@ -70,6 +72,7 @@ const StyledHeader = styled.div`
     background-color: ${COLOR.MY_GROUP_BTN_BG};
     color: ${COLOR.MY_GROUP_BTN_FONT};
     font-size: 2.2rem;
+    font-weight: 500;
     cursor: pointer;
 
     &:hover {
@@ -95,10 +98,6 @@ const StyledDesc = styled.div`
 
     p {
       margin: 0.5rem 0;
-
-      span {
-        background: linear-gradient(#f7e9ec 0%, #c9d6ff 100%);
-      }
     }
   }
 `;
