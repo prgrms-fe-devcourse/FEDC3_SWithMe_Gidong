@@ -8,7 +8,7 @@ const Spinner = ({ size = 24, color = '#919EAB', loading = true, ...props }) => 
 
   return loading ? (
     <Icon>
-      <svg viewBox='0 0 38 38' xmins='http://www.w3.org/2000/svg' style={sizeStyle}>
+      <svg viewBox='0 0 38 38' xmlns='http://www.w3.org/2000/svg' style={sizeStyle}>
         <g fill='none' fillRule='evenodd'>
           <g transform='translate(1 1)'>
             <path d='M36 18c0-9.94-8.06-18-18-18' stroke={color} strokeWidth='2'>
