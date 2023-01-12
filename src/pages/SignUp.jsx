@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { COLOR } from '@/styles/color';
 import Text from '@/components/base/Text';
 import Button from '@/components/base/Button';
+import { axiosInstance } from '@/api/core';
 
 const FULLNAME_EMPTY_ERROR = '이름을 입력해 주세요';
 const EMAIL_EMPTY_ERROR = '이메일을 입력해 주세요';
@@ -28,6 +29,16 @@ function SignUp() {
 
   const inputRef = useRef([]);
 
+  const postUserSignUp = async (data) => {
+    try {
+      const response = await axiosInstance.post(`/signup`, data);
+
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleSignUp = () => {
     if (!fullName) return setFullNameAlert(FULLNAME_EMPTY_ERROR);
     if (fullName.length < FULLNAME_MIN_LENGTH) return setFullNameAlert(FULLNAME_MIN_LENGTH_ERROR);
@@ -38,15 +49,13 @@ function SignUp() {
     if (!confirmPassword) return setConfirmPasswordAlert(CONFIRMPASSWORD_EMPTY_ERROR);
     if (password !== confirmPassword) return setConfirmPasswordAlert(PASSWORD_DIFFERENT_ERROR);
 
-    /**
-     * form에서 올바른 값이 확인 되었을 때
-     * request
-     * {
-     *   "email": email,
-     *   "fullName": fullName,
-     *   "password": password
-     * }
-     */
+    const requestBody = {
+      email: email,
+      fullName: fullName,
+      password: password,
+    };
+
+    postUserSignUp(requestBody);
   };
 
   const onClickEnter = (e) => {
