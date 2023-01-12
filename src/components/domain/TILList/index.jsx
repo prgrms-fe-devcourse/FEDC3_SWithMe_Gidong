@@ -54,4 +54,17 @@ const StyledTILList = styled.div`
 
   justify-items: center;
   align-items: center;
+
+  @keyframes smoothAppear {
+    from {
+      opacity: 0;
+      transform: translateY(-5%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  animation: smoothAppear 1s;
 `;
