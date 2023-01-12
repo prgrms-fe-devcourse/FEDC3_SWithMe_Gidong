@@ -1,8 +1,8 @@
 import { Text } from '@/components/base';
 import useInput from '@/hooks/useInput';
+import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
-import { forwardRef } from 'react';
-import { useEffect } from 'react';
+import { forwardRef, useEffect } from 'react';
 
 const Textarea = forwardRef(
   (
@@ -94,7 +94,7 @@ const StyledTextarea = styled.textarea`
   width: 100%;
   outline: none;
   border: none;
-  background-color: #f3f3f3;
+  background-color: ${COLOR.TEXTAREA_BG};
   box-sizing: border-box;
   padding: 1rem;
   resize: ${({ resize }) => (resize ? 'auto' : 'none')};

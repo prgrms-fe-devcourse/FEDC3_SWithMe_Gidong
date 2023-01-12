@@ -1,4 +1,5 @@
 import { Input, Text } from '@/components/base';
+import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { forwardRef, useState } from 'react';
 import TagList from './TagList';
@@ -71,5 +72,5 @@ const StyledTagListWrapper = styled.div`
   border: 0.2rem solid rgba(0, 0, 0, 0.3);
   border-radius: 1rem;
 
-  border-color: ${({ disabled }) => (disabled ? 'none' : '#617ceb')};
+  border-color: ${({ disabled }) => (disabled ? 'none' : COLOR.PRIMARY_BTN)};
 `;

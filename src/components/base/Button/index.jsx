@@ -1,3 +1,4 @@
+import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { forwardRef } from 'react';
 
@@ -25,8 +26,8 @@ const View = forwardRef(({ as, style, ...props }, ref) => {
 View.displayName = 'View';
 
 const StyledButton = styled(View)`
-  background-color: ${({ bgcolor }) => (bgcolor ? bgcolor : '#d9d9d9')};
-  color: ${({ color }) => (color ? color : '#000000')};
+  background-color: ${({ bgcolor }) => (bgcolor ? bgcolor : COLOR.GRAY)};
+  color: ${({ color }) => (color ? color : COLOR.DARK)};
   border-radius: ${({ round }) => (round ? '0.3rem' : 'none')};
   border: none;
   cursor: pointer;

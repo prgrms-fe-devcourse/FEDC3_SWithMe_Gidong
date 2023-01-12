@@ -1,4 +1,5 @@
-import { Button, Input, Modal, Text, Textarea, Tag } from '@/components/base';
+import { Button, Input, Modal, Tag, Text, Textarea } from '@/components/base';
+import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
 
@@ -168,8 +169,8 @@ function CreateGroupModal({ visible, onClose, ...props }) {
         </Button>
         <Button
           as='button'
-          bgcolor='#617CEB'
-          color='#ffffff'
+          bgcolor={COLOR.PRIMARY_BTN}
+          color={COLOR.WHITE}
           style={{ fontSize: '1.8rem', width: '12rem', height: '4rem' }}
           round={+false}
           onClick={handleNextButtonClick}>

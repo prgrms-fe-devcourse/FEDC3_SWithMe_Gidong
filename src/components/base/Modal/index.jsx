@@ -1,7 +1,8 @@
+import useClickAway from '@/hooks/useClickAway';
+import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
-import useClickAway from '@/hooks/useClickAway';
 
 function Modal({ children, width = 500, height, visible = false, round = true, onClose, ...props }) {
   const ref = useClickAway(() => {
@@ -17,7 +18,7 @@ function Modal({ children, width = 500, height, visible = false, round = true, o
     };
   });
   return ReactDOM.createPortal(
-    <StyledBackgroundDim style={{ display: visible ? 'block' : 'none' }}>
+    <StyledBackgroundDim style={{ display: visible ? COLOR.DARK : 'none' }}>
       <StyledModalContainer ref={ref} round={round} {...props} style={{ ...props.style, ...containerStyle }}>
         {children}
       </StyledModalContainer>
@@ -44,7 +45,7 @@ const StyledModalContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 1rem;
-  background-color: white;
+  background-color: ${COLOR.WHITE};
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
 

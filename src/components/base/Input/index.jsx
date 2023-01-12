@@ -1,5 +1,6 @@
 import { Text } from '@/components/base';
 import useInput from '@/hooks/useInput';
+import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { forwardRef, useEffect } from 'react';
 
@@ -96,6 +97,6 @@ const StyledInput = styled.input`
   width: 100%;
   border: none;
   outline: none;
-  border-bottom: 0.1rem solid ${({ invalid }) => (invalid ? 'red' : 'gray')};
+  border-bottom: 0.1rem solid ${({ invalid }) => (invalid ? COLOR.RED : COLOR.GRAY)};
   box-sizing: border-box;
 `;
