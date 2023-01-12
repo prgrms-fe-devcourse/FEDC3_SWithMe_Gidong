@@ -16,7 +16,7 @@ function Modal({ children, width = 500, height, visible = false, round = true, o
     return () => {
       document.body.removeChild(modal);
     };
-  });
+  }, []);
   return ReactDOM.createPortal(
     <StyledBackgroundDim style={{ display: visible ? 'block' : 'none' }}>
       <StyledModalContainer ref={ref} round={round} {...props} style={{ ...props.style, ...containerStyle }}>
