@@ -7,3 +7,4 @@ export { default as Tag } from './Tag';
 export { default as Header } from './Header';
 export { default as Image } from './Image';
 export { default as Spinner } from './Spinner';
+export { default as Divider } from './Divider';
