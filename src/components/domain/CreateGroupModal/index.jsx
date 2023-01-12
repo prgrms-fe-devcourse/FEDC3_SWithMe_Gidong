@@ -1,8 +1,7 @@
-import { Button, Input, Modal, TagInput, Text, Textarea } from '@/components/base';
+import { Button, Input, Modal, TagInput, Text, Textarea, Icon } from '@/components/base';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
-import Icon from '../../base/Icon';
 
 const MAX_STEP_SIZE = 4;
 const STEPS = {

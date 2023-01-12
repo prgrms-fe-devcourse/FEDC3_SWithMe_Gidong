@@ -1,5 +1,4 @@
 import { Avatar, Icon, Text } from '@/components/base';
-
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 
