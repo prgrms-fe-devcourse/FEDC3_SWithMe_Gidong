@@ -1,6 +1,9 @@
 export const COLOR = {
+  PRIMARY_BTN: '#617CEB',
   WHITE: '#fff',
   DARK: '#3A3A3A',
+  GRAY: '#D9D9D9',
+  RED: '#FF0000',
 
   MY_GROUP_BG: '#F4F5FF',
   MY_GROUP_BTN_BG: '#EAECFC',
@@ -14,4 +17,6 @@ export const COLOR = {
   HEADER_DIVIDELINE: '#e8e7eb',
   HEADER_SEARCHBAR_INPUT_FONT: '#0000003d',
   HEADER_SEARCHBAR_SUBMIT_BG: '#f7456e',
+
+  TEXTAREA_BG: '#f3f3f3',
 };

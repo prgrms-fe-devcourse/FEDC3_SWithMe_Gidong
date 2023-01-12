@@ -1,7 +1,7 @@
-import Text from '@/components/base/Text';
+import { Text } from '@/components/base';
 
 export default {
-  title: 'Component/Text',
+  title: 'Components/Text',
   component: Text,
   argTypes: {
     size: { control: 'number' },
