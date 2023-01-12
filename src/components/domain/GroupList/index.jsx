@@ -3,7 +3,7 @@ import { useGroupContext } from '@/context/GroupProvider';
 import GroupItem from '@/components/domain/GroupItem';
 import { COLOR } from '@/styles/color';
 import { imgSearch } from '@/assets/images';
-import { Text } from '@/components/base';
+import { Empty } from '@/components/base';
 import TILList from '@/components/domain/TILList';
 import { Fragment } from 'react';
 
@@ -20,15 +20,7 @@ function GroupList() {
           </Fragment>
         ))
       ) : (
-        <StyledGroupEmpty>
-          <img src={imgSearch} alt='그룹에 참여해보세요.' />
-          <Text strong paragraph size={2} lineHeight={2}>
-            참여중인 그룹이 없습니다.
-          </Text>
-          <Text paragraph size={2}>
-            그룹에 참여해보세요!
-          </Text>
-        </StyledGroupEmpty>
+        <Empty src={imgSearch} width={25} mainText='참여중인 그룹이 없습니다.' subText='그룹에 참여해보세요!' />
       )}
     </StyledGroupList>
   );
@@ -40,17 +32,4 @@ const StyledGroupList = styled.ul`
   padding: 0 2rem;
   border-radius: 1rem;
   background-color: ${({ isEmpty }) => (isEmpty ? COLOR.GRAY_10 : COLOR.WHITE)};
-`;
-
-const StyledGroupEmpty = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  padding: 8rem 0;
-  color: ${COLOR.DARK};
-
-  & > img {
-    width: 25rem;
-  }
 `;

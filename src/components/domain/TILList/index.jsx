@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { useTILContext } from '@/context/TILProvider';
 import { useState, useCallback, useEffect } from 'react';
 import TILItem from '@/components/domain/TILItem';
-import { Spinner, Text } from '@/components/base';
+import { Spinner, Empty } from '@/components/base';
 import { COLOR } from '@/styles/color';
 import { imgTIL } from '@/assets/images';
 
@@ -38,15 +38,7 @@ function TILList({ groupId }) {
               ))}
             </StyledTILList>
           ) : (
-            <StyledTILEmpty>
-              <img src={imgTIL} alt='TIL을 작성해보세요.' />
-              <Text strong paragraph size={2} lineHeight={2}>
-                그룹에 TIL이 없습니다.
-              </Text>
-              <Text paragraph size={2}>
-                TIL을 작성해보세요!
-              </Text>
-            </StyledTILEmpty>
+            <Empty src={imgTIL} width={30} mainText='그룹에 TIL이 없습니다.' subText='TIL을 작성해보세요!' />
           )}
         </>
       )}
@@ -71,17 +63,4 @@ const StyledTILList = styled.div`
 
   justify-items: center;
   align-items: center;
-`;
-
-const StyledTILEmpty = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  padding: 8rem 0;
-  color: ${COLOR.DARK};
-
-  & > img {
-    width: 30rem;
-  }
 `;
