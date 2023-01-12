@@ -10,8 +10,10 @@ export const COLOR = {
   MY_GROUP_BTN_HOVER: '#E0E4FF',
   MY_GROUP_BTN_FONT: '#738DFA',
   MY_GROUP_BOX_BG: '#F7E9EC',
-
+  CARD_BG: '#f0f3fb',
+  SHADOW: '#0000004c',
   GRAY_30: '#BAB7C3',
+  GRAY_20: '#ffffff7f',
   GRAY_10: '#ededed',
   TAG_COLOR: ['#F78289', '#9398DB', '#6082F5', '#4C4DAE'],
 
