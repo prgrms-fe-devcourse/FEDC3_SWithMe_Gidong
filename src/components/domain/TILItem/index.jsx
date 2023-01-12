@@ -41,6 +41,7 @@ const StyledTILItem = styled.div`
   border-radius: 1rem;
   background-color: ${COLOR.CARD_BG};
   box-shadow: 0 0.1rem 0.4rem ${COLOR.SHADOW};
+  color: ${COLOR.DARK};
 
   & > p:nth-of-type(2) {
     word-break: break-all;
