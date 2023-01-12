@@ -9,11 +9,36 @@ export default {
 export function Default() {
   const [visible, setVisible] = useState(false);
   const group = {
-    name: 'sample group',
+    name: '그룹이름그룹이름그룹이름그룹이름그룹이름',
     description: {
       master: {
         image: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
-        posts: [],
+        posts: [
+          {
+            _id: 'id_master_post1',
+            channel: '그룹이름그룹이름그룹이름그룹이름그룹이름',
+            createdAt: '2023-01-12T15:12:40.811Z',
+            updatedAt: '2023-01-12T15:12:40.811Z',
+          },
+          {
+            _id: 'id_master_post2',
+            channel: '그룹이름그룹이름그룹이름그룹이름그룹이름',
+            createdAt: '2023-01-13T15:12:40.811Z',
+            updatedAt: '2023-01-13T15:12:40.811Z',
+          },
+          {
+            _id: 'id_master_post1',
+            channel: '다른그룹1',
+            createdAt: '2023-01-12T15:12:40.811Z',
+            updatedAt: '2023-01-12T15:12:40.811Z',
+          },
+          {
+            _id: 'id_master_post2',
+            channel: '다른그룹2',
+            createdAt: '2023-01-13T15:12:40.811Z',
+            updatedAt: '2023-01-13T15:12:40.811Z',
+          },
+        ],
         fullName: 'master',
         _id: '63bd24fd4b0e607612a82be9',
       },
@@ -23,7 +48,32 @@ export function Default() {
       member: [
         {
           image: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
-          posts: [],
+          posts: [
+            {
+              _id: 'id_member1_post1',
+              channel: '그룹이름그룹이름그룹이름그룹이름그룹이름',
+              createdAt: '2023-01-12T15:12:40.811Z',
+              updatedAt: '2023-01-12T15:12:40.811Z',
+            },
+            {
+              _id: 'id_member1_post2',
+              channel: '그룹이름그룹이름그룹이름그룹이름그룹이름',
+              createdAt: '2023-01-13T15:12:40.811Z',
+              updatedAt: '2023-01-13T15:12:40.811Z',
+            },
+            {
+              _id: 'id_member1_post3',
+              channel: '다른그룹1',
+              createdAt: '2023-01-12T15:12:40.811Z',
+              updatedAt: '2023-01-12T15:12:40.811Z',
+            },
+            {
+              _id: 'id_member1_post4',
+              channel: '다른그룹2',
+              createdAt: '2023-01-13T15:12:40.811Z',
+              updatedAt: '2023-01-13T15:12:40.811Z',
+            },
+          ],
           fullName: 'member1',
           _id: '63bd24fd4b0e607612a82bf0',
         },
