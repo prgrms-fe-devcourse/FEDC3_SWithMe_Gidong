@@ -10,6 +10,7 @@ const Text = ({
   color,
   mark,
   code,
+  lineHeight,
   ...props
 }) => {
   const Tag = block ? 'div' : paragraph ? 'p' : 'span';
@@ -18,6 +19,7 @@ const Text = ({
     fontSize: typeof size === 'number' ? `${size}rem` : undefined,
     textDecoration: underline ? 'underline' : undefined,
     color,
+    lineHeight,
   };
 
   if (mark) {
