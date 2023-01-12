@@ -30,8 +30,6 @@ const reducer = (state, action) => {
 const GroupProvider = ({ children, initialGroups }) => {
   const [groups, dispatch] = useReducer(reducer, initialGroups);
 
-  console.log(groups);
-
   useEffect(() => {
     dispatch({ type: 'INIT_GROUPS', payload: initialGroups || [] });
   }, [initialGroups]);
