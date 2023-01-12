@@ -3,26 +3,35 @@ import { useGroupContext } from '@/context/GroupProvider';
 import GroupItem from '@/components/domain/GroupItem';
 import { COLOR } from '@/styles/color';
 import { imgSearch } from '@/assets/images';
-import { Empty } from '@/components/base';
+import { Empty, Spinner } from '@/components/base';
 import TILList from '@/components/domain/TILList';
 import { Fragment } from 'react';
 
 function GroupList() {
-  const { groups, openedGroupId } = useGroupContext();
+  const {
+    groups: { value: groups, isLoading },
+    openedGroupId,
+  } = useGroupContext();
 
   return (
-    <StyledGroupList isEmpty={!groups?.length}>
-      {groups?.length ? (
-        groups.map((group, i) => (
-          <Fragment key={group._id}>
-            <GroupItem group={group} isLastGroup={groups.length - 1 === i} />
-            {openedGroupId === group._id && <TILList groupId={group._id} />}
-          </Fragment>
-        ))
+    <>
+      {isLoading ? (
+        <Spinner size={40} color={COLOR.TAG_COLOR[1]} />
       ) : (
-        <Empty src={imgSearch} width={25} mainText='참여중인 그룹이 없습니다.' subText='그룹에 참여해보세요!' />
+        <StyledGroupList isEmpty={!groups?.length}>
+          {groups?.length ? (
+            groups.map((group, i) => (
+              <Fragment key={group._id}>
+                <GroupItem group={group} isLastGroup={groups.length - 1 === i} />
+                {openedGroupId === group._id && <TILList groupId={group._id} />}
+              </Fragment>
+            ))
+          ) : (
+            <Empty src={imgSearch} width={25} mainText='참여중인 그룹이 없습니다.' subText='그룹에 참여해보세요!' />
+          )}
+        </StyledGroupList>
       )}
-    </StyledGroupList>
+    </>
   );
 }
 

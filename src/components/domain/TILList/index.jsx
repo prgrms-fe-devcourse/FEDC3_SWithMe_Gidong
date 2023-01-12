@@ -26,15 +26,13 @@ function TILList({ groupId }) {
   return (
     <>
       {isLoading ? (
-        <StyledSpinnerWrapper>
-          <Spinner size={40} color={COLOR.TAG_COLOR[1]} />
-        </StyledSpinnerWrapper>
+        <Spinner size={40} color={COLOR.TAG_COLOR[1]} />
       ) : (
         <>
-          {tils?.length ? (
+          {tils.length ? (
             <StyledTILList>
-              {tils?.map((til) => (
-                <TILItem key={til.title} til={til} />
+              {tils.map((til) => (
+                <TILItem key={til._id} til={til} />
               ))}
             </StyledTILList>
           ) : (
@@ -47,13 +45,6 @@ function TILList({ groupId }) {
 }
 
 export default TILList;
-
-const StyledSpinnerWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-bottom: 3rem;
-`;
 
 const StyledTILList = styled.div`
   display: grid;

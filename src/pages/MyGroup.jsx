@@ -10,9 +10,8 @@ import TILProvider from '../context/TILProvider';
 
 function MyGroup() {
   const initialGroups = useAsync(getChannelList, []);
-
   return (
-    <GroupProvider initialGroups={initialGroups.value}>
+    <GroupProvider initialGroups={initialGroups}>
       <TILProvider>
         <StyledPageWrapper>
           <StyledMyGroup>
