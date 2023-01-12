@@ -82,7 +82,7 @@ function CreateGroupModal({ visible, onClose, ...props }) {
   return (
     <Modal visible={visible} onClose={handleModalClose} width='50rem' style={{ ...props.style }} {...props}>
       <StyledHeaderContainer>
-        <Text size='normal' weight={400}>
+        <Text size={1.4} weight={400}>
           STEP {step} / {MAX_STEP_SIZE}
         </Text>
         <i className='fa-solid fa-xmark fa-4x' style={{ cursor: 'pointer' }} onClick={handleModalClose}></i>
