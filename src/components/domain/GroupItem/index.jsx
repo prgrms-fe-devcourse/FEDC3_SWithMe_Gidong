@@ -1,7 +1,7 @@
 import { Header, Text } from '@/components/base';
 import styled from '@emotion/styled';
 import { COLOR } from '@/styles/color';
-import Divider from '../../base/Divider/index';
+import Divider from '@/components/base/Divider';
 import { css } from '@emotion/react';
 
 function GroupItem({ group, isLastGroup }) {

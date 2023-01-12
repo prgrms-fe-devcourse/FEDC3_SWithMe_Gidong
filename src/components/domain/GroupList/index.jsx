@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { useGroupContext } from '@/context/GroupProvider';
-import GroupItem from '../GroupItem';
+import GroupItem from '@/components/domain/GroupItem';
 import { COLOR } from '@/styles/color';
 
 function GroupList() {
