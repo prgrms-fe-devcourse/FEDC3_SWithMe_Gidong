@@ -21,6 +21,11 @@ const MAGIC_NUMBERS = {
   PASSWORD_MIN_LENGTH: 2,
 };
 
+const INPUT_NUMBER_LIMIT = {
+  MIN: 2,
+  MAX: 20,
+};
+
 function SignUp() {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -104,8 +109,8 @@ function SignUp() {
               inputValue={password}
               inputRef={inputRef.current[2]}
               inputPlaceholder={''}
-              inputMin={'2'}
-              inputMax={'20'}
+              inputMin={INPUT_NUMBER_LIMIT.MIN}
+              inputMax={INPUT_NUMBER_LIMIT.MAX}
               inputOnChange={setPassword}
               alert={passwordAlert}
               alertOnChange={setPasswordAlert}
@@ -117,8 +122,8 @@ function SignUp() {
               inputValue={confirmPassword}
               inputRef={inputRef.current[3]}
               inputPlaceholder={''}
-              inputMin={'2'}
-              inputMax={'20'}
+              inputMin={INPUT_NUMBER_LIMIT.MIN}
+              inputMax={INPUT_NUMBER_LIMIT.MAX}
               inputOnChange={setConfirmPassword}
               alert={confirmPasswordAlert}
               alertOnChange={setConfirmPasswordAlert}

@@ -12,6 +12,11 @@ const ERRORS = {
   LOGIN_USER_FAIL_ERROR: '이메일 또는 비밀번호가 틀립니다.',
 };
 
+const INPUT_NUMBER_LIMIT = {
+  MIN: 2,
+  MAX: 20,
+};
+
 function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -74,8 +79,8 @@ function SignIn() {
               inputType={'password'}
               inputValue={password}
               inputRef={inputRef.current[1]}
-              inputMin={'2'}
-              inputMax={'20'}
+              inputMin={INPUT_NUMBER_LIMIT.MIN}
+              inputMax={INPUT_NUMBER_LIMIT.MAX}
               inputPlaceholder={''}
               inputOnChange={setPassword}
               alert={passwordAlert}
