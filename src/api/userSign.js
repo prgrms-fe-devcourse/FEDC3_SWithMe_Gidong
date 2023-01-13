@@ -9,3 +9,13 @@ export const postUserSignUp = async (data) => {
     console.error(error);
   }
 };
+
+export const postUserSignIn = async (data) => {
+  try {
+    const response = await axiosInstance.post('/login', data);
+
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
