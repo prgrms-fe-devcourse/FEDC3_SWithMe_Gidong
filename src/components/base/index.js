@@ -8,3 +8,4 @@ export { default as Header } from './Header';
 export { default as Image } from './Image';
 export { default as Spinner } from './Spinner';
 export { default as Divider } from './Divider';
+export { default as Empty } from './Empty';
