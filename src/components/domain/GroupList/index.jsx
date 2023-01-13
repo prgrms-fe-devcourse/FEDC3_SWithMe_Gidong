@@ -23,7 +23,7 @@ function GroupList() {
             groups.map((group, i) => (
               <Fragment key={group._id}>
                 <GroupItem group={group} isLastGroup={groups.length - 1 === i} />
-                {openedGroupId === group._id && <TILList groupId={group._id} />}
+                {openedGroupId === group._id && <TILList groupId={group._id} groupName={group.name} />}
               </Fragment>
             ))
           ) : (
