@@ -6,7 +6,7 @@ import { getChannelList } from '@/api/channel';
 import { useAsync } from '@/hooks';
 import GroupList from '@/components/domain/GroupList';
 import GroupProvider from '@/context/GroupProvider';
-import TILProvider from '../context/TILProvider';
+import TILProvider from '@/context/TILProvider';
 
 function MyGroup() {
   const initialGroups = useAsync(getChannelList, []);
