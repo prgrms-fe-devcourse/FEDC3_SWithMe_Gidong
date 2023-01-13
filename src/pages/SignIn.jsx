@@ -66,22 +66,22 @@ function SignIn() {
           <StyledSignInForm onKeyDown={onClickEnter}>
             <SignInput
               header={'이메일'}
-              inputType={'email'}
-              inputValue={email}
-              inputRef={inputRef.current[0]}
-              inputPlaceholder={'study@with.me'}
+              type={'email'}
+              value={email}
+              ref={inputRef.current[0]}
+              placeholder={'study@with.me'}
               inputOnChange={setEmail}
               alert={emailAlert}
               alertOnChange={setEmailAlert}
             />
             <SignInput
               header={'비밀번호'}
-              inputType={'password'}
-              inputValue={password}
-              inputRef={inputRef.current[1]}
-              inputMin={INPUT_NUMBER_LIMIT.MIN}
-              inputMax={INPUT_NUMBER_LIMIT.MAX}
-              inputPlaceholder={''}
+              type={'password'}
+              value={password}
+              ref={inputRef.current[1]}
+              minLength={INPUT_NUMBER_LIMIT.MIN}
+              maxLength={INPUT_NUMBER_LIMIT.MAX}
+              placeholder={''}
               inputOnChange={setPassword}
               alert={passwordAlert}
               alertOnChange={setPasswordAlert}

@@ -85,32 +85,32 @@ function SignUp() {
           <StyledSignUpForm onKeyDown={onClickEnter}>
             <SignInput
               header={'이름'}
-              inputType={'text'}
-              inputValue={fullName}
-              inputRef={inputRef.current[0]}
-              inputPlaceholder={'스윗미'}
+              type={'text'}
+              value={fullName}
+              ref={inputRef.current[0]}
+              placeholder={'스윗미'}
               inputOnChange={setFullName}
               alert={fullNameAlert}
               alertOnChange={setFullNameAlert}
             />
             <SignInput
               header={'이메일'}
-              inputType={'email'}
-              inputValue={email}
-              inputRef={inputRef.current[1]}
-              inputPlaceholder={'study@with.me'}
+              type={'email'}
+              value={email}
+              ref={inputRef.current[1]}
+              placeholder={'study@with.me'}
               inputOnChange={setEmail}
               alert={emailAlert}
               alertOnChange={setEmailAlert}
             />
             <SignInput
               header={'비밀번호'}
-              inputType={'password'}
-              inputValue={password}
-              inputRef={inputRef.current[2]}
-              inputPlaceholder={''}
-              inputMin={INPUT_NUMBER_LIMIT.MIN}
-              inputMax={INPUT_NUMBER_LIMIT.MAX}
+              type={'password'}
+              value={password}
+              ref={inputRef.current[2]}
+              placeholder={''}
+              minLength={INPUT_NUMBER_LIMIT.MIN}
+              maxLength={INPUT_NUMBER_LIMIT.MAX}
               inputOnChange={setPassword}
               alert={passwordAlert}
               alertOnChange={setPasswordAlert}
@@ -118,12 +118,12 @@ function SignUp() {
             />
             <SignInput
               header={'비밀번호 확인'}
-              inputType={'password'}
-              inputValue={confirmPassword}
-              inputRef={inputRef.current[3]}
-              inputPlaceholder={''}
-              inputMin={INPUT_NUMBER_LIMIT.MIN}
-              inputMax={INPUT_NUMBER_LIMIT.MAX}
+              type={'password'}
+              value={confirmPassword}
+              ref={inputRef.current[3]}
+              placeholder={''}
+              minLength={INPUT_NUMBER_LIMIT.MIN}
+              maxLength={INPUT_NUMBER_LIMIT.MAX}
               inputOnChange={setConfirmPassword}
               alert={confirmPasswordAlert}
               alertOnChange={setConfirmPasswordAlert}
