@@ -12,3 +12,4 @@ export { default as Icon } from './Icon';
 export { default as SearchBar } from './SearchBar';
 export { default as Avatar } from './Avatar';
 export { default as Empty } from './Empty';
+export { default as Pagination } from './Pagination';
