@@ -61,29 +61,26 @@ TagInput.displayName = 'TagInput';
 
 function Tag({ tagList, fontsize, ...props }) {
   return (
-    <StyledTagListWrapper2 style={{ ...props.style }} {...props}>
+    <DefaultWrapper style={{ ...props.style }} {...props}>
       <TagList fontsize={fontsize} tagList={tagList} />
-    </StyledTagListWrapper2>
+    </DefaultWrapper>
   );
 }
 
 export { TagInput, Tag };
 
-const StyledTagListWrapper = styled.div`
+const DefaultWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-wrap: wrap;
+`;
+
+const StyledTagListWrapper = styled(DefaultWrapper)`
+  justify-content: center;
   margin: 1rem 0;
   padding: 1rem;
   border: 0.2rem solid rgba(0, 0, 0, 0.3);
   border-radius: 1rem;
 
   border-color: ${({ disabled }) => (disabled ? 'none' : COLOR.PRIMARY_BTN)};
-`;
-
-const StyledTagListWrapper2 = styled.div`
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
 `;

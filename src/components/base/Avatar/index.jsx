@@ -50,12 +50,4 @@ const AvatarWrapper = styled.div`
   }
 `;
 
-// Avatar.defaultProps = {
-//   __TYPE: 'Avatar',
-// };
-
-// Avatar.propTypes = {
-//   __TYPE: PropTypes.oneOf(['Avatar']),
-// };
-
 export default Avatar;
