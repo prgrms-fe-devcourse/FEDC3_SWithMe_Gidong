@@ -1,4 +1,4 @@
-import { postUserSignUp } from '@/api/signup';
+import { postUserSignUp } from '@/api/userSign';
 import { Button, Spinner, Text } from '@/components/base';
 import SignInput from '@/components/domain/SignInput';
 import { COLOR } from '@/styles/color';

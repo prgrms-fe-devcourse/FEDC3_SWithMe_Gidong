@@ -1,4 +1,4 @@
-import { axiosInstance } from '@/api/core';
+import { postUserSignIn } from '@/api/userSign';
 import { Button, Spinner, Text } from '@/components/base';
 import SignInput from '@/components/domain/SignInput';
 import { COLOR } from '@/styles/color';
@@ -33,22 +33,8 @@ function SignIn() {
       password,
     };
 
-    const postUserSignIn = async (data) => {
-      try {
-        const response = await axiosInstance.post('/login', data);
-
-        return response;
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     setIsLoading(true);
     await postUserSignIn(requestBody);
-
-    // if (response === 200) ?
-    // if (response === 400) ?
-    // 다른 에러들은 ?
 
     alert('로그인');
     setIsLoading(false);
