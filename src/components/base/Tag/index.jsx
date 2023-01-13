@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { forwardRef, useState } from 'react';
 import TagList from './TagList';
 
-const Tag = forwardRef((props, ref) => {
+const TagInput = forwardRef((props, ref) => {
   const [tagList, setTagList] = useState(ref.current);
 
   const addTagItem = (value) => {
@@ -56,17 +56,27 @@ const Tag = forwardRef((props, ref) => {
       )}
     </>
   );
-  // }
 });
-Tag.displayName = 'Tag';
+TagInput.displayName = 'TagInput';
 
-export default Tag;
+function Tag({ tagList, fontsize, ...props }) {
+  return (
+    <DefaultWrapper style={{ ...props.style }} {...props}>
+      <TagList fontsize={fontsize} tagList={tagList} />
+    </DefaultWrapper>
+  );
+}
 
-const StyledTagListWrapper = styled.div`
+export { TagInput, Tag };
+
+const DefaultWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-wrap: wrap;
+`;
+
+const StyledTagListWrapper = styled(DefaultWrapper)`
+  justify-content: center;
   margin: 1rem 0;
   padding: 1rem;
   border: 0.2rem solid rgba(0, 0, 0, 0.3);

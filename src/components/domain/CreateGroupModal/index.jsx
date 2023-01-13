@@ -1,4 +1,4 @@
-import { Button, Input, Modal, Tag, Text, Textarea } from '@/components/base';
+import { Button, Input, Modal, TagInput, Text, Textarea, Icon } from '@/components/base';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
@@ -82,10 +82,10 @@ function CreateGroupModal({ visible, onClose, ...props }) {
   return (
     <Modal visible={visible} onClose={handleModalClose} width='50rem' style={{ ...props.style }} {...props}>
       <StyledHeaderContainer>
-        <Text size='normal' weight={400}>
+        <Text size={1.4} weight={400}>
           STEP {step} / {MAX_STEP_SIZE}
         </Text>
-        <i className='fa-solid fa-xmark fa-4x' style={{ cursor: 'pointer' }} onClick={handleModalClose}></i>
+        <Icon size={4} style={{ cursor: 'pointer' }} onClick={handleModalClose} />
       </StyledHeaderContainer>
       {visible && (
         <StyledContentContainer>
@@ -154,7 +154,7 @@ function CreateGroupModal({ visible, onClose, ...props }) {
               <Text size={3} weight={300}>
                 그룹의 태그를 추가해주세요.
               </Text>
-              <Tag ref={groupTagInputRef} />
+              <TagInput ref={groupTagInputRef} />
             </>
           )}
         </StyledContentContainer>

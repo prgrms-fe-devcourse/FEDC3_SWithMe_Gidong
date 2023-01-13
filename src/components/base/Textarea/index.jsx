@@ -64,7 +64,7 @@ const Textarea = forwardRef(
           {...props}
         />
         <StyledLabel>
-          <Text size='small' weight={300}>
+          <Text size={1.2} weight={300}>
             {label ? label : max ? value.length + ' / ' + max : ''}
           </Text>
         </StyledLabel>
