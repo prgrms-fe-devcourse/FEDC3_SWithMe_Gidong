@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { COLOR } from '@/styles/color';
 import Text from '@/components/base/Text';
 import Button from '@/components/base/Button';
-import { axiosInstance } from '@/api/core';
+import { postUserSignUp } from '@/api/signup';
 
 const FULLNAME_EMPTY_ERROR = '이름을 입력해 주세요';
 const EMAIL_EMPTY_ERROR = '이메일을 입력해 주세요';
@@ -28,16 +28,6 @@ function SignUp() {
   const [confirmPasswordAlert, setConfirmPasswordAlert] = useState('');
 
   const inputRef = useRef([]);
-
-  const postUserSignUp = async (data) => {
-    try {
-      const response = await axiosInstance.post(`/signup`, data);
-
-      return response;
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleSignUp = () => {
     if (!fullName) return setFullNameAlert(FULLNAME_EMPTY_ERROR);
