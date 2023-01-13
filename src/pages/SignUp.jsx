@@ -1,10 +1,9 @@
-import { useState, useRef, useEffect } from 'react';
-import styled from '@emotion/styled';
-import { COLOR } from '@/styles/color';
-import Text from '@/components/base/Text';
-import Button from '@/components/base/Button';
-import Spinner from '@/components/base/Spinner';
 import { postUserSignUp } from '@/api/signup';
+import { Button, Spinner, Text } from '@/components/base';
+import SignInput from '@/components/domain/SignInput';
+import { COLOR } from '@/styles/color';
+import styled from '@emotion/styled';
+import { useRef, useState } from 'react';
 
 const ERRORS = {
   FULLNAME_EMPTY_ERROR: '이름을 입력해 주세요',
@@ -66,20 +65,6 @@ function SignUp() {
     }
   };
 
-  useEffect(() => {
-    setFullNameAlert('');
-  }, [inputRef?.current[0]?.value]);
-  useEffect(() => {
-    setEmailAlert('');
-  }, [inputRef?.current[1]?.value]);
-  useEffect(() => {
-    setPasswordAlert('');
-    setConfirmPasswordAlert('');
-  }, [inputRef?.current[2]?.value]);
-  useEffect(() => {
-    setConfirmPasswordAlert('');
-  }, [inputRef?.current[3]?.value]);
-
   return (
     <>
       {isLoading ? (
@@ -93,78 +78,52 @@ function SignUp() {
             회원가입
           </Text>
           <StyledSignUpForm onKeyDown={onClickEnter}>
-            <StyledSignUpInputContainer>
-              <Text paragraph size={1.5} strong>
-                이름
-              </Text>
-              <StyledSignUpInput
-                type='text'
-                value={fullName}
-                ref={(el) => (inputRef.current[0] = el)}
-                placeholder='스윗미'
-                required
-                onChange={(e) => setFullName(e.target.value)}
-              />
-              <Text paragraph size={1.5} color={COLOR.RED}>
-                {fullNameAlert}
-              </Text>
-            </StyledSignUpInputContainer>
-            <StyledSignUpInputContainer>
-              <Text paragraph size={1.5} strong>
-                이메일
-              </Text>
-              <StyledSignUpInput
-                type='email'
-                value={email}
-                ref={(el) => (inputRef.current[1] = el)}
-                placeholder='study@with.me'
-                required
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <Text paragraph size={1.5} color={COLOR.RED}>
-                {emailAlert}
-              </Text>
-            </StyledSignUpInputContainer>
-            <StyledSignUpInputContainer>
-              <Text paragraph size={1.5} strong>
-                비밀번호
-              </Text>
-              <StyledSignUpInput
-                type='password'
-                value={password}
-                ref={(el) => (inputRef.current[2] = el)}
-                minLength='2'
-                maxLength='20'
-                required
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <Text paragraph size={1.5} color={COLOR.SIGNUP_INPUT_COUNTER} align='right'>
-                {password.length}/20
-              </Text>
-              <Text paragraph size={1.5} color={COLOR.RED}>
-                {passwordAlert}
-              </Text>
-            </StyledSignUpInputContainer>
-            <StyledSignUpInputContainer>
-              <Text paragraph size={1.5} strong>
-                비밀번호 확인
-              </Text>
-              <StyledSignUpInput
-                type='password'
-                value={confirmPassword}
-                ref={(el) => (inputRef.current[3] = el)}
-                minLength='2'
-                maxLength='20'
-                required
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-              <Text paragraph size={1.5} color={COLOR.SIGNUP_INPUT_COUNTER} align='right'>
-                {confirmPassword.length}/20
-              </Text>
-              <Text paragraph size={1.5} color={COLOR.RED}>
-                {confirmPasswordAlert}
-              </Text>
-            </StyledSignUpInputContainer>
+            <SignInput
+              header={'이름'}
+              inputType={'text'}
+              inputValue={fullName}
+              inputRef={inputRef.current[0]}
+              inputPlaceholder={'스윗미'}
+              inputOnChange={setFullName}
+              alert={fullNameAlert}
+              alertOnChange={setFullNameAlert}
+            />
+            <SignInput
+              header={'이메일'}
+              inputType={'email'}
+              inputValue={email}
+              inputRef={inputRef.current[1]}
+              inputPlaceholder={'study@with.me'}
+              inputOnChange={setEmail}
+              alert={emailAlert}
+              alertOnChange={setEmailAlert}
+            />
+            <SignInput
+              header={'비밀번호'}
+              inputType={'password'}
+              inputValue={password}
+              inputRef={inputRef.current[2]}
+              inputPlaceholder={''}
+              inputMin={'2'}
+              inputMax={'20'}
+              inputOnChange={setPassword}
+              alert={passwordAlert}
+              alertOnChange={setPasswordAlert}
+              isSignupInput={true}
+            />
+            <SignInput
+              header={'비밀번호 확인'}
+              inputType={'password'}
+              inputValue={confirmPassword}
+              inputRef={inputRef.current[3]}
+              inputPlaceholder={''}
+              inputMin={'2'}
+              inputMax={'20'}
+              inputOnChange={setConfirmPassword}
+              alert={confirmPasswordAlert}
+              alertOnChange={setConfirmPasswordAlert}
+              isSignupInput={true}
+            />
           </StyledSignUpForm>
           <Button
             as='button'
@@ -217,17 +176,4 @@ const StyledSignUpForm = styled.div`
   margin: 5.6rem 0;
   padding: 8rem 5.7rem;
   border: 0.1rem solid ${COLOR.BLACK};
-`;
-
-const StyledSignUpInputContainer = styled.div`
-  width: 56.8rem;
-  height: 9.6rem;
-`;
-
-const StyledSignUpInput = styled.input`
-  width: 56.8rem;
-  height: 7.3rem;
-  font-size: 3.3rem;
-  font-weight: bold;
-  border-bottom: 0.1rem solid ${COLOR.BLACK};
 `;
