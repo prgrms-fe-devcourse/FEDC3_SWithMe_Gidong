@@ -6,16 +6,21 @@ import Button from '@/components/base/Button';
 import Spinner from '@/components/base/Spinner';
 import { postUserSignUp } from '@/api/signup';
 
-const FULLNAME_EMPTY_ERROR = '이름을 입력해 주세요';
-const EMAIL_EMPTY_ERROR = '이메일을 입력해 주세요';
-const PASSWORD_EMPTY_ERROR = '비밀번호를 입력해 주세요';
-const CONFIRMPASSWORD_EMPTY_ERROR = '비밀번호 확인을 입력해 주세요';
-const FULLNAME_MIN_LENGTH = 2;
-const PASSWORD_MIN_LENGTH = 2;
-const FULLNAME_MIN_LENGTH_ERROR = '이름을 2글자 이상 입력해주세요.';
-const EMAIL_VALIDATE_ERROR = '이메일 형식이 올바르지 않습니다.';
-const PASSWORD_MIN_LENGTH_ERROR = '비밀번호를 2글자 이상 20글자 이하로 입력해주세요.';
-const PASSWORD_DIFFERENT_ERROR = '비밀번호가 서로 다릅니다.';
+const ERRORS = {
+  FULLNAME_EMPTY_ERROR: '이름을 입력해 주세요',
+  EMAIL_EMPTY_ERROR: '이메일을 입력해 주세요',
+  PASSWORD_EMPTY_ERROR: '비밀번호를 입력해 주세요',
+  CONFIRMPASSWORD_EMPTY_ERROR: '비밀번호 확인을 입력해 주세요',
+  FULLNAME_MIN_LENGTH_ERROR: '이름을 2글자 이상 입력해주세요.',
+  EMAIL_VALIDATE_ERROR: '이메일 형식이 올바르지 않습니다.',
+  PASSWORD_MIN_LENGTH_ERROR: '비밀번호를 2글자 이상 20글자 이하로 입력해주세요.',
+  PASSWORD_DIFFERENT_ERROR: '비밀번호가 서로 다릅니다.',
+};
+
+const MAGIC_NUMBERS = {
+  FULLNAME_MIN_LENGTH: 2,
+  PASSWORD_MIN_LENGTH: 2,
+};
 
 function SignUp() {
   const [fullName, setFullName] = useState('');
@@ -33,19 +38,19 @@ function SignUp() {
   const inputRef = useRef([]);
 
   const handleSignUp = async () => {
-    if (!fullName) return setFullNameAlert(FULLNAME_EMPTY_ERROR);
-    if (fullName.length < FULLNAME_MIN_LENGTH) return setFullNameAlert(FULLNAME_MIN_LENGTH_ERROR);
-    if (!email) return setEmailAlert(EMAIL_EMPTY_ERROR);
-    if (!/^.+@.+\..+$/.test(email)) return setEmailAlert(EMAIL_VALIDATE_ERROR);
-    if (!password) return setPasswordAlert(PASSWORD_EMPTY_ERROR);
-    if (password.length < PASSWORD_MIN_LENGTH) return setPasswordAlert(PASSWORD_MIN_LENGTH_ERROR);
-    if (!confirmPassword) return setConfirmPasswordAlert(CONFIRMPASSWORD_EMPTY_ERROR);
-    if (password !== confirmPassword) return setConfirmPasswordAlert(PASSWORD_DIFFERENT_ERROR);
+    if (!fullName) return setFullNameAlert(ERRORS.FULLNAME_EMPTY_ERROR);
+    if (fullName.length < MAGIC_NUMBERS.FULLNAME_MIN_LENGTH) return setFullNameAlert(ERRORS.FULLNAME_MIN_LENGTH_ERROR);
+    if (!email) return setEmailAlert(ERRORS.EMAIL_EMPTY_ERROR);
+    if (!/^.+@.+\..+$/.test(email)) return setEmailAlert(ERRORS.EMAIL_VALIDATE_ERROR);
+    if (!password) return setPasswordAlert(ERRORS.PASSWORD_EMPTY_ERROR);
+    if (password.length < MAGIC_NUMBERS.PASSWORD_MIN_LENGTH) return setPasswordAlert(ERRORS.PASSWORD_MIN_LENGTH_ERROR);
+    if (!confirmPassword) return setConfirmPasswordAlert(ERRORS.CONFIRMPASSWORD_EMPTY_ERROR);
+    if (password !== confirmPassword) return setConfirmPasswordAlert(ERRORS.PASSWORD_DIFFERENT_ERROR);
 
     const requestBody = {
-      email: email,
-      fullName: fullName,
-      password: password,
+      email,
+      fullName,
+      password,
     };
 
     setIsLoading(true);
