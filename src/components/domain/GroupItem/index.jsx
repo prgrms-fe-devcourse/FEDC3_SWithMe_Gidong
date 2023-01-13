@@ -13,7 +13,7 @@ function GroupItem({ group, isLastGroup }) {
 
   return (
     <StyledGroupItem>
-      <StyledGroupHeader isLastGroup={isLastGroup}>
+      <StyledGroupHeader isOpened={isOpened} isLastGroup={isLastGroup}>
         <StyledGroupInfo>
           <Header strong level={3} color={COLOR.DARK}>
             {name}
@@ -55,8 +55,9 @@ const StyledGroupHeader = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 2rem 1rem;
-  ${({ isLastGroup }) =>
+  ${({ isLastGroup, isOpened }) =>
     !isLastGroup &&
+    !isOpened &&
     css`
       border-bottom: 0.1rem solid ${COLOR.GRAY_10};
     `};

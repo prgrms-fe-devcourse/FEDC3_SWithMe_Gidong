@@ -33,7 +33,7 @@ function MyGroup() {
                   그룹 내의 멤버들과 소통하며 <Text color={COLOR.TAG_COLOR[1]}>오늘의 TIL</Text>을 작성해보세요.
                 </Text>
               </div>
-              <Image src={imgPuzzle} width={300} />
+              <Image src={imgPuzzle} width={30} />
             </StyledDesc>
             <GroupList />
           </StyledMyGroup>
