@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { COLOR } from '@/styles/color';
 import Text from '@/components/base/Text';
 import Button from '@/components/base/Button';
+import Spinner from '@/components/base/Spinner';
 import { postUserSignUp } from '@/api/signup';
 
 const FULLNAME_EMPTY_ERROR = '이름을 입력해 주세요';
@@ -27,9 +28,11 @@ function SignUp() {
   const [passwordAlert, setPasswordAlert] = useState('');
   const [confirmPasswordAlert, setConfirmPasswordAlert] = useState('');
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const inputRef = useRef([]);
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     if (!fullName) return setFullNameAlert(FULLNAME_EMPTY_ERROR);
     if (fullName.length < FULLNAME_MIN_LENGTH) return setFullNameAlert(FULLNAME_MIN_LENGTH_ERROR);
     if (!email) return setEmailAlert(EMAIL_EMPTY_ERROR);
@@ -45,7 +48,11 @@ function SignUp() {
       password: password,
     };
 
-    postUserSignUp(requestBody);
+    setIsLoading(true);
+    await postUserSignUp(requestBody);
+
+    alert('회원가입이 완료 되었습니다.');
+    setIsLoading(false);
   };
 
   const onClickEnter = (e) => {
@@ -69,95 +76,102 @@ function SignUp() {
   }, [inputRef?.current[3]?.value]);
 
   return (
-    <StyledPageWrapper>
-      <StyledSignUpContainer>
-        <Text paragraph size={3.3} strong>
-          회원가입
-        </Text>
-        <StyledSignUpForm onKeyDown={onClickEnter}>
-          <StyledSignUpInputContainer>
-            <Text paragraph size={1.5} strong>
-              이름
-            </Text>
-            <StyledSignUpInput
-              type='text'
-              value={fullName}
-              ref={(el) => (inputRef.current[0] = el)}
-              placeholder='스윗미'
-              required
-              onChange={(e) => setFullName(e.target.value)}
-            />
-            <Text paragraph size={1.5} color={COLOR.RED}>
-              {fullNameAlert}
-            </Text>
-          </StyledSignUpInputContainer>
-          <StyledSignUpInputContainer>
-            <Text paragraph size={1.5} strong>
-              이메일
-            </Text>
-            <StyledSignUpInput
-              type='email'
-              value={email}
-              ref={(el) => (inputRef.current[1] = el)}
-              placeholder='study@with.me'
-              required
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Text paragraph size={1.5} color={COLOR.RED}>
-              {emailAlert}
-            </Text>
-          </StyledSignUpInputContainer>
-          <StyledSignUpInputContainer>
-            <Text paragraph size={1.5} strong>
-              비밀번호
-            </Text>
-            <StyledSignUpInput
-              type='password'
-              value={password}
-              ref={(el) => (inputRef.current[2] = el)}
-              minLength='2'
-              maxLength='20'
-              required
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <Text paragraph size={1.5} color={COLOR.SIGNUP_INPUT_COUNTER} align='right'>
-              {password.length}/20
-            </Text>
-            <Text paragraph size={1.5} color={COLOR.RED}>
-              {passwordAlert}
-            </Text>
-          </StyledSignUpInputContainer>
-          <StyledSignUpInputContainer>
-            <Text paragraph size={1.5} strong>
-              비밀번호 확인
-            </Text>
-            <StyledSignUpInput
-              type='password'
-              value={confirmPassword}
-              ref={(el) => (inputRef.current[3] = el)}
-              minLength='2'
-              maxLength='20'
-              required
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-            <Text paragraph size={1.5} color={COLOR.SIGNUP_INPUT_COUNTER} align='right'>
-              {confirmPassword.length}/20
-            </Text>
-            <Text paragraph size={1.5} color={COLOR.RED}>
-              {confirmPasswordAlert}
-            </Text>
-          </StyledSignUpInputContainer>
-        </StyledSignUpForm>
-        <Button
-          as='button'
-          style={{ fontSize: '2.4rem', width: '15.7rem', height: '5.2rem' }}
-          color={COLOR.WHITE}
-          bgcolor={COLOR.SIGNUP_BUTTON_BG}
-          onClick={handleSignUp}>
-          회원가입
-        </Button>
-      </StyledSignUpContainer>
-    </StyledPageWrapper>
+    <>
+      {isLoading ? (
+        <StyledSpinnerWrapper>
+          <Spinner size={64} />
+        </StyledSpinnerWrapper>
+      ) : null}
+      <StyledPageWrapper>
+        <StyledSignUpContainer>
+          <Text paragraph size={3.3} strong>
+            회원가입
+          </Text>
+          <StyledSignUpForm onKeyDown={onClickEnter}>
+            <StyledSignUpInputContainer>
+              <Text paragraph size={1.5} strong>
+                이름
+              </Text>
+              <StyledSignUpInput
+                type='text'
+                value={fullName}
+                ref={(el) => (inputRef.current[0] = el)}
+                placeholder='스윗미'
+                required
+                onChange={(e) => setFullName(e.target.value)}
+              />
+              <Text paragraph size={1.5} color={COLOR.RED}>
+                {fullNameAlert}
+              </Text>
+            </StyledSignUpInputContainer>
+            <StyledSignUpInputContainer>
+              <Text paragraph size={1.5} strong>
+                이메일
+              </Text>
+              <StyledSignUpInput
+                type='email'
+                value={email}
+                ref={(el) => (inputRef.current[1] = el)}
+                placeholder='study@with.me'
+                required
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Text paragraph size={1.5} color={COLOR.RED}>
+                {emailAlert}
+              </Text>
+            </StyledSignUpInputContainer>
+            <StyledSignUpInputContainer>
+              <Text paragraph size={1.5} strong>
+                비밀번호
+              </Text>
+              <StyledSignUpInput
+                type='password'
+                value={password}
+                ref={(el) => (inputRef.current[2] = el)}
+                minLength='2'
+                maxLength='20'
+                required
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Text paragraph size={1.5} color={COLOR.SIGNUP_INPUT_COUNTER} align='right'>
+                {password.length}/20
+              </Text>
+              <Text paragraph size={1.5} color={COLOR.RED}>
+                {passwordAlert}
+              </Text>
+            </StyledSignUpInputContainer>
+            <StyledSignUpInputContainer>
+              <Text paragraph size={1.5} strong>
+                비밀번호 확인
+              </Text>
+              <StyledSignUpInput
+                type='password'
+                value={confirmPassword}
+                ref={(el) => (inputRef.current[3] = el)}
+                minLength='2'
+                maxLength='20'
+                required
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <Text paragraph size={1.5} color={COLOR.SIGNUP_INPUT_COUNTER} align='right'>
+                {confirmPassword.length}/20
+              </Text>
+              <Text paragraph size={1.5} color={COLOR.RED}>
+                {confirmPasswordAlert}
+              </Text>
+            </StyledSignUpInputContainer>
+          </StyledSignUpForm>
+          <Button
+            as='button'
+            style={{ fontSize: '2.4rem', width: '15.7rem', height: '5.2rem' }}
+            color={COLOR.WHITE}
+            bgcolor={COLOR.SIGNUP_BUTTON_BG}
+            onClick={handleSignUp}>
+            회원가입
+          </Button>
+        </StyledSignUpContainer>
+      </StyledPageWrapper>
+    </>
   );
 }
 
@@ -170,6 +184,17 @@ const StyledPageWrapper = styled.div`
   padding-top: 12.6rem;
   width: 100%;
   height: 100%;
+`;
+
+const StyledSpinnerWrapper = styled.div`
+  position: fixed;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  background-color: ${COLOR.SIGNUP_SPINNER_BG};
 `;
 
 const StyledSignUpContainer = styled.div`
