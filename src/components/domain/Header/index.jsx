@@ -1,22 +1,23 @@
-import styled from '@emotion/styled';
 import { COLOR } from '@/styles/color';
+import styled from '@emotion/styled';
 import HeaderLogo from './HeaderLogo';
 import HeaderSearchBar from './HeaderSearchBar';
 import HeaderUserNav from './HeaderUserNav';
 
 const Header = () => {
   return (
-    <StyledHeader>
+    <StyledHeaderContainer>
       <HeaderLogo />
       <HeaderSearchBar />
       <HeaderUserNav />
-    </StyledHeader>
+    </StyledHeaderContainer>
   );
 };
 
 export default Header;
 
-const StyledHeader = styled.div`
+const StyledHeaderContainer = styled.div`
+  z-index: 1;
   position: fixed;
   display: flex;
   justify-content: space-between;

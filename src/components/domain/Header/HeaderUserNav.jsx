@@ -1,22 +1,59 @@
+import { icAlertOn, icMyGroup, icMyInfo } from '@/assets/icons';
+import Button from '@/components/base/Button';
+import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
-import UserNavButton from './UserNavButton';
-import UserSignInButton from './UserSignInButton';
-import { icMyGroup, icAlertOn, icMyInfo } from '@/assets/icons';
+import { useNavigate } from 'react-router-dom';
 
 const HeaderUserNav = () => {
+  const navigate = useNavigate();
   const isLogined = false;
+
+  const goSignInPage = () => {
+    navigate('./signIn');
+  };
+
+  const goMyGroupPage = () => {
+    navigate('./myGroup');
+  };
+
+  const goMainPage = () => {
+    navigate('../');
+  };
 
   return (
     <StyledHeaderUserNav>
       {isLogined ? (
         <>
-          <UserNavButton variant={icMyGroup} />
-          <UserNavButton variant={icAlertOn} />
-          <UserNavButton variant={icMyInfo} />
-          <UserSignInButton variant={'로그아웃'} />
+          <Button
+            style={{ width: '3.5rem', height: '3.5rem', marginRight: '1rem', padding: '0' }}
+            bgcolor={COLOR.HEADER_TRANSPARENT_BG}
+            onClick={goMyGroupPage}>
+            <img src={icMyGroup} />
+          </Button>
+          <Button
+            style={{ width: '3.5rem', height: '3.5rem', marginRight: '1rem', padding: '0' }}
+            bgcolor={COLOR.HEADER_TRANSPARENT_BG}>
+            <img src={icAlertOn} />
+          </Button>
+          <Button
+            style={{ width: '3.5rem', height: '3.5rem', marginRight: '1rem', padding: '0' }}
+            bgcolor={COLOR.HEADER_TRANSPARENT_BG}>
+            <img src={icMyInfo} />
+          </Button>
+          <Button
+            style={{ width: '7.7rem', height: '2.1rem', margin: '0.7rem 0', padding: '0', fontSize: '1.8rem' }}
+            bgcolor={COLOR.HEADER_TRANSPARENT_BG}
+            onClick={goMainPage}>
+            로그아웃
+          </Button>
         </>
       ) : (
-        <UserSignInButton variant={'로그인'} />
+        <Button
+          style={{ width: '7.7rem', height: '2.1rem', margin: '0.7rem 0', padding: '0', fontSize: '1.8rem' }}
+          bgcolor={COLOR.HEADER_TRANSPARENT_BG}
+          onClick={goSignInPage}>
+          로그인
+        </Button>
       )}
     </StyledHeaderUserNav>
   );

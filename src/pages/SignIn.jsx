@@ -4,6 +4,7 @@ import SignInput from '@/components/domain/SignInput';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ERRORS = {
   EMAIL_EMPTY_ERROR: '이메일을 입력해 주세요',
@@ -18,6 +19,8 @@ const INPUT_NUMBER_LIMIT = {
 };
 
 function SignIn() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -27,6 +30,13 @@ function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
 
   const inputRef = useRef([]);
+
+  const goMainPage = () => {
+    navigate('../');
+  };
+  const goSignUpPage = () => {
+    navigate('../signUp');
+  };
 
   const handleSignUp = async () => {
     if (!email) return setEmailAlert(ERRORS.EMAIL_EMPTY_ERROR);
@@ -43,6 +53,8 @@ function SignIn() {
 
     alert('로그인');
     setIsLoading(false);
+
+    goMainPage();
   };
 
   const onClickEnter = (e) => {
@@ -88,12 +100,16 @@ function SignIn() {
             />
           </StyledSignInForm>
           <StyledSignUpNav>
-            <Text paragraph size={1.5}>
+            <Text paragraph style={{ marginRight: '1rem', fontSize: '1.5rem' }}>
               계정이 없으신가요?
             </Text>
-            <Text paragraph size={1.5} color={COLOR.SIGNIN_SIGNUP_FONT}>
+            <Button
+              bgcolor={COLOR.HEADER_TRANSPARENT_BG}
+              color={COLOR.SIGNIN_SIGNUP_FONT}
+              style={{ fontSize: '1.5rem', padding: '0' }}
+              onClick={goSignUpPage}>
               회원가입
-            </Text>
+            </Button>
           </StyledSignUpNav>
           <Button
             as='button'
@@ -150,6 +166,6 @@ const StyledSignInForm = styled.div`
 
 const StyledSignUpNav = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
 `;
