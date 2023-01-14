@@ -54,7 +54,7 @@ const StyledGroupItem = styled.div``;
 const StyledGroupHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 2rem 1rem;
+  padding: ${({ isOpened }) => (isOpened ? '2rem 1rem 0 1rem' : '2rem 1rem')};
   ${({ isLastGroup, isOpened }) =>
     !isLastGroup &&
     !isOpened &&
