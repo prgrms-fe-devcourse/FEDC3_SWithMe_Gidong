@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { COLOR } from '@/styles/colors';
+import { COLOR } from '@/styles/color';
 import { icSearchSubmit } from '@/assets/icons';
 
 const HeaderSearchBar = () => {
@@ -7,7 +7,7 @@ const HeaderSearchBar = () => {
     <StyledHeaderSearchBar>
       <StyledSearchFilterButton>전체</StyledSearchFilterButton>
       <SearchDivideLine />
-      <StyledSearchInput type='text' defaultValue='스터디 그룹 검색' />
+      <StyledSearchInput type='text' placeholder='스터디 그룹 검색' />
       <StyledSearchSubmitButton>
         <SearchSubmitIcon src={icSearchSubmit} />
       </StyledSearchSubmitButton>
@@ -47,7 +47,6 @@ const StyledSearchInput = styled.input`
   height: 1.75rem;
   margin: 1.9rem 0 1.9rem 1.7rem;
   font-size: 1.8rem;
-  color: ${COLOR.HEADER_SEARCHBAR_INPUT_FONT};
 `;
 
 const StyledSearchFilterButton = styled.button`

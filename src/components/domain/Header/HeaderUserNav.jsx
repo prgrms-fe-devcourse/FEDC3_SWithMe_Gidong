@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import UserNavButton from './UserNavButton';
 import UserSignInButton from './UserSignInButton';
-import { icMyGroup, icMyAlertOn, icMyInfo } from '@/assets/icons';
+import { icMyGroup, icAlertOn, icMyInfo } from '@/assets/icons';
 
 const HeaderUserNav = () => {
   const isLogined = false;
@@ -11,7 +11,7 @@ const HeaderUserNav = () => {
       {isLogined ? (
         <>
           <UserNavButton variant={icMyGroup} />
-          <UserNavButton variant={icMyAlertOn} />
+          <UserNavButton variant={icAlertOn} />
           <UserNavButton variant={icMyInfo} />
           <UserSignInButton variant={'로그아웃'} />
         </>
