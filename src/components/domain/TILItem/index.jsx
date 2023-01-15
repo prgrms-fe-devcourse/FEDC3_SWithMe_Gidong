@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Text } from '@/components/base';
 import { COLOR } from '@/styles/color';
+import { Link } from 'react-router-dom';
 
 function TILItem({ til }) {
   const {
@@ -20,9 +21,11 @@ function TILItem({ til }) {
           <StyledTag key={tag}>{tag}</StyledTag>
         ))}
       </StyledTagList>
-      <StyledPlusButton>
-        <i className='fa-solid fa-plus'></i>
-      </StyledPlusButton>
+      <Link to={`/TIL/${til._id}`} state={{ til }}>
+        <StyledPlusButton>
+          <i className='fa-solid fa-plus'></i>
+        </StyledPlusButton>
+      </Link>
     </StyledTILItem>
   );
 }
