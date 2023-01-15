@@ -96,20 +96,20 @@ function TILList({ groupId, groupName }) {
             ) : (
               <Empty src={imgTIL} width={30} mainText='그룹에 TIL이 없습니다.' subText='TIL을 작성해보세요!' />
             )}
+            <StyledButtonWrapper>
+              <Link to='/writeTIL' state={{ groupName, groupId }}>
+                <Button
+                  as='button'
+                  bgcolor={COLOR.PRIMARY_BTN}
+                  color={COLOR.WHITE}
+                  style={{ fontSize: '2.2rem', padding: '1.3rem 1.6rem', margin: '2rem', borderRadius: '1rem' }}
+                  round={+true}>
+                  <Icon name='circle-plus' style={{ marginRight: '1rem' }} />
+                  TIL 작성하기
+                </Button>
+              </Link>
+            </StyledButtonWrapper>
           </StyledTILList>
-          <StyledButtonWrapper>
-            <Link to='/writeTIL' state={{ groupName, groupId }}>
-              <Button
-                as='button'
-                bgcolor={COLOR.PRIMARY_BTN}
-                color={COLOR.WHITE}
-                style={{ fontSize: '2.2rem', padding: '1.3rem 1.6rem', margin: '2rem', borderRadius: '1rem' }}
-                round={+true}>
-                <Icon name='circle-plus' style={{ marginRight: '1rem' }} />
-                TIL 작성하기
-              </Button>
-            </Link>
-          </StyledButtonWrapper>
         </>
       )}
     </>

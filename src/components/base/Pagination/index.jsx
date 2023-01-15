@@ -40,7 +40,7 @@ const Pagination = ({ defaultPage, limit, total, onChange }) => {
 export default Pagination;
 
 const StyledPagination = styled.div`
-  padding: 3rem;
+  padding-top: 3rem;
   text-align: center;
 
   & > button {
