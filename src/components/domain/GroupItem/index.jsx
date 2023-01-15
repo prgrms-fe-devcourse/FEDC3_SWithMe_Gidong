@@ -1,4 +1,4 @@
-import { Header, Text } from '@/components/base';
+import { Header, Text, Icon } from '@/components/base';
 import styled from '@emotion/styled';
 import { COLOR } from '@/styles/color';
 import { Divider } from '@/components/base';
@@ -15,9 +15,17 @@ function GroupItem({ group, isLastGroup }) {
     <StyledGroupItem>
       <StyledGroupHeader isOpened={isOpened} isLastGroup={isLastGroup}>
         <StyledGroupInfo>
-          <Header strong level={3} color={COLOR.DARK}>
-            {name}
-          </Header>
+          <StyledGroupTitle>
+            <Header strong level={3} color={COLOR.DARK}>
+              {name}
+            </Header>
+            {isOpened && (
+              <StyledGroupIcons>
+                <Icon name='circle-info' />
+                <Icon name='gear' />
+              </StyledGroupIcons>
+            )}
+          </StyledGroupTitle>
           {!isOpened && (
             <>
               <div>
@@ -85,6 +93,23 @@ const StyledGroupInfo = styled.div`
   gap: 1rem;
   padding: 1rem 0;
   font-size: 2rem;
+`;
+
+const StyledGroupTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const StyledGroupIcons = styled.div`
+  color: ${COLOR.GRAY_30};
+
+  & > i {
+    padding-left: 1rem;
+    cursor: pointer;
+    &:hover {
+      color: ${COLOR.TAG_COLOR[1]};
+    }
+  }
 `;
 
 const StyledTagList = styled.div`
