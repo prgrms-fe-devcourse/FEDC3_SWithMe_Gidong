@@ -31,13 +31,6 @@ function SignIn() {
 
   const inputRef = useRef([]);
 
-  const goMainPage = () => {
-    navigate('../');
-  };
-  const goSignUpPage = () => {
-    navigate('../signUp');
-  };
-
   const handleSignUp = async () => {
     if (!email) return setEmailAlert(ERRORS.EMAIL_EMPTY_ERROR);
     if (!/^.+@.+\..+$/.test(email)) return setEmailAlert(ERRORS.EMAIL_VALIDATE_ERROR);
@@ -54,7 +47,7 @@ function SignIn() {
     alert('로그인');
     setIsLoading(false);
 
-    goMainPage();
+    navigate('/');
   };
 
   const onClickEnter = (e) => {
@@ -107,7 +100,7 @@ function SignIn() {
               bgcolor={COLOR.HEADER_TRANSPARENT_BG}
               color={COLOR.SIGNIN_SIGNUP_FONT}
               style={{ fontSize: '1.5rem', padding: '0' }}
-              onClick={goSignUpPage}>
+              onClick={() => navigate('/signUp')}>
               회원가입
             </Button>
           </StyledSignUpNav>

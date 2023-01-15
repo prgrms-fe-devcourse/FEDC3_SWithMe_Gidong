@@ -8,18 +8,6 @@ const HeaderUserNav = () => {
   const navigate = useNavigate();
   const isLogined = false;
 
-  const goSignInPage = () => {
-    navigate('./signIn');
-  };
-
-  const goMyGroupPage = () => {
-    navigate('./myGroup');
-  };
-
-  const goMainPage = () => {
-    navigate('../');
-  };
-
   return (
     <StyledHeaderUserNav>
       {isLogined ? (
@@ -27,7 +15,7 @@ const HeaderUserNav = () => {
           <Button
             style={{ width: '3.5rem', height: '3.5rem', marginRight: '1rem', padding: '0' }}
             bgcolor={COLOR.HEADER_TRANSPARENT_BG}
-            onClick={goMyGroupPage}>
+            onClick={() => navigate('/myGroup')}>
             <img src={icMyGroup} />
           </Button>
           <Button
@@ -43,7 +31,7 @@ const HeaderUserNav = () => {
           <Button
             style={{ width: '7.7rem', height: '2.1rem', margin: '0.7rem 0', padding: '0', fontSize: '1.8rem' }}
             bgcolor={COLOR.HEADER_TRANSPARENT_BG}
-            onClick={goMainPage}>
+            onClick={() => navigate('/')}>
             로그아웃
           </Button>
         </>
@@ -51,7 +39,7 @@ const HeaderUserNav = () => {
         <Button
           style={{ width: '7.7rem', height: '2.1rem', margin: '0.7rem 0', padding: '0', fontSize: '1.8rem' }}
           bgcolor={COLOR.HEADER_TRANSPARENT_BG}
-          onClick={goSignInPage}>
+          onClick={() => navigate('/signIn')}>
           로그인
         </Button>
       )}

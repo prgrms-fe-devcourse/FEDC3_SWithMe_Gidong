@@ -5,13 +5,9 @@ import { useNavigate } from 'react-router-dom';
 const HeaderLogo = () => {
   const navigate = useNavigate();
 
-  const goHome = () => {
-    navigate('./');
-  };
-
   return (
-    <StyledHeaderLogo>
-      <Logo src={imgLogo} onClick={goHome} />
+    <StyledHeaderLogo onClick={() => navigate('/')}>
+      <Logo src={imgLogo} />
     </StyledHeaderLogo>
   );
 };

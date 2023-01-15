@@ -44,10 +44,6 @@ function SignUp() {
 
   const inputRef = useRef([]);
 
-  const goSignInPage = () => {
-    navigate('../signIn');
-  };
-
   const handleSignUp = async () => {
     if (!fullName) return setFullNameAlert(ERRORS.FULLNAME_EMPTY_ERROR);
     if (fullName.length < MAGIC_NUMBERS.FULLNAME_MIN_LENGTH) return setFullNameAlert(ERRORS.FULLNAME_MIN_LENGTH_ERROR);
@@ -70,7 +66,7 @@ function SignUp() {
     alert('회원가입이 완료 되었습니다.');
     setIsLoading(false);
 
-    goSignInPage();
+    navigate('/signIn');
   };
 
   const onClickEnter = (e) => {
