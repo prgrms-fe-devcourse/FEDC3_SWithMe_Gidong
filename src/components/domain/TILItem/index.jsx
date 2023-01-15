@@ -5,21 +5,29 @@ import { COLOR } from '@/styles/color';
 function TILItem({ til }) {
   const {
     title: { title, body, tagList },
+    createdAt,
   } = til;
 
   return (
     <StyledTILItem>
-      <Text strong paragraph size={2.4} lineHeight={1.2}>
-        {title}
-      </Text>
-      <Text paragraph size={1.8} weight={300} color={COLOR.DARK}>
-        {body}
-      </Text>
-      <StyledTagList>
-        {tagList?.map((tag) => (
-          <StyledTag key={tag}>{tag}</StyledTag>
-        ))}
-      </StyledTagList>
+      <StyledDate>
+        <Text paragraph size={1.2} weight={300} color={COLOR.DARK}>
+          {createdAt.slice(0, 10)}
+        </Text>
+      </StyledDate>
+      <StyledTILContent>
+        <Text strong paragraph size={2.4} lineHeight={1.2}>
+          {title}
+        </Text>
+        <Text paragraph size={1.8} weight={300} color={COLOR.DARK}>
+          {body}
+        </Text>
+        <StyledTagList>
+          {tagList?.map((tag) => (
+            <StyledTag key={tag}>{tag}</StyledTag>
+          ))}
+        </StyledTagList>
+      </StyledTILContent>
       <StyledPlusButton>
         <i className='fa-solid fa-plus'></i>
       </StyledPlusButton>
@@ -30,9 +38,6 @@ function TILItem({ til }) {
 export default TILItem;
 
 const StyledTILItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
   position: relative;
 
   width: 22rem;
@@ -46,6 +51,17 @@ const StyledTILItem = styled.div`
   & > p:nth-of-type(2) {
     word-break: break-all;
   }
+`;
+
+const StyledDate = styled.div`
+  padding-bottom: 0.5rem;
+  text-align: right;
+`;
+
+const StyledTILContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
 
 const StyledPlusButton = styled.div`
