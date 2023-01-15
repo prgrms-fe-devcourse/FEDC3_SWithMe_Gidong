@@ -6,7 +6,7 @@ import { COLOR } from '@/styles/color';
 import { convertDate } from '@/utils/date';
 import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 function checkAbleSubmit(len) {
@@ -75,15 +75,39 @@ function TIL() {
     };
   };
 
+  const likeButtonRef = useRef(null);
+  const [scrollY, setScrollY] = useState(0);
+
+  const scrollFixed = () => {
+    setScrollY(window.pageYOffset);
+  };
+
+  useEffect(() => {
+    const scrollListener = () => {
+      window.addEventListener('scroll', scrollFixed);
+    };
+    scrollListener();
+    return () => {
+      window.removeEventListener('scroll', scrollFixed);
+    };
+  }, []);
+
+  useEffect(() => {
+    const adjustedY = (scrollY / (document.body.scrollHeight - window.innerHeight)) * window.innerHeight * 0.75;
+    likeButtonRef.current.style = `top: calc(${adjustedY}px + 10rem)`;
+  }, [scrollY]);
+
   return (
     <StyledPageWrapper>
-      <StyledTIL>
-        <StyledLikeButton as='span' onClick={handleLikeButtonClick}>
+      <StyledTIL className='til'>
+        <StyledLikeButton ref={likeButtonRef} onClick={handleLikeButtonClick}>
+          {/* <Button as='span' onClick={handleLikeButtonClick} style={{ backgroundColor: 'transparent', padding: '2rem' }}> */}
           {/* TODO: 공감 버튼 누른 여부에 따라 fill 여부 결정 */}
           {/* {likes.length && likes.filter((like) => like.user === currentUser._id)} */}
           {/* <Icon name='heart' size={3} /> */}
           <Icon type='regular' name='heart' size={3} />
           <Text size={1.2}>{likes.length}</Text>
+          {/* </Button> */}
         </StyledLikeButton>
         <Header level={1} strong size={40} color={COLOR.DARK}>
           📚 [{til.channel.name}]에 대한 TIL
@@ -204,7 +228,7 @@ const StyledCommentListWrapper = styled.div`
   margin-top: 4rem;
 `;
 
-const StyledLikeButton = styled(Button)`
+const StyledLikeButton = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -213,12 +237,13 @@ const StyledLikeButton = styled(Button)`
 
   position: fixed;
   right: 4rem;
-  bottom: 4rem;
+  /* top: ${({ y }) => (y ? y : '')}; */
   z-index: 2000;
 
   width: 8rem;
   height: 8rem;
   border-radius: 50%;
+  cursor: pointer;
 
   background-color: ${COLOR.WHITE};
   box-shadow: 0.5rem 1rem 0.5rem rgba(0, 0, 0, 0.25);
