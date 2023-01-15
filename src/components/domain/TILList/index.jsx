@@ -1,12 +1,13 @@
-import styled from '@emotion/styled';
-import { useTILContext } from '@/context/TILProvider';
-import { useState, useCallback, useEffect } from 'react';
-import TILItem from '@/components/domain/TILItem';
-import { Spinner, Empty } from '@/components/base';
-import { COLOR } from '@/styles/color';
 import { imgTIL } from '@/assets/images';
+import { Button, Empty, Icon, Spinner } from '@/components/base';
+import TILItem from '@/components/domain/TILItem';
+import { useTILContext } from '@/context/TILProvider';
+import { COLOR } from '@/styles/color';
+import styled from '@emotion/styled';
+import { useCallback, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-function TILList({ groupId }) {
+function TILList({ groupId, groupName }) {
   const [isLoading, setIsLoading] = useState(false);
   const { tils, onShowTILByGroup } = useTILContext();
 
@@ -38,6 +39,19 @@ function TILList({ groupId }) {
           ) : (
             <Empty src={imgTIL} width={30} mainText='그룹에 TIL이 없습니다.' subText='TIL을 작성해보세요!' />
           )}
+          <StyledButtonWrapper>
+            <Link to='/writeTIL' state={{ groupName, groupId }}>
+              <Button
+                as='button'
+                bgcolor={COLOR.PRIMARY_BTN}
+                color={COLOR.WHITE}
+                style={{ fontSize: '2.2rem', padding: '1.3rem 1.6rem', margin: '2rem', borderRadius: '1rem' }}
+                round={+true}>
+                <Icon name='circle-plus' style={{ marginRight: '1rem' }} />
+                TIL 작성하기
+              </Button>
+            </Link>
+          </StyledButtonWrapper>
         </>
       )}
     </>
@@ -67,4 +81,10 @@ const StyledTILList = styled.div`
   }
 
   animation: smoothAppear 1s;
+`;
+
+const StyledButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 `;

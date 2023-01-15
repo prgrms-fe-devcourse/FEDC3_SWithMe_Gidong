@@ -4,11 +4,11 @@ import styled from '@emotion/styled';
 import { forwardRef, useState } from 'react';
 import TagList from './TagList';
 
-const TagInput = forwardRef((props, ref) => {
-  const [tagList, setTagList] = useState(ref.current);
+const TagInput = forwardRef(({ onChange, wrapperProps, inputProps, ...props }, ref) => {
+  const [tagList, setTagList] = useState(ref?.current || []);
 
   const addTagItem = (value) => {
-    if (ref.current.includes(value)) {
+    if (tagList.includes(value) || (ref && ref.current.includes(value))) {
       alert('이미 존재하는 태그입니다.');
       return;
     }
@@ -16,7 +16,8 @@ const TagInput = forwardRef((props, ref) => {
     const addedTagList = [...tagList, value];
 
     setTagList(addedTagList);
-    ref.current = addedTagList;
+    if (ref) ref.current = addedTagList;
+    onChange && onChange(addedTagList);
   };
 
   const removeTagItem = (e) => {
@@ -24,7 +25,8 @@ const TagInput = forwardRef((props, ref) => {
     const filteredTagList = tagList.filter((tagItem) => tagItem !== deleteTagItem);
 
     setTagList(filteredTagList);
-    ref.current = filteredTagList;
+    if (ref) ref.current = filteredTagList;
+    onChange && onChange(filteredTagList);
   };
 
   const onKeyPress = (e) => {
@@ -35,8 +37,8 @@ const TagInput = forwardRef((props, ref) => {
   return (
     <>
       {tagList.length !== 0 && (
-        <StyledTagListWrapper disabled={tagList.length === 5}>
-          <TagList tagList={tagList} onDeleteTagButtonClick={removeTagItem} />
+        <StyledTagListWrapper disabled={tagList.length === 5} {...wrapperProps}>
+          <TagList tagList={tagList} onDeleteTagButtonClick={removeTagItem} {...props} />
         </StyledTagListWrapper>
       )}
       {tagList.length < 5 ? (
@@ -48,10 +50,16 @@ const TagInput = forwardRef((props, ref) => {
           onKeyPress={onKeyPress}
           wrapperProps={{ style: { width: '100%' } }}
           style={{ fontSize: '1.8rem' }}
+          {...inputProps}
         />
       ) : (
         <Text size={1.2} weight={300}>
           태그는 최대 5개까지 설정 가능합니다.
+        </Text>
+      )}
+      {tagList.length === 0 && (
+        <Text size={1.2} weight={300}>
+          최소 1개 이상의 태그를 선택해주세요.
         </Text>
       )}
     </>
