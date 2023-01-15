@@ -10,6 +10,7 @@ import { useCallback, useEffect, useState } from 'react';
 function TILList({ groupId }) {
   const [isLoading, setIsLoading] = useState(false);
   const { tils, onShowTILByGroup } = useTILContext();
+  const [isSortByLike, setIsSortByLike] = useState(false);
   const [isViewByDate, setIsViewByDate] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
@@ -30,8 +31,10 @@ function TILList({ groupId }) {
   }, []);
 
   const filterTILList = () => {
-    const filtered = tils.filter((til) => (isViewByDate ? til.createdAt.slice(0, 10) === selectedDate : true));
-
+    let filtered = tils.filter((til) => (isViewByDate ? til.createdAt.slice(0, 10) === selectedDate : true));
+    if (isSortByLike) {
+      filtered = filtered.sort((a, b) => b.likes.length - a.likes.length);
+    }
     return filtered.length ? (
       <>
         <StyledTILWrapper>
@@ -66,20 +69,24 @@ function TILList({ groupId }) {
                 </div>
                 <StyledFilter>
                   <StyledViewType>
-                    <StyledViewButton isActive={isViewByDate === false} onClick={() => setIsViewByDate(false)}>
+                    <StyledFilterButton isActive={isViewByDate === false} onClick={() => setIsViewByDate(false)}>
                       전체 보기
-                    </StyledViewButton>
+                    </StyledFilterButton>
                     <Divider type='vertical' color={COLOR.GRAY_30} />
-                    <StyledViewButton isActive={isViewByDate === true} onClick={() => setIsViewByDate(true)}>
+                    <StyledFilterButton isActive={isViewByDate === true} onClick={() => setIsViewByDate(true)}>
                       날짜 보기
-                    </StyledViewButton>
+                    </StyledFilterButton>
                     {isViewByDate && <Calendar onChange={setSelectedDate} />}
                   </StyledViewType>
-                  <div>
-                    <button>최신순</button>
+                  <StyledViewType>
+                    <StyledFilterButton isActive={isSortByLike === false} onClick={() => setIsSortByLike(false)}>
+                      최신순
+                    </StyledFilterButton>
                     <Divider type='vertical' color={COLOR.GRAY_30} />
-                    <button>좋아요순</button>
-                  </div>
+                    <StyledFilterButton isActive={isSortByLike === true} onClick={() => setIsSortByLike(true)}>
+                      좋아요순
+                    </StyledFilterButton>
+                  </StyledViewType>
                 </StyledFilter>
               </StyledFilterWrapper>
               {filterTILList()}
@@ -150,10 +157,12 @@ const StyledViewType = styled.div`
   align-items: center;
 `;
 
-const StyledViewButton = styled.button`
+const StyledFilterButton = styled.div`
+  font-size: 1.3rem;
   ${({ isActive }) =>
     isActive &&
     css`
       font-weight: 600;
     `};
+  cursor: pointer;
 `;
