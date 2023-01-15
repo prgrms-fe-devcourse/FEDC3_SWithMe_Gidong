@@ -1,14 +1,17 @@
 import { imgTIL } from '@/assets/images';
-import { Empty, Pagination, Spinner, Text, Divider } from '@/components/base';
+import { Calendar, Divider, Empty, Pagination, Spinner, Text } from '@/components/base';
 import TILItem from '@/components/domain/TILItem';
 import { useTILContext } from '@/context/TILProvider';
 import { COLOR } from '@/styles/color';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useCallback, useEffect, useState } from 'react';
 
 function TILList({ groupId }) {
   const [isLoading, setIsLoading] = useState(false);
   const { tils, onShowTILByGroup } = useTILContext();
+  const [isViewByDate, setIsViewByDate] = useState(false);
+  const [selectedDate, setSelectedDate] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const LIMIT = 8;
   const offset = currentPage * LIMIT;
@@ -25,6 +28,23 @@ function TILList({ groupId }) {
   useEffect(() => {
     handleShowTILsByGroup(groupId);
   }, []);
+
+  const filterTILList = () => {
+    const filtered = tils.filter((til) => (isViewByDate ? til.createdAt.slice(0, 10) === selectedDate : true));
+
+    return filtered.length ? (
+      <>
+        <StyledTILWrapper>
+          {filtered.slice(offset, offset + LIMIT).map((til) => (
+            <TILItem key={til._id} til={til} />
+          ))}
+        </StyledTILWrapper>
+        <Pagination defaultPage={0} limit={LIMIT} total={tils.length} onChange={setCurrentPage} />
+      </>
+    ) : (
+      <Empty src={imgTIL} width={30} mainText='해당 날짜에 TIL이 없습니다.' subText='TIL을 작성해보세요!' />
+    );
+  };
 
   return (
     <>
@@ -45,11 +65,16 @@ function TILList({ groupId }) {
                   </Text>
                 </div>
                 <StyledFilter>
-                  <div>
-                    <button>전체 보기</button>
+                  <StyledViewType>
+                    <StyledViewButton isActive={isViewByDate === false} onClick={() => setIsViewByDate(false)}>
+                      전체 보기
+                    </StyledViewButton>
                     <Divider type='vertical' color={COLOR.GRAY_30} />
-                    <button>날짜 보기</button>
-                  </div>
+                    <StyledViewButton isActive={isViewByDate === true} onClick={() => setIsViewByDate(true)}>
+                      날짜 보기
+                    </StyledViewButton>
+                    {isViewByDate && <Calendar onChange={setSelectedDate} />}
+                  </StyledViewType>
                   <div>
                     <button>최신순</button>
                     <Divider type='vertical' color={COLOR.GRAY_30} />
@@ -57,12 +82,7 @@ function TILList({ groupId }) {
                   </div>
                 </StyledFilter>
               </StyledFilterWrapper>
-              <StyledTILWrapper>
-                {tils.slice(offset, offset + LIMIT).map((til) => (
-                  <TILItem key={til._id} til={til} />
-                ))}
-              </StyledTILWrapper>
-              <Pagination defaultPage={0} limit={LIMIT} total={tils.length} onChange={setCurrentPage} />
+              {filterTILList()}
             </>
           ) : (
             <Empty src={imgTIL} width={30} mainText='그룹에 TIL이 없습니다.' subText='TIL을 작성해보세요!' />
@@ -119,6 +139,21 @@ const StyledFilter = styled.div`
   padding-top: 0.5rem;
 
   & button {
+    width: fit-content;
+    white-space: nowrap;
     padding: 0;
   }
+`;
+
+const StyledViewType = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const StyledViewButton = styled.button`
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      font-weight: 600;
+    `};
 `;
