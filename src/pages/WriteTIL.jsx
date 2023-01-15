@@ -17,7 +17,7 @@ import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import 'tui-color-picker/dist/tui-color-picker.css';
-import SearchBar from '../components/base/SearchBar';
+import SearchBar from '@/components/base/SearchBar';
 
 function checkAbleSubmit(len1, len2) {
   return len1 !== 0 && len2 !== 0;
@@ -44,7 +44,6 @@ function WriteTIL() {
 
   const handleSubmitButtonClick = () => {
     if (!ableSubmit) return;
-    console.log(groupId);
     // TODO: WRITE TIL API CALL WITH BELOW DATA
 
     /* 
