@@ -49,6 +49,7 @@ const StyledPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  padding-top: 8rem;
 `;
 
 const StyledMyGroup = styled.div`

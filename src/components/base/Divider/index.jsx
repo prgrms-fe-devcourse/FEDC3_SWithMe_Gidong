@@ -10,7 +10,7 @@ const Divider = ({
   const dividerStyle = {
     margin: type === 'vertical' ? `0 ${size}rem` : `${size}rem 0`,
     backgroundColor: color,
-    height,
+    height: `${height}rem`,
   };
 
   return <Line {...props} className={type} style={{ ...dividerStyle, ...props.style }} />;

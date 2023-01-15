@@ -4,6 +4,7 @@ import SignInput from '@/components/domain/SignInput';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ERRORS = {
   FULLNAME_EMPTY_ERROR: '이름을 입력해 주세요',
@@ -27,6 +28,8 @@ const INPUT_NUMBER_LIMIT = {
 };
 
 function SignUp() {
+  const navigate = useNavigate();
+
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -62,6 +65,8 @@ function SignUp() {
 
     alert('회원가입이 완료 되었습니다.');
     setIsLoading(false);
+
+    navigate('/signIn');
   };
 
   const onClickEnter = (e) => {

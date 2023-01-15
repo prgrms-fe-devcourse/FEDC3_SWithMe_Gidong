@@ -1,16 +1,24 @@
 import styled from '@emotion/styled';
-import { COLOR } from '@/styles/colors';
+import { COLOR } from '@/styles/color';
 import { icSearchSubmit } from '@/assets/icons';
+import { Divider, Input, Button } from '@/components/base';
 
 const HeaderSearchBar = () => {
   return (
     <StyledHeaderSearchBar>
       <StyledSearchFilterButton>전체</StyledSearchFilterButton>
-      <SearchDivideLine />
-      <StyledSearchInput type='text' defaultValue='스터디 그룹 검색' />
-      <StyledSearchSubmitButton>
+      <Divider position='absolute' type={'vertical'} size={0} height={5.5} color={COLOR.HEADER_DIVIDELINE} />
+      <Input
+        type='text'
+        placeholder='스터디 그룹 검색'
+        wrapperProps={{ style: { width: 'calc(100% - 15rem)', margin: '1.9rem 0 1.9rem 1.7rem' } }}
+        style={{ fontSize: '1.8rem', height: '1.75rem', padding: '0', border: '0' }}
+      />
+      <Button
+        bgcolor={COLOR.HEADER_SEARCHBAR_SUBMIT_BG}
+        style={{ width: '4rem', height: '4rem', padding: '0', margin: '0.8rem 3.1rem 0.7rem 0', borderRadius: '2rem' }}>
         <SearchSubmitIcon src={icSearchSubmit} />
-      </StyledSearchSubmitButton>
+      </Button>
     </StyledHeaderSearchBar>
   );
 };
@@ -27,27 +35,10 @@ const StyledHeaderSearchBar = styled.div`
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 `;
 
-const StyledSearchSubmitButton = styled.button`
-  width: 4rem;
-  height: 4rem;
-  background-color: ${COLOR.HEADER_SEARCHBAR_SUBMIT_BG};
-  padding: 0;
-  margin: 0.8rem 3.1rem 0.7rem 0;
-  border-radius: 2rem;
-`;
-
 const SearchSubmitIcon = styled.img`
   width: 2rem;
   height: 2rem;
   margin: 1rem;
-`;
-
-const StyledSearchInput = styled.input`
-  width: calc(100% - 15rem);
-  height: 1.75rem;
-  margin: 1.9rem 0 1.9rem 1.7rem;
-  font-size: 1.8rem;
-  color: ${COLOR.HEADER_SEARCHBAR_INPUT_FONT};
 `;
 
 const StyledSearchFilterButton = styled.button`
@@ -57,11 +48,4 @@ const StyledSearchFilterButton = styled.button`
   height: 5.5rem;
   padding: 0;
   font-size: 1.8rem;
-`;
-
-const SearchDivideLine = styled.div`
-  width: 0;
-  height: 3.9rem;
-  margin: 0.8rem 0;
-  border: 0.025rem ${COLOR.HEADER_DIVIDELINE} solid;
 `;
