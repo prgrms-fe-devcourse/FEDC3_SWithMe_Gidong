@@ -1,9 +1,12 @@
-import styled from '@emotion/styled';
 import { imgLogo } from '@/assets/images';
+import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 
 const HeaderLogo = () => {
+  const navigate = useNavigate();
+
   return (
-    <StyledHeaderLogo>
+    <StyledHeaderLogo onClick={() => navigate('/')}>
       <Logo src={imgLogo} />
     </StyledHeaderLogo>
   );
@@ -11,11 +14,12 @@ const HeaderLogo = () => {
 
 export default HeaderLogo;
 
-const StyledHeaderLogo = styled.div`
+const StyledHeaderLogo = styled.button`
   display: flex;
   width: 15rem;
   height: 6.4rem;
   margin: 0.8rem 0 0.8rem 2.6rem;
+  padding: 0;
 `;
 
 const Logo = styled.img`

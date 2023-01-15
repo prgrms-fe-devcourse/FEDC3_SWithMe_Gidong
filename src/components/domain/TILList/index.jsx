@@ -1,13 +1,14 @@
 import { imgTIL } from '@/assets/images';
-import { Calendar, Divider, Empty, Pagination, Spinner, Text } from '@/components/base';
+import { Button, Calendar, Divider, Empty, Pagination, Spinner, Text, Icon } from '@/components/base';
 import TILItem from '@/components/domain/TILItem';
 import { useTILContext } from '@/context/TILProvider';
 import { COLOR } from '@/styles/color';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useCallback, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-function TILList({ groupId }) {
+function TILList({ groupId, groupName }) {
   const [isLoading, setIsLoading] = useState(false);
   const { tils, onShowTILByGroup } = useTILContext();
   const [isSortByLike, setIsSortByLike] = useState(false);
@@ -54,47 +55,62 @@ function TILList({ groupId }) {
       {isLoading ? (
         <Spinner size={40} color={COLOR.TAG_COLOR[1]} />
       ) : (
-        <StyledTILList>
-          {tils.length ? (
-            <>
-              <StyledFilterWrapper>
-                <div>
-                  <Text paragraph size={1.4} weight={400}>
-                    전체{' '}
-                    <Text strong color={COLOR.TAG_COLOR[0]}>
-                      {tils.length}
+        <>
+          <StyledTILList>
+            {tils.length ? (
+              <>
+                <StyledFilterWrapper>
+                  <div>
+                    <Text paragraph size={1.4} weight={400}>
+                      전체{' '}
+                      <Text strong color={COLOR.TAG_COLOR[0]}>
+                        {tils.length}
+                      </Text>
+                      개 결과
                     </Text>
-                    개 결과
-                  </Text>
-                </div>
-                <StyledFilter>
-                  <StyledViewType>
-                    <StyledFilterButton isActive={isViewByDate === false} onClick={() => setIsViewByDate(false)}>
-                      전체 보기
-                    </StyledFilterButton>
-                    <Divider type='vertical' color={COLOR.GRAY_30} />
-                    <StyledFilterButton isActive={isViewByDate === true} onClick={() => setIsViewByDate(true)}>
-                      날짜 보기
-                    </StyledFilterButton>
-                    {isViewByDate && <Calendar onChange={setSelectedDate} />}
-                  </StyledViewType>
-                  <StyledViewType>
-                    <StyledFilterButton isActive={isSortByLike === false} onClick={() => setIsSortByLike(false)}>
-                      최신순
-                    </StyledFilterButton>
-                    <Divider type='vertical' color={COLOR.GRAY_30} />
-                    <StyledFilterButton isActive={isSortByLike === true} onClick={() => setIsSortByLike(true)}>
-                      좋아요순
-                    </StyledFilterButton>
-                  </StyledViewType>
-                </StyledFilter>
-              </StyledFilterWrapper>
-              {filterTILList()}
-            </>
-          ) : (
-            <Empty src={imgTIL} width={30} mainText='그룹에 TIL이 없습니다.' subText='TIL을 작성해보세요!' />
-          )}
-        </StyledTILList>
+                  </div>
+                  <StyledFilter>
+                    <StyledViewType>
+                      <StyledFilterButton isActive={isViewByDate === false} onClick={() => setIsViewByDate(false)}>
+                        전체 보기
+                      </StyledFilterButton>
+                      <Divider type='vertical' color={COLOR.GRAY_30} />
+                      <StyledFilterButton isActive={isViewByDate === true} onClick={() => setIsViewByDate(true)}>
+                        날짜 보기
+                      </StyledFilterButton>
+                      {isViewByDate && <Calendar onChange={setSelectedDate} />}
+                    </StyledViewType>
+                    <StyledViewType>
+                      <StyledFilterButton isActive={isSortByLike === false} onClick={() => setIsSortByLike(false)}>
+                        최신순
+                      </StyledFilterButton>
+                      <Divider type='vertical' color={COLOR.GRAY_30} />
+                      <StyledFilterButton isActive={isSortByLike === true} onClick={() => setIsSortByLike(true)}>
+                        좋아요순
+                      </StyledFilterButton>
+                    </StyledViewType>
+                  </StyledFilter>
+                </StyledFilterWrapper>
+                {filterTILList()}
+              </>
+            ) : (
+              <Empty src={imgTIL} width={30} mainText='그룹에 TIL이 없습니다.' subText='TIL을 작성해보세요!' />
+            )}
+          </StyledTILList>
+          <StyledButtonWrapper>
+            <Link to='/writeTIL' state={{ groupName, groupId }}>
+              <Button
+                as='button'
+                bgcolor={COLOR.PRIMARY_BTN}
+                color={COLOR.WHITE}
+                style={{ fontSize: '2.2rem', padding: '1.3rem 1.6rem', margin: '2rem', borderRadius: '1rem' }}
+                round={+true}>
+                <Icon name='circle-plus' style={{ marginRight: '1rem' }} />
+                TIL 작성하기
+              </Button>
+            </Link>
+          </StyledButtonWrapper>
+        </>
       )}
     </>
   );
@@ -165,4 +181,10 @@ const StyledFilterButton = styled.div`
       font-weight: 600;
     `};
   cursor: pointer;
+`;
+
+const StyledButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 `;

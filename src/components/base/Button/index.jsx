@@ -2,7 +2,7 @@ import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { forwardRef } from 'react';
 
-function Button({ children, as, bgcolor, color, round, onClick, ...props }) {
+function Button({ children, as, bgcolor, color, round, disabled, onClick, ...props }) {
   return (
     <StyledButton
       as={as || 'button'}
@@ -11,6 +11,7 @@ function Button({ children, as, bgcolor, color, round, onClick, ...props }) {
       round={round}
       style={{ ...props.style }}
       onClick={onClick}
+      disabled={disabled}
       {...props}>
       {children}
     </StyledButton>
@@ -30,5 +31,5 @@ const StyledButton = styled(View)`
   color: ${({ color }) => (color ? color : COLOR.DARK)};
   border-radius: ${({ round }) => (round ? '0.3rem' : 'none')};
   border: none;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 `;

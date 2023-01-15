@@ -1,4 +1,4 @@
-import { Icon } from '@/components/base';
+import { Icon, Text } from '@/components/base';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { memo } from 'react';
@@ -13,6 +13,8 @@ const SearchBar = ({
   readonly = false,
   max,
   min,
+  label,
+  icon = true,
   onChange,
   iconProps,
   wrapperProps,
@@ -33,7 +35,12 @@ const SearchBar = ({
         onChange={(e) => onChange(e.target.value)}
         {...props}
       />
-      <Icon name='search' {...iconProps} />
+      {icon ? <Icon name='search' {...iconProps} /> : null}
+      <StyledLabel>
+        <Text size={type === 'number' ? 0.9 : 1.2} weight={300}>
+          {label ? label : max ? value.length + ' / ' + max : ''}
+        </Text>
+      </StyledLabel>
     </StyledInputContainer>
   );
 };
@@ -50,6 +57,14 @@ const StyledInput = styled.input`
   width: 100%;
   border: none;
   outline: none;
-  border-bottom: 0.1rem solid ${({ invalid }) => (invalid ? COLOR.RED : COLOR.GRAY)};
+  border-bottom: 0.3rem solid ${({ invalid }) => (invalid ? COLOR.RED : COLOR.GRAY)};
   box-sizing: border-box;
+`;
+
+const StyledLabel = styled.label`
+  display: block;
+  position: absolute;
+  bottom: -1.6em;
+  right: 0;
+  background-color: transparent;
 `;
