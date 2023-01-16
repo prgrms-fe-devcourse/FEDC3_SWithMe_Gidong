@@ -6,6 +6,7 @@ import WriteTIL from '@/pages/WriteTIL';
 import SignIn from '@/pages/SignIn';
 import SignUp from '@/pages/SignUp';
 import MyPage from '@/pages/MyPage';
+import TIL from '@/pages/TIL';
 
 function Router() {
   return (
