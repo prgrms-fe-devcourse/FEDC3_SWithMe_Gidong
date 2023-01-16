@@ -61,7 +61,8 @@ const HeaderUserNav = () => {
       </Button>
       <Button
         style={{ width: '3.5rem', height: '3.5rem', marginRight: '1rem', padding: '0' }}
-        bgcolor={COLOR.HEADER_TRANSPARENT_BG}>
+        bgcolor={COLOR.HEADER_TRANSPARENT_BG}
+        onClick={() => navigate('/myPage')}>
         <img src={icMyInfo} />
       </Button>
       <Button
