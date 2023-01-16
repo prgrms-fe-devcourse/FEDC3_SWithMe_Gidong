@@ -17,6 +17,7 @@ const Textarea = forwardRef(
       disabled = false,
       readonly = false,
       resize = false,
+      handleParentChange,
       wrapperProps,
       ...props
     },
@@ -30,6 +31,7 @@ const Textarea = forwardRef(
       }
       if (ref) ref.current = e.target.value;
       onChange && onChange(e.target.value);
+      handleParentChange && handleParentChange(e.target.value);
     };
 
     const handleKeyDown = (e) => {

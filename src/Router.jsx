@@ -18,6 +18,7 @@ function Router() {
         <Route path='/myPage' element={<MyPage />} />
         <Route path='/myGroup' element={<MyGroup />} />
         <Route path='/writeTIL' element={<WriteTIL />} />
+        <Route path='/TIL/:id' element={<TIL />} />
       </Routes>
     </BrowserRouter>
   );
