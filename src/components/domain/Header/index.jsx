@@ -17,9 +17,10 @@ const Header = () => {
 export default Header;
 
 const StyledHeaderContainer = styled.div`
-  z-index: 1;
   position: fixed;
   display: flex;
+  top: 0;
+  z-index: 1;
   justify-content: space-between;
   width: 100%;
   height: 8rem;
