@@ -101,13 +101,11 @@ function TIL() {
     <StyledPageWrapper>
       <StyledTIL className='til'>
         <StyledLikeButton ref={likeButtonRef} onClick={handleLikeButtonClick}>
-          {/* <Button as='span' onClick={handleLikeButtonClick} style={{ backgroundColor: 'transparent', padding: '2rem' }}> */}
           {/* TODO: 공감 버튼 누른 여부에 따라 fill 여부 결정 */}
           {/* {likes.length && likes.filter((like) => like.user === currentUser._id)} */}
           {/* <Icon name='heart' size={3} /> */}
           <Icon type='regular' name='heart' size={3} />
           <Text size={1.2}>{likes.length}</Text>
-          {/* </Button> */}
         </StyledLikeButton>
         <Header level={1} strong size={40} color={COLOR.DARK}>
           📚 [{til.channel.name}]에 대한 TIL
