@@ -22,14 +22,18 @@ function checkAbleSubmit(len1, len2) {
   return len1 !== 0 && len2 !== 0;
 }
 
-function WriteTIL() {
+function UpdateTIL() {
   const navigate = useNavigate();
   const {
-    state: { groupName, groupId },
+    state: { til },
   } = useLocation();
+  const {
+    channel,
+    title: { title: initialTitle, body, tagList },
+  } = til;
 
-  const title = useInput('');
-  const tags = useInput([]);
+  const title = useInput(initialTitle);
+  const tags = useInput([...tagList]);
   const editorRef = useRef();
 
   const ableSubmit = useMemo(
@@ -41,34 +45,35 @@ function WriteTIL() {
     navigate(-1);
   };
 
-  const handleSubmitButtonClick = () => {
+  const handleUpdateButtonClick = () => {
     if (!ableSubmit) return;
-    // TODO: WRITE TIL API CALL WITH BELOW DATA
+    // TODO: UPDATE TIL API CALL WITH BELOW DATA
 
     /* 
-      POST /posts/create
-
-      token
-
-      FormData: data
+    PUT /posts/update
+    
+    token
+    
+    FormData: data
     */
 
     const data = {
+      postId: til._id,
       title: JSON.stringify({
         title: title.value,
         body: editorRef.current.getInstance().getMarkdown(),
-        tagList: tags.value,
+        tagsList: tags.value,
       }),
-      channelId: groupId,
+      channelId: channel._id,
       image: null,
     };
   };
 
   return (
     <StyledPageWrapper>
-      <StyledWriteTIL>
+      <StyledUpdateTIL>
         <Header level={1} strong size={40} color={COLOR.DARK}>
-          📚 [{groupName}]에 대한 TIL 작성하기
+          📚 [{channel.name}]에 대한 TIL 작성하기
         </Header>
         <SearchBar
           placeholder='제목을 입력하세요.'
@@ -81,7 +86,7 @@ function WriteTIL() {
         />
         <div style={{ backgroundColor: `${COLOR.WHITE}` }}>
           <Editor
-            initialValue='여기에서 자유롭게 TIL을 작성하세요!'
+            initialValue={body}
             hideModeSwitch={true}
             height='600px'
             useCommandShortcut={false}
@@ -93,6 +98,7 @@ function WriteTIL() {
         <StyledFooterContanier>
           <div style={{ width: '50%' }}>
             <TagInput
+              initialTagList={tags.value}
               onChange={(tagList) => tags.onChange(tagList)}
               wrapperProps={{ style: { width: '100%' } }}
               inputProps={{ style: { backgroundColor: COLOR.MY_GROUP_BG } }}
@@ -113,17 +119,17 @@ function WriteTIL() {
               color={!ableSubmit ? COLOR.DARK : COLOR.WHITE}
               style={{ fontSize: '2.2rem', padding: '1.3rem 7rem', borderRadius: '1rem', marginLeft: '1rem' }}
               round={+true}
-              onClick={handleSubmitButtonClick}>
-              작성
+              onClick={handleUpdateButtonClick}>
+              수정
             </Button>
           </div>
         </StyledFooterContanier>
-      </StyledWriteTIL>
+      </StyledUpdateTIL>
     </StyledPageWrapper>
   );
 }
 
-export default WriteTIL;
+export default UpdateTIL;
 
 const StyledPageWrapper = styled.div`
   display: flex;
@@ -131,7 +137,7 @@ const StyledPageWrapper = styled.div`
   height: 100%;
 `;
 
-const StyledWriteTIL = styled.div`
+const StyledUpdateTIL = styled.div`
   position: relative;
   flex: 1;
   padding: 8rem;
