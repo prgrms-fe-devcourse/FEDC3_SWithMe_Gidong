@@ -5,6 +5,7 @@ import MyGroup from '@/pages/MyGroup';
 import WriteTIL from '@/pages/WriteTIL';
 import SignIn from '@/pages/SignIn';
 import SignUp from '@/pages/SignUp';
+import MyPage from '@/pages/MyPage';
 
 function Router() {
   return (
@@ -13,6 +14,7 @@ function Router() {
       <Routes>
         <Route path='/signIn' element={<SignIn />} />
         <Route path='/signUp' element={<SignUp />} />
+        <Route path='/myPage' element={<MyPage />} />
         <Route path='/myGroup' element={<MyGroup />} />
         <Route path='/writeTIL' element={<WriteTIL />} />
       </Routes>
