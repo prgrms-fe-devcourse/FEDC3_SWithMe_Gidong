@@ -6,8 +6,11 @@ import SignIn from '@/pages/SignIn';
 import SignUp from '@/pages/SignUp';
 import MyPage from '@/pages/MyPage';
 import TIL from '@/pages/TIL';
+import TILEditor from '@/pages/TILEditor';
 import JoinGroup from '@/pages/JoinGroup';
+
 function Router() {
+  return (
     <BrowserRouter>
       <Header />
       <Routes>
