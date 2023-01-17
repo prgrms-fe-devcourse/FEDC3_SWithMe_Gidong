@@ -1,6 +1,5 @@
-import { useReducer, createContext, useContext } from 'react';
-import { useCallback } from 'react';
-import { getPostListByChannel } from '@/api/post';
+import { deleteTIL, getPostListByChannel } from '@/api/post';
+import { createContext, useCallback, useContext, useReducer } from 'react';
 
 const TILContext = createContext();
 export const useTILContext = () => useContext(TILContext);
@@ -19,8 +18,7 @@ const reducer = (state, action) => {
       break;
     }
     case 'DELETE_TIL': {
-      // pass
-      break;
+      return state.filter((item) => item._id !== action.payload._id);
     }
     default: {
       console.error('Wrong type');
@@ -37,7 +35,12 @@ const TILProvider = ({ children }) => {
     dispatch({ type: 'SHOW_TILS', payload });
   }, []);
 
-  return <TILContext.Provider value={{ tils, onShowTILByGroup }}>{children}</TILContext.Provider>;
+  const onDeleteTIL = useCallback(async (data) => {
+    const payload = await deleteTIL(data);
+    dispatch({ type: 'DELETE_TIL', payload });
+  }, []);
+
+  return <TILContext.Provider value={{ tils, onShowTILByGroup, onDeleteTIL }}>{children}</TILContext.Provider>;
 };
 
 export default TILProvider;

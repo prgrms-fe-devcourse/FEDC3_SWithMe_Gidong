@@ -10,3 +10,13 @@ export const getPostListByChannel = async (channelId, offset, limit) => {
     console.error(error);
   }
 };
+
+export const deleteTIL = async (data) => {
+  try {
+    const response = await axiosInstance.delete('/posts/delete', { data });
+
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
