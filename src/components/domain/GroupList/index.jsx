@@ -20,7 +20,12 @@ function GroupList() {
   const [myGroupList, setMyGroupList] = useState([]);
 
   useEffect(() => {
-    setMyGroupList(groups?.filter(({ description }) => description.member.some((el) => el._id === loggedUser._id)));
+    setMyGroupList(
+      groups?.filter(
+        ({ description }) =>
+          description.master._id === loggedUser._id || description.member.some((el) => el._id === loggedUser._id),
+      ),
+    );
   }, [groups]);
 
   return (
