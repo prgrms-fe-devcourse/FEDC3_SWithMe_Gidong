@@ -44,8 +44,6 @@ function JoinGroup() {
     setGuideMessage('');
   }, []);
 
-  console.log(guideMessage);
-
   return (
     <StyledJoinGroup>
       <StyledHeader>
