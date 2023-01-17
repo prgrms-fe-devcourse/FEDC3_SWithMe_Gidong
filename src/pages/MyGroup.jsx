@@ -1,10 +1,14 @@
-import styled from '@emotion/styled';
-import { COLOR } from '@/styles/color';
 import { imgPuzzle } from '@/assets/images';
-import { Image, Header, Text } from '@/components/base';
+import { Header, Image, Text } from '@/components/base';
+import CreateGroupModal from '@/components/domain/CreateGroupModal';
 import GroupList from '@/components/domain/GroupList';
+import { COLOR } from '@/styles/color';
+import styled from '@emotion/styled';
+import { useState } from 'react';
 
 function MyGroup() {
+  const [createGroupModalVisible, setCreateGroupModalVisible] = useState(false);
+
   return (
     <StyledPageWrapper>
       <StyledMyGroup>
@@ -12,10 +16,11 @@ function MyGroup() {
           <Header strong size={30}>
             내 그룹
           </Header>
-          <button>
+          <button onClick={() => setCreateGroupModalVisible(true)}>
             <i className='fa-solid fa-circle-plus'></i>
             그룹 만들기
           </button>
+          <CreateGroupModal visible={createGroupModalVisible} onClose={() => setCreateGroupModalVisible(false)} />
         </StyledHeader>
         <StyledDesc>
           <div>
