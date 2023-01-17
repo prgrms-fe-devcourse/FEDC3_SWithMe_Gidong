@@ -4,14 +4,11 @@ import CommentList from '@/components/domain/CommentList';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import { convertDate } from '@/utils/date';
+import { checkAbleSubmit } from '@/utils/validation';
 import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-
-function checkAbleSubmit(len) {
-  return len !== 0;
-}
+import { Link, useLocation } from 'react-router-dom';
 
 function TIL() {
   const viewerRef = useRef(null);
@@ -29,7 +26,7 @@ function TIL() {
   } = til;
   const writtenTime = convertDate(new Date(createdAt));
 
-  const ableSubmit = useMemo(() => checkAbleSubmit(comment.value.length), [comment.value]);
+  const ableSubmit = useMemo(() => checkAbleSubmit([comment.value.length]), [comment.value]);
 
   const handleSubmitButtonClick = () => {
     if (!ableSubmit) return;
@@ -83,6 +80,8 @@ function TIL() {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     const scrollListener = () => {
       window.addEventListener('scroll', scrollFixed);
     };
@@ -125,9 +124,11 @@ function TIL() {
           {/* TODO: 수정, 삭제 버튼 auth 값과 비교 후 visible 어부 결정, admin 까지 */}
           {/* {author.email === currentUser} */}
           <StyledButtonContainer>
-            <Button as='span' style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}>
-              수정
-            </Button>
+            <Link to={`/updateTIL/${til._id}`} state={{ til }}>
+              <Button as='span' style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}>
+                수정
+              </Button>
+            </Link>
             <Button as='span' style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}>
               삭제
             </Button>
@@ -184,6 +185,7 @@ const StyledPageWrapper = styled.div`
 
 const StyledTIL = styled.div`
   position: relative;
+  flex: 1;
   padding: 8rem;
   margin-top: 8rem;
   background-color: ${COLOR.MY_GROUP_BG};

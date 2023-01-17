@@ -1,8 +1,9 @@
-import { Button, Header, TagInput } from '@/components/base';
+import { Button, Header, SearchBar, TagInput } from '@/components/base';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
+import { checkAbleSubmit } from '@/utils/validation';
 import styled from '@emotion/styled';
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Prism from 'prismjs';
@@ -17,24 +18,20 @@ import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import 'tui-color-picker/dist/tui-color-picker.css';
-import SearchBar from '@/components/base/SearchBar';
 
-function checkAbleSubmit(len1, len2) {
-  return len1 !== 0 && len2 !== 0;
-}
-
-function WriteTIL() {
+function TILEditor() {
   const navigate = useNavigate();
   const {
-    state: { groupName, groupId },
+    state: { til, groupName, groupId },
   } = useLocation();
+  const editMode = til ? '수정' : '삭제';
 
-  const title = useInput('');
-  const tags = useInput([]);
+  const title = useInput(til ? til.title.title : '');
+  const tags = useInput(til ? [...til.title.tagList] : []);
   const editorRef = useRef();
 
   const ableSubmit = useMemo(
-    () => checkAbleSubmit(title.value.length, tags.value.length),
+    () => checkAbleSubmit([title.value.length, tags.value.length]),
     [title.value, tags.value.length],
   );
 
@@ -44,31 +41,56 @@ function WriteTIL() {
 
   const handleSubmitButtonClick = () => {
     if (!ableSubmit) return;
-    // TODO: WRITE TIL API CALL WITH BELOW DATA
 
-    /* 
-      POST /posts/create
-
-      token
-
-      FormData {
-        title: data
-        channelId: groupId
-      }
-    */
-
-    const data = {
-      title: title.value,
-      body: editorRef.current.getInstance().getMarkdown(),
-      tagList: tags.value,
-    };
+    if (til) {
+      // TODO: UPDATE TIL API CALL WITH BELOW DATA
+      /* 
+        PUT /posts/update
+        
+        token
+        
+        FormData: data
+      */
+      // const data = {
+      //   postId: til._id,
+      //   title: JSON.stringify({
+      //     title: title.value,
+      //     body: editorRef.current.getInstance().getMarkdown(),
+      //     tagsList: tags.value,
+      //   }),
+      //   channelId: channel._id,
+      //   image: null,
+      // };
+    } else {
+      // TODO: WRITE TIL API CALL WITH BELOW DATA
+      /* 
+        POST /posts/create
+        
+        token
+        
+        FormData: data
+      */
+      // const data = {
+      //   title: JSON.stringify({
+      //     title: title.value,
+      //     body: editorRef.current.getInstance().getMarkdown(),
+      //     tagList: tags.value,
+      //   }),
+      //   channelId: groupId,
+      //   image: null,
+      // };
+    }
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <StyledPageWrapper>
-      <StyledWriteTIL>
+      <StyledTILEditor>
         <Header level={1} strong size={40} color={COLOR.DARK}>
-          📚 [{groupName}]에 대한 TIL 작성하기
+          📚 [{til ? til.channel.name : groupName}]에 대한 TIL {editMode}하기
         </Header>
         <SearchBar
           placeholder='제목을 입력하세요.'
@@ -81,7 +103,7 @@ function WriteTIL() {
         />
         <div style={{ backgroundColor: `${COLOR.WHITE}` }}>
           <Editor
-            initialValue='여기에서 자유롭게 TIL을 작성하세요!'
+            initialValue={til ? til.title.body : '여기에서 자유롭게 TIL을 작성하세요!'}
             hideModeSwitch={true}
             height='600px'
             useCommandShortcut={false}
@@ -93,6 +115,7 @@ function WriteTIL() {
         <StyledFooterContanier>
           <div style={{ width: '50%' }}>
             <TagInput
+              initialTagList={tags.value}
               onChange={(tagList) => tags.onChange(tagList)}
               wrapperProps={{ style: { width: '100%' } }}
               inputProps={{ style: { backgroundColor: COLOR.MY_GROUP_BG } }}
@@ -114,16 +137,16 @@ function WriteTIL() {
               style={{ fontSize: '2.2rem', padding: '1.3rem 7rem', borderRadius: '1rem', marginLeft: '1rem' }}
               round={+true}
               onClick={handleSubmitButtonClick}>
-              작성
+              {editMode}
             </Button>
           </div>
         </StyledFooterContanier>
-      </StyledWriteTIL>
+      </StyledTILEditor>
     </StyledPageWrapper>
   );
 }
 
-export default WriteTIL;
+export default TILEditor;
 
 const StyledPageWrapper = styled.div`
   display: flex;
@@ -131,10 +154,11 @@ const StyledPageWrapper = styled.div`
   height: 100%;
 `;
 
-const StyledWriteTIL = styled.div`
+const StyledTILEditor = styled.div`
   position: relative;
   flex: 1;
   padding: 8rem;
+  margin-top: 8rem;
   background-color: ${COLOR.MY_GROUP_BG};
 
   & > button:not(:last-child) {
