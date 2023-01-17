@@ -20,11 +20,7 @@ function JoinGroup() {
         </Header>
         <StyledMaster>
           <Image src={icCrown} width={5} alt='' />
-          {master.image ? (
-            <Image src={master.image} width={4} alt='' />
-          ) : (
-            <Image src={imgUserAvatar} width={4} alt='' />
-          )}
+          <Image src={master.image ? master.image : imgUserAvatar} width={4} alt='' />
           <Text strong size={2.4}>
             {master.fullName}
           </Text>
@@ -71,7 +67,7 @@ const StyledHeader = styled.div`
   width: 100%;
   height: 43rem;
   padding-top: 11rem;
-  background: linear-gradient(135deg, #72edf2 0%, #5151e5 100%);
+  background: linear-gradient(135deg, ${COLOR.JOIN_GROUP_GRADIENT_LEFT} 0%, ${COLOR.JOIN_GROUP_GRADIENT_RIGHT} 100%);
   border-radius: 0 0 20rem 3rem;
   color: ${COLOR.WHITE};
 `;
@@ -108,7 +104,7 @@ const StyledBody = styled.div`
   width: 50rem;
   height: 30rem;
 
-  background: #f0f3fb;
+  background-color: ${COLOR.JOIN_GROUP_CONTENT_BG};
   border-radius: 10px;
   color: ${COLOR.DARK};
 `;
@@ -116,8 +112,8 @@ const StyledBody = styled.div`
 const StyledButton = styled.button`
   padding: 1rem;
   border-radius: 0.6rem;
-  background-color: #5b7ce9;
-  color: white;
+  background-color: ${COLOR.JOIN_GROUP_BTN_BG};
+  color: ${COLOR.WHITE};
   font-size: 1.8rem;
 
   &:hover {
