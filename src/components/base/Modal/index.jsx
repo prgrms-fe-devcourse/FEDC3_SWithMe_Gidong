@@ -13,8 +13,16 @@ function Modal({ children, width = 500, height, visible = false, round = true, o
   const modal = useMemo(() => document.createElement('div'), []);
   useEffect(() => {
     document.body.appendChild(modal);
+    document.body.style.cssText = `
+    position: fixed; 
+    top: -${window.scrollY}px;
+    overflow-y: scroll;
+    width: 100%;`;
     return () => {
       document.body.removeChild(modal);
+      const scrollY = document.body.style.top;
+      document.body.style.cssText = '';
+      window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
     };
   }, []);
   return ReactDOM.createPortal(
