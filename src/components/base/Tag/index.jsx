@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 import { forwardRef, useState } from 'react';
 import TagList from './TagList';
 
-const TagInput = forwardRef(({ onChange, wrapperProps, inputProps, ...props }, ref) => {
-  const [tagList, setTagList] = useState(ref?.current || []);
+const TagInput = forwardRef(({ onChange, wrapperProps, inputProps, initialTagList = [], ...props }, ref) => {
+  const [tagList, setTagList] = useState(ref?.current || [...initialTagList]);
 
   const addTagItem = (value) => {
     if (tagList.includes(value) || (ref && ref.current.includes(value))) {

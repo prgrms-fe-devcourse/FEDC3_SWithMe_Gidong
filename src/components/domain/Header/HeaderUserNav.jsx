@@ -3,33 +3,23 @@ import Button from '@/components/base/Button';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import { postUserSignOut } from '@/api/userSign';
-import { getItem } from '@/utils/storage';
+import { useAuthContext } from '@/context/AuthProvider';
 
 const HeaderUserNav = () => {
   const navigate = useNavigate();
-  const [isLogined, setIsLogined] = useState(false);
+  const {
+    authState: { isLoggedIn },
+    onLogout,
+  } = useAuthContext();
 
   const signOut = async () => {
     await postUserSignOut();
-    setIsLogined(false);
+    onLogout();
     navigate('/');
   };
 
-  const refreshUserState = () => {
-    if (getItem('token')) {
-      return setIsLogined(true);
-    }
-
-    return setIsLogined(false);
-  };
-
-  useEffect(() => {
-    refreshUserState();
-  }, [getItem('token')]);
-
-  if (!isLogined) {
+  if (!isLoggedIn) {
     return (
       <StyledHeaderUserNav>
         <Button
@@ -76,7 +66,6 @@ export default HeaderUserNav;
 const StyledHeaderUserNav = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 21.3rem;
-  height: 3.5rem;
-  margin: 2.2rem 5rem 2.2rem 0;
+  align-items: center;
+  margin-right: 2rem;
 `;

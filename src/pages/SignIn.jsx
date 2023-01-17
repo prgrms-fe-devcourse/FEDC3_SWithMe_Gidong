@@ -5,6 +5,7 @@ import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '@/context/AuthProvider';
 
 const ERRORS = {
   EMAIL_EMPTY_ERROR: '이메일을 입력해 주세요',
@@ -20,6 +21,7 @@ const INPUT_NUMBER_LIMIT = {
 
 function SignIn() {
   const navigate = useNavigate();
+  const { onLogin } = useAuthContext();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -42,11 +44,15 @@ function SignIn() {
     };
 
     setIsLoading(true);
-    await postUserSignIn(requestBody);
-
-    alert('로그인');
+    const data = await postUserSignIn(requestBody);
     setIsLoading(false);
 
+    if (data.isFailed) {
+      alert(data.errorMessage);
+      return;
+    }
+    onLogin(data);
+    alert('로그인');
     navigate('/');
   };
 
