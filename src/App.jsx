@@ -1,10 +1,10 @@
+import { createChannel, getChannelList } from '@/api/channel';
 import AuthProvider from '@/context/AuthProvider';
 import GroupProvider from '@/context/GroupProvider';
 import TILProvider from '@/context/TILProvider';
-import Router from '@/Router';
-import GlobalStyle from './styles/globalStyle';
-import { getChannelList, createChannel } from '@/api/channel';
 import { useAsync } from '@/hooks';
+import Router from '@/Router';
+import GlobalStyle from '@/styles/globalStyle';
 import { useCallback } from 'react';
 
 function App() {
