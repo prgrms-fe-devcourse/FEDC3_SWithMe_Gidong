@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { COLOR } from '@/styles/color';
 import { Header, Image, Text, Icon } from '@/components/base';
@@ -21,11 +21,13 @@ function JoinGroup() {
     authState: { isLoggedIn, loggedUser },
   } = useAuthContext();
   const [guideMessage, setGuideMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleJoinClick = () => {
     member.push(loggedUser);
     group.description = JSON.stringify(description);
     joinChannel(group);
+    navigate('/myGroup');
   };
 
   useEffect(() => {
