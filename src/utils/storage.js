@@ -17,3 +17,11 @@ export const setItem = (key, value) => {
     console.error(error);
   }
 };
+
+export const removeItem = (key) => {
+  try {
+    storage.removeItem(key);
+  } catch (error) {
+    console.error(error);
+  }
+};
