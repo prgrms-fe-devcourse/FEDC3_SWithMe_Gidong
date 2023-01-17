@@ -1,13 +1,43 @@
 import { imgMypage, imgUserAvatar } from '@/assets/images';
 import { Button, Text } from '@/components/base';
 import { COLOR } from '@/styles/color';
+import { getItem } from '@/utils/storage';
 import styled from '@emotion/styled';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const TOGGLE_PASSWORD_BLIND_TYPES = {
+  PASSWORD: 'password',
+  TEXT: 'text',
+};
 
 function MyPage() {
+  const navigate = useNavigate();
+
+  if (!getItem('token')) navigate('/');
+
+  const [values, setValues] = useState({
+    image: imgUserAvatar,
+    fullName: '닉네임 표시',
+    email: '이메일 표시',
+    password: '비밀번호 표시',
+  });
+
+  const [passwordInputValue, setPasswordInputValue] = useState('1234');
+  const [passwordInputType, setPasswordInputType] = useState(TOGGLE_PASSWORD_BLIND_TYPES.PASSWORD);
+
+  const togglePasswordBlind = () => {
+    if (passwordInputType === TOGGLE_PASSWORD_BLIND_TYPES.TEXT) {
+      return setPasswordInputType(TOGGLE_PASSWORD_BLIND_TYPES.PASSWORD);
+    }
+
+    return setPasswordInputType(TOGGLE_PASSWORD_BLIND_TYPES.TEXT);
+  };
+
   return (
     <StyledPageWrapper>
       <StyledBanner>
-        <img src={imgUserAvatar} style={{ width: '27.5rem', height: '27.5rem' }} />
+        <img src={values.image} style={{ width: '27.5rem', height: '27.5rem' }} />
         <img
           src={imgMypage}
           style={{
@@ -21,11 +51,18 @@ function MyPage() {
         />
       </StyledBanner>
       <StyledUserInfoContainer>
-        <Text size={3.2}>김이름</Text>
-        <Text size={3.2}>study@with.me</Text>
+        <Text size={3.2}>{values.fullName}</Text>
+        <Text size={3.2}>{values.email}</Text>
         <div style={{ display: 'grid' }}>
-          <Text size={2}>비밀번호 보기</Text>
-          <Text size={2}>************</Text>
+          <Button onClick={togglePasswordBlind}>
+            <Text size={2}>비밀번호 보기</Text>
+          </Button>
+          <input
+            type={passwordInputType}
+            value={passwordInputValue}
+            size={2}
+            onChange={(e) => setPasswordInputValue(e.target.value)}
+          />
         </div>
         <Button>수정</Button>
       </StyledUserInfoContainer>
