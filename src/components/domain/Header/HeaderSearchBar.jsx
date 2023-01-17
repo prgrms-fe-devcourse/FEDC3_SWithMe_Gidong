@@ -1,13 +1,12 @@
 import styled from '@emotion/styled';
 import { COLOR } from '@/styles/color';
 import { icSearchSubmit } from '@/assets/icons';
-import { Divider, Input, Button } from '@/components/base';
+import { Input, Button } from '@/components/base';
 
 const HeaderSearchBar = () => {
   return (
     <StyledHeaderSearchBar>
       <StyledSearchFilterButton>전체</StyledSearchFilterButton>
-      <Divider position='absolute' type={'vertical'} size={0} height={5.5} color={COLOR.HEADER_DIVIDELINE} />
       <Input
         type='text'
         placeholder='스터디 그룹 검색'
@@ -16,7 +15,7 @@ const HeaderSearchBar = () => {
       />
       <Button
         bgcolor={COLOR.HEADER_SEARCHBAR_SUBMIT_BG}
-        style={{ width: '4rem', height: '4rem', padding: '0', margin: '0.8rem 3.1rem 0.7rem 0', borderRadius: '2rem' }}>
+        style={{ width: '3rem', height: '3rem', padding: '0', marginRight: '2rem', borderRadius: '50%' }}>
         <SearchSubmitIcon src={icSearchSubmit} />
       </Button>
     </StyledHeaderSearchBar>
@@ -27,25 +26,33 @@ export default HeaderSearchBar;
 
 const StyledHeaderSearchBar = styled.div`
   display: flex;
+  align-items: center;
+
   width: 52.9rem;
-  height: 5.5rem;
-  margin: 1.3rem 0 1.2rem 0;
-  border-radius: 2rem;
+  height: 5rem;
+  margin: 0 2rem;
+  border-radius: 2.5rem;
   background: ${COLOR.HEADER_SEARCHBAR_BG};
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0 0.4rem 0.4rem rgba(0, 0, 0, 0.1));
+
+  & > button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const SearchSubmitIcon = styled.img`
-  width: 2rem;
-  height: 2rem;
-  margin: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
 `;
 
 const StyledSearchFilterButton = styled.button`
   position: relative;
   display: inline-block;
   width: 7.7rem;
-  height: 5.5rem;
   padding: 0;
   font-size: 1.8rem;
+  border-right: 1px solid ${COLOR.HEADER_DIVIDELINE};
+  color: ${COLOR.DARK} !important;
 `;
