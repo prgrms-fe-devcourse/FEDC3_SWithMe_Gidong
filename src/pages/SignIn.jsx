@@ -45,10 +45,14 @@ function SignIn() {
 
     setIsLoading(true);
     const data = await postUserSignIn(requestBody);
-    onLogin(data);
-    alert('로그인');
     setIsLoading(false);
 
+    if (data.isFailed) {
+      alert(data.errorMessage);
+      return;
+    }
+    onLogin(data);
+    alert('로그인');
     navigate('/');
   };
 

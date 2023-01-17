@@ -15,6 +15,7 @@ export const postUserSignIn = async (data) => {
     return response;
   } catch (error) {
     console.error(error);
+    return { isFailed: true, errorMessage: '아이디 또는 비밀번호를 확인해주세요.' };
   }
 };
 
