@@ -40,13 +40,12 @@ const StyledPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding-top: 8rem;
 `;
 
 const StyledMyGroup = styled.div`
   position: relative;
   flex: 1;
-  padding: 8rem;
+  padding: 10rem;
   background-color: ${COLOR.MY_GROUP_BG};
 `;
 

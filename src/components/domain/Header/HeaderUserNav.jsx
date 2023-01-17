@@ -76,7 +76,6 @@ export default HeaderUserNav;
 const StyledHeaderUserNav = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 21.3rem;
-  height: 3.5rem;
-  margin: 2.2rem 5rem 2.2rem 0;
+  align-items: center;
+  margin-right: 2rem;
 `;

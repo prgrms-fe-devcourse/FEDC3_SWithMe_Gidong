@@ -6,6 +6,7 @@ import { imgSearch } from '@/assets/images';
 import { Empty, Spinner } from '@/components/base';
 import TILList from '@/components/domain/TILList';
 import { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 
 function GroupList() {
   const {
@@ -22,6 +23,9 @@ function GroupList() {
           {groups?.length ? (
             groups.map((group, i) => (
               <Fragment key={group._id}>
+                <Link to='/joinGroup' state={{ group }}>
+                  그룹 가입하기
+                </Link>
                 <GroupItem group={group} isLastGroup={groups.length - 1 === i} />
                 {openedGroupId === group._id && <TILList groupId={group._id} groupName={group.name} />}
               </Fragment>
