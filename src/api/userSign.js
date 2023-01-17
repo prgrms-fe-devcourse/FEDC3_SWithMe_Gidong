@@ -16,7 +16,6 @@ export const postUserSignIn = async (data) => {
   try {
     const response = await axiosInstance.post('/login', data);
     setItem('token', response.token);
-    console.log(getItem('token'));
 
     // const { accessToken } = response.data;
     // axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
@@ -30,9 +29,7 @@ export const postUserSignIn = async (data) => {
 export const postUserSignOut = async () => {
   try {
     const response = await axiosInstance.post('/logout');
-    console.log(response);
     removeItem('token');
-    console.log(getItem('token'));
 
     return response;
   } catch (error) {

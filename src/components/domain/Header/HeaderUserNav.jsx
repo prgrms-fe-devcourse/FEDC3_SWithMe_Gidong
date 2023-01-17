@@ -10,8 +10,6 @@ import { getItem } from '@/utils/storage';
 const HeaderUserNav = () => {
   const navigate = useNavigate();
   const [isLogined, setIsLogined] = useState(false);
-  // setIsLogined -> context를 통해 값을 업데이트 되면 가져오는식으로 해야할것같은데...
-  // 어떻게 하죠 ㅠㅠ 하
 
   const signOut = async () => {
     await postUserSignOut();
@@ -20,8 +18,6 @@ const HeaderUserNav = () => {
   };
 
   const refreshUserState = () => {
-    console.log('useEffect Triggered');
-
     if (getItem('token')) {
       return setIsLogined(true);
     }
