@@ -32,7 +32,7 @@ function JoinGroup() {
         <div>
           <Icon name='user' size={2} style={{ marginRight: '1rem' }} />
           <Text strong size={2.4}>
-            {member.length}/{headCount}
+            {member.length + 1}/{headCount}
           </Text>
         </div>
         <StyledTagList>
