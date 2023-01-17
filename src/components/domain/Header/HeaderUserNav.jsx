@@ -1,5 +1,4 @@
-import { icAlertOn, icMyGroup, icMyInfo } from '@/assets/icons';
-import Button from '@/components/base/Button';
+import { Button, Icon } from '@/components/base';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
@@ -38,18 +37,18 @@ const HeaderUserNav = () => {
         style={{ width: '3.5rem', height: '3.5rem', marginRight: '1rem', padding: '0' }}
         bgcolor={COLOR.HEADER_TRANSPARENT_BG}
         onClick={() => navigate('/myGroup')}>
-        <img src={icMyGroup} />
+        <Icon name='users' />
       </Button>
       <Button
         style={{ width: '3.5rem', height: '3.5rem', marginRight: '1rem', padding: '0' }}
         bgcolor={COLOR.HEADER_TRANSPARENT_BG}>
-        <img src={icAlertOn} />
+        <Icon name='bell' />
       </Button>
       <Button
         style={{ width: '3.5rem', height: '3.5rem', marginRight: '1rem', padding: '0' }}
         bgcolor={COLOR.HEADER_TRANSPARENT_BG}
         onClick={() => navigate('/myPage')}>
-        <img src={icMyInfo} />
+        <Icon name='user' />
       </Button>
       <Button
         style={{ width: '7.7rem', height: '2.1rem', margin: '0.7rem 0', padding: '0', fontSize: '1.8rem' }}
