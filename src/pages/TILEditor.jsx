@@ -1,4 +1,5 @@
 import { Button, Header, SearchBar, TagInput } from '@/components/base';
+import { useTILContext } from '@/context/TILProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import { checkAbleSubmit } from '@/utils/validation';
@@ -20,6 +21,7 @@ import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-sy
 import 'tui-color-picker/dist/tui-color-picker.css';
 
 function TILEditor() {
+  const { onUpdateTIL } = useTILContext();
   const navigate = useNavigate();
   const {
     state: { til, groupName, groupId },
@@ -39,28 +41,26 @@ function TILEditor() {
     navigate(-1);
   };
 
-  const handleSubmitButtonClick = () => {
+  const handleSubmitButtonClick = async () => {
     if (!ableSubmit) return;
 
     if (til) {
-      // TODO: UPDATE TIL API CALL WITH BELOW DATA
-      /* 
-        PUT /posts/update
-        
-        token
-        
-        FormData: data
-      */
-      // const data = {
-      //   postId: til._id,
-      //   title: JSON.stringify({
-      //     title: title.value,
-      //     body: editorRef.current.getInstance().getMarkdown(),
-      //     tagsList: tags.value,
-      //   }),
-      //   channelId: channel._id,
-      //   image: null,
-      // };
+      const formData = new FormData();
+      console.log(tags.value);
+      formData.append(
+        'title',
+        JSON.stringify({
+          title: title.value,
+          body: editorRef.current.getInstance().getMarkdown(),
+          tagList: tags.value,
+        }),
+      );
+      formData.append('postId', til._id);
+      formData.append('channelId', til.channel._id);
+      formData.append('image', null);
+
+      const response = await onUpdateTIL(formData);
+      navigate(`/TIL/${til._id}`, { state: { til: response } });
     } else {
       // TODO: WRITE TIL API CALL WITH BELOW DATA
       /* 
