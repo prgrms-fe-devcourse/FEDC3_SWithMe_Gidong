@@ -1,3 +1,4 @@
+import AuthProvider from '@/context/AuthProvider';
 import GroupProvider from '@/context/GroupProvider';
 import TILProvider from '@/context/TILProvider';
 import Router from './Router';
@@ -11,11 +12,13 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <GroupProvider initialGroups={initialGroups}>
-        <TILProvider>
-          <Router />
-        </TILProvider>
-      </GroupProvider>
+      <AuthProvider>
+        <GroupProvider initialGroups={initialGroups}>
+          <TILProvider>
+            <Router />
+          </TILProvider>
+        </GroupProvider>
+      </AuthProvider>
     </>
   );
 }
