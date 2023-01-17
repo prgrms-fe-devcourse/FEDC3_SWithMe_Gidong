@@ -1,7 +1,7 @@
 import AuthProvider from '@/context/AuthProvider';
 import GroupProvider from '@/context/GroupProvider';
 import TILProvider from '@/context/TILProvider';
-import Router from './Router';
+import Router from '@/Router';
 import GlobalStyle from './styles/globalStyle';
 import { getChannelList } from '@/api/channel';
 import { useAsync } from '@/hooks';
