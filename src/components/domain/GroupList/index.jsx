@@ -5,28 +5,37 @@ import { COLOR } from '@/styles/color';
 import { imgSearch } from '@/assets/images';
 import { Empty, Spinner } from '@/components/base';
 import TILList from '@/components/domain/TILList';
-import { Fragment } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuthContext } from '@/context/AuthProvider';
 
 function GroupList() {
   const {
     groups: { value: groups, isLoading },
     openedGroupId,
   } = useGroupContext();
+  const {
+    authState: { loggedUser },
+  } = useAuthContext();
+  const [myGroupList, setMyGroupList] = useState([]);
+
+  useEffect(() => {
+    setMyGroupList(groups?.filter(({ description }) => description.member.some((el) => el._id === loggedUser._id)));
+  }, [groups]);
 
   return (
     <>
       {isLoading ? (
         <Spinner size={40} color={COLOR.TAG_COLOR[1]} />
       ) : (
-        <StyledGroupList isEmpty={!groups?.length}>
-          {groups?.length ? (
-            groups.map((group, i) => (
+        <StyledGroupList isEmpty={!myGroupList?.length}>
+          {myGroupList?.length ? (
+            myGroupList.map((group, i) => (
               <Fragment key={group._id}>
                 <Link to='/joinGroup' state={{ group }}>
                   그룹 가입하기
                 </Link>
-                <GroupItem group={group} isLastGroup={groups.length - 1 === i} />
+                <GroupItem group={group} isLastGroup={myGroupList.length - 1 === i} />
                 {openedGroupId === group._id && <TILList groupId={group._id} groupName={group.name} />}
               </Fragment>
             ))
