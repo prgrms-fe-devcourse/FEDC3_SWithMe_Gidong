@@ -1,4 +1,4 @@
-import { axiosAdminInstance, axiosInstance } from './core/index';
+import { axiosAdminInstance, axiosInstance } from '@/api/core/index';
 
 export const getChannelList = async () => {
   try {
