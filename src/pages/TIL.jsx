@@ -9,8 +9,8 @@ import { Viewer } from '@toast-ui/react-editor';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-function checkAbleSubmit(len) {
-  return len !== 0;
+function checkAbleSubmit(commentLength) {
+  return commentLength !== 0;
 }
 
 function TIL() {
@@ -83,6 +83,8 @@ function TIL() {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     const scrollListener = () => {
       window.addEventListener('scroll', scrollFixed);
     };
