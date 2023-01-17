@@ -4,6 +4,8 @@ import { COLOR } from '@/styles/color';
 import { Header, Image, Text, Icon } from '@/components/base';
 import { icCrown } from '@/assets/icons';
 import { imgUserAvatar } from '@/assets/images';
+import { useAuthContext } from '@/context/AuthProvider';
+import { joinChannel } from '@/api/channel';
 
 function JoinGroup() {
   const {
@@ -11,6 +13,15 @@ function JoinGroup() {
   } = useLocation();
   const { name, description } = group;
   const { master, tagList, intro, headCount, member } = description;
+  const {
+    authState: { loggedUser },
+  } = useAuthContext();
+
+  const handleJoinClick = () => {
+    member.push(loggedUser);
+    group.description = JSON.stringify(description);
+    joinChannel(group);
+  };
 
   return (
     <StyledJoinGroup>
@@ -44,7 +55,7 @@ function JoinGroup() {
           {intro}
         </Text>
       </StyledBody>
-      <StyledButton>그룹 가입하기</StyledButton>
+      <StyledButton onClick={() => handleJoinClick()}>그룹 가입하기</StyledButton>
     </StyledJoinGroup>
   );
 }
