@@ -1,4 +1,4 @@
-import { createChannel, getChannelList } from '@/api/channel';
+import { createChannel, deleteChannel, getChannelList } from '@/api/channel';
 import AuthProvider from '@/context/AuthProvider';
 import GroupProvider from '@/context/GroupProvider';
 import TILProvider from '@/context/TILProvider';
@@ -12,12 +12,18 @@ function App() {
   const handleCreateGroup = useCallback(async (data) => {
     return await createChannel(data);
   }, []);
+  const handleDeleteGroup = useCallback(async (data) => {
+    return await deleteChannel(data);
+  });
 
   return (
     <>
       <GlobalStyle />
       <AuthProvider>
-        <GroupProvider initialGroups={initialGroups} handleCreateGroup={handleCreateGroup}>
+        <GroupProvider
+          initialGroups={initialGroups}
+          handleCreateGroup={handleCreateGroup}
+          handleDeleteGroup={handleDeleteGroup}>
           <TILProvider>
             <Router />
           </TILProvider>

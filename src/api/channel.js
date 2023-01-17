@@ -1,4 +1,4 @@
-import { axiosInstance, axiosAdminInstance } from './core/index';
+import { axiosAdminInstance, axiosInstance } from '@/api/core/index';
 
 export const getChannelList = async () => {
   try {
@@ -25,6 +25,19 @@ export const createChannel = async (channelInfo) => {
     const createdChannel = { ...response, description: JSON.parse(response.description) };
 
     return createdChannel;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteChannel = async (channelId) => {
+  try {
+    const response = await axiosAdminInstance.delete('channels/delete', {
+      data: channelId,
+    });
+    const deletedChannel = { ...response, description: JSON.parse(response.description) };
+
+    return deletedChannel;
   } catch (error) {
     console.error(error);
   }

@@ -1,4 +1,4 @@
-import { axiosInstance } from './core';
+import { axiosInstance } from '@/api/core';
 
 export const getPostListByChannel = async (channelId, offset, limit) => {
   try {

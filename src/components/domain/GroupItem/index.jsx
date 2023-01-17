@@ -1,11 +1,13 @@
-import { Header, Text, Icon } from '@/components/base';
-import styled from '@emotion/styled';
-import { COLOR } from '@/styles/color';
-import { Divider } from '@/components/base';
-import { css } from '@emotion/react';
+import { Divider, Header, Icon, Text } from '@/components/base';
+import GroupInfoModal from '@/components/domain/GroupInfoModal';
 import { useGroupContext } from '@/context/GroupProvider';
+import { COLOR } from '@/styles/color';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { useState } from 'react';
 
 function GroupItem({ group, isLastGroup }) {
+  const [groupInfoModalVisible, setGroupInfoModalVisible] = useState(false);
   const { openedGroupId, setOpenedGroupId } = useGroupContext();
   const { _id, name, description } = group;
   const { master, tagList, intro } = description;
@@ -16,12 +18,19 @@ function GroupItem({ group, isLastGroup }) {
       <StyledGroupHeader isOpened={isOpened} isLastGroup={isLastGroup}>
         <StyledGroupInfo>
           <StyledGroupTitle>
+            {groupInfoModalVisible && (
+              <GroupInfoModal
+                group={group}
+                visible={groupInfoModalVisible}
+                onClose={() => setGroupInfoModalVisible(false)}
+              />
+            )}
             <Header strong level={3} color={COLOR.DARK}>
               {name}
             </Header>
             {isOpened && (
               <StyledGroupIcons>
-                <Icon name='circle-info' />
+                <Icon name='circle-info' onClick={() => setGroupInfoModalVisible(true)} />
                 <Icon name='gear' />
               </StyledGroupIcons>
             )}
