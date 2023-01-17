@@ -6,6 +6,7 @@ import WriteTIL from '@/pages/WriteTIL';
 import SignIn from '@/pages/SignIn';
 import SignUp from '@/pages/SignUp';
 import TIL from '@/pages/TIL';
+import JoinGroup from '@/pages/JoinGroup';
 
 function Router() {
   return (
@@ -14,6 +15,7 @@ function Router() {
       <Routes>
         <Route path='/signIn' element={<SignIn />} />
         <Route path='/signUp' element={<SignUp />} />
+        <Route path='/joinGroup' element={<JoinGroup />} />
         <Route path='/myGroup' element={<MyGroup />} />
         <Route path='/writeTIL' element={<WriteTIL />} />
         <Route path='/TIL/:id' element={<TIL />} />
