@@ -1,11 +1,18 @@
 import { Button, Icon, Modal, SearchBar, Tag, Text } from '@/components/base';
 import { Introduction, Member, MemberList } from '@/components/domain/groupInfo';
+import { useAuthContext } from '@/context/AuthProvider';
+import { useGroupContext } from '@/context/GroupProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 
 function GroupInfoModal({ group, visible, onClose, ...props }) {
-  const { name, description } = group;
+  const {
+    authState: { loggedUser },
+  } = useAuthContext();
+  const { onDeleteGroup } = useGroupContext();
+
+  const { name, description, _id } = group;
   const { master, tagList, intro, member } = description;
   const { value, onChange } = useInput('');
 
@@ -20,9 +27,13 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
     onClose && onClose();
   };
 
-  const handleDeleteGroup = () => {
+  const handleDeleteGroup = async () => {
     if (confirm('정말 삭제하시겠습니까? 한번 삭제하면 되돌릴 수 없습니다.')) {
-      // TODO: DELETE GROUP API CALL
+      const data = {
+        id: _id,
+      };
+
+      await onDeleteGroup(data);
       onClose && onClose();
     }
   };
@@ -72,16 +83,18 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
               );
             })}
         </MemberList>
-        <StyledButtonWrapper>
-          <Button
-            as='button'
-            bgcolor='transpaent'
-            color={COLOR.GRAY2}
-            style={{ padding: 0, textDecoration: 'underline' }}
-            onClick={handleDeleteGroup}>
-            그룹 삭제하기
-          </Button>
-        </StyledButtonWrapper>
+        {loggedUser._id === master._id && (
+          <StyledButtonWrapper>
+            <Button
+              as='button'
+              bgcolor='transpaent'
+              color={COLOR.GRAY2}
+              style={{ padding: 0, textDecoration: 'underline' }}
+              onClick={handleDeleteGroup}>
+              그룹 삭제하기
+            </Button>
+          </StyledButtonWrapper>
+        )}
       </StyledContentContainer>
     </Modal>
   );

@@ -1,5 +1,5 @@
-import { useReducer, useEffect, createContext, useContext, useState, useCallback } from 'react';
-import { setItem, getItem } from '@/utils/storage';
+import { getItem, setItem } from '@/utils/storage';
+import { createContext, useCallback, useContext, useEffect, useReducer, useState } from 'react';
 
 const GroupContext = createContext();
 export const useGroupContext = () => useContext(GroupContext);
@@ -17,8 +17,7 @@ const reducer = (state, action) => {
       break;
     }
     case 'DELETE_GROUP': {
-      // pass
-      break;
+      return { value: state.value.filter((item) => item._id !== action.payload._id), ...state.isLoading };
     }
     default: {
       console.error('Wrong type');
@@ -27,7 +26,7 @@ const reducer = (state, action) => {
   }
 };
 
-const GroupProvider = ({ children, initialGroups, handleCreateGroup }) => {
+const GroupProvider = ({ children, initialGroups, handleCreateGroup, handleDeleteGroup }) => {
   const [groups, dispatch] = useReducer(reducer, initialGroups);
   const [openedGroupId, setOpenedGroupId] = useState(getItem('openedGroupId'));
 
@@ -47,8 +46,16 @@ const GroupProvider = ({ children, initialGroups, handleCreateGroup }) => {
     [handleCreateGroup],
   );
 
+  const onDeleteGroup = useCallback(
+    async (data) => {
+      const payload = await handleDeleteGroup(data);
+      dispatch({ type: 'DELETE_GROUP', payload });
+    },
+    [handleDeleteGroup],
+  );
+
   return (
-    <GroupContext.Provider value={{ groups, openedGroupId, setOpenedGroupId, onCreateGroup }}>
+    <GroupContext.Provider value={{ groups, openedGroupId, setOpenedGroupId, onCreateGroup, onDeleteGroup }}>
       {children}
     </GroupContext.Provider>
   );
