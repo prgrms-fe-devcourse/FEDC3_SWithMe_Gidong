@@ -1,7 +1,8 @@
-import { imgMypage, imgUserAvatar } from '@/assets/images';
-import { Button, Text } from '@/components/base';
+import { postUserAvatar, putUserFullName, putUserPassword } from '@/api/userInfo';
+import { imgMypage } from '@/assets/images';
+import { Button } from '@/components/base';
+import { useAuthContext } from '@/context/AuthProvider';
 import { COLOR } from '@/styles/color';
-import { getItem } from '@/utils/storage';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -13,24 +14,28 @@ const TOGGLE_PASSWORD_BLIND_TYPES = {
 
 function MyPage() {
   const navigate = useNavigate();
+  const {
+    authState: { isLoggedIn, loggedUser },
+  } = useAuthContext();
 
-  if (!getItem('token')) navigate('/');
+  if (!isLoggedIn) navigate('/');
 
   const [values, setValues] = useState({
-    image: imgUserAvatar,
-    fullName: '스윗미',
-    email: 'study@with.me',
-    password: 'password',
+    image: '',
+    fullName: '',
+    email: '',
+    password: '',
   });
 
   const [passwordInputType, setPasswordInputType] = useState(TOGGLE_PASSWORD_BLIND_TYPES.PASSWORD);
 
-  // 처음 렌더링시 사용자 데이터 불러오기
   useEffect(() => {
-    /**
-     * 특정 사용자 정보 불러오기
-     * GET /users/{userId}
-     */
+    setValues({
+      ...values,
+      image: loggedUser.image,
+      fullName: loggedUser.fullName,
+      email: loggedUser.email,
+    });
   }, []);
 
   const encodeFileToBase64 = (fileBlob) => {
@@ -54,27 +59,44 @@ function MyPage() {
     return setPasswordInputType(TOGGLE_PASSWORD_BLIND_TYPES.TEXT);
   };
 
-  const onClickEdit = () => {
-    if (!confirm('수정하시겠습니까?')) return;
-    alert('수정되었습니다!');
-    /**
-     * API
-     * 이미지 변경
-     * POST /users/upload-photo
-     * Authorization: bearer JWT토큰
-     * isCover: false
-     * image: Binary
-     *
-     * 이름 변경
-     * PUT /settings/update-user
-     * Authorization: bearer JWT토큰
-     *
-     * 비밀번호 변경
-     * PUT /settings/update-password
-     * Authorization: bearer JWT토큰
-     * "password": String
-     */
-    return;
+  const onClickEditAvatar = async (image) => {
+    const formData = new FormData();
+    formData.append('isCover', false);
+    formData.append('image', image);
+    encodeFileToBase64(image);
+
+    if (await postUserAvatar(formData)) return alert('반영되었습니다.');
+
+    return alert('error confirmed');
+  };
+
+  const onClickEditFullName = async () => {
+    if (!values.fullName) return;
+    if (!confirm('정말로 닉네임을 바꾸시겠습니까?')) return;
+
+    const data = {
+      fullName: values.fullName,
+      username: values.fullName,
+    };
+
+    if (await putUserFullName(data)) return alert('반영되었습니다.');
+
+    return alert('error confirmed');
+  };
+
+  const onClickEditPassword = async () => {
+    if (!values.password) return;
+    if (values.password.length < 2) return;
+    if (values.password.length > 20) return;
+    if (!confirm('정말로 비밀번호를 바꾸시겠습니까?')) return;
+
+    const data = {
+      password: values.password,
+    };
+
+    if (await putUserPassword(data)) return alert('반영되었습니다.');
+
+    return alert('error confirmed');
   };
 
   return (
@@ -93,6 +115,7 @@ function MyPage() {
               style={{
                 width: '100%',
                 height: '100%',
+                borderRadius: '50%',
               }}
             />
           </label>
@@ -101,7 +124,7 @@ function MyPage() {
             type='file'
             accept='image/*'
             style={{ position: 'absolute', width: '0.1rem', height: '0.1rem' }}
-            onChange={(e) => encodeFileToBase64(e.target.files[0])}
+            onChange={(e) => onClickEditAvatar(e.target.files[0])}
           />
         </div>
         <img
@@ -117,48 +140,61 @@ function MyPage() {
         />
       </StyledBanner>
       <StyledUserInfoContainer>
-        <input
-          type='text'
-          defaultValue={values.fullName}
-          onChange={(e) => setValues({ ...values, fullName: e.target.value })}
-          style={{
-            fontSize: '3.2rem',
-            textAlign: 'center',
-          }}
-        />
-        <Text size={3.2}>{values.email}</Text>
-        <div style={{ display: 'grid' }}>
+        <StyledUserInfoWrapper>
+          <StyledUserInfoInput
+            type='text'
+            placeholder='닉네임 수정'
+            value={values.fullName}
+            onChange={(e) => setValues({ ...values, fullName: e.target.value })}
+          />
+          <Button
+            onClick={onClickEditFullName}
+            style={{
+              width: '12.0rem',
+              height: '4rem',
+              borderRadius: '0.5rem',
+              fontSize: '1.8rem',
+              color: COLOR.WHITE,
+              backgroundColor: COLOR.MYPAGE_SUBMIT_BUTTON_BG,
+            }}>
+            수정하기
+          </Button>
+        </StyledUserInfoWrapper>
+        <StyledUserInfoInput type='text' value={values.email} readOnly style={{ width: '72rem' }} />
+        <StyledUserInfoWrapper>
+          <StyledUserInfoInput
+            type={passwordInputType}
+            placeholder='비밀번호 수정'
+            minLength='2'
+            maxLength='20'
+            onChange={(e) => setValues({ ...values, password: e.target.value })}
+            style={{ fontSize: '2rem' }}
+          />
           <Button
             onClick={togglePasswordBlind}
             style={{
-              backgroundColor: 'transparent',
+              width: '12.0rem',
+              height: '4rem',
+              borderRadius: '0.5rem',
+              fontSize: '1.5rem',
+              color: COLOR.WHITE,
+              backgroundColor: COLOR.MYPAGE_SUBMIT_BUTTON_BG,
             }}>
-            <Text size={2} underline>
-              비밀번호 보기
-            </Text>
+            비밀번호 보기
           </Button>
-          <input
-            type={passwordInputType}
-            placeholder={'password'}
-            onChange={(e) => setValues({ ...values, password: e.target.value })}
+          <Button
+            onClick={onClickEditPassword}
             style={{
-              fontSize: '2rem',
-              textAlign: 'center',
-            }}
-          />
-        </div>
-        <Button
-          onClick={onClickEdit}
-          style={{
-            width: '8.1rem',
-            height: '3.7rem',
-            borderRadius: '0.5rem',
-            fontSize: '2.4rem',
-            color: COLOR.WHITE,
-            backgroundColor: COLOR.MYPAGE_SUBMIT_BUTTON_BG,
-          }}>
-          수정
-        </Button>
+              width: '12.0rem',
+              height: '4rem',
+              borderRadius: '0.5rem',
+              fontSize: '1.8rem',
+              color: COLOR.WHITE,
+              backgroundColor: COLOR.MYPAGE_SUBMIT_BUTTON_BG,
+            }}>
+            수정하기
+          </Button>
+        </StyledUserInfoWrapper>
       </StyledUserInfoContainer>
     </StyledPageWrapper>
   );
@@ -167,7 +203,7 @@ function MyPage() {
 export default MyPage;
 
 const StyledPageWrapper = styled.div`
-  position: relative
+  position: relative;
   width: 100%;
   height: 100%;
 `;
@@ -192,4 +228,19 @@ const StyledUserInfoContainer = styled.div`
   text-align: center;
   margin-top: 5rem;
   width: 100%;
+`;
+
+const StyledUserInfoWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 72rem;
+  height: 5rem;
+  padding: 0;
+`;
+
+const StyledUserInfoInput = styled.input`
+  width: 40rem;
+  height: 4rem;
+  font-size: 3.2rem;
 `;
