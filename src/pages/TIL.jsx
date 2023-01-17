@@ -37,8 +37,10 @@ function TIL() {
       id: til._id,
     };
 
-    await onDeleteTIL(data);
-    navigate('/myGroup');
+    if (confirm('정말 삭제하시겠습니까? 한번 삭제하면 되돌릴 수 없습니다.')) {
+      await onDeleteTIL(data);
+      navigate('/myGroup');
+    }
   };
 
   const handleSubmitButtonClick = () => {
