@@ -11,8 +11,7 @@ const reducer = (state, action) => {
       return action.payload;
     }
     case 'ADD_TIL': {
-      // pass
-      break;
+      return [...state, action.payload];
     }
     case 'UPDATE_TIL': {
       // pass
@@ -29,7 +28,7 @@ const reducer = (state, action) => {
   }
 };
 
-const TILProvider = ({ children }) => {
+const TILProvider = ({ children, handleCreateTIL }) => {
   const [tils, dispatch] = useReducer(reducer, []);
 
   const onShowTILByGroup = useCallback(async (channelId, offset, limit) => {
@@ -37,7 +36,15 @@ const TILProvider = ({ children }) => {
     dispatch({ type: 'SHOW_TILS', payload });
   }, []);
 
-  return <TILContext.Provider value={{ tils, onShowTILByGroup }}>{children}</TILContext.Provider>;
+  const onCreateTIL = useCallback(
+    async (formData) => {
+      const payload = await handleCreateTIL(formData);
+      dispatch({ type: 'ADD_TIL', payload });
+    },
+    [handleCreateTIL],
+  );
+
+  return <TILContext.Provider value={{ tils, onShowTILByGroup, onCreateTIL }}>{children}</TILContext.Provider>;
 };
 
 export default TILProvider;

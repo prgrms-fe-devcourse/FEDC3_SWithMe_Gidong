@@ -10,3 +10,13 @@ export const getPostListByChannel = async (channelId, offset, limit) => {
     console.error(error);
   }
 };
+
+export const createTIL = async (formData) => {
+  try {
+    const response = await axiosInstance.post('/posts/create', formData);
+
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};

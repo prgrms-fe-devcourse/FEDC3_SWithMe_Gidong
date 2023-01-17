@@ -1,4 +1,5 @@
 import { createChannel, deleteChannel, getChannelList } from '@/api/channel';
+import { createTIL } from '@/api/post';
 import AuthProvider from '@/context/AuthProvider';
 import GroupProvider from '@/context/GroupProvider';
 import TILProvider from '@/context/TILProvider';
@@ -16,6 +17,10 @@ function App() {
     return await deleteChannel(data);
   });
 
+  const handleCreateTIL = useCallback(async (formData) => {
+    return await createTIL(formData);
+  });
+
   return (
     <>
       <GlobalStyle />
@@ -24,7 +29,8 @@ function App() {
           initialGroups={initialGroups}
           handleCreateGroup={handleCreateGroup}
           handleDeleteGroup={handleDeleteGroup}>
-          <TILProvider>
+          <TILProvider handleCreateTIL={handleCreateTIL}>
+            {/* <TILProvider> */}
             <Router />
           </TILProvider>
         </GroupProvider>
