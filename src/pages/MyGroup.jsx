@@ -20,7 +20,9 @@ function MyGroup() {
             <i className='fa-solid fa-circle-plus'></i>
             그룹 만들기
           </button>
-          <CreateGroupModal visible={createGroupModalVisible} onClose={() => setCreateGroupModalVisible(false)} />
+          {createGroupModalVisible && (
+            <CreateGroupModal visible={createGroupModalVisible} onClose={() => setCreateGroupModalVisible(false)} />
+          )}
         </StyledHeader>
         <StyledDesc>
           <div>
