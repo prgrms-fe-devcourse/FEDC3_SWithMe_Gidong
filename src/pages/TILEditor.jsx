@@ -1,6 +1,7 @@
 import { Button, Header, SearchBar, TagInput } from '@/components/base';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
+import { checkAbleSubmit } from '@/utils/validation';
 import styled from '@emotion/styled';
 import { useEffect, useMemo, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -18,28 +19,19 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import 'tui-color-picker/dist/tui-color-picker.css';
 
-function checkAbleSubmit(titleLength, tagLength) {
-  return titleLength !== 0 && tagLength !== 0;
-}
-
 function TILEditor() {
   const navigate = useNavigate();
-  console.log(useLocation());
   const {
     state: { til, groupName, groupId },
   } = useLocation();
   const editMode = til ? '수정' : '삭제';
-  // const {
-  //   channel,
-  //   title: { title: initialTitle, body, tagList },
-  // } = til;
 
   const title = useInput(til ? til.title.title : '');
   const tags = useInput(til ? [...til.title.tagList] : []);
   const editorRef = useRef();
 
   const ableSubmit = useMemo(
-    () => checkAbleSubmit(title.value.length, tags.value.length),
+    () => checkAbleSubmit([title.value.length, tags.value.length]),
     [title.value, tags.value.length],
   );
 
