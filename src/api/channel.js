@@ -1,4 +1,4 @@
-import { axiosInstance } from './core/index';
+import { axiosInstance, axiosAdminInstance } from './core/index';
 
 export const getChannelList = async () => {
   try {
@@ -14,6 +14,17 @@ export const getChannel = async (channelName) => {
   try {
     const data = await axiosInstance.get(`/channels/${channelName}`);
     return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const createChannel = async (channelInfo) => {
+  try {
+    const response = await axiosAdminInstance.post('channels/create', channelInfo);
+    const createdChannel = { ...response, description: JSON.parse(response.description) };
+
+    return createdChannel;
   } catch (error) {
     console.error(error);
   }

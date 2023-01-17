@@ -1,4 +1,6 @@
-import { Button, Input, Modal, TagInput, Text, Textarea, Icon } from '@/components/base';
+import { Button, Icon, Input, Modal, TagInput, Text, Textarea } from '@/components/base';
+import { useAuthContext } from '@/context/AuthProvider';
+import { useGroupContext } from '@/context/GroupProvider';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
@@ -17,6 +19,11 @@ const STEPS = {
 };
 
 function CreateGroupModal({ visible, onClose, ...props }) {
+  const {
+    authState: { loggedUser },
+  } = useAuthContext();
+  const { onCreateGroup } = useGroupContext();
+
   const [step, setStep] = useState(1);
   const groupNameInputRef = useRef('');
   const groupMemberCountInputRef = useRef(0);
@@ -55,24 +62,25 @@ function CreateGroupModal({ visible, onClose, ...props }) {
     }
   };
 
-  const handleNextButtonClick = () => {
+  const handleNextButtonClick = async () => {
     if (!checkNextButtonClickAble()) {
       alert(STEPS[step].ERROR_MESSAGE);
       return;
     }
-    if (step === MAX_STEP_SIZE) {
-      // TODO: API CALL WITH BELOW DATA
 
-      // const data = {
-      //   name: groupNameInputRef.current,
-      //   description: JSON.stringify({
-      //     // master: User,
-      //     headCount: groupMemberCountInputRef.current,
-      //     tagList: groupTagInputRef.current,
-      //     intro: groupMemberCountInputRef.current,
-      //     // member: [User]
-      //   }),
-      // };
+    if (step === MAX_STEP_SIZE) {
+      const data = {
+        name: groupNameInputRef.current,
+        description: JSON.stringify({
+          master: loggedUser,
+          headCount: groupMemberCountInputRef.current,
+          tagList: groupTagInputRef.current,
+          intro: groupIntroductionInputRef.current,
+          member: [],
+        }),
+      };
+
+      await onCreateGroup(data);
       handleModalClose();
     } else {
       setStep(step + 1);

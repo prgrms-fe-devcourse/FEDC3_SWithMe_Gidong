@@ -1,4 +1,4 @@
-import { useReducer, useEffect, createContext, useContext, useState } from 'react';
+import { useReducer, useEffect, createContext, useContext, useState, useCallback } from 'react';
 import { setItem, getItem } from '@/utils/storage';
 
 const GroupContext = createContext();
@@ -9,9 +9,8 @@ const reducer = (state, action) => {
     case 'INIT_GROUPS': {
       return action.payload;
     }
-    case 'ADD_GROUP': {
-      // pass
-      break;
+    case 'CREATE_GROUP': {
+      return { value: [...state.value, action.payload], ...state.isLoading };
     }
     case 'UPDATE_GROUP': {
       // pass
@@ -28,7 +27,7 @@ const reducer = (state, action) => {
   }
 };
 
-const GroupProvider = ({ children, initialGroups }) => {
+const GroupProvider = ({ children, initialGroups, handleCreateGroup }) => {
   const [groups, dispatch] = useReducer(reducer, initialGroups);
   const [openedGroupId, setOpenedGroupId] = useState(getItem('openedGroupId'));
 
@@ -40,7 +39,19 @@ const GroupProvider = ({ children, initialGroups }) => {
     setItem('openedGroupId', openedGroupId);
   }, [openedGroupId]);
 
-  return <GroupContext.Provider value={{ groups, openedGroupId, setOpenedGroupId }}>{children}</GroupContext.Provider>;
+  const onCreateGroup = useCallback(
+    async (data) => {
+      const payload = await handleCreateGroup(data);
+      dispatch({ type: 'CREATE_GROUP', payload });
+    },
+    [handleCreateGroup],
+  );
+
+  return (
+    <GroupContext.Provider value={{ groups, openedGroupId, setOpenedGroupId, onCreateGroup }}>
+      {children}
+    </GroupContext.Provider>
+  );
 };
 
 export default GroupProvider;
