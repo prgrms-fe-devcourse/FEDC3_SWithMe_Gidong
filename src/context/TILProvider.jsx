@@ -1,6 +1,5 @@
-import { useReducer, createContext, useContext } from 'react';
-import { useCallback } from 'react';
-import { getPostListByChannel } from '@/api/post';
+import { createTIL, getPostListByChannel } from '@/api/post';
+import { createContext, useCallback, useContext, useReducer } from 'react';
 
 const TILContext = createContext();
 export const useTILContext = () => useContext(TILContext);
@@ -28,7 +27,7 @@ const reducer = (state, action) => {
   }
 };
 
-const TILProvider = ({ children, handleCreateTIL }) => {
+const TILProvider = ({ children }) => {
   const [tils, dispatch] = useReducer(reducer, []);
 
   const onShowTILByGroup = useCallback(async (channelId, offset, limit) => {
@@ -36,13 +35,10 @@ const TILProvider = ({ children, handleCreateTIL }) => {
     dispatch({ type: 'SHOW_TILS', payload });
   }, []);
 
-  const onCreateTIL = useCallback(
-    async (formData) => {
-      const payload = await handleCreateTIL(formData);
-      dispatch({ type: 'ADD_TIL', payload });
-    },
-    [handleCreateTIL],
-  );
+  const onCreateTIL = useCallback(async (formData) => {
+    const payload = await createTIL(formData);
+    dispatch({ type: 'ADD_TIL', payload });
+  }, []);
 
   return <TILContext.Provider value={{ tils, onShowTILByGroup, onCreateTIL }}>{children}</TILContext.Provider>;
 };
