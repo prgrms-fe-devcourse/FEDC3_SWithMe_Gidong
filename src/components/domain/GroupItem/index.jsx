@@ -4,12 +4,16 @@ import { COLOR } from '@/styles/color';
 import { Divider } from '@/components/base';
 import { css } from '@emotion/react';
 import { useGroupContext } from '@/context/GroupProvider';
+import { useAuthContext } from '@/context/AuthProvider';
 
 function GroupItem({ group, isLastGroup }) {
   const { openedGroupId, setOpenedGroupId } = useGroupContext();
   const { _id, name, description } = group;
   const { master, tagList, intro } = description;
   const isOpened = openedGroupId === _id;
+  const {
+    authState: { loggedUser },
+  } = useAuthContext();
 
   return (
     <StyledGroupItem>
@@ -22,7 +26,7 @@ function GroupItem({ group, isLastGroup }) {
             {isOpened && (
               <StyledGroupIcons>
                 <Icon name='circle-info' />
-                <Icon name='gear' />
+                {master._id === loggedUser._id && <Icon name='gear' />}
               </StyledGroupIcons>
             )}
           </StyledGroupTitle>
