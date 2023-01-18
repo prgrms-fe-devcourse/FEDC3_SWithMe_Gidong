@@ -14,10 +14,11 @@ function Modal({ children, width = 500, height, visible = false, round = true, o
   useEffect(() => {
     document.body.appendChild(modal);
     document.body.style.cssText = `
-    position: fixed; 
-    top: -${window.scrollY}px;
-    overflow-y: scroll;
-    width: 100%;`;
+      position: fixed; 
+      top: -${window.scrollY}px;
+      overflow-y: scroll;
+      width: 100%;
+    `;
     return () => {
       document.body.removeChild(modal);
       const scrollY = document.body.style.top;

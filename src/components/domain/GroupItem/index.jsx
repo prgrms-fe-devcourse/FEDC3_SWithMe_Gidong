@@ -1,8 +1,9 @@
 import { Divider, Header, Icon, Text } from '@/components/base';
 import GroupInfoModal from '@/components/domain/GroupInfoModal';
-import { useGroupContext } from '@/context/GroupProvider';
 import { COLOR } from '@/styles/color';
 import { css } from '@emotion/react';
+import { useGroupContext } from '@/context/GroupProvider';
+import { useAuthContext } from '@/context/AuthProvider';
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
@@ -11,7 +12,11 @@ function GroupItem({ group, isLastGroup }) {
   const { openedGroupId, setOpenedGroupId } = useGroupContext();
   const { _id, name, description } = group;
   const { master, tagList, intro } = description;
+  const {
+    authState: { loggedUser },
+  } = useAuthContext();
   const isOpened = openedGroupId === _id;
+  const isMaster = master._id === loggedUser._id;
 
   return (
     <StyledGroupItem>
@@ -31,7 +36,7 @@ function GroupItem({ group, isLastGroup }) {
             {isOpened && (
               <StyledGroupIcons>
                 <Icon name='circle-info' onClick={() => setGroupInfoModalVisible(true)} />
-                <Icon name='gear' />
+                {isMaster && <Icon name='gear' />}
               </StyledGroupIcons>
             )}
           </StyledGroupTitle>
