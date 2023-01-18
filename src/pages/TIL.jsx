@@ -2,6 +2,7 @@ import { imgDefaultAvatar } from '@/assets/images';
 import { Avatar, Button, Divider, Header, Icon, Tag, Text, Textarea } from '@/components/base';
 import CommentList from '@/components/domain/CommentList';
 import { useAuthContext } from '@/context/AuthProvider';
+import { useCommentContext } from '@/context/CommentProvider';
 import { useTILContext } from '@/context/TILProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
@@ -10,29 +11,54 @@ import { checkAbleSubmit } from '@/utils/validation';
 import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useLikeContext } from '../context/LikeProvider';
 
 function TIL() {
   const {
     authState: { loggedUser },
   } = useAuthContext();
   const navigate = useNavigate();
-  const { onDeleteTIL } = useTILContext();
+  const { onDeleteTIL, onGetTIL } = useTILContext();
+  const { comments, onInitComment, onCreateComment } = useCommentContext();
+  const { likes, onInitLike, onCreateLike, onDeleteLike } = useLikeContext();
 
   const viewerRef = useRef(null);
   const comment = useInput('');
+  const likeButtonRef = useRef(null);
 
-  const {
-    state: { til },
-  } = useLocation();
-  const {
-    author,
-    comments,
-    likes,
-    createdAt,
-    title: { title, body, tagList },
-  } = til;
-  const writtenTime = convertDate(new Date(createdAt));
+  const { id } = useParams();
+  const [til, setTil] = useState();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    const getTIL = async () => {
+      const response = await onGetTIL(id);
+      setTil(response);
+    };
+
+    if (id) {
+      getTIL();
+    }
+  }, [id]);
+
+  useEffect(() => {
+    const initComment = async () => {
+      await onInitComment(til.comments);
+    };
+
+    const initLike = async () => {
+      await onInitLike(til.likes);
+    };
+
+    if (til) {
+      initComment();
+      initLike();
+    }
+  }, [til]);
 
   const ableSubmit = useMemo(() => checkAbleSubmit([comment.value.length]), [comment.value]);
 
@@ -47,145 +73,111 @@ function TIL() {
     navigate('/myGroup');
   };
 
-  const handleSubmitButtonClick = () => {
+  const handleSubmitButtonClick = async () => {
     if (!ableSubmit) return;
-
-    // TODO: COMMENT WRITE API CALL WITH BELOW DATA
-
-    /* 
-      POST /comments/create
-
-      token
-
-      comment: string,
-      postId: til._id
-    */
 
     const data = {
       comment: comment.value,
       postId: til._id,
     };
+
+    await onCreateComment(data);
+    comment.onChange('');
   };
 
-  const handleLikeButtonClick = () => {
-    // TODO: LIKE API CALL WITH BELOW DATA
+  const toggleLikeButtonClick = async () => {
+    const loggedUserLike = likes.filter((like) => like.user === loggedUser._id);
 
-    /* 
-      POST /likes/create
+    if (loggedUserLike.length === 0) {
+      const data = {
+        comment: comment.value,
+        postId: til._id,
+      };
+      await onCreateLike(data);
+    } else {
+      const data = {
+        id: loggedUserLike[0]._id,
+      };
 
-      token
-
-      comment: string,
-      postId: til._id
-
-
-      DELETE /likes/delete
-
-      token
-
-      postId: til._id
-    */
-
-    const data = {
-      postId: til._id,
-    };
+      await onDeleteLike(data);
+    }
   };
-
-  const likeButtonRef = useRef(null);
-  const [scrollY, setScrollY] = useState(0);
-
-  const scrollFixed = () => {
-    setScrollY(window.pageYOffset);
-  };
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-
-    const scrollListener = () => {
-      window.addEventListener('scroll', scrollFixed);
-    };
-    scrollListener();
-    return () => {
-      window.removeEventListener('scroll', scrollFixed);
-    };
-  }, []);
-
-  useEffect(() => {
-    const adjustedY = (scrollY / (document.body.scrollHeight - window.innerHeight)) * window.innerHeight * 0.75;
-    likeButtonRef.current.style = `top: calc(${adjustedY}px + 10rem)`;
-  }, [scrollY]);
 
   return (
     <StyledPageWrapper>
       <StyledTIL className='til'>
-        <StyledLikeButton ref={likeButtonRef} onClick={handleLikeButtonClick}>
-          {/* TODO: 공감 버튼 누른 여부에 따라 fill 여부 결정 */}
-          {/* {likes.length && likes.filter((like) => like.user === currentUser._id)} */}
-          {/* <Icon name='heart' size={3} /> */}
-          <Icon type='regular' name='heart' size={3} />
-          <Text size={1.2}>{likes.length}</Text>
-        </StyledLikeButton>
-        <Header level={1} strong size={40} color={COLOR.DARK}>
-          📚 [{til.channel.name}]에 대한 TIL
-        </Header>
-        <StyledTitleWrapper>
-          <Text size={3.2} weight={500}>
-            {title}
-          </Text>
-        </StyledTitleWrapper>
-        <FlexContainer>
-          <StyledWriterInfoContainer>
-            <Avatar src={author.image || imgDefaultAvatar} size={3} />
-            <Text size={2} color={COLOR.DARK}>
-              {author.fullName}
+        {til && (
+          <>
+            <StyledLikeButton ref={likeButtonRef} onClick={toggleLikeButtonClick}>
+              {likes.length && likes.filter((like) => like.user === loggedUser._id).length ? (
+                <Icon name='heart' size={3} />
+              ) : (
+                <Icon type='regular' name='heart' size={3} />
+              )}
+              <Text size={1.2}>{likes.length}</Text>
+            </StyledLikeButton>
+            <Header level={1} strong size={40} color={COLOR.DARK}>
+              📚 [{til.channel.name}]에 대한 TIL
+            </Header>
+            <StyledTitleWrapper>
+              <Text size={3.2} weight={500}>
+                {til.title.title}
+              </Text>
+            </StyledTitleWrapper>
+            <FlexContainer>
+              <StyledWriterInfoContainer>
+                <Avatar src={til.author.image || imgDefaultAvatar} size={3} />
+                <Text size={2} color={COLOR.DARK}>
+                  {til.author.fullName}
+                </Text>
+              </StyledWriterInfoContainer>
+              {til.author._id === loggedUser._id && (
+                <StyledButtonContainer>
+                  <Link to={`/updateTIL/${til._id}`} state={{ til }}>
+                    <Button as='span' style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}>
+                      수정
+                    </Button>
+                  </Link>
+                  <Button
+                    as='span'
+                    style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}
+                    onClick={handleDeleteButtonClick}>
+                    삭제
+                  </Button>
+                </StyledButtonContainer>
+              )}
+            </FlexContainer>
+            <Text size={1.4} color={COLOR.DARK}>
+              {convertDate(new Date(til.createdAt))}
             </Text>
-          </StyledWriterInfoContainer>
-          {author._id === loggedUser._id && (
-            <StyledButtonContainer>
-              <Link to={`/updateTIL/${til._id}`} state={{ til }}>
-                <Button as='span' style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}>
-                  수정
-                </Button>
-              </Link>
+            <StyledViewerWrapper>{<Viewer ref={viewerRef} initialValue={til.title.body || ''} />}</StyledViewerWrapper>
+            <Tag tagList={til.title.tagList} />
+            <Divider color={COLOR.GRAY} height={0.05} size={4} />
+            <Textarea
+              defaultValue={comment.value}
+              placeholder='댓글을 입력하세요.'
+              max={300}
+              wrapperProps={{ style: { width: '100%' } }}
+              style={{ fontSize: '1.2rem', height: '16rem' }}
+              handleParentChange={comment.onChange}
+            />
+            <StyledButtonContainer isEnd={true}>
               <Button
-                as='span'
-                style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}
-                onClick={handleDeleteButtonClick}>
-                삭제
+                as='button'
+                disabled={!ableSubmit}
+                bgcolor={!ableSubmit ? COLOR.GRAY : COLOR.PRIMARY_BTN}
+                color={!ableSubmit ? COLOR.DARK : COLOR.WHITE}
+                style={{ fontSize: '2.2rem', padding: '1.3rem 7rem', borderRadius: '1rem', width: '100%' }}
+                round={+true}
+                onClick={handleSubmitButtonClick}>
+                작성
               </Button>
             </StyledButtonContainer>
-          )}
-        </FlexContainer>
-        <Text size={1.4} color={COLOR.DARK}>
-          {writtenTime}
-        </Text>
-        <StyledViewerWrapper>
-          <Viewer ref={viewerRef} initialValue={body || ''} />
-        </StyledViewerWrapper>
-        <Tag tagList={tagList} />
-        <Divider color={COLOR.GRAY} height={0.05} size={4} />
-        <Textarea
-          placeholder='댓글을 입력하세요.'
-          max={300}
-          wrapperProps={{ style: { width: '100%' } }}
-          style={{ fontSize: '1.2rem', height: '16rem' }}
-          handleParentChange={comment.onChange}
-        />
-        <StyledButtonContainer isEnd={true}>
-          <Button
-            as='button'
-            disabled={!ableSubmit}
-            bgcolor={!ableSubmit ? COLOR.GRAY : COLOR.PRIMARY_BTN}
-            color={!ableSubmit ? COLOR.DARK : COLOR.WHITE}
-            style={{ fontSize: '2.2rem', padding: '1.3rem 7rem', borderRadius: '1rem', width: '100%' }}
-            round={+true}
-            onClick={handleSubmitButtonClick}>
-            작성
-          </Button>
-        </StyledButtonContainer>
-        <StyledCommentListWrapper>
-          <CommentList comments={comments} />
-        </StyledCommentListWrapper>
+            <StyledCommentListWrapper>
+              <CommentList comments={comments} />
+            </StyledCommentListWrapper>
+          </>
+        )}
       </StyledTIL>
     </StyledPageWrapper>
   );
@@ -258,8 +250,8 @@ const StyledLikeButton = styled.div`
   gap: 0.5rem;
 
   position: fixed;
-  right: 4rem;
-  /* top: ${({ y }) => (y ? y : '')}; */
+  right: 6rem;
+  bottom: 6rem;
   z-index: 2000;
 
   width: 8rem;

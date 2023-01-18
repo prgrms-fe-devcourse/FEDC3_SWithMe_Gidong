@@ -29,7 +29,7 @@ function TILItem({ til }) {
           ))}
         </StyledTagList>
       </StyledTILContent>
-      <Link to={`/TIL/${til._id}`} state={{ til }}>
+      <Link to={`/TIL/${til._id}`}>
         <StyledPlusButton>
           <i className='fa-solid fa-plus'></i>
         </StyledPlusButton>

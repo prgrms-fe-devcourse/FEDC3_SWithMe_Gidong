@@ -1,12 +1,53 @@
 import { imgDefaultAvatar } from '@/assets/images';
-import { Avatar, Button, Text } from '@/components/base';
+import { Avatar, Button, Text, Textarea } from '@/components/base';
+import { useAuthContext } from '@/context/AuthProvider';
+import { useCommentContext } from '@/context/CommentProvider';
+import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import { convertDate } from '@/utils/date';
 import styled from '@emotion/styled';
+import { useState } from 'react';
 
 function CommentItem({ comment }) {
-  const { author, comment: body, updatedAt } = comment;
+  const {
+    authState: { loggedUser },
+  } = useAuthContext();
+  const { onDeleteComment, onUpdateComment } = useCommentContext();
+  const [mode, setMode] = useState('view');
+
+  const { author, comment: body, updatedAt, _id: id, post } = comment;
   const writtenTime = convertDate(new Date(updatedAt));
+
+  const commentInput = useInput(body);
+
+  const handleDeleteButtonClick = async () => {
+    const data = { id };
+
+    await onDeleteComment(data);
+  };
+
+  const handleSubmitButtonClick = async () => {
+    if (commentInput.value === '') {
+      alert('한 글자 이상 입력해 주세요.');
+      return;
+    }
+    if (commentInput.value === body) {
+      alert('이전과 다른 댓글을 입력해 주세요.');
+      return;
+    }
+
+    const deleteData = { id };
+    const createData = {
+      comment: commentInput.value,
+      postId: post,
+    };
+
+    await onUpdateComment(createData, deleteData);
+  };
+
+  const toggleEditButtonClick = () => {
+    setMode(mode === 'view' ? 'edit' : 'view');
+  };
 
   return (
     <StyledCommentItem>
@@ -17,24 +58,56 @@ function CommentItem({ comment }) {
             {author.fullName}
           </Text>
         </StyledWriterInfoContainer>
-        {/* TODO: 수정, 삭제 버튼 auth 값과 비교 후 visible 어부 결정, admin 까지 */}
-        {/* {author.email === currentUser} */}
-        <StyledButtonContainer>
-          <Button as='span' style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}>
-            수정
-          </Button>
-          <Button as='span' style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}>
-            삭제
-          </Button>
-        </StyledButtonContainer>
+        {author._id !== loggedUser._id ? null : mode === 'view' ? (
+          <StyledButtonContainer>
+            <Button
+              as='span'
+              style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}
+              onClick={toggleEditButtonClick}>
+              수정
+            </Button>
+            <Button
+              as='span'
+              style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}
+              onClick={handleDeleteButtonClick}>
+              삭제
+            </Button>
+          </StyledButtonContainer>
+        ) : (
+          <StyledButtonContainer>
+            <Button
+              as='span'
+              style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}
+              onClick={handleSubmitButtonClick}>
+              완료
+            </Button>
+            <Button
+              as='span'
+              style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}
+              onClick={toggleEditButtonClick}>
+              취소
+            </Button>
+          </StyledButtonContainer>
+        )}
       </FlexContainer>
       <Text size={1.2} color={COLOR.DARK}>
         {writtenTime}
       </Text>
       <StyledCommentWrapper>
-        <Text size={1.8} color={COLOR.DARK}>
-          {body}
-        </Text>
+        {author._id !== loggedUser._id ? null : mode === 'view' ? (
+          <Text size={1.8} color={COLOR.DARK}>
+            {body}
+          </Text>
+        ) : (
+          <Textarea
+            defaultValue={commentInput.value}
+            placeholder='댓글을 입력하세요.'
+            max={300}
+            wrapperProps={{ style: { width: '100%', border: `0.1rem solid ${COLOR.DARK}` } }}
+            style={{ fontSize: '1.2rem', height: '16rem' }}
+            handleParentChange={commentInput.onChange}
+          />
+        )}
       </StyledCommentWrapper>
     </StyledCommentItem>
   );
