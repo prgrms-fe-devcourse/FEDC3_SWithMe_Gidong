@@ -52,6 +52,7 @@ const GroupProvider = ({ children, initialGroups, handleCreateGroup, handleUpdat
     async (data) => {
       const payload = await handleUpdateGroup(data);
       dispatch({ type: 'UPDATE_GROUP', payload });
+      return payload;
     },
     [handleCreateGroup],
   );
