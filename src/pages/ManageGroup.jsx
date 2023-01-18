@@ -1,11 +1,12 @@
 import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { COLOR } from '@/styles/color';
-import { Header, TagInput, Textarea, Input, Text } from '@/components/base';
+import { Header, TagInput, Textarea, Input, Text, SearchBar, Icon } from '@/components/base';
 import useInput from '@/hooks/useInput';
 import { useRef, useState, useEffect } from 'react';
 import { useGroupContext } from '@/context/GroupProvider';
 import { useNavigate } from 'react-router-dom';
+import { Member, MemberList } from '@/components/domain/groupInfo';
 
 const ALERT_MESSAGE = {
   GROUP_NAME: '그룹명은 한 글자 이상이어야 합니다.',
@@ -31,6 +32,7 @@ function ManageGroup() {
   const { onUpdateGroup } = useGroupContext();
   const { onDeleteGroup } = useGroupContext();
   const navigate = useNavigate();
+  const { value, onChange } = useInput('');
 
   useEffect(() => {
     groups.value && setGroup(...groups.value.filter((group) => group._id === _id));
@@ -138,6 +140,34 @@ function ManageGroup() {
           </StyledGroupInfo>
           <StyledButton onClick={handleSubmit}>수정</StyledButton>
         </StyledGroupBox>
+        <StyledManageMember>
+          <Header level={3} size={25}>
+            그룹원 관리
+          </Header>
+          <StyledGroupInfo>
+            <SearchBar
+              placeholder='찾고 싶은 그룹원의 이름을 검색하세요.'
+              value={value}
+              onChange={onChange}
+              iconProps={{ size: 2, style: { color: `${COLOR.DARK}` } }}
+              style={{ fontSize: '1.8rem', fontWeight: 100, borderBottom: `0.1rem solid ${COLOR.GRAY}` }}
+            />
+          </StyledGroupInfo>
+          <MemberList>
+            {group.description.member
+              .filter(({ fullName }) => fullName.includes(value))
+              .map(({ image, fullName, _id }) => {
+                return (
+                  <Member key={_id} image={image} fullName={fullName}>
+                    <div>
+                      <Icon name='right-to-bracket' size={2} />
+                      <Icon name='crown' size={2} />
+                    </div>
+                  </Member>
+                );
+              })}
+          </MemberList>
+        </StyledManageMember>
         <StyledGroupDelete>
           <Header level={3} size={25}>
             그룹 삭제
@@ -244,4 +274,18 @@ const StyledGroupDelete = styled(StyledGroupBox)`
 const StyledDeleteButton = styled(StyledButton)`
   margin-top: 1rem;
   background-color: ${COLOR.RED_20};
+`;
+
+const StyledManageMember = styled(StyledGroupBox)`
+  & > div {
+    overflow-y: auto;
+  }
+
+  & i {
+    color: ${COLOR.PRIMARY_BTN};
+    &:hover {
+      color: ${COLOR.WHITE};
+      cursor: pointer;
+    }
+  }
 `;
