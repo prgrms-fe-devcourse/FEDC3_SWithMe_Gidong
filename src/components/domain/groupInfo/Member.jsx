@@ -1,4 +1,4 @@
-import { imgDefaultAvatar } from '@/assets/images';
+import { imgUserAvatar } from '@/assets/images';
 import { Avatar, Icon, Text } from '@/components/base';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
@@ -7,7 +7,7 @@ function Member({ children, image, fullName, isMaster = false, ...props }) {
   return (
     <StyledMemberContainer style={{ ...props.style }} {...props}>
       <div>
-        <Avatar src={image || imgDefaultAvatar} size={3} />
+        <Avatar src={image || imgUserAvatar} size={3} />
         <Text size={2} color={COLOR.DARK}>
           {fullName}
         </Text>

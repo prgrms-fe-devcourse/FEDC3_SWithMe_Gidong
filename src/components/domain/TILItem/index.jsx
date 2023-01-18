@@ -45,7 +45,7 @@ const StyledTILItem = styled.div`
 
   width: 22rem;
   height: 28rem;
-  padding: 2rem;
+  padding: 1.2rem;
   border-radius: 1rem;
   background-color: ${COLOR.CARD_BG};
   box-shadow: 0 0.1rem 0.4rem ${COLOR.SHADOW};
@@ -65,6 +65,25 @@ const StyledTILContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  & > p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    line-height: 1.2em;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+
+  & > p:nth-of-type(1) {
+    height: 2.4em;
+    -webkit-line-clamp: 2;
+  }
+
+  & > p:nth-of-type(2) {
+    height: 3.6em;
+    -webkit-line-clamp: 3;
+  }
 `;
 
 const StyledPlusButton = styled.div`
@@ -104,5 +123,5 @@ const StyledTag = styled.div`
   border-radius: 1rem;
   background-color: white;
   box-shadow: 0 0.1rem 0.4rem ${COLOR.SHADOW};
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 `;

@@ -17,6 +17,7 @@ export const COLOR = {
   GRAY_20: '#ffffff7f',
   GRAY_10: '#ededed',
   TAG_COLOR: ['#F78289', '#9398DB', '#6082F5', '#4C4DAE'],
+  RED_20: '#FF5252',
 
   JOIN_GROUP_GRADIENT_LEFT: '#72edf2',
   JOIN_GROUP_GRADIENT_RIGHT: '#5151e5',

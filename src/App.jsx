@@ -1,4 +1,4 @@
-import { createChannel, deleteChannel, getChannelList } from '@/api/channel';
+import { createChannel, updateChannel, deleteChannel, getChannelList } from '@/api/channel';
 import AuthProvider from '@/context/AuthProvider';
 import CommentProvider from '@/context/CommentProvider';
 import GroupProvider from '@/context/GroupProvider';
@@ -14,6 +14,9 @@ function App() {
   const handleCreateGroup = useCallback(async (data) => {
     return await createChannel(data);
   }, []);
+  const handleUpdateGroup = useCallback(async (data) => {
+    return await updateChannel(data);
+  }, []);
   const handleDeleteGroup = useCallback(async (data) => {
     return await deleteChannel(data);
   });
@@ -25,6 +28,7 @@ function App() {
         <GroupProvider
           initialGroups={initialGroups}
           handleCreateGroup={handleCreateGroup}
+          handleUpdateGroup={handleUpdateGroup}
           handleDeleteGroup={handleDeleteGroup}>
           <TILProvider>
             <CommentProvider>
