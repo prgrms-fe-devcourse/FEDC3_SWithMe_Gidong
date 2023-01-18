@@ -15,9 +15,15 @@ const ALERT_MESSAGE = {
   GROUP_TAG: '태그는 최소 1개 이상이어야 합니다.',
   GROUP_UPDATE: '그룹 정보가 수정되었습니다.',
   GROUP_DELETE: '그룹이 삭제되었습니다.',
+  MEMBER_KICK: '이 강퇴 되었습니다.',
+  MASTER_DELEGATE: '이 방장이 되었습니다.',
 };
 
-const CONFIRM_MESSAGE = '정말 그룹을 삭제하시겠습니까?';
+const CONFIRM_MESSAGE = {
+  GROUP_DELETE: '정말 그룹을 삭제하시겠습니까?',
+  MEMBER_KICK: '을 정말 강퇴하시겠습니까?',
+  MASTER_DELEGATE: '에게 방장을 위임하시겠습니까?',
+};
 
 function ManageGroup() {
   const {
@@ -83,11 +89,43 @@ function ManageGroup() {
   };
 
   const handleDeleteClick = async () => {
-    if (!confirm(CONFIRM_MESSAGE)) return;
+    if (!confirm(CONFIRM_MESSAGE.GROUP_DELETE)) return;
     await onDeleteGroup({
       id: group._id,
     });
     alert(ALERT_MESSAGE.GROUP_DELETE);
+    navigate('/myGroup');
+  };
+
+  const handleKickClick = async (member) => {
+    const { fullName, _id } = member;
+    if (!confirm(`'${fullName}'님${CONFIRM_MESSAGE.MEMBER_KICK}`)) return false;
+    const data = {
+      ...group,
+      description: JSON.stringify({
+        ...group.description,
+        member: group.description.member.filter((el) => el._id !== _id),
+      }),
+    };
+    const updatedGroup = await onUpdateGroup(data);
+    setGroup(updatedGroup);
+    alert(`'${fullName}님'${ALERT_MESSAGE.MEMBER_KICK}`);
+  };
+
+  const handleDelegateClick = async (member) => {
+    const { fullName, _id } = member;
+    if (!confirm(`'${fullName}'님${CONFIRM_MESSAGE.MASTER_DELEGATE}`)) return false;
+    const data = {
+      ...group,
+      description: JSON.stringify({
+        ...group.description,
+        master: member,
+        member: [...group.description.member.filter((el) => el._id !== _id), group.description.master],
+      }),
+    };
+    const updatedGroup = await onUpdateGroup(data);
+    setGroup(updatedGroup);
+    alert(`'${fullName}님'${ALERT_MESSAGE.MASTER_DELEGATE}`);
     navigate('/myGroup');
   };
 
@@ -156,12 +194,12 @@ function ManageGroup() {
           <MemberList>
             {group.description.member
               .filter(({ fullName }) => fullName.includes(value))
-              .map(({ image, fullName, _id }) => {
+              .map((member) => {
                 return (
-                  <Member key={_id} image={image} fullName={fullName}>
+                  <Member key={member._id} image={member.image} fullName={member.fullName}>
                     <div>
-                      <Icon name='right-to-bracket' size={2} />
-                      <Icon name='crown' size={2} />
+                      <Icon name='right-to-bracket' size={2} onClick={() => handleKickClick(member)} />
+                      <Icon name='crown' size={2} onClick={() => handleDelegateClick(member)} />
                     </div>
                   </Member>
                 );
