@@ -1,4 +1,4 @@
-import { createTIL, deleteTIL, getPostListByChannel, updateTIL } from '@/api/post';
+import { createTIL, deleteTIL, getPostListByChannel, getTIL, updateTIL } from '@/api/post';
 import { createContext, useCallback, useContext, useReducer } from 'react';
 
 const TILContext = createContext();
@@ -33,13 +33,18 @@ const TILProvider = ({ children }) => {
     dispatch({ type: 'SHOW_TILS', payload });
   }, []);
 
+  const onGetTIL = useCallback(async (id) => {
+    const payload = await getTIL(id);
+    return payload;
+  }, []);
+
   const onCreateTIL = useCallback(async (formData) => {
     const payload = await createTIL(formData);
     dispatch({ type: 'CREATE_TIL', payload });
   }, []);
 
-  const onUpdateTIL = useCallback(async (id) => {
-    const payload = await updateTIL(id);
+  const onUpdateTIL = useCallback(async (formData) => {
+    const payload = await updateTIL(formData);
     dispatch({ type: 'UPDATE_TIL', payload });
     return payload;
   }, []);
@@ -50,7 +55,7 @@ const TILProvider = ({ children }) => {
   }, []);
 
   return (
-    <TILContext.Provider value={{ tils, onShowTILByGroup, onCreateTIL, onDeleteTIL, onUpdateTIL }}>
+    <TILContext.Provider value={{ tils, onShowTILByGroup, onCreateTIL, onDeleteTIL, onUpdateTIL, onGetTIL }}>
       {children}
     </TILContext.Provider>
   );

@@ -1,12 +1,12 @@
 import { createChannel, deleteChannel, getChannelList } from '@/api/channel';
 import AuthProvider from '@/context/AuthProvider';
+import CommentProvider from '@/context/CommentProvider';
 import GroupProvider from '@/context/GroupProvider';
 import TILProvider from '@/context/TILProvider';
 import { useAsync } from '@/hooks';
 import Router from '@/Router';
 import GlobalStyle from '@/styles/globalStyle';
 import { useCallback } from 'react';
-import CommentProvider from './context/CommentProvider';
 
 function App() {
   const initialGroups = useAsync(getChannelList, []);

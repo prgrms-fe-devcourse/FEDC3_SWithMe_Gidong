@@ -1,4 +1,4 @@
-import { createComment } from '@/api/comment';
+import { createComment, deleteComment } from '@/api/comment';
 import { createContext, useCallback, useContext, useReducer } from 'react';
 
 const CommentContext = createContext();
@@ -11,6 +11,9 @@ const reducer = (state, action) => {
     }
     case 'CREATE_COMMENT': {
       return [...state, action.payload];
+    }
+    case 'DELETE_COMMENT': {
+      return state.filter((item) => item._id !== action.payload._id);
     }
     default: {
       console.error('Wrong type');
@@ -29,10 +32,18 @@ const CommentProvider = ({ children }) => {
   const onCreateComment = useCallback(async (data) => {
     const payload = await createComment(data);
     dispatch({ type: 'CREATE_COMMENT', payload });
+    return payload;
+  }, []);
+
+  const onDeleteComment = useCallback(async (data) => {
+    const payload = await deleteComment(data);
+    dispatch({ type: 'DELETE_COMMENT', payload });
   }, []);
 
   return (
-    <CommentContext.Provider value={{ comments, onInitComment, onCreateComment }}>{children}</CommentContext.Provider>
+    <CommentContext.Provider value={{ comments, onInitComment, onCreateComment, onDeleteComment }}>
+      {children}
+    </CommentContext.Provider>
   );
 };
 

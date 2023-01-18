@@ -1,12 +1,25 @@
 import { imgDefaultAvatar } from '@/assets/images';
 import { Avatar, Button, Text } from '@/components/base';
+import { useAuthContext } from '@/context/AuthProvider';
+import { useCommentContext } from '@/context/CommentProvider';
 import { COLOR } from '@/styles/color';
 import { convertDate } from '@/utils/date';
 import styled from '@emotion/styled';
 
 function CommentItem({ comment }) {
-  const { author, comment: body, updatedAt } = comment;
+  const {
+    authState: { loggedUser },
+  } = useAuthContext();
+  const { onDeleteComment } = useCommentContext();
+
+  const { author, comment: body, updatedAt, _id: id } = comment;
   const writtenTime = convertDate(new Date(updatedAt));
+
+  const handleDeleteButtonClick = async () => {
+    const data = { id };
+
+    await onDeleteComment(data);
+  };
 
   return (
     <StyledCommentItem>
@@ -18,15 +31,19 @@ function CommentItem({ comment }) {
           </Text>
         </StyledWriterInfoContainer>
         {/* TODO: 수정, 삭제 버튼 auth 값과 비교 후 visible 어부 결정, admin 까지 */}
-        {/* {author.email === currentUser} */}
-        <StyledButtonContainer>
-          <Button as='span' style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}>
-            수정
-          </Button>
-          <Button as='span' style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}>
-            삭제
-          </Button>
-        </StyledButtonContainer>
+        {author._id === loggedUser._id && (
+          <StyledButtonContainer>
+            <Button as='span' style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}>
+              수정
+            </Button>
+            <Button
+              as='span'
+              style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}
+              onClick={handleDeleteButtonClick}>
+              삭제
+            </Button>
+          </StyledButtonContainer>
+        )}
       </FlexContainer>
       <Text size={1.2} color={COLOR.DARK}>
         {writtenTime}
