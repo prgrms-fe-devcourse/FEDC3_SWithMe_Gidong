@@ -11,6 +11,7 @@ import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useCommentContext } from '../context/CommentProvider';
 
 function TIL() {
   const {
@@ -18,6 +19,7 @@ function TIL() {
   } = useAuthContext();
   const navigate = useNavigate();
   const { onDeleteTIL } = useTILContext();
+  const { comments, onInitComment, onCreateComment } = useCommentContext();
 
   const viewerRef = useRef(null);
   const comment = useInput('');
@@ -27,12 +29,16 @@ function TIL() {
   } = useLocation();
   const {
     author,
-    comments,
+    comments: initialComments,
     likes,
     createdAt,
     title: { title, body, tagList },
   } = til;
   const writtenTime = convertDate(new Date(createdAt));
+
+  useEffect(() => {
+    onInitComment(initialComments);
+  }, [initialComments]);
 
   const ableSubmit = useMemo(() => checkAbleSubmit([comment.value.length]), [comment.value]);
 
@@ -47,24 +53,16 @@ function TIL() {
     navigate('/myGroup');
   };
 
-  const handleSubmitButtonClick = () => {
+  const handleSubmitButtonClick = async () => {
     if (!ableSubmit) return;
-
-    // TODO: COMMENT WRITE API CALL WITH BELOW DATA
-
-    /* 
-      POST /comments/create
-
-      token
-
-      comment: string,
-      postId: til._id
-    */
 
     const data = {
       comment: comment.value,
       postId: til._id,
     };
+
+    await onCreateComment(data);
+    comment.onChange('');
   };
 
   const handleLikeButtonClick = () => {
@@ -165,6 +163,7 @@ function TIL() {
         <Tag tagList={tagList} />
         <Divider color={COLOR.GRAY} height={0.05} size={4} />
         <Textarea
+          defaultValue={comment.value}
           placeholder='댓글을 입력하세요.'
           max={300}
           wrapperProps={{ style: { width: '100%' } }}

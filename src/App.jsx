@@ -6,6 +6,7 @@ import { useAsync } from '@/hooks';
 import Router from '@/Router';
 import GlobalStyle from '@/styles/globalStyle';
 import { useCallback } from 'react';
+import CommentProvider from './context/CommentProvider';
 
 function App() {
   const initialGroups = useAsync(getChannelList, []);
@@ -25,7 +26,9 @@ function App() {
           handleCreateGroup={handleCreateGroup}
           handleDeleteGroup={handleDeleteGroup}>
           <TILProvider>
-            <Router />
+            <CommentProvider>
+              <Router />
+            </CommentProvider>
           </TILProvider>
         </GroupProvider>
       </AuthProvider>
