@@ -1,7 +1,7 @@
 import { postUserAvatar, putUserFullName, putUserPassword } from '@/api/userInfo';
 import { imgMypage } from '@/assets/images';
 import { Avatar } from '@/components/base';
-import MyPageButton from '@/components/domain/MyPageButton';
+import { MyPageButton } from '@/components/domain/MyPage';
 import { useAuthContext } from '@/context/AuthProvider';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
