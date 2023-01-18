@@ -1,10 +1,11 @@
+import { COLOR } from '@/styles/color';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import HeaderLogo from './HeaderLogo';
 import HeaderSearchBar from './HeaderSearchBar';
 import HeaderUserNav from './HeaderUserNav';
-import { useRef, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { css } from '@emotion/react';
 
 const Header = () => {
   const headerRef = useRef(null);
@@ -64,6 +65,10 @@ const StyledHeaderContainer = styled.div`
       & h1,
       & button {
         color: white;
+      }
+
+      & button:hover {
+        color: ${COLOR.DARK};
       }
     `};
 `;

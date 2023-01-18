@@ -1,9 +1,10 @@
-import { Button, Icon } from '@/components/base';
+import { postUserSignOut } from '@/api/userSign';
+import { Button } from '@/components/base';
+import { useAuthContext } from '@/context/AuthProvider';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
-import { postUserSignOut } from '@/api/userSign';
-import { useAuthContext } from '@/context/AuthProvider';
+import HeaderIcon from './HeaderIcon';
 
 const HeaderUserNav = () => {
   const navigate = useNavigate();
@@ -33,23 +34,9 @@ const HeaderUserNav = () => {
 
   return (
     <StyledHeaderUserNav>
-      <Button
-        style={{ width: '3.5rem', height: '3.5rem', marginRight: '1rem', padding: '0' }}
-        bgcolor={COLOR.HEADER_TRANSPARENT_BG}
-        onClick={() => navigate('/myGroup')}>
-        <Icon name='users' />
-      </Button>
-      <Button
-        style={{ width: '3.5rem', height: '3.5rem', marginRight: '1rem', padding: '0' }}
-        bgcolor={COLOR.HEADER_TRANSPARENT_BG}>
-        <Icon name='bell' />
-      </Button>
-      <Button
-        style={{ width: '3.5rem', height: '3.5rem', marginRight: '1rem', padding: '0' }}
-        bgcolor={COLOR.HEADER_TRANSPARENT_BG}
-        onClick={() => navigate('/myPage')}>
-        <Icon name='user' />
-      </Button>
+      <HeaderIcon onClick={() => navigate('/myGroup')} icon='users' />
+      <HeaderIcon icon='bell' />
+      <HeaderIcon onClick={() => navigate('/myPage')} icon='user' />
       <Button
         style={{ width: '7.7rem', height: '2.1rem', margin: '0.7rem 0', padding: '0', fontSize: '1.8rem' }}
         bgcolor={COLOR.HEADER_TRANSPARENT_BG}
@@ -67,4 +54,8 @@ const StyledHeaderUserNav = styled.div`
   justify-content: flex-end;
   align-items: center;
   margin-right: 2rem;
+
+  & button:hover {
+    color: ${COLOR.GARY3};
+  }
 `;

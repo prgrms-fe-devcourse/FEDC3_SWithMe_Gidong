@@ -1,12 +1,27 @@
-import styled from '@emotion/styled';
-import { COLOR } from '@/styles/color';
 import { icSearchSubmit } from '@/assets/icons';
-import { Input, Button } from '@/components/base';
+import { Button, Input } from '@/components/base';
+import { COLOR } from '@/styles/color';
+import styled from '@emotion/styled';
+import { useState } from 'react';
+import HeaderDropdownItem from './HeaderDropdownItem';
 
 const HeaderSearchBar = () => {
+  const [dropdown, setDropdown] = useState(false);
+
+  const handleDropdown = () => {
+    setDropdown(!dropdown);
+  };
+
   return (
     <StyledHeaderSearchBar>
-      <StyledSearchFilterButton>전체</StyledSearchFilterButton>
+      <StyledDropdownTrigger onClick={handleDropdown}>전체</StyledDropdownTrigger>
+      {dropdown ? (
+        <StyledDropdownUl>
+          <HeaderDropdownItem content={'전체'} onClick={handleDropdown} />
+          <HeaderDropdownItem content={'그룹명'} onClick={handleDropdown} />
+          <HeaderDropdownItem content={'태그'} onClick={handleDropdown} />
+        </StyledDropdownUl>
+      ) : null}
       <Input
         type='text'
         placeholder='스터디 그룹 검색'
@@ -47,7 +62,7 @@ const SearchSubmitIcon = styled.img`
   height: 1.5rem;
 `;
 
-const StyledSearchFilterButton = styled.button`
+const StyledDropdownTrigger = styled.button`
   position: relative;
   display: inline-block;
   width: 7.7rem;
@@ -55,4 +70,19 @@ const StyledSearchFilterButton = styled.button`
   font-size: 1.8rem;
   border-right: 1px solid ${COLOR.HEADER_DIVIDELINE};
   color: ${COLOR.DARK} !important;
+`;
+
+const StyledDropdownUl = styled.ul`
+  display: grid;
+  position: absolute;
+  margin-top: 16rem;
+  overflow: hidden;
+  width: 8rem;
+  height: 11rem;
+  border-radius: 2rem;
+  background-color: white;
+
+  &>li>button: hover {
+    background-color: lightgray;
+  }
 `;
