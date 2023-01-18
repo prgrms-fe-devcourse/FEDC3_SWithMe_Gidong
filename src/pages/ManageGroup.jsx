@@ -6,15 +6,18 @@ import useInput from '@/hooks/useInput';
 import { useRef } from 'react';
 import { useGroupContext } from '@/context/GroupProvider';
 
+const CONFIRM_MESSAGE = '정말 그룹을 삭제하시겠습니까?';
+
 function ManageGroup() {
   const { state } = useLocation();
-  const { name, description } = state;
+  const { _id, name, description } = state;
   const { headCount, member, tagList, intro } = description;
   const { onUpdateGroup } = useGroupContext();
   const tags = useInput(tagList);
   const groupNameInputRef = useRef('');
   const groupMemberCountInputRef = useRef(0);
   const groupIntroductionInputRef = useRef('');
+  const { onDeleteGroup } = useGroupContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,10 +34,17 @@ function ManageGroup() {
     await onUpdateGroup(data);
   };
 
+  const handleDeleteClick = async () => {
+    if (!confirm(CONFIRM_MESSAGE)) return;
+    await onDeleteGroup({
+      id: _id,
+    });
+  };
+
   return (
     <StyledPageWrapper>
       <StyledManageGroup>
-        <StyledGroupUpdate>
+        <StyledGroupBox>
           <Header level={3} size={25}>
             그룹 정보 관리
           </Header>
@@ -77,8 +87,17 @@ function ManageGroup() {
               ref={groupIntroductionInputRef}
             />
           </StyledGroupInfo>
-          <StyledSubmitButton onClick={handleSubmit}>수정</StyledSubmitButton>
-        </StyledGroupUpdate>
+          <StyledButton onClick={handleSubmit}>수정</StyledButton>
+        </StyledGroupBox>
+        <StyledGroupDelete>
+          <Header level={3} size={25}>
+            그룹 삭제
+          </Header>
+          <Text paragraph strong size={1.6}>
+            한번 그룹을 삭제하면 다시 되돌릴 수 없습니다.
+          </Text>
+          <StyledDeleteButton onClick={handleDeleteClick}>삭제</StyledDeleteButton>
+        </StyledGroupDelete>
       </StyledManageGroup>
     </StyledPageWrapper>
   );
@@ -96,6 +115,7 @@ const StyledManageGroup = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 3rem;
 
   position: relative;
   flex: 1;
@@ -103,7 +123,7 @@ const StyledManageGroup = styled.div`
   background-color: ${COLOR.MY_GROUP_BG};
 `;
 
-const StyledGroupUpdate = styled.div`
+const StyledGroupBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -143,12 +163,12 @@ const StyledGroupInfo = styled.div`
   }
 `;
 
-const StyledSubmitButton = styled.button`
+const StyledButton = styled.button`
   width: 10rem;
   padding: 1rem;
   border-radius: 0.6rem;
-  background-color: ${COLOR.PRIMARY_BTN};
 
+  background-color: ${COLOR.PRIMARY_BTN};
   text-align: center;
   font-size: 1.8rem;
   color: ${COLOR.WHITE};
@@ -157,4 +177,22 @@ const StyledSubmitButton = styled.button`
   &:hover {
     opacity: 0.9;
   }
+`;
+
+const StyledGroupDelete = styled(StyledGroupBox)`
+  background-color: ${COLOR.MY_GROUP_BOX_BG};
+
+  & > h3 {
+    border-bottom: 1px solid ${COLOR.RED_20};
+    color: ${COLOR.RED_20};
+  }
+
+  & > p {
+    padding: 1rem 0;
+  }
+`;
+
+const StyledDeleteButton = styled(StyledButton)`
+  margin-top: 1rem;
+  background-color: ${COLOR.RED_20};
 `;
