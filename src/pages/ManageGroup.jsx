@@ -1,11 +1,12 @@
 import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { COLOR } from '@/styles/color';
-import { Header, TagInput, Textarea, Input, Text } from '@/components/base';
+import { Header, TagInput, Textarea, Input, Text, SearchBar, Icon } from '@/components/base';
 import useInput from '@/hooks/useInput';
 import { useRef, useState, useEffect } from 'react';
 import { useGroupContext } from '@/context/GroupProvider';
 import { useNavigate } from 'react-router-dom';
+import { Member, MemberList } from '@/components/domain/groupInfo';
 
 const ALERT_MESSAGE = {
   GROUP_NAME: '그룹명은 한 글자 이상이어야 합니다.',
@@ -14,9 +15,15 @@ const ALERT_MESSAGE = {
   GROUP_TAG: '태그는 최소 1개 이상이어야 합니다.',
   GROUP_UPDATE: '그룹 정보가 수정되었습니다.',
   GROUP_DELETE: '그룹이 삭제되었습니다.',
+  MEMBER_KICK: '이 강퇴 되었습니다.',
+  MASTER_DELEGATE: '이 방장이 되었습니다.',
 };
 
-const CONFIRM_MESSAGE = '정말 그룹을 삭제하시겠습니까?';
+const CONFIRM_MESSAGE = {
+  GROUP_DELETE: '정말 그룹을 삭제하시겠습니까?',
+  MEMBER_KICK: '을 정말 강퇴하시겠습니까?',
+  MASTER_DELEGATE: '에게 방장을 위임하시겠습니까?',
+};
 
 function ManageGroup() {
   const {
@@ -31,6 +38,7 @@ function ManageGroup() {
   const { onUpdateGroup } = useGroupContext();
   const { onDeleteGroup } = useGroupContext();
   const navigate = useNavigate();
+  const { value, onChange } = useInput('');
 
   useEffect(() => {
     groups.value && setGroup(...groups.value.filter((group) => group._id === _id));
@@ -81,11 +89,43 @@ function ManageGroup() {
   };
 
   const handleDeleteClick = async () => {
-    if (!confirm(CONFIRM_MESSAGE)) return;
+    if (!confirm(CONFIRM_MESSAGE.GROUP_DELETE)) return;
     await onDeleteGroup({
       id: group._id,
     });
     alert(ALERT_MESSAGE.GROUP_DELETE);
+    navigate('/myGroup');
+  };
+
+  const handleKickClick = async (member) => {
+    const { fullName, _id } = member;
+    if (!confirm(`'${fullName}'님${CONFIRM_MESSAGE.MEMBER_KICK}`)) return false;
+    const data = {
+      ...group,
+      description: JSON.stringify({
+        ...group.description,
+        member: group.description.member.filter((el) => el._id !== _id),
+      }),
+    };
+    const updatedGroup = await onUpdateGroup(data);
+    setGroup(updatedGroup);
+    alert(`'${fullName}님'${ALERT_MESSAGE.MEMBER_KICK}`);
+  };
+
+  const handleDelegateClick = async (member) => {
+    const { fullName, _id } = member;
+    if (!confirm(`'${fullName}'님${CONFIRM_MESSAGE.MASTER_DELEGATE}`)) return false;
+    const data = {
+      ...group,
+      description: JSON.stringify({
+        ...group.description,
+        master: member,
+        member: [...group.description.member.filter((el) => el._id !== _id), group.description.master],
+      }),
+    };
+    const updatedGroup = await onUpdateGroup(data);
+    setGroup(updatedGroup);
+    alert(`'${fullName}님'${ALERT_MESSAGE.MASTER_DELEGATE}`);
     navigate('/myGroup');
   };
 
@@ -138,6 +178,34 @@ function ManageGroup() {
           </StyledGroupInfo>
           <StyledButton onClick={handleSubmit}>수정</StyledButton>
         </StyledGroupBox>
+        <StyledManageMember>
+          <Header level={3} size={25}>
+            그룹원 관리
+          </Header>
+          <StyledGroupInfo>
+            <SearchBar
+              placeholder='찾고 싶은 그룹원의 이름을 검색하세요.'
+              value={value}
+              onChange={onChange}
+              iconProps={{ size: 2, style: { color: `${COLOR.DARK}` } }}
+              style={{ fontSize: '1.8rem', fontWeight: 100, borderBottom: `0.1rem solid ${COLOR.GRAY}` }}
+            />
+          </StyledGroupInfo>
+          <MemberList>
+            {group.description.member
+              .filter(({ fullName }) => fullName.includes(value))
+              .map((member) => {
+                return (
+                  <Member key={member._id} image={member.image} fullName={member.fullName}>
+                    <div>
+                      <Icon name='right-to-bracket' size={2} onClick={() => handleKickClick(member)} />
+                      <Icon name='crown' size={2} onClick={() => handleDelegateClick(member)} />
+                    </div>
+                  </Member>
+                );
+              })}
+          </MemberList>
+        </StyledManageMember>
         <StyledGroupDelete>
           <Header level={3} size={25}>
             그룹 삭제
@@ -244,4 +312,18 @@ const StyledGroupDelete = styled(StyledGroupBox)`
 const StyledDeleteButton = styled(StyledButton)`
   margin-top: 1rem;
   background-color: ${COLOR.RED_20};
+`;
+
+const StyledManageMember = styled(StyledGroupBox)`
+  & > div {
+    overflow-y: auto;
+  }
+
+  & i {
+    color: ${COLOR.PRIMARY_BTN};
+    &:hover {
+      color: ${COLOR.WHITE};
+      cursor: pointer;
+    }
+  }
 `;
