@@ -5,6 +5,16 @@ import { Header, TagInput, Textarea, Input, Text } from '@/components/base';
 import useInput from '@/hooks/useInput';
 import { useRef } from 'react';
 import { useGroupContext } from '@/context/GroupProvider';
+import { useNavigate } from 'react-router-dom';
+
+const ALERT_MESSAGE = {
+  GROUP_NAME: '그룹명은 한 글자 이상이어야 합니다.',
+  GROUP_HEAD_COUNT_1: '그룹 인원은 최소 2명 이상이어야 합니다.',
+  GROUP_HEAD_COUNT_2: '그룹의 최대 인원은 현재 그룹 인원보다 많아야 합니다.',
+  GROUP_TAG: '태그는 최소 1개 이상이어야 합니다.',
+  GROUP_UPDATE: '그룹 정보가 수정되었습니다.',
+  GROUP_DELETE: '그룹이 삭제되었습니다.',
+};
 
 const CONFIRM_MESSAGE = '정말 그룹을 삭제하시겠습니까?';
 
@@ -14,13 +24,32 @@ function ManageGroup() {
   const { headCount, member, tagList, intro } = description;
   const { onUpdateGroup } = useGroupContext();
   const tags = useInput(tagList);
-  const groupNameInputRef = useRef('');
-  const groupMemberCountInputRef = useRef(0);
-  const groupIntroductionInputRef = useRef('');
+  const groupNameInputRef = useRef(name);
+  const groupMemberCountInputRef = useRef(headCount);
+  const groupIntroductionInputRef = useRef(intro);
   const { onDeleteGroup } = useGroupContext();
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const inputValidate = () => {
+    if (groupNameInputRef.current === '') {
+      alert(ALERT_MESSAGE.GROUP_NAME);
+      return false;
+    } else if (groupMemberCountInputRef.current < 2) {
+      alert(ALERT_MESSAGE.GROUP_HEAD_COUNT_1);
+      return false;
+    } else if (groupMemberCountInputRef.current < member.length + 1) {
+      alert(ALERT_MESSAGE.GROUP_HEAD_COUNT_2);
+      return false;
+    } else if (tags.value.length === 0) {
+      alert(ALERT_MESSAGE.GROUP_TAG);
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async () => {
+    if (!inputValidate()) return false;
+
     const data = {
       ...state,
       name: groupNameInputRef.current,
@@ -31,7 +60,9 @@ function ManageGroup() {
         intro: groupIntroductionInputRef.current,
       }),
     };
+
     await onUpdateGroup(data);
+    alert(ALERT_MESSAGE.GROUP_UPDATE);
   };
 
   const handleDeleteClick = async () => {
@@ -39,6 +70,8 @@ function ManageGroup() {
     await onDeleteGroup({
       id: _id,
     });
+    alert(ALERT_MESSAGE.GROUP_DELETE);
+    navigate('/myGroup');
   };
 
   return (
@@ -61,9 +94,8 @@ function ManageGroup() {
             <Input
               type='number'
               block
-              label={`현재 ${member.length + 1}명 / 최대 50명`}
+              label={`최대 2~50명`}
               defaultValue={headCount}
-              min={member.length + 1}
               max={50}
               required
               ref={groupMemberCountInputRef}

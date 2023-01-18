@@ -16,7 +16,6 @@ const Input = forwardRef(
       required = false,
       disabled = false,
       readonly = false,
-      min = 0,
       max,
       onKeyPress,
       wrapperProps,
@@ -57,7 +56,7 @@ const Input = forwardRef(
           disabled={disabled}
           readOnly={readonly}
           max={max ? max : 'none'}
-          value={type === 'number' ? (parseInt(value) ? parseInt(value) : min) : value}
+          value={type === 'number' ? (parseInt(value) ? parseInt(value) : 0) : value}
           onChange={(e) => handleInputChange(e)}
           onKeyPress={(e) => {
             if (onKeyPress && e.key === 'Enter') {
