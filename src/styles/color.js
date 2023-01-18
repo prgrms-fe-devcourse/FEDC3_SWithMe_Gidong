@@ -4,7 +4,8 @@ export const COLOR = {
   DARK: '#3A3A3A',
   GRAY: '#D9D9D9',
   GRAY2: '#A9A9A9',
-  GARY3: '#C5C5C5',
+  GRAY3: '#C5C5C5',
+  LIGHTGRAY: '#D3D3D3',
   RED: '#FF0000',
 
   MY_GROUP_BG: '#F4F5FF',

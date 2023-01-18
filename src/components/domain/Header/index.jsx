@@ -64,7 +64,7 @@ const StyledHeaderContainer = styled.div`
     css`
       & h1,
       & button {
-        color: white;
+        color: ${COLOR.WHITE};
       }
 
       & button:hover {

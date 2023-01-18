@@ -56,6 +56,6 @@ const StyledHeaderUserNav = styled.div`
   margin-right: 2rem;
 
   & button:hover {
-    color: ${COLOR.GARY3};
+    color: ${COLOR.GRAY3};
   }
 `;
