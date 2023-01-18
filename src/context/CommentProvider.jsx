@@ -40,8 +40,16 @@ const CommentProvider = ({ children }) => {
     dispatch({ type: 'DELETE_COMMENT', payload });
   }, []);
 
+  const onUpdateComment = useCallback(async (data, id) => {
+    let payload = await deleteComment(id);
+    dispatch({ type: 'DELETE_COMMENT', payload });
+
+    payload = await createComment(data);
+    dispatch({ type: 'CREATE_COMMENT', payload });
+  }, []);
+
   return (
-    <CommentContext.Provider value={{ comments, onInitComment, onCreateComment, onDeleteComment }}>
+    <CommentContext.Provider value={{ comments, onInitComment, onCreateComment, onDeleteComment, onUpdateComment }}>
       {children}
     </CommentContext.Provider>
   );
