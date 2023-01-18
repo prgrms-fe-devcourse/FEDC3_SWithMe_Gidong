@@ -23,10 +23,10 @@ function JoinGroup() {
   const [guideMessage, setGuideMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleJoinClick = () => {
+  const handleJoinClick = async () => {
     member.push(loggedUser);
     group.description = JSON.stringify(description);
-    joinChannel(group);
+    await joinChannel(group);
     navigate('/myGroup');
   };
 

@@ -12,10 +12,11 @@ function GroupItem({ group, isLastGroup }) {
   const { openedGroupId, setOpenedGroupId } = useGroupContext();
   const { _id, name, description } = group;
   const { master, tagList, intro } = description;
-  const isOpened = openedGroupId === _id;
   const {
     authState: { loggedUser },
   } = useAuthContext();
+  const isOpened = openedGroupId === _id;
+  const isMaster = master._id === loggedUser._id;
 
   return (
     <StyledGroupItem>
@@ -35,7 +36,7 @@ function GroupItem({ group, isLastGroup }) {
             {isOpened && (
               <StyledGroupIcons>
                 <Icon name='circle-info' onClick={() => setGroupInfoModalVisible(true)} />
-                {master._id === loggedUser._id && <Icon name='gear' />}
+                {isMaster && <Icon name='gear' />}
               </StyledGroupIcons>
             )}
           </StyledGroupTitle>
