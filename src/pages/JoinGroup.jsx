@@ -5,9 +5,9 @@ import { Header, Image, Text, Icon } from '@/components/base';
 import { icCrown } from '@/assets/icons';
 import { imgUserAvatar } from '@/assets/images';
 import { useAuthContext } from '@/context/AuthProvider';
-import { joinChannel } from '@/api/channel';
 import { css } from '@emotion/react';
 import { useState, useEffect } from 'react';
+import { useGroupContext } from '@/context/GroupProvider';
 
 const GUIDE_MESSAGE = ['로그인이 필요한 서비스입니다.', '그룹의 정원이 모두 찼습니다.', '이미 가입된 그룹입니다.'];
 
@@ -21,12 +21,18 @@ function JoinGroup() {
     authState: { isLoggedIn, loggedUser },
   } = useAuthContext();
   const [guideMessage, setGuideMessage] = useState('');
+  const { onUpdateGroup } = useGroupContext();
   const navigate = useNavigate();
 
   const handleJoinClick = async () => {
-    member.push(loggedUser);
-    group.description = JSON.stringify(description);
-    await joinChannel(group);
+    const data = {
+      ...group,
+      description: JSON.stringify({
+        ...description,
+        member: [...member, loggedUser],
+      }),
+    };
+    await onUpdateGroup(data);
     navigate('/myGroup');
   };
 
