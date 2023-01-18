@@ -1,6 +1,7 @@
 import { postUserAvatar, putUserFullName, putUserPassword } from '@/api/userInfo';
 import { imgMypage } from '@/assets/images';
-import { Button } from '@/components/base';
+import Avatar from '@/components/base/Avatar';
+import MyPageButton from '@/components/domain/MyPageButton';
 import { useAuthContext } from '@/context/AuthProvider';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
@@ -12,10 +13,22 @@ const TOGGLE_PASSWORD_BLIND_TYPES = {
   TEXT: 'text',
 };
 
+const CONFIRM_MESSAGES = {
+  CONFIRM_FULLNAME: '정말로 닉네임을 바꾸시겠습니까?',
+  CONFIRM_PASSWORD: '정말로 비밀번호를 바꾸시겠습니까?',
+  CONFIRMED: '반영되었습니다.',
+};
+
+const INPUT_NUMBER_LIMIT = {
+  MIN: 2,
+  MAX: 20,
+};
+
 function MyPage() {
   const navigate = useNavigate();
   const {
     authState: { isLoggedIn, loggedUser },
+    onReload,
   } = useAuthContext();
 
   if (!isLoggedIn) navigate('/');
@@ -38,19 +51,6 @@ function MyPage() {
     });
   }, []);
 
-  const encodeFileToBase64 = (fileBlob) => {
-    const reader = new FileReader();
-
-    reader.readAsDataURL(fileBlob);
-
-    return new Promise((resolve) => {
-      reader.onload = () => {
-        setValues({ ...values, image: reader.result });
-        resolve();
-      };
-    });
-  };
-
   const togglePasswordBlind = () => {
     if (passwordInputType === TOGGLE_PASSWORD_BLIND_TYPES.TEXT) {
       return setPasswordInputType(TOGGLE_PASSWORD_BLIND_TYPES.PASSWORD);
@@ -63,40 +63,54 @@ function MyPage() {
     const formData = new FormData();
     formData.append('isCover', false);
     formData.append('image', image);
-    encodeFileToBase64(image);
 
-    if (await postUserAvatar(formData)) return alert('반영되었습니다.');
+    const response = await postUserAvatar(formData);
 
-    return alert('error confirmed');
+    if (response) {
+      setValues({ ...values, image: response.image });
+      onReload(response);
+      alert(CONFIRM_MESSAGES.CONFIRMED);
+
+      return;
+    }
+
+    return;
   };
 
   const onClickEditFullName = async () => {
     if (!values.fullName) return;
-    if (!confirm('정말로 닉네임을 바꾸시겠습니까?')) return;
+    if (!confirm(CONFIRM_MESSAGES.CONFIRM_FULLNAME)) return;
 
     const data = {
       fullName: values.fullName,
       username: values.fullName,
     };
+    const response = await putUserFullName(data);
 
-    if (await putUserFullName(data)) return alert('반영되었습니다.');
+    if (response) {
+      setValues({ ...values, fullName: response.fullName });
+      onReload(response);
+      alert(CONFIRM_MESSAGES.CONFIRMED);
 
-    return alert('error confirmed');
+      return;
+    }
+
+    return;
   };
 
   const onClickEditPassword = async () => {
     if (!values.password) return;
-    if (values.password.length < 2) return;
-    if (values.password.length > 20) return;
-    if (!confirm('정말로 비밀번호를 바꾸시겠습니까?')) return;
+    if (values.password.length < INPUT_NUMBER_LIMIT.MIN) return;
+    if (values.password.length > INPUT_NUMBER_LIMIT.MAX) return;
+    if (!confirm(CONFIRM_MESSAGES.CONFIRM_PASSWORD)) return;
 
     const data = {
       password: values.password,
     };
 
-    if (await putUserPassword(data)) return alert('반영되었습니다.');
+    if (await putUserPassword(data)) return alert(CONFIRM_MESSAGES.CONFIRMED);
 
-    return alert('error confirmed');
+    return;
   };
 
   return (
@@ -110,14 +124,7 @@ function MyPage() {
               width: '27.5rem',
               height: '27.5rem',
             }}>
-            <img
-              src={values.image}
-              style={{
-                width: '100%',
-                height: '100%',
-                borderRadius: '50%',
-              }}
-            />
+            <Avatar src={values.image} size={'27.5'} shape={'circle'} />
           </label>
           <input
             id='upload'
@@ -147,18 +154,7 @@ function MyPage() {
             value={values.fullName}
             onChange={(e) => setValues({ ...values, fullName: e.target.value })}
           />
-          <Button
-            onClick={onClickEditFullName}
-            style={{
-              width: '12.0rem',
-              height: '4rem',
-              borderRadius: '0.5rem',
-              fontSize: '1.8rem',
-              color: COLOR.WHITE,
-              backgroundColor: COLOR.MYPAGE_SUBMIT_BUTTON_BG,
-            }}>
-            수정하기
-          </Button>
+          <MyPageButton content={'수정하기'} onClick={onClickEditFullName} />
         </StyledUserInfoWrapper>
         <StyledUserInfoInput type='text' value={values.email} readOnly style={{ width: '72rem' }} />
         <StyledUserInfoWrapper>
@@ -170,30 +166,8 @@ function MyPage() {
             onChange={(e) => setValues({ ...values, password: e.target.value })}
             style={{ fontSize: '2rem' }}
           />
-          <Button
-            onClick={togglePasswordBlind}
-            style={{
-              width: '12.0rem',
-              height: '4rem',
-              borderRadius: '0.5rem',
-              fontSize: '1.5rem',
-              color: COLOR.WHITE,
-              backgroundColor: COLOR.MYPAGE_SUBMIT_BUTTON_BG,
-            }}>
-            비밀번호 보기
-          </Button>
-          <Button
-            onClick={onClickEditPassword}
-            style={{
-              width: '12.0rem',
-              height: '4rem',
-              borderRadius: '0.5rem',
-              fontSize: '1.8rem',
-              color: COLOR.WHITE,
-              backgroundColor: COLOR.MYPAGE_SUBMIT_BUTTON_BG,
-            }}>
-            수정하기
-          </Button>
+          <MyPageButton content={'비밀번호 보기'} onClick={togglePasswordBlind} />
+          <MyPageButton content={'수정하기'} onClick={onClickEditPassword} />
         </StyledUserInfoWrapper>
       </StyledUserInfoContainer>
     </StyledPageWrapper>
