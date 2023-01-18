@@ -31,7 +31,15 @@ const AuthProvider = ({ children }) => {
     });
   };
 
-  return <AuthContext.Provider value={{ authState, onLogin, onLogout }}>{children}</AuthContext.Provider>;
+  const onReload = (user) => {
+    setItem('user', user);
+    setAuthState({
+      ...authState,
+      loggedUser: user,
+    });
+  };
+
+  return <AuthContext.Provider value={{ authState, onLogin, onLogout, onReload }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;

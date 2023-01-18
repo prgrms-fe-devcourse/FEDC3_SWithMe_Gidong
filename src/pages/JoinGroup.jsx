@@ -1,9 +1,15 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { COLOR } from '@/styles/color';
 import { Header, Image, Text, Icon } from '@/components/base';
 import { icCrown } from '@/assets/icons';
 import { imgUserAvatar } from '@/assets/images';
+import { useAuthContext } from '@/context/AuthProvider';
+import { joinChannel } from '@/api/channel';
+import { css } from '@emotion/react';
+import { useState, useEffect } from 'react';
+
+const GUIDE_MESSAGE = ['로그인이 필요한 서비스입니다.', '그룹의 정원이 모두 찼습니다.', '이미 가입된 그룹입니다.'];
 
 function JoinGroup() {
   const {
@@ -11,6 +17,32 @@ function JoinGroup() {
   } = useLocation();
   const { name, description } = group;
   const { master, tagList, intro, headCount, member } = description;
+  const {
+    authState: { isLoggedIn, loggedUser },
+  } = useAuthContext();
+  const [guideMessage, setGuideMessage] = useState('');
+  const navigate = useNavigate();
+
+  const handleJoinClick = async () => {
+    member.push(loggedUser);
+    group.description = JSON.stringify(description);
+    await joinChannel(group);
+    navigate('/myGroup');
+  };
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setGuideMessage(GUIDE_MESSAGE[0]);
+      return;
+    } else if (member.length === headCount) {
+      setGuideMessage(GUIDE_MESSAGE[1]);
+      return;
+    } else if (member.some((el) => el._id === loggedUser._id)) {
+      setGuideMessage(GUIDE_MESSAGE[2]);
+      return;
+    }
+    setGuideMessage('');
+  }, []);
 
   return (
     <StyledJoinGroup>
@@ -44,7 +76,14 @@ function JoinGroup() {
           {intro}
         </Text>
       </StyledBody>
-      <StyledButton>그룹 가입하기</StyledButton>
+      <StyledButton disabled={guideMessage !== ''} guideMessage={guideMessage} onClick={() => handleJoinClick()}>
+        그룹 가입하기
+      </StyledButton>
+      {guideMessage && (
+        <Text paragraph color={COLOR.GRAY_30}>
+          {guideMessage}
+        </Text>
+      )}
     </StyledJoinGroup>
   );
 }
@@ -115,8 +154,17 @@ const StyledButton = styled.button`
   background-color: ${COLOR.JOIN_GROUP_BTN_BG};
   color: ${COLOR.WHITE};
   font-size: 1.8rem;
-
   &:hover {
     opacity: 0.9;
   }
+
+  ${({ guideMessage }) =>
+    guideMessage !== '' &&
+    css`
+      background-color: ${COLOR.GRAY_30};
+      cursor: not-allowed;
+      &:hover {
+        opacity: 1;
+      }
+    `};
 `;

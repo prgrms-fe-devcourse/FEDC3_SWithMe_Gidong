@@ -21,12 +21,13 @@ import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-sy
 import 'tui-color-picker/dist/tui-color-picker.css';
 
 function TILEditor() {
-  const { onUpdateTIL } = useTILContext();
+  const { onCreateTIL, onUpdateTIL } = useTILContext();
+
   const navigate = useNavigate();
   const {
     state: { til, groupName, groupId },
   } = useLocation();
-  const editMode = til ? '수정' : '삭제';
+  const editMode = til ? '수정' : '작성';
 
   const title = useInput(til ? til.title.title : '');
   const tags = useInput(til ? [...til.title.tagList] : []);
@@ -62,23 +63,20 @@ function TILEditor() {
       const response = await onUpdateTIL(formData);
       navigate(`/TIL/${til._id}`, { state: { til: response } });
     } else {
-      // TODO: WRITE TIL API CALL WITH BELOW DATA
-      /* 
-        POST /posts/create
-        
-        token
-        
-        FormData: data
-      */
-      // const data = {
-      //   title: JSON.stringify({
-      //     title: title.value,
-      //     body: editorRef.current.getInstance().getMarkdown(),
-      //     tagList: tags.value,
-      //   }),
-      //   channelId: groupId,
-      //   image: null,
-      // };
+      const formData = new FormData();
+      formData.append(
+        'title',
+        JSON.stringify({
+          title: title.value,
+          body: editorRef.current.getInstance().getMarkdown(),
+          tagList: tags.value,
+        }),
+      );
+      formData.append('channelId', groupId);
+      formData.append('image', null);
+
+      await onCreateTIL(formData);
+      navigate('/myGroup');
     }
   };
 
