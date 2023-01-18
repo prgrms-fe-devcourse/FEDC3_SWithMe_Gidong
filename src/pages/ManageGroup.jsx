@@ -51,8 +51,9 @@ function ManageGroup() {
             <Input
               type='number'
               block
-              label='최대 50명'
+              label={`현재 ${member.length + 1}명 / 최대 50명`}
               defaultValue={headCount}
+              min={member.length + 1}
               max={50}
               required
               ref={groupMemberCountInputRef}
