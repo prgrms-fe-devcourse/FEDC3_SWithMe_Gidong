@@ -33,14 +33,14 @@ function TIL() {
   const ableSubmit = useMemo(() => checkAbleSubmit([comment.value.length]), [comment.value]);
 
   const handleDeleteButtonClick = async () => {
+    if (!confirm('정말 삭제하시겠습니까? 한번 삭제하면 되돌릴 수 없습니다.')) return;
+
     const data = {
       id: til._id,
     };
 
-    if (confirm('정말 삭제하시겠습니까? 한번 삭제하면 되돌릴 수 없습니다.')) {
-      await onDeleteTIL(data);
-      navigate('/myGroup');
-    }
+    await onDeleteTIL(data);
+    navigate('/myGroup');
   };
 
   const handleSubmitButtonClick = () => {
