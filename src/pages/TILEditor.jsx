@@ -21,7 +21,7 @@ import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-sy
 import 'tui-color-picker/dist/tui-color-picker.css';
 
 function TILEditor() {
-  const { onCreateTIL } = useTILContext();
+  const { onCreateTIL, onUpdateTIL } = useTILContext();
 
   const navigate = useNavigate();
   const {
@@ -46,24 +46,21 @@ function TILEditor() {
     if (!ableSubmit) return;
 
     if (til) {
-      // TODO: UPDATE TIL API CALL WITH BELOW DATA
-      /* 
-        PUT /posts/update
-        
-        token
-        
-        FormData: data
-      */
-      // const data = {
-      //   postId: til._id,
-      //   title: JSON.stringify({
-      //     title: title.value,
-      //     body: editorRef.current.getInstance().getMarkdown(),
-      //     tagsList: tags.value,
-      //   }),
-      //   channelId: channel._id,
-      //   image: null,
-      // };
+      const formData = new FormData();
+      formData.append(
+        'title',
+        JSON.stringify({
+          title: title.value,
+          body: editorRef.current.getInstance().getMarkdown(),
+          tagList: tags.value,
+        }),
+      );
+      formData.append('postId', til._id);
+      formData.append('channelId', til.channel._id);
+      formData.append('image', null);
+
+      const response = await onUpdateTIL(formData);
+      navigate(`/TIL/${til._id}`, { state: { til: response } });
     } else {
       const formData = new FormData();
       formData.append(

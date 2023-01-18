@@ -1,4 +1,4 @@
-import { createTIL, deleteTIL, getPostListByChannel } from '@/api/post';
+import { createTIL, deleteTIL, getPostListByChannel, updateTIL } from '@/api/post';
 import { createContext, useCallback, useContext, useReducer } from 'react';
 
 const TILContext = createContext();
@@ -13,8 +13,7 @@ const reducer = (state, action) => {
       return [...state, action.payload];
     }
     case 'UPDATE_TIL': {
-      // pass
-      break;
+      return [...state.filter((item) => item._id !== action.payload._id), action.payload];
     }
     case 'DELETE_TIL': {
       return state.filter((item) => item._id !== action.payload._id);
@@ -39,13 +38,21 @@ const TILProvider = ({ children }) => {
     dispatch({ type: 'CREATE_TIL', payload });
   }, []);
 
+  const onUpdateTIL = useCallback(async (id) => {
+    const payload = await updateTIL(id);
+    dispatch({ type: 'UPDATE_TIL', payload });
+    return payload;
+  }, []);
+
   const onDeleteTIL = useCallback(async (data) => {
     const payload = await deleteTIL(data);
     dispatch({ type: 'DELETE_TIL', payload });
   }, []);
 
   return (
-    <TILContext.Provider value={{ tils, onShowTILByGroup, onCreateTIL, onDeleteTIL }}>{children}</TILContext.Provider>
+    <TILContext.Provider value={{ tils, onShowTILByGroup, onCreateTIL, onDeleteTIL, onUpdateTIL }}>
+      {children}
+    </TILContext.Provider>
   );
 };
 

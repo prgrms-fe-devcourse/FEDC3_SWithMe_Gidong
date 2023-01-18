@@ -21,6 +21,17 @@ export const createTIL = async (formData) => {
   }
 };
 
+export const updateTIL = async (formData) => {
+  try {
+    const response = await axiosInstance.put('/posts/update', formData);
+    const parsedResponse = { ...response, title: JSON.parse(response.title) };
+
+    return parsedResponse;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const deleteTIL = async (data) => {
   try {
     const response = await axiosInstance.delete('/posts/delete', { data });
