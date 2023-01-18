@@ -1,6 +1,7 @@
 import { imgDefaultAvatar } from '@/assets/images';
 import { Avatar, Button, Divider, Header, Icon, Tag, Text, Textarea } from '@/components/base';
 import CommentList from '@/components/domain/CommentList';
+import { useTILContext } from '@/context/TILProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import { convertDate } from '@/utils/date';
@@ -8,9 +9,12 @@ import { checkAbleSubmit } from '@/utils/validation';
 import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 function TIL() {
+  const navigate = useNavigate();
+  const { onDeleteTIL } = useTILContext();
+
   const viewerRef = useRef(null);
   const comment = useInput('');
 
@@ -27,6 +31,17 @@ function TIL() {
   const writtenTime = convertDate(new Date(createdAt));
 
   const ableSubmit = useMemo(() => checkAbleSubmit([comment.value.length]), [comment.value]);
+
+  const handleDeleteButtonClick = async () => {
+    if (!confirm('정말 삭제하시겠습니까? 한번 삭제하면 되돌릴 수 없습니다.')) return;
+
+    const data = {
+      id: til._id,
+    };
+
+    await onDeleteTIL(data);
+    navigate('/myGroup');
+  };
 
   const handleSubmitButtonClick = () => {
     if (!ableSubmit) return;
@@ -129,7 +144,10 @@ function TIL() {
                 수정
               </Button>
             </Link>
-            <Button as='span' style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}>
+            <Button
+              as='span'
+              style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}
+              onClick={handleDeleteButtonClick}>
               삭제
             </Button>
           </StyledButtonContainer>
