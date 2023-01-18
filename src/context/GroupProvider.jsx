@@ -13,8 +13,10 @@ const reducer = (state, action) => {
       return { value: [...state.value, action.payload], ...state.isLoading };
     }
     case 'UPDATE_GROUP': {
-      // pass
-      break;
+      return {
+        ...state,
+        value: state.value.map((group) => (group._id === action.payload._id ? action.payload : group)),
+      };
     }
     case 'DELETE_GROUP': {
       return { value: state.value.filter((item) => item._id !== action.payload._id), ...state.isLoading };
@@ -26,7 +28,7 @@ const reducer = (state, action) => {
   }
 };
 
-const GroupProvider = ({ children, initialGroups, handleCreateGroup, handleDeleteGroup }) => {
+const GroupProvider = ({ children, initialGroups, handleCreateGroup, handleUpdateGroup, handleDeleteGroup }) => {
   const [groups, dispatch] = useReducer(reducer, initialGroups);
   const [openedGroupId, setOpenedGroupId] = useState(getItem('openedGroupId'));
 
@@ -46,6 +48,14 @@ const GroupProvider = ({ children, initialGroups, handleCreateGroup, handleDelet
     [handleCreateGroup],
   );
 
+  const onUpdateGroup = useCallback(
+    async (data) => {
+      const payload = await handleUpdateGroup(data);
+      dispatch({ type: 'UPDATE_GROUP', payload });
+    },
+    [handleCreateGroup],
+  );
+
   const onDeleteGroup = useCallback(
     async (data) => {
       const payload = await handleDeleteGroup(data);
@@ -55,7 +65,8 @@ const GroupProvider = ({ children, initialGroups, handleCreateGroup, handleDelet
   );
 
   return (
-    <GroupContext.Provider value={{ groups, openedGroupId, setOpenedGroupId, onCreateGroup, onDeleteGroup }}>
+    <GroupContext.Provider
+      value={{ groups, openedGroupId, setOpenedGroupId, onCreateGroup, onUpdateGroup, onDeleteGroup }}>
       {children}
     </GroupContext.Provider>
   );

@@ -2,35 +2,34 @@ import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { COLOR } from '@/styles/color';
 import { Header, TagInput, Textarea, Input, Text } from '@/components/base';
-import useForm from '@/hooks/useForm';
 import useInput from '@/hooks/useInput';
+import { useRef } from 'react';
+import { useGroupContext } from '@/context/GroupProvider';
 
 function ManageGroup() {
   const { state } = useLocation();
   const { name, description } = state;
   const { headCount, member, tagList, intro } = description;
+  const { onUpdateGroup } = useGroupContext();
+  const tags = useInput(tagList);
+  const groupNameInputRef = useRef('');
+  const groupMemberCountInputRef = useRef(0);
+  const groupIntroductionInputRef = useRef('');
 
-  console.log(state);
-
-  const tags = useInput([...tagList]);
-  console.log('tags', tags);
-
-  const { isLoading, errors, handleChange, handleSubmit } = useForm({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    onSubmit: async (values) => {
-      alert(JSON.stringify(values));
-    },
-    validate: ({ email, password }) => {
-      const errors = {};
-      if (!email) errors.email = '이메일을 입력해주세요.';
-      if (!password) errors.password = '비밀번호를 입력해주세요.';
-      if (!/^.+@.+\..+$/.test(email)) errors.email = '올바른 이메일을 입력해주세요.';
-      return errors;
-    },
-  });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+      ...state,
+      name: groupNameInputRef.current,
+      description: JSON.stringify({
+        ...description,
+        headCount: groupMemberCountInputRef.current,
+        tagList: tags.value,
+        intro: groupIntroductionInputRef.current,
+      }),
+    };
+    await onUpdateGroup(data);
+  };
 
   return (
     <StyledPageWrapper>
@@ -39,40 +38,45 @@ function ManageGroup() {
           <Header level={3} size={25}>
             그룹 정보 관리
           </Header>
-          <StyledGroupForm onSubmit={handleSubmit}>
-            <StyledGroupInfo>
-              <Text block size={2}>
-                그룹명
-              </Text>
-              <Input type='text' defaultValue={name} max={15} block required />
-            </StyledGroupInfo>
-            <StyledGroupInfo>
-              <Text block size={2}>
-                최대 인원
-              </Text>
-              <Input type='number' block label='최대 50명' defaultValue={headCount} max={50} required />
-            </StyledGroupInfo>
-            <StyledGroupInfo>
-              <Text block size={2}>
-                태그
-              </Text>
-              <TagInput initialTagList={tags.value} onChange={(tagList) => tags.onChange(tagList)} />
-            </StyledGroupInfo>
-            <StyledGroupInfo>
-              <Text block size={2}>
-                소개
-              </Text>
-              <Textarea
-                defaultValue={intro}
-                placeholder='그룹을 소개하는 글을 작성해주세요.'
-                max={300}
-                wrapperProps={{ style: { width: '100%' } }}
-              />
-            </StyledGroupInfo>
-            <StyledSubmitButton type='submit' disabled={isLoading}>
-              {isLoading ? '로딩...' : '수정'}
-            </StyledSubmitButton>
-          </StyledGroupForm>
+          <StyledGroupInfo>
+            <Text block size={2}>
+              그룹명
+            </Text>
+            <Input type='text' defaultValue={name} max={15} block required ref={groupNameInputRef} />
+          </StyledGroupInfo>
+          <StyledGroupInfo>
+            <Text block size={2}>
+              최대 인원
+            </Text>
+            <Input
+              type='number'
+              block
+              label='최대 50명'
+              defaultValue={headCount}
+              max={50}
+              required
+              ref={groupMemberCountInputRef}
+            />
+          </StyledGroupInfo>
+          <StyledGroupInfo>
+            <Text block size={2}>
+              태그
+            </Text>
+            <TagInput initialTagList={tags.value} onChange={(tagList) => tags.onChange(tagList)} />
+          </StyledGroupInfo>
+          <StyledGroupInfo>
+            <Text block size={2}>
+              소개
+            </Text>
+            <Textarea
+              defaultValue={intro}
+              placeholder='그룹을 소개하는 글을 작성해주세요.'
+              max={300}
+              wrapperProps={{ style: { width: '100%' } }}
+              ref={groupIntroductionInputRef}
+            />
+          </StyledGroupInfo>
+          <StyledSubmitButton onClick={handleSubmit}>수정</StyledSubmitButton>
         </StyledGroupUpdate>
       </StyledManageGroup>
     </StyledPageWrapper>
@@ -113,13 +117,10 @@ const StyledGroupUpdate = styled.div`
     padding-bottom: 1rem;
     border-bottom: 1px solid ${COLOR.GRAY_10};
   }
-`;
 
-const StyledGroupForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 50rem;
+  & > div {
+    width: 45rem;
+  }
 `;
 
 const StyledGroupInfo = styled.div`
@@ -129,18 +130,8 @@ const StyledGroupInfo = styled.div`
   & input {
     height: 3rem;
     font-weight: 100;
-    color: ${COLOR.DARK};
     font-size: 1.6rem;
-  }
-
-  & > div {
-    font-weight: 100;
-  }
-
-  & > div:nth-child(2) {
-    justify-content: left;
-    padding: 0;
-    border: none;
+    color: ${COLOR.DARK};
   }
 
   & textarea {
@@ -151,7 +142,7 @@ const StyledGroupInfo = styled.div`
   }
 `;
 
-const StyledSubmitButton = styled.div`
+const StyledSubmitButton = styled.button`
   width: 10rem;
   padding: 1rem;
   border-radius: 0.6rem;

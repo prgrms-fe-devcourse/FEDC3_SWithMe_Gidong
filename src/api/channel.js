@@ -40,6 +40,16 @@ export const joinChannel = async (updateData) => {
   }
 };
 
+export const updateChannel = async (updateData) => {
+  try {
+    const response = await axiosAdminInstance.put(`/channels/update`, updateData);
+    const updatedChannel = { ...response, description: JSON.parse(response.description) };
+    return updatedChannel;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const deleteChannel = async (channelId) => {
   try {
     const response = await axiosAdminInstance.delete('channels/delete', {
