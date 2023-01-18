@@ -30,16 +30,6 @@ export const createChannel = async (channelInfo) => {
   }
 };
 
-export const joinChannel = async (updateData) => {
-  try {
-    const response = await axiosAdminInstance.put(`/channels/update`, updateData);
-    const joinedChannel = { ...response, description: JSON.parse(response.description) };
-    return joinedChannel;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 export const updateChannel = async (updateData) => {
   try {
     const response = await axiosAdminInstance.put(`/channels/update`, updateData);
