@@ -14,10 +14,11 @@ function CommentItem({ comment }) {
   } = useAuthContext();
   const { onDeleteComment, onUpdateComment } = useCommentContext();
   const [mode, setMode] = useState('view');
-  const commentInput = useInput('');
 
   const { author, comment: body, updatedAt, _id: id, post } = comment;
   const writtenTime = convertDate(new Date(updatedAt));
+
+  const commentInput = useInput(body);
 
   const handleDeleteButtonClick = async () => {
     const data = { id };
