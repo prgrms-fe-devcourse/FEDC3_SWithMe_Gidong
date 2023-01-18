@@ -47,7 +47,6 @@ function TILEditor() {
 
     if (til) {
       const formData = new FormData();
-      console.log(tags.value);
       formData.append(
         'title',
         JSON.stringify({
