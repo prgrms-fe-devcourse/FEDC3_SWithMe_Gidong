@@ -12,6 +12,7 @@ import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useLikeContext } from '../context/LikeProvider';
 
 function TIL() {
   const {
@@ -20,6 +21,7 @@ function TIL() {
   const navigate = useNavigate();
   const { onDeleteTIL, onGetTIL } = useTILContext();
   const { comments, onInitComment, onCreateComment } = useCommentContext();
+  const { likes, onInitLike, onCreateLike, onDeleteLike } = useLikeContext();
 
   const viewerRef = useRef(null);
   const comment = useInput('');
@@ -48,10 +50,15 @@ function TIL() {
       await onInitComment(til.comments);
     };
 
+    const initLike = async () => {
+      await onInitLike(til.likes);
+    };
+
     if (til) {
       initComment();
+      initLike();
     }
-  }, [til?.comments]);
+  }, [til]);
 
   const ableSubmit = useMemo(() => checkAbleSubmit([comment.value.length]), [comment.value]);
 
@@ -78,28 +85,22 @@ function TIL() {
     comment.onChange('');
   };
 
-  const handleLikeButtonClick = () => {
-    // TODO: LIKE API CALL WITH BELOW DATA
+  const toggleLikeButtonClick = async () => {
+    const loggedUserLike = likes.filter((like) => like.user === loggedUser._id);
 
-    /* 
-      POST /likes/create
+    if (loggedUserLike.length === 0) {
+      const data = {
+        comment: comment.value,
+        postId: til._id,
+      };
+      await onCreateLike(data);
+    } else {
+      const data = {
+        id: loggedUserLike[0]._id,
+      };
 
-      token
-
-      comment: string,
-      postId: til._id
-
-
-      DELETE /likes/delete
-
-      token
-
-      postId: til._id
-    */
-
-    const data = {
-      postId: til._id,
-    };
+      await onDeleteLike(data);
+    }
   };
 
   return (
@@ -107,12 +108,13 @@ function TIL() {
       <StyledTIL className='til'>
         {til && (
           <>
-            <StyledLikeButton ref={likeButtonRef} onClick={handleLikeButtonClick}>
-              {/* TODO: 공감 버튼 누른 여부에 따라 fill 여부 결정 */}
-              {/* {likes.length && likes.filter((like) => like.user === currentUser._id)} */}
-              {/* <Icon name='heart' size={3} /> */}
-              <Icon type='regular' name='heart' size={3} />
-              <Text size={1.2}>{til.likes.length}</Text>
+            <StyledLikeButton ref={likeButtonRef} onClick={toggleLikeButtonClick}>
+              {likes.length && likes.filter((like) => like.user === loggedUser._id).length ? (
+                <Icon name='heart' size={3} />
+              ) : (
+                <Icon type='regular' name='heart' size={3} />
+              )}
+              <Text size={1.2}>{likes.length}</Text>
             </StyledLikeButton>
             <Header level={1} strong size={40} color={COLOR.DARK}>
               📚 [{til.channel.name}]에 대한 TIL

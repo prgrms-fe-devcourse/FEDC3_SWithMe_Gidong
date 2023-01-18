@@ -6,7 +6,7 @@ export const useCommentContext = () => useContext(CommentContext);
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'SHOW_COMMENTS': {
+    case 'INIT_COMMENTS': {
       return action.payload;
     }
     case 'CREATE_COMMENT': {
@@ -26,7 +26,7 @@ const CommentProvider = ({ children }) => {
   const [comments, dispatch] = useReducer(reducer, []);
 
   const onInitComment = useCallback((initialComments = []) => {
-    dispatch({ type: 'SHOW_COMMENTS', payload: initialComments });
+    dispatch({ type: 'INIT_COMMENTS', payload: initialComments });
   }, []);
 
   const onCreateComment = useCallback(async (data) => {

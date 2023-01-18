@@ -2,6 +2,7 @@ import { createChannel, deleteChannel, getChannelList } from '@/api/channel';
 import AuthProvider from '@/context/AuthProvider';
 import CommentProvider from '@/context/CommentProvider';
 import GroupProvider from '@/context/GroupProvider';
+import LikeProvider from '@/context/LikeProvider';
 import TILProvider from '@/context/TILProvider';
 import { useAsync } from '@/hooks';
 import Router from '@/Router';
@@ -27,7 +28,9 @@ function App() {
           handleDeleteGroup={handleDeleteGroup}>
           <TILProvider>
             <CommentProvider>
-              <Router />
+              <LikeProvider>
+                <Router />
+              </LikeProvider>
             </CommentProvider>
           </TILProvider>
         </GroupProvider>
