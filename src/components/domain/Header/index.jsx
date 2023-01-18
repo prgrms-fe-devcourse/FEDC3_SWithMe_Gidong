@@ -10,13 +10,12 @@ const Header = () => {
   const headerRef = useRef(null);
   const location = useLocation();
   const [isWhite, setIsWhite] = useState(false);
+  const pathnameList = ['/joinGroup', '/myPage'];
 
   useEffect(() => {
-    if (location.pathname === '/joinGroup') {
-      setIsWhite(true);
-    } else {
-      setIsWhite(false);
-    }
+    if (pathnameList.includes(location.pathname)) return setIsWhite(true);
+
+    return setIsWhite(false);
   }, [location.pathname]);
 
   useEffect(() => {
