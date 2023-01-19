@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-// import Home from '../pages/Home';
+import Home from '@/pages/Home';
 import Header from '@/components/domain/Header';
 import MyGroup from '@/pages/MyGroup';
 import SignIn from '@/pages/SignIn';
@@ -15,6 +15,7 @@ function Router() {
     <BrowserRouter>
       <Header />
       <Routes>
+        <Route path='/' element={<Home />} />
         <Route path='/signIn' element={<SignIn />} />
         <Route path='/signUp' element={<SignUp />} />
         <Route path='/myPage' element={<MyPage />} />
