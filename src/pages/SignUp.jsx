@@ -1,6 +1,6 @@
-import { postUserSignUp } from '@/api/userSign';
 import { Button, Spinner, Text } from '@/components/base';
 import SignInput from '@/components/domain/SignInput';
+import { useUserContext } from '@/context/UserProvider';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
@@ -29,6 +29,7 @@ const INPUT_NUMBER_LIMIT = {
 
 function SignUp() {
   const navigate = useNavigate();
+  const { onCreateUser } = useUserContext();
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -61,7 +62,7 @@ function SignUp() {
     };
 
     setIsLoading(true);
-    await postUserSignUp(requestBody);
+    await onCreateUser(requestBody);
 
     alert('회원가입이 완료 되었습니다.');
     setIsLoading(false);
