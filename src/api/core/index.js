@@ -2,6 +2,7 @@ import axios from 'axios';
 import { getItem } from '@/utils/storage';
 
 const { VITE_API_END_POINT, VITE_TOKEN } = import.meta.env;
+const API_BASE_URL = import.meta.env.MODE === 'development' ? VITE_API_END_POINT : '/api';
 
 const axiosApi = (url, options) => {
   const instance = axios.create({ baseURL: url, ...options });
@@ -66,5 +67,5 @@ const axiosAdminApi = (url, options) => {
   return instance;
 };
 
-export const axiosInstance = axiosApi(VITE_API_END_POINT);
-export const axiosAdminInstance = axiosAdminApi(VITE_API_END_POINT);
+export const axiosInstance = axiosApi(API_BASE_URL);
+export const axiosAdminInstance = axiosAdminApi(API_BASE_URL);
