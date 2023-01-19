@@ -23,7 +23,7 @@ function AlarmModal({ visible, onClose }) {
     if (visible) {
       (async () => {
         const alarms = await getAlarm();
-        alarms.sort((a, b) => new Date(a.updatedAt) - new Date(b.createdAt));
+        alarms?.sort((a, b) => new Date(a.updatedAt) - new Date(b.createdAt));
 
         setAlarms(alarms);
       })();
@@ -32,6 +32,7 @@ function AlarmModal({ visible, onClose }) {
 
   const handleAlarmClick = (postId) => {
     navigate(`/TIL/${postId}`);
+    onClose && onClose();
   };
 
   return (
@@ -44,7 +45,9 @@ function AlarmModal({ visible, onClose }) {
           {alarms.length !== 0 ? (
             alarms.map((alarm) => (
               <StyledAlarm key={alarm._id} onClick={() => handleAlarmClick(alarm.post)}>
-                <Text size={1.6} color={'black'}>{`[${alarm.like.post.title.title}]에 좋아요가 눌렸습니다.`}</Text>
+                <Text size={1.6} color={'black'}>{`[${
+                  alarm.like ? alarm.like.post.title.title : alarm.comment.post.title.title
+                }]에 ${alarm.like ? '좋아요가 눌렸습니다.' : '댓글이 달렸습니다.'}`}</Text>
               </StyledAlarm>
             ))
           ) : (

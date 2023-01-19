@@ -82,7 +82,17 @@ function TIL() {
       postId: til._id,
     };
 
-    await onCreateComment(data);
+    const createdComment = await onCreateComment(data);
+
+    const alarmData = {
+      notificationType: 'COMMENT',
+      notificationTypeId: createdComment._id,
+      userId: til.author._id,
+      postId: til._id,
+    };
+    const createdAlarm = await createAlarm(alarmData);
+    setItem(createdComment._id, createdAlarm._id);
+
     comment.onChange('');
   };
 
@@ -94,29 +104,29 @@ function TIL() {
         comment: comment.value,
         postId: til._id,
       };
-      const like = await onCreateLike(data);
+      const createdLike = await onCreateLike(data);
 
       const alarmData = {
         notificationType: 'LIKE',
-        notificationTypeId: like._id,
+        notificationTypeId: createdLike._id,
         userId: til.author._id,
         postId: til._id,
       };
-      const alarm = await createAlarm(alarmData);
+      const createdAlarm = await createAlarm(alarmData);
 
-      setItem(like._id, alarm._id);
+      setItem(createdLike._id, createdAlarm._id);
     } else {
       const data = {
         id: loggedUserLike[0]._id,
       };
-      const like = await onDeleteLike(data);
+      const deletedLike = await onDeleteLike(data);
 
       const alarmData = {
-        id: getItem(like._id, ''),
+        id: getItem(deletedLike._id, ''),
       };
       await deleteAlarm(alarmData);
 
-      removeItem(like._id);
+      removeItem(deletedLike._id);
     }
   };
 
