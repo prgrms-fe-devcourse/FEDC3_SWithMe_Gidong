@@ -29,7 +29,6 @@ function App() {
       <GlobalStyle />
       <AuthProvider>
         <UserProvider initialUsers={initialUsers}>
-          {/* <UserProvider> */}
           <GroupProvider
             initialGroups={initialGroups}
             handleCreateGroup={handleCreateGroup}
