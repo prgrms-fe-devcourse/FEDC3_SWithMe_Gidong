@@ -3,23 +3,23 @@ import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 
 function SearchResultGroup(props) {
-  const { groupCurrent, groupMax, groupTitle, index } = props;
+  const { current, max, title, index, tags } = props;
 
   return (
     <StyledResultGruopCard>
-      <div style={{ color: COLOR.GROUP_SEARCH_RESULT_COLOR[index] }}>
+      <div style={{ color: COLOR.GROUP_SEARCH_RESULT_COLOR[index], textAlign: 'right' }}>
         <Icon name='user' size={2} />
         <Text size={1.6}>
-          {groupCurrent}/{groupMax}
+          {current}/{max}
         </Text>
       </div>
-      <Header size='2.4rem'>{groupTitle}</Header>
+      <Header size='2.4rem'>{title}</Header>
       <StyledResultGroupTags>
-        <Text size={1.6}>#개발</Text>
-        <Text size={1.6}>#개발</Text>
-        <Text size={1.6}>#개발</Text>
-        <Text size={1.6}>#개발</Text>
-        <Text size={1.6}>#개발</Text>
+        {tags?.map((tag, index) => (
+          <div key={index} style={{ textAlign: 'center', width: '100%', height: '2rem' }}>
+            <Text size={1.6}>#{tag}</Text>
+          </div>
+        ))}
       </StyledResultGroupTags>
       <Button style={{ backgroundColor: COLOR.WHITE }}>
         <Text size={1.5} underline>
@@ -41,19 +41,17 @@ const StyledResultGruopCard = styled.div`
   border-radius: 2.4rem;
   background-color: ${COLOR.WHITE};
 
-  & > div {
-    text-align: right;
-  }
-
   & > h1 {
     text-align: center;
   }
 `;
 
 const StyledResultGroupTags = styled.div`
-  display: grid;
-  align-items: center;
-  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  padding: 1rem 0;
+  gap: 0.8rem;
   width: 100%;
   height: 17.6rem;
   border-radius: 2.4rem;

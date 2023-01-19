@@ -1,36 +1,69 @@
 import { icSearchSubmit } from '@/assets/icons';
-import { Button, Input } from '@/components/base';
+import { Button } from '@/components/base';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useState } from 'react';
-import { DropdownItem } from '@/components/Domain/TemplateHeader';
+import { useNavigate } from 'react-router-dom';
+
+const FILLTER_OPTIONS = {
+  SEARCH_ALL: '전체',
+  SEARCH_NAME: '그룹명',
+  SEARCH_TAG: '태그',
+};
+const SEARCH_VALUE_LENGTH_MIN = 2;
+const SEARCH_ERROR = {
+  INPUT_VALUE_LENGTH_MIN: '두 글자 이상 입력해주세요.',
+};
 
 const SearchBar = () => {
+  const navigate = useNavigate();
   const [dropdown, setDropdown] = useState(false);
+  const [filterValue, setFilterValue] = useState('전체');
+  const [searchValue, setSearchValue] = useState('');
 
-  const handleDropdown = () => {
+  const handleDropdown = (e) => {
     setDropdown(!dropdown);
+
+    if (dropdown) setFilterValue(e.target.innerText);
+  };
+
+  const onClickSearch = async () => {
+    if (searchValue.length < SEARCH_VALUE_LENGTH_MIN) return alert(SEARCH_ERROR.INPUT_VALUE_LENGTH_MIN);
+
+    navigate('/searchResult', { state: { filterValue: filterValue, searchValue: searchValue } });
   };
 
   return (
     <StyledHeaderSearchBar>
-      <StyledDropdownTrigger onClick={handleDropdown}>전체</StyledDropdownTrigger>
+      <StyledDropdownTrigger onClick={handleDropdown}>{filterValue}</StyledDropdownTrigger>
       {dropdown ? (
         <StyledDropdownUl>
-          <DropdownItem content={'전체'} onClick={handleDropdown} />
-          <DropdownItem content={'그룹명'} onClick={handleDropdown} />
-          <DropdownItem content={'태그'} onClick={handleDropdown} />
+          <li>
+            <button value={FILLTER_OPTIONS.SEARCH_ALL} onClick={handleDropdown}>
+              {FILLTER_OPTIONS.SEARCH_ALL}
+            </button>
+          </li>
+          <li>
+            <button value={FILLTER_OPTIONS.SEARCH_NAME} onClick={handleDropdown}>
+              {FILLTER_OPTIONS.SEARCH_NAME}
+            </button>
+          </li>
+          <li>
+            <button value={FILLTER_OPTIONS.SEARCH_TAG} onClick={handleDropdown}>
+              {FILLTER_OPTIONS.SEARCH_TAG}
+            </button>
+          </li>
         </StyledDropdownUl>
       ) : null}
-      <Input
-        type='text'
-        placeholder='스터디 그룹 검색'
-        wrapperProps={{ style: { width: 'calc(100% - 15rem)', margin: '1.9rem 0 1.9rem 1.7rem' } }}
-        style={{ fontSize: '1.8rem', height: '1.75rem', padding: '0', border: '0' }}
+      <StyledSearchInput
+        type={'text'}
+        placeholder={'스터디 그룹 검색'}
+        onChange={(e) => setSearchValue(e.target.value)}
       />
       <Button
         bgcolor={COLOR.HEADER_SEARCHBAR_SUBMIT_BG}
-        style={{ width: '3rem', height: '3rem', padding: '0', marginRight: '2rem', borderRadius: '50%' }}>
+        style={{ width: '3rem', height: '3rem', padding: '0', marginRight: '2rem', borderRadius: '50%' }}
+        onClick={onClickSearch}>
         <SearchSubmitIcon src={icSearchSubmit} />
       </Button>
     </StyledHeaderSearchBar>
@@ -82,7 +115,27 @@ const StyledDropdownUl = styled.ul`
   border-radius: 2rem;
   background-color: white;
 
-  &>li>button: hover {
-    background-color: lightgray;
+  & > li > button {
+    width: 8rem;
+    height: 3.7rem;
+    padding: 0;
+    border-bottom: 0.05rem solid '#E8E7EB';
+    font-size: 1.8rem;
+    color: COLOR.DARK;
   }
+
+  &>li>button: hover {
+    background-color: ${COLOR.LIGHTGRAY};
+  }
+`;
+
+const StyledSearchInput = styled.input`
+  position: relative;
+  display: inline-block;
+  width: calc(100% - 15rem);
+  height: 1.75rem;
+  padding: 0;
+  border: 0;
+  font-size: 1.8rem;
+  margin: 1.9rem 0 1.9rem 1.7rem;
 `;
