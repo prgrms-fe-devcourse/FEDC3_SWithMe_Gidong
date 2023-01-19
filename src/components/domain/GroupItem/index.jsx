@@ -29,10 +29,10 @@ function GroupItem({ group, isLastGroup }) {
       return [...users, loggedUser].filter((user) => user._id === masterId)[0];
     };
 
-    if (description) {
+    if (description && users) {
       setMaster(getMasterInfo());
     }
-  }, [description]);
+  }, [description, users]);
 
   return (
     <StyledGroupItem>
