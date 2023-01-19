@@ -38,6 +38,7 @@ const LikeProvider = ({ children }) => {
   const onDeleteLike = useCallback(async (data) => {
     const payload = await deleteLike(data);
     dispatch({ type: 'DELETE_LIKE', payload });
+    return payload;
   }, []);
 
   return (
