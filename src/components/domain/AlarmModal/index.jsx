@@ -31,7 +31,7 @@ export default AlarmModal;
 
 const StyledModalWrapper = styled.div`
   display: ${({ visible }) => (visible ? 'block' : 'none')};
-  z-index: 1000;
+  z-index: 2000;
 `;
 
 const StyledModalContainer = styled.div`
