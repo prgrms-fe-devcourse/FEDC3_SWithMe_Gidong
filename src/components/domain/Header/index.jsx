@@ -24,9 +24,11 @@ const Header = () => {
       if (window.scrollY) {
         headerRef.current.style.backgroundColor = 'white';
         headerRef.current.style.boxShadow = '0 0.5rem 1.5rem rgba(0, 0, 0, 0.1)';
+        setIsWhite(false);
       } else {
         headerRef.current.style.backgroundColor = 'transparent';
         headerRef.current.style.boxShadow = 'none';
+        setIsWhite(true);
       }
     };
     window.addEventListener('scroll', changeHeaderBackground);

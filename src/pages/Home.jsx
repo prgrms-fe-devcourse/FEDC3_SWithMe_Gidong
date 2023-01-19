@@ -17,8 +17,6 @@ function Home() {
     return await getPostListByChannel(groupId);
   }, []);
   const TILTemp = useRef([]);
-  const [sortedTILs, setSortedTILs] = useState([]);
-
   const [isSortByLike, setIsSortByLike] = useState(true);
 
   useEffect(() => {
@@ -96,6 +94,7 @@ const StyledHome = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  padding-bottom: 8rem;
 `;
 
 const StyledHeader = styled.div`
@@ -144,8 +143,10 @@ const StyledTILWrapper = styled.div`
   justify-content: center;
   justify-items: center;
   align-items: center;
+
+  padding: 0 10rem;
   margin: 0 auto;
-  max-width: 122rem;
+  max-width: 150rem;
 
   @keyframes smoothAppear {
     from {
@@ -164,7 +165,7 @@ const StyledTILWrapper = styled.div`
 const StyledViewType = styled.div`
   display: flex;
   align-items: flex-start;
-  padding: 2rem 0 2rem 10rem;
+  padding: 2rem 0 3rem 10rem;
 `;
 
 const StyledFilterButton = styled.div`
