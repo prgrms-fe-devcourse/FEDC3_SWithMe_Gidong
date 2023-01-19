@@ -54,7 +54,7 @@ const GroupProvider = ({ children, initialGroups, handleCreateGroup, handleUpdat
       dispatch({ type: 'UPDATE_GROUP', payload });
       return payload;
     },
-    [handleCreateGroup],
+    [handleUpdateGroup],
   );
 
   const onDeleteGroup = useCallback(

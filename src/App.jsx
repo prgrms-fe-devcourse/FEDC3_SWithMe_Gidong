@@ -1,9 +1,11 @@
-import { createChannel, updateChannel, deleteChannel, getChannelList } from '@/api/channel';
+import { createChannel, deleteChannel, getChannelList, updateChannel } from '@/api/channel';
+import { getAllUsers } from '@/api/user';
 import AuthProvider from '@/context/AuthProvider';
 import CommentProvider from '@/context/CommentProvider';
 import GroupProvider from '@/context/GroupProvider';
 import LikeProvider from '@/context/LikeProvider';
 import TILProvider from '@/context/TILProvider';
+import UserProvider from '@/context/UserProvider';
 import { useAsync } from '@/hooks';
 import Router from '@/Router';
 import GlobalStyle from '@/styles/globalStyle';
@@ -11,6 +13,7 @@ import { useCallback } from 'react';
 
 function App() {
   const initialGroups = useAsync(getChannelList, []);
+  const initialUsers = useAsync(getAllUsers, []);
   const handleCreateGroup = useCallback(async (data) => {
     return await createChannel(data);
   }, []);
@@ -25,19 +28,22 @@ function App() {
     <>
       <GlobalStyle />
       <AuthProvider>
-        <GroupProvider
-          initialGroups={initialGroups}
-          handleCreateGroup={handleCreateGroup}
-          handleUpdateGroup={handleUpdateGroup}
-          handleDeleteGroup={handleDeleteGroup}>
-          <TILProvider>
-            <CommentProvider>
-              <LikeProvider>
-                <Router />
-              </LikeProvider>
-            </CommentProvider>
-          </TILProvider>
-        </GroupProvider>
+        <UserProvider initialUsers={initialUsers}>
+          {/* <UserProvider> */}
+          <GroupProvider
+            initialGroups={initialGroups}
+            handleCreateGroup={handleCreateGroup}
+            handleUpdateGroup={handleUpdateGroup}
+            handleDeleteGroup={handleDeleteGroup}>
+            <TILProvider>
+              <CommentProvider>
+                <LikeProvider>
+                  <Router />
+                </LikeProvider>
+              </CommentProvider>
+            </TILProvider>
+          </GroupProvider>
+        </UserProvider>
       </AuthProvider>
     </>
   );

@@ -1,12 +1,12 @@
-import { useLocation } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { COLOR } from '@/styles/color';
-import { Header, TagInput, Textarea, Input, Text, SearchBar, Icon } from '@/components/base';
-import useInput from '@/hooks/useInput';
-import { useRef, useState, useEffect } from 'react';
-import { useGroupContext } from '@/context/GroupProvider';
-import { useNavigate } from 'react-router-dom';
+import { Header, Icon, Input, SearchBar, TagInput, Text, Textarea } from '@/components/base';
 import { Member, MemberList } from '@/components/domain/groupInfo';
+import { useGroupContext } from '@/context/GroupProvider';
+import { useUserContext } from '@/context/UserProvider';
+import useInput from '@/hooks/useInput';
+import { COLOR } from '@/styles/color';
+import styled from '@emotion/styled';
+import { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const ALERT_MESSAGE = {
   GROUP_NAME: '그룹명은 한 글자 이상이어야 합니다.',
@@ -40,19 +40,27 @@ function ManageGroup() {
   const navigate = useNavigate();
   const { value, onChange } = useInput('');
 
+  const { users } = useUserContext();
+
   useEffect(() => {
     groups.value && setGroup(...groups.value.filter((group) => group._id === _id));
   }, [groups]);
 
+  const [member, setMember] = useState();
   useEffect(() => {
-    if (group) {
-      const { headCount, tagList, intro } = group.description;
+    const getMemberInfo = (members) => {
+      return users?.filter((user) => members.includes(user._id));
+    };
+
+    if (group && users) {
+      const { headCount, tagList, intro, member } = group.description;
+      setMember(getMemberInfo(member));
       groupNameInputRef.current = group.name;
       groupMemberCountInputRef.current = headCount;
       groupIntroductionInputRef.current = intro;
       tags.onChange(tagList);
     }
-  }, [group]);
+  }, [group, users]);
 
   const inputValidate = () => {
     if (groupNameInputRef.current === '') {
@@ -104,7 +112,7 @@ function ManageGroup() {
       ...group,
       description: JSON.stringify({
         ...group.description,
-        member: group.description.member.filter((el) => el._id !== _id),
+        member: group.description.member.filter((memberId) => memberId !== _id),
       }),
     };
     const updatedGroup = await onUpdateGroup(data);
@@ -119,8 +127,8 @@ function ManageGroup() {
       ...group,
       description: JSON.stringify({
         ...group.description,
-        master: member,
-        member: [...group.description.member.filter((el) => el._id !== _id), group.description.master],
+        master: _id,
+        member: [...group.description.member.filter((memberId) => memberId !== _id), group.description.master],
       }),
     };
     const updatedGroup = await onUpdateGroup(data);
@@ -192,18 +200,19 @@ function ManageGroup() {
             />
           </StyledGroupInfo>
           <MemberList>
-            {group.description.member
-              .filter(({ fullName }) => fullName.includes(value))
-              .map((member) => {
-                return (
-                  <Member key={member._id} image={member.image} fullName={member.fullName}>
-                    <div>
-                      <Icon name='right-to-bracket' size={2} onClick={() => handleKickClick(member)} />
-                      <Icon name='crown' size={2} onClick={() => handleDelegateClick(member)} />
-                    </div>
-                  </Member>
-                );
-              })}
+            {member &&
+              member
+                .filter(({ fullName }) => fullName.includes(value))
+                .map((member) => {
+                  return (
+                    <Member key={member._id} image={member.image} fullName={member.fullName}>
+                      <div>
+                        <Icon name='right-to-bracket' size={2} onClick={() => handleKickClick(member)} />
+                        <Icon name='crown' size={2} onClick={() => handleDelegateClick(member)} />
+                      </div>
+                    </Member>
+                  );
+                })}
           </MemberList>
         </StyledManageMember>
         <StyledGroupDelete>
