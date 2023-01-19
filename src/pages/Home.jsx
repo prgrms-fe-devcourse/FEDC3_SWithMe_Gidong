@@ -47,13 +47,11 @@ function Home() {
       : allTILs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     return (
-      filtered.length && (
-        <StyledTILWrapper>
-          {filtered.slice(0, 5).map((til) => (
-            <TILItem key={til._id} til={til} />
-          ))}
-        </StyledTILWrapper>
-      )
+      <StyledTILWrapper>
+        {filtered.slice(0, 5).map((til) => (
+          <TILItem key={til._id} til={til} />
+        ))}
+      </StyledTILWrapper>
     );
   };
 
@@ -72,18 +70,18 @@ function Home() {
         </StyledInfo>
         <img src={imgHomeIllust} alt='' />
       </StyledHeader>
-      <StyledContent>
+      <div>
         <StyledViewType>
-          <StyledFilterButton isActive={isSortByLike === true} onClick={() => setIsSortByLike(true)}>
+          <StyledFilterButton isActive={isSortByLike} onClick={() => setIsSortByLike(true)}>
             인기 TIL
           </StyledFilterButton>
           <Divider type='vertical' color={COLOR.GRAY_30} height={2} size={1.2} />
-          <StyledFilterButton isActive={isSortByLike === false} onClick={() => setIsSortByLike(false)}>
+          <StyledFilterButton isActive={!isSortByLike} onClick={() => setIsSortByLike(false)}>
             최신 TIL
           </StyledFilterButton>
         </StyledViewType>
         {filterTILList()}
-      </StyledContent>
+      </div>
     </StyledHome>
   );
 }
@@ -113,7 +111,6 @@ const StyledHeader = styled.div`
     margin-right: 20rem;
   }
 `;
-const StyledContent = styled.div``;
 
 const StyledInfo = styled.div`
   display: flex;
