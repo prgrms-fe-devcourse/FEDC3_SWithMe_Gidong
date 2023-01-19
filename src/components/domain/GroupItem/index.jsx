@@ -1,24 +1,38 @@
 import { Divider, Header, Icon, Text } from '@/components/base';
 import GroupInfoModal from '@/components/domain/GroupInfoModal';
+import { useAuthContext } from '@/context/AuthProvider';
+import { useGroupContext } from '@/context/GroupProvider';
+import { useUserContext } from '@/context/UserProvider';
 import { COLOR } from '@/styles/color';
 import { css } from '@emotion/react';
-import { useGroupContext } from '@/context/GroupProvider';
-import { useAuthContext } from '@/context/AuthProvider';
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function GroupItem({ group, isLastGroup }) {
   const [groupInfoModalVisible, setGroupInfoModalVisible] = useState(false);
   const { openedGroupId, setOpenedGroupId } = useGroupContext();
   const { _id, name, description } = group;
-  const { master, tagList, intro } = description;
+  const { master: masterId, tagList, intro } = description;
   const {
     authState: { loggedUser },
   } = useAuthContext();
   const isOpened = openedGroupId === _id;
-  const isMaster = master._id === loggedUser._id;
+  const isMaster = masterId === loggedUser._id;
   const navigate = useNavigate();
+
+  const { users } = useUserContext();
+  const [master, setMaster] = useState();
+
+  useEffect(() => {
+    const getMasterInfo = () => {
+      return [...users, loggedUser].filter((user) => user._id === masterId)[0];
+    };
+
+    if (description && users) {
+      setMaster(getMasterInfo());
+    }
+  }, [description, users]);
 
   return (
     <StyledGroupItem>
@@ -42,7 +56,7 @@ function GroupItem({ group, isLastGroup }) {
               </StyledGroupIcons>
             )}
           </StyledGroupTitle>
-          {!isOpened && (
+          {!isOpened && master && (
             <>
               <div>
                 <Text color={COLOR.GRAY_30} size={1.8} weight={400}>

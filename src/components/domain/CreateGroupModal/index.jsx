@@ -72,7 +72,7 @@ function CreateGroupModal({ visible, onClose, ...props }) {
       const data = {
         name: groupNameInputRef.current,
         description: JSON.stringify({
-          master: loggedUser,
+          master: loggedUser._id,
           headCount: groupMemberCountInputRef.current,
           tagList: groupTagInputRef.current,
           intro: groupIntroductionInputRef.current,
