@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
 import { COLOR } from '@/styles/color';
-import { Text } from '@/components/base';
+import { Text, Divider } from '@/components/base';
 import { imgHomeIllust } from '@/assets/images';
 import TILItem from '@/components/domain/TILItem';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useCallback, useState, useRef } from 'react';
 import { useGroupContext } from '@/context/GroupProvider';
 import { getPostListByChannel } from '@/api/post';
+import { css } from '@emotion/react';
 
 function Home() {
   const navigate = useNavigate();
@@ -17,6 +18,8 @@ function Home() {
   }, []);
   const TILTemp = useRef([]);
   const [sortedTILs, setSortedTILs] = useState([]);
+
+  const [isSortByLike, setIsSortByLike] = useState(true);
 
   useEffect(() => {
     let ignore = false;
@@ -34,19 +37,27 @@ function Home() {
     };
   }, [groups]);
 
-  useEffect(() => {
-    setSortedTILs(
-      allTILs
-        .sort((a, b) => {
+  const filterTILList = () => {
+    const filtered = isSortByLike
+      ? allTILs.sort((a, b) => {
           if (a.likes.length < b.likes.length) return 1;
           if (a.likes.length > b.likes.length) return -1;
           if (new Date(b.createdAt) > new Date(a.createdAt)) return 1;
           if (new Date(b.createdAt) < new Date(a.createdAt)) return -1;
           return 0;
         })
-        .slice(0, 5),
+      : allTILs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    return (
+      filtered.length && (
+        <StyledTILWrapper>
+          {filtered.slice(0, 5).map((til) => (
+            <TILItem key={til._id} til={til} />
+          ))}
+        </StyledTILWrapper>
+      )
     );
-  }, [allTILs]);
+  };
 
   return (
     <StyledHome>
@@ -63,11 +74,18 @@ function Home() {
         </StyledInfo>
         <img src={imgHomeIllust} alt='' />
       </StyledHeader>
-      <StyledTILWrapper>
-        {sortedTILs.map((til) => (
-          <TILItem key={til._id} til={til} />
-        ))}
-      </StyledTILWrapper>
+      <StyledContent>
+        <StyledViewType>
+          <StyledFilterButton isActive={isSortByLike === true} onClick={() => setIsSortByLike(true)}>
+            인기 TIL
+          </StyledFilterButton>
+          <Divider type='vertical' color={COLOR.GRAY_30} height={2} size={1.2} />
+          <StyledFilterButton isActive={isSortByLike === false} onClick={() => setIsSortByLike(false)}>
+            최신 TIL
+          </StyledFilterButton>
+        </StyledViewType>
+        {filterTILList()}
+      </StyledContent>
     </StyledHome>
   );
 }
@@ -77,7 +95,6 @@ export default Home;
 const StyledHome = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 2rem;
 `;
 
@@ -97,6 +114,7 @@ const StyledHeader = styled.div`
     margin-right: 20rem;
   }
 `;
+const StyledContent = styled.div``;
 
 const StyledInfo = styled.div`
   display: flex;
@@ -141,4 +159,23 @@ const StyledTILWrapper = styled.div`
   }
 
   animation: smoothAppear 1s;
+`;
+
+const StyledViewType = styled.div`
+  display: flex;
+  align-items: flex-start;
+  padding: 2rem 0 2rem 10rem;
+`;
+
+const StyledFilterButton = styled.div`
+  font-size: 2.2rem;
+  color: ${COLOR.GRAY_30};
+
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      font-weight: 600;
+      color: ${COLOR.DARK};
+    `};
+  cursor: pointer;
 `;
