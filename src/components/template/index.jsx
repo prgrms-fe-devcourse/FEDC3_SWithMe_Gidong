@@ -1,13 +1,11 @@
-import { COLOR } from '@/styles/color';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import HeaderLogo from './HeaderLogo';
-import HeaderSearchBar from './HeaderSearchBar';
-import HeaderUserNav from './HeaderUserNav';
+import { COLOR } from '@/styles/color';
+import { css } from '@emotion/react';
+import { Logo, SearchBar, UserNav } from '@/components/domain/TemplateHeader';
 
-const Header = () => {
+function Template({ children }) {
   const headerRef = useRef(null);
   const location = useLocation();
   const [isWhite, setIsWhite] = useState(false);
@@ -36,21 +34,30 @@ const Header = () => {
   }, []);
 
   return (
-    <StyledHeaderContainer ref={headerRef} isWhite={isWhite}>
-      <HeaderLogo />
-      <HeaderSearchBar />
-      <HeaderUserNav />
-    </StyledHeaderContainer>
+    <StyledTemplate>
+      <StyledHeaderContainer ref={headerRef} isWhite={isWhite}>
+        <Logo />
+        <SearchBar />
+        <UserNav />
+      </StyledHeaderContainer>
+      {children}
+    </StyledTemplate>
   );
-};
+}
 
-export default Header;
+export default Template;
+
+const StyledTemplate = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 
 const StyledHeaderContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-content: space-between;
   align-items: center;
+  top: 0;
 
   z-index: 1;
   position: fixed;

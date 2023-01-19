@@ -1,7 +1,7 @@
 import { Button } from '@/components/base';
 import { COLOR } from '@/styles/color';
 
-function HeaderDropdownButton(props) {
+function DropdownButton(props) {
   const { content, onClick } = props;
 
   return (
@@ -23,4 +23,4 @@ function HeaderDropdownButton(props) {
   );
 }
 
-export default HeaderDropdownButton;
+export default DropdownButton;

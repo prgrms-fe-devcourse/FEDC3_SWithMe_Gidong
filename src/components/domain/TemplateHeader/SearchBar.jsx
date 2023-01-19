@@ -3,9 +3,9 @@ import { Button, Input } from '@/components/base';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useState } from 'react';
-import HeaderDropdownItem from './HeaderDropdownItem';
+import { DropdownItem } from '@/components/Domain/TemplateHeader';
 
-const HeaderSearchBar = () => {
+const SearchBar = () => {
   const [dropdown, setDropdown] = useState(false);
 
   const handleDropdown = () => {
@@ -17,9 +17,9 @@ const HeaderSearchBar = () => {
       <StyledDropdownTrigger onClick={handleDropdown}>전체</StyledDropdownTrigger>
       {dropdown ? (
         <StyledDropdownUl>
-          <HeaderDropdownItem content={'전체'} onClick={handleDropdown} />
-          <HeaderDropdownItem content={'그룹명'} onClick={handleDropdown} />
-          <HeaderDropdownItem content={'태그'} onClick={handleDropdown} />
+          <DropdownItem content={'전체'} onClick={handleDropdown} />
+          <DropdownItem content={'그룹명'} onClick={handleDropdown} />
+          <DropdownItem content={'태그'} onClick={handleDropdown} />
         </StyledDropdownUl>
       ) : null}
       <Input
@@ -37,7 +37,7 @@ const HeaderSearchBar = () => {
   );
 };
 
-export default HeaderSearchBar;
+export default SearchBar;
 
 const StyledHeaderSearchBar = styled.div`
   display: flex;
