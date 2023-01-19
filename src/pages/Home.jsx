@@ -4,33 +4,49 @@ import { Text } from '@/components/base';
 import { imgHomeIllust } from '@/assets/images';
 import TILItem from '@/components/domain/TILItem';
 import { useNavigate } from 'react-router-dom';
-
-import React, { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback, useState, useRef } from 'react';
 import { useGroupContext } from '@/context/GroupProvider';
 import { getPostListByChannel } from '@/api/post';
 
 function Home() {
   const navigate = useNavigate();
-
   const { groups } = useGroupContext();
-  const [allTILList, setAllTILList] = useState([]);
-
-  const handleShowTILsByGroup = useCallback(async (groupId) => {
+  const [allTILs, setAllTILs] = useState([]);
+  const getTILsByGroup = useCallback(async (groupId) => {
     return await getPostListByChannel(groupId);
   }, []);
+  const TILTemp = useRef([]);
+  const [sortedTILs, setSortedTILs] = useState([]);
 
   useEffect(() => {
     let ignore = false;
     if (groups.value) {
-      groups.value.forEach(async (group) => {
-        const temp = await handleShowTILsByGroup(group._id);
-        if (!ignore) setAllTILList((prev) => [...prev, ...temp]);
-      });
+      (async () => {
+        for await (const group of groups.value) {
+          const data = await getTILsByGroup(group._id);
+          if (!ignore) TILTemp.current.push(...data);
+        }
+        if (!ignore) setAllTILs((prev) => [...prev, ...TILTemp.current]);
+      })();
     }
     return () => {
       ignore = true;
     };
   }, [groups]);
+
+  useEffect(() => {
+    setSortedTILs(
+      allTILs
+        .sort((a, b) => {
+          if (a.likes.length < b.likes.length) return 1;
+          if (a.likes.length > b.likes.length) return -1;
+          if (new Date(b.createdAt) > new Date(a.createdAt)) return 1;
+          if (new Date(b.createdAt) < new Date(a.createdAt)) return -1;
+          return 0;
+        })
+        .slice(0, 5),
+    );
+  }, [allTILs]);
 
   return (
     <StyledHome>
@@ -48,7 +64,7 @@ function Home() {
         <img src={imgHomeIllust} alt='' />
       </StyledHeader>
       <StyledTILWrapper>
-        {allTILList.map((til) => (
+        {sortedTILs.map((til) => (
           <TILItem key={til._id} til={til} />
         ))}
       </StyledTILWrapper>
@@ -56,7 +72,7 @@ function Home() {
   );
 }
 
-export default React.memo(Home);
+export default Home;
 
 const StyledHome = styled.div`
   display: flex;
@@ -111,7 +127,7 @@ const StyledTILWrapper = styled.div`
   justify-items: center;
   align-items: center;
   margin: 0 auto;
-  max-width: 100rem;
+  max-width: 122rem;
 
   @keyframes smoothAppear {
     from {
