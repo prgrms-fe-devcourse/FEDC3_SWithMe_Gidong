@@ -1,12 +1,39 @@
+import { getAlarms } from '@/api/alarm';
 import { Header, Text } from '@/components/base';
 import useClickAway from '@/hooks/useClickAway';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
+import { useEffect, useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function AlarmModal({ visible, onClose }) {
+  const navigate = useNavigate();
   const ref = useClickAway(() => {
     onClose && onClose();
   });
+
+  const [alarms, setAlarms] = useState([]);
+
+  useEffect(() => {
+    const getAlarm = async () => {
+      const data = await getAlarms();
+      return data;
+    };
+
+    if (visible) {
+      (async () => {
+        const alarms = await getAlarm();
+        alarms?.sort((a, b) => new Date(a.updatedAt) - new Date(b.createdAt));
+
+        setAlarms(alarms);
+      })();
+    }
+  }, [visible]);
+
+  const handleAlarmClick = (postId) => {
+    navigate(`/TIL/${postId}`);
+    onClose && onClose();
+  };
 
   return (
     <StyledModalWrapper visible={visible}>
@@ -15,12 +42,17 @@ function AlarmModal({ visible, onClose }) {
           알람
         </StyledHeader>
         <StyledAlarmContainer>
-          <StyledAlarm>
-            <Text size={1.6}>[제목]에 댓글이 달렸습니다.</Text>
-          </StyledAlarm>
-          <StyledAlarm>
-            <Text size={1.6}>[제목]에 좋아요가 눌렸습니다.</Text>
-          </StyledAlarm>
+          {alarms.length !== 0 ? (
+            alarms.map((alarm) => (
+              <StyledAlarm key={alarm._id} onClick={() => handleAlarmClick(alarm.post)}>
+                <Text size={1.6} color={'black'}>{`[${
+                  alarm.like ? alarm.like.post.title.title : alarm.comment.post.title.title
+                }]에 ${alarm.like ? '좋아요가 눌렸습니다.' : '댓글이 달렸습니다.'}`}</Text>
+              </StyledAlarm>
+            ))
+          ) : (
+            <Text style={{ padding: '0 1rem', fontSize: '1.6rem' }}>알림이 없습니다!</Text>
+          )}
         </StyledAlarmContainer>
       </StyledModalContainer>
     </StyledModalWrapper>
@@ -41,7 +73,7 @@ const StyledModalContainer = styled.div`
 
   width: 24rem;
   height: 30rem;
-  padding: 2rem 0;
+  padding: 2rem 1rem;
 
   background-color: ${COLOR.TEXTAREA_BG};
   border-radius: 1rem;
@@ -50,7 +82,7 @@ const StyledModalContainer = styled.div`
 `;
 
 const StyledHeader = styled(Header)`
-  padding: 0 2rem;
+  padding: 0 1rem;
 `;
 
 const StyledAlarmContainer = styled.div`
@@ -63,7 +95,7 @@ const StyledAlarmContainer = styled.div`
 `;
 
 const StyledAlarm = styled.div`
-  padding: 0.6rem 2rem;
+  padding: 0.6rem 1rem;
   cursor: pointer;
 
   &:hover {

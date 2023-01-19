@@ -1,18 +1,20 @@
+import { createAlarm, deleteAlarm } from '@/api/alarm';
 import { imgDefaultAvatar } from '@/assets/images';
 import { Avatar, Button, Divider, Header, Icon, Tag, Text, Textarea } from '@/components/base';
 import CommentList from '@/components/domain/CommentList';
 import { useAuthContext } from '@/context/AuthProvider';
 import { useCommentContext } from '@/context/CommentProvider';
+import { useLikeContext } from '@/context/LikeProvider';
 import { useTILContext } from '@/context/TILProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import { convertDate } from '@/utils/date';
+import { getItem, removeItem, setItem } from '@/utils/storage';
 import { checkAbleSubmit } from '@/utils/validation';
 import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useLikeContext } from '../context/LikeProvider';
 
 function TIL() {
   const {
@@ -22,7 +24,6 @@ function TIL() {
   const { onDeleteTIL, onGetTIL } = useTILContext();
   const { comments, onInitComment, onCreateComment } = useCommentContext();
   const { likes, onInitLike, onCreateLike, onDeleteLike } = useLikeContext();
-
   const viewerRef = useRef(null);
   const comment = useInput('');
   const likeButtonRef = useRef(null);
@@ -81,7 +82,17 @@ function TIL() {
       postId: til._id,
     };
 
-    await onCreateComment(data);
+    const createdComment = await onCreateComment(data);
+
+    const alarmData = {
+      notificationType: 'COMMENT',
+      notificationTypeId: createdComment._id,
+      userId: til.author._id,
+      postId: til._id,
+    };
+    const createdAlarm = await createAlarm(alarmData);
+    setItem(createdComment._id, createdAlarm._id);
+
     comment.onChange('');
   };
 
@@ -93,13 +104,29 @@ function TIL() {
         comment: comment.value,
         postId: til._id,
       };
-      await onCreateLike(data);
+      const createdLike = await onCreateLike(data);
+
+      const alarmData = {
+        notificationType: 'LIKE',
+        notificationTypeId: createdLike._id,
+        userId: til.author._id,
+        postId: til._id,
+      };
+      const createdAlarm = await createAlarm(alarmData);
+
+      setItem(createdLike._id, createdAlarm._id);
     } else {
       const data = {
         id: loggedUserLike[0]._id,
       };
+      const deletedLike = await onDeleteLike(data);
 
-      await onDeleteLike(data);
+      const alarmData = {
+        id: getItem(deletedLike._id, ''),
+      };
+      await deleteAlarm(alarmData);
+
+      removeItem(deletedLike._id);
     }
   };
 

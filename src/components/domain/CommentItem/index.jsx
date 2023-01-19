@@ -1,3 +1,4 @@
+import { deleteAlarm } from '@/api/alarm';
 import { imgDefaultAvatar } from '@/assets/images';
 import { Avatar, Button, Text, Textarea } from '@/components/base';
 import { useAuthContext } from '@/context/AuthProvider';
@@ -5,6 +6,7 @@ import { useCommentContext } from '@/context/CommentProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import { convertDate } from '@/utils/date';
+import { getItem, removeItem } from '@/utils/storage';
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
@@ -22,8 +24,14 @@ function CommentItem({ comment }) {
 
   const handleDeleteButtonClick = async () => {
     const data = { id };
+    const deletedComment = await onDeleteComment(data);
 
-    await onDeleteComment(data);
+    const alarmData = {
+      id: getItem(deletedComment._id, ''),
+    };
+    await deleteAlarm(alarmData);
+
+    removeItem(deletedComment._id);
   };
 
   const handleSubmitButtonClick = async () => {
