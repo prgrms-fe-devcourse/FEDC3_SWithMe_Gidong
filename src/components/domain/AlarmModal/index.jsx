@@ -3,7 +3,7 @@ import { Header, Text } from '@/components/base';
 import useClickAway from '@/hooks/useClickAway';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function AlarmModal({ visible, onClose }) {
