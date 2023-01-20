@@ -10,7 +10,7 @@ function SearchResultGroup(props) {
       <StyledGroupUserAmount style={{ color: COLOR.GROUP_SEARCH_RESULT_COLOR[index] }}>
         <Icon name='user' size={2} />
         <Text size={1.6}>
-          {group.description.member.length}/{group.description.headCount}
+          {group.description.member.length + 1}/{group.description.headCount}
         </Text>
       </StyledGroupUserAmount>
       <Header size='2.4rem'>{group.name}</Header>

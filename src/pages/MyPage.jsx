@@ -16,7 +16,6 @@ const TOGGLE_PASSWORD_BLIND_TYPES = {
 const CONFIRM_MESSAGES = {
   CONFIRM_FULLNAME: '정말로 닉네임을 바꾸시겠습니까?',
   CONFIRM_PASSWORD: '정말로 비밀번호를 바꾸시겠습니까?',
-  CONFIRMED: '반영되었습니다.',
 };
 
 const INPUT_NUMBER_LIMIT = {
@@ -69,7 +68,6 @@ function MyPage() {
     if (response) {
       setValues({ ...values, image: response.image });
       onReload(response);
-      alert(CONFIRM_MESSAGES.CONFIRMED);
 
       return;
     }
