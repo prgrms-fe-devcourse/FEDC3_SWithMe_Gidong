@@ -228,6 +228,11 @@ const StyledTIL = styled.div`
   position: relative;
   flex: 1;
   padding: 16rem 8rem 8rem 8rem;
+
+  @media (max-width: 624px) {
+    padding: 16rem 4rem 8rem 4rem;
+  }
+
   background-color: ${COLOR.MY_GROUP_BG};
 
   display: flex;

@@ -125,7 +125,11 @@ const StyledInfo = styled.div`
   flex: 1 0 40rem;
 
   width: fit-content;
-  padding: 10rem 10rem 10rem 10rem;
+  padding: 10rem;
+
+  @media (max-width: 624px) {
+    padding: 10rem 4rem;
+  }
 
   & > button {
     width: fit-content;

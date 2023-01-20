@@ -54,6 +54,10 @@ const StyledMyGroup = styled.div`
   flex: 1;
   padding: 10rem;
   background-color: ${COLOR.MY_GROUP_BG};
+
+  @media (max-width: 624px) {
+    padding: 10rem 6rem;
+  }
 `;
 
 const StyledHeader = styled.div`
@@ -96,7 +100,7 @@ const StyledDesc = styled.div`
     flex-direction: column;
     justify-content: center;
 
-    flex: 1 0 10rem;
+    flex: 1 0 6.5rem;
 
     p {
       margin: 0.5rem 0;
@@ -105,5 +109,11 @@ const StyledDesc = styled.div`
 
   & > img {
     flex: 0;
+  }
+
+  @media (max-width: 624px) {
+    & > img {
+      display: none;
+    }
   }
 `;

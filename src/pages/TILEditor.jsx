@@ -98,7 +98,7 @@ function TILEditor() {
           style={{ fontSize: '3rem', backgroundColor: `${COLOR.MY_GROUP_BG}` }}
           icon={+false}
         />
-        <div style={{ backgroundColor: `${COLOR.WHITE}` }}>
+        <EditorWrapper>
           <Editor
             initialValue={til ? til.title.body : '여기에서 자유롭게 TIL을 작성하세요!'}
             hideModeSwitch={true}
@@ -108,9 +108,8 @@ function TILEditor() {
             placeholder='여기에서 자유롭게 TIL을 작성하세요!'
             ref={editorRef}
           />
-        </div>
+        </EditorWrapper>
         <StyledFooterContanier>
-          {/* <div style={{ width: '50%' }}> */}
           <div>
             <TagInput
               initialTagList={tags.value}
@@ -156,6 +155,11 @@ const StyledTILEditor = styled.div`
   position: relative;
   flex: 1;
   padding: 16rem 8rem 8rem 8rem;
+
+  @media (max-width: 624px) {
+    padding: 16rem 4rem 8rem 4rem;
+  }
+
   background-color: ${COLOR.MY_GROUP_BG};
 
   & > button:not(:last-child) {
@@ -184,4 +188,8 @@ const StyledFooterContanier = styled.div`
     justify-content: flex-end;
     flex: 1 1 40rem;
   }
+`;
+
+const EditorWrapper = styled.div`
+  background-color: ${COLOR.WHITE};
 `;
