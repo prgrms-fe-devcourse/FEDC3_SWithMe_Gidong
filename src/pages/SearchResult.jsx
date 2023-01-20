@@ -23,7 +23,7 @@ function SearchResult() {
       <SearchResultContainer title={'그룹명'} groupTotal={groupList?.length}>
         {groupList?.map((group, index) => (
           <SearchResultGroup
-            key={index}
+            key={group._id}
             current={group.description.member.length}
             max={group.description.headCount}
             title={group.name}

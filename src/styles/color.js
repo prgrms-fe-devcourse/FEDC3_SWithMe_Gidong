@@ -6,6 +6,7 @@ export const COLOR = {
   GRAY2: '#A9A9A9',
   GRAY3: '#C5C5C5',
   LIGHTGRAY: '#D3D3D3',
+  LIGHTGRAY2: '#E8E7EB',
   RED: '#FF0000',
 
   MY_GROUP_BG: '#F4F5FF',

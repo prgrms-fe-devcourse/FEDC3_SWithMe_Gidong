@@ -5,11 +5,7 @@ import styled from '@emotion/styled';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const FILLTER_OPTIONS = {
-  SEARCH_ALL: '전체',
-  SEARCH_NAME: '그룹명',
-  SEARCH_TAG: '태그',
-};
+const FILLTER_OPTIONS = ['전체', '그룹명', '태그'];
 const SEARCH_VALUE_LENGTH_MIN = 2;
 const SEARCH_ERROR = {
   INPUT_VALUE_LENGTH_MIN: '두 글자 이상 입력해주세요.',
@@ -27,10 +23,10 @@ const SearchBar = () => {
     if (dropdown) setFilterValue(e.target.innerText);
   };
 
-  const onClickSearch = async () => {
+  const handleSearchButtonClick = async () => {
     if (searchValue.length < SEARCH_VALUE_LENGTH_MIN) return alert(SEARCH_ERROR.INPUT_VALUE_LENGTH_MIN);
 
-    navigate('/searchResult', { state: { filterValue: filterValue, searchValue: searchValue } });
+    navigate('/searchResult', { state: { filterValue, searchValue } });
   };
 
   return (
@@ -38,21 +34,13 @@ const SearchBar = () => {
       <StyledDropdownTrigger onClick={handleDropdown}>{filterValue}</StyledDropdownTrigger>
       {dropdown ? (
         <StyledDropdownUl>
-          <li>
-            <button value={FILLTER_OPTIONS.SEARCH_ALL} onClick={handleDropdown}>
-              {FILLTER_OPTIONS.SEARCH_ALL}
-            </button>
-          </li>
-          <li>
-            <button value={FILLTER_OPTIONS.SEARCH_NAME} onClick={handleDropdown}>
-              {FILLTER_OPTIONS.SEARCH_NAME}
-            </button>
-          </li>
-          <li>
-            <button value={FILLTER_OPTIONS.SEARCH_TAG} onClick={handleDropdown}>
-              {FILLTER_OPTIONS.SEARCH_TAG}
-            </button>
-          </li>
+          {FILLTER_OPTIONS.map((option, index) => (
+            <li key={index}>
+              <button value={option} onClick={handleDropdown}>
+                {option}
+              </button>
+            </li>
+          ))}
         </StyledDropdownUl>
       ) : null}
       <StyledSearchInput
@@ -63,7 +51,7 @@ const SearchBar = () => {
       <Button
         bgcolor={COLOR.HEADER_SEARCHBAR_SUBMIT_BG}
         style={{ width: '3rem', height: '3rem', padding: '0', marginRight: '2rem', borderRadius: '50%' }}
-        onClick={onClickSearch}>
+        onClick={handleSearchButtonClick}>
         <SearchSubmitIcon src={icSearchSubmit} />
       </Button>
     </StyledHeaderSearchBar>
@@ -119,7 +107,7 @@ const StyledDropdownUl = styled.ul`
     width: 8rem;
     height: 3.7rem;
     padding: 0;
-    border-bottom: 0.05rem solid '#E8E7EB';
+    border-bottom: 0.05rem solid ${COLOR.LIGHTGRAY2};
     font-size: 1.8rem;
     color: COLOR.DARK;
   }
