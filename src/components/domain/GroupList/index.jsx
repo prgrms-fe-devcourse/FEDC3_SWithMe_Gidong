@@ -37,9 +37,6 @@ function GroupList() {
           {myGroupList?.length ? (
             myGroupList.map((group, i) => (
               <Fragment key={group._id}>
-                <Link to='/joinGroup' state={{ group }}>
-                  그룹 가입하기
-                </Link>
                 <GroupItem group={group} isLastGroup={myGroupList.length - 1 === i} />
                 {openedGroupId === group._id && <TILList groupId={group._id} groupName={group.name} />}
               </Fragment>
