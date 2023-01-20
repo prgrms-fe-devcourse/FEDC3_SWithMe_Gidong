@@ -1,11 +1,13 @@
 import { postUserSignIn } from '@/api/userSign';
-import { Button, Spinner, Text } from '@/components/base';
+import { Spinner, Header, Text, Image, Button } from '@/components/base';
 import SignInput from '@/components/domain/SignInput';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '@/context/AuthProvider';
+import { imgLogin } from '@/assets/images';
+import { css } from '@emotion/react';
 
 const ERRORS = {
   EMAIL_EMPTY_ERROR: '이메일을 입력해 주세요',
@@ -52,7 +54,7 @@ function SignIn() {
       return;
     }
     onLogin(data);
-    alert('로그인');
+    // alert('로그인');
     navigate('/');
   };
 
@@ -62,19 +64,31 @@ function SignIn() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <StyledSpinnerWrapper>
+        <Spinner size={64} />
+      </StyledSpinnerWrapper>
+    );
+  }
+
   return (
-    <>
-      {isLoading ? (
-        <StyledSpinnerWrapper>
-          <Spinner size={64} />
-        </StyledSpinnerWrapper>
-      ) : null}
-      <StyledPageWrapper>
-        <StyledSignInContainer>
-          <Text paragraph size={3.3} strong>
+    <StyledPageWrapper>
+      <StyledContainer>
+        <StyledLoginBox onKeyDown={onClickEnter}>
+          <Header level={3} size={25}>
             로그인
-          </Text>
-          <StyledSignInForm onKeyDown={onClickEnter}>
+          </Header>
+          <StyledDesc>
+            <div>
+              <Text paragraph color={COLOR.DARK} size={2.1} weight={500}>
+                <Text color={COLOR.TAG_COLOR[0]}>로그인</Text>하여 <Text color={COLOR.TAG_COLOR[1]}>스윗미</Text>의
+                서비스를 즐겨보세요.
+              </Text>
+            </div>
+            <Image src={imgLogin} width={20} />
+          </StyledDesc>
+          <StyledLoginItem>
             <SignInput
               header={'이메일'}
               type={'email'}
@@ -85,6 +99,8 @@ function SignIn() {
               alert={emailAlert}
               alertOnChange={setEmailAlert}
             />
+          </StyledLoginItem>
+          <StyledLoginItem isLastItem={true}>
             <SignInput
               header={'비밀번호'}
               type={'password'}
@@ -97,7 +113,7 @@ function SignIn() {
               alert={passwordAlert}
               alertOnChange={setPasswordAlert}
             />
-          </StyledSignInForm>
+          </StyledLoginItem>
           <StyledSignUpNav>
             <Text paragraph style={{ marginRight: '1rem', fontSize: '1.5rem' }}>
               계정이 없으신가요?
@@ -110,17 +126,10 @@ function SignIn() {
               회원가입
             </Button>
           </StyledSignUpNav>
-          <Button
-            as='button'
-            style={{ fontSize: '2.4rem', width: '15.7rem', height: '5.2rem' }}
-            color={COLOR.WHITE}
-            bgcolor={COLOR.SIGNUP_BUTTON_BG}
-            onClick={handleSignUp}>
-            로그인
-          </Button>
-        </StyledSignInContainer>
-      </StyledPageWrapper>
-    </>
+          <StyledButton onClick={handleSignUp}>로그인</StyledButton>
+        </StyledLoginBox>
+      </StyledContainer>
+    </StyledPageWrapper>
   );
 }
 
@@ -128,11 +137,98 @@ export default SignIn;
 
 const StyledPageWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+`;
+
+const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  padding-top: 8rem;
+  gap: 3rem;
+  flex: 1;
+
+  position: relative;
+  padding: 10rem;
+  background-color: ${COLOR.MY_GROUP_BG};
+`;
+
+const StyledLoginBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+
+  width: 80rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  background-color: ${COLOR.WHITE};
+
+  & > h3 {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid ${COLOR.GRAY_10};
+  }
+
+  & > div:not(:nth-of-type(1)) {
+    width: 45rem;
+  }
+`;
+
+const StyledDesc = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  height: 15rem;
+  margin: 3rem 0;
+  padding: 0 3rem;
+  border-radius: 1rem;
+  background-color: ${COLOR.MY_GROUP_BOX_BG};
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    p {
+      margin: 0.5rem 0;
+    }
+  }
+`;
+
+const StyledLoginItem = styled.div`
   width: 100%;
-  height: 80%;
+  padding: 2rem 0;
+
+  & input {
+    height: 3rem;
+    font-weight: 100;
+    font-size: 1.6rem;
+    color: ${COLOR.DARK};
+  }
+
+  ${({ isLastItem }) =>
+    isLastItem &&
+    css`
+      padding-bottom: 0;
+    `};
+`;
+
+const StyledButton = styled.button`
+  width: 10rem;
+  padding: 1rem;
+  border-radius: 0.6rem;
+
+  background-color: ${COLOR.PRIMARY_BTN};
+  text-align: center;
+  font-size: 1.8rem;
+  color: ${COLOR.WHITE};
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.9;
+  }
 `;
 
 const StyledSpinnerWrapper = styled.div`
@@ -146,25 +242,10 @@ const StyledSpinnerWrapper = styled.div`
   background-color: ${COLOR.SIGNUP_SPINNER_BG};
 `;
 
-const StyledSignInContainer = styled.div`
-  display: grid;
-  align-items: center;
-  justify-items: center;
-  width: 68.2rem;
-  height: 100%;
-`;
-
-const StyledSignInForm = styled.div`
-  display: grid;
-  gap: 5.5rem;
-  width: 68.2rem;
-  height: 38.2rem;
-  padding: 6.5rem 5.7rem;
-  border: 0.1rem solid ${COLOR.BLACK};
-`;
-
 const StyledSignUpNav = styled.div`
   display: flex;
+  justify-content: flex-end;
   align-items: center;
   width: 100%;
+  padding-bottom: 4rem;
 `;
