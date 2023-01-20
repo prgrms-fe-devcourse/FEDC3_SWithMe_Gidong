@@ -31,11 +31,11 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
       return [...users, loggedUser].filter((user) => user._id === masterId)[0];
     };
 
-    if (description) {
+    if (description && users) {
       setMember(getMemberInfo());
       setMaster(getMasterInfo());
     }
-  }, [description]);
+  }, [description, users]);
 
   const checkWriteTIL = (posts) => {
     return posts.filter(
