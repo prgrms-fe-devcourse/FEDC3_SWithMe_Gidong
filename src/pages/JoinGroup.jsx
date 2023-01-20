@@ -30,7 +30,7 @@ function JoinGroup() {
       ...group,
       description: JSON.stringify({
         ...description,
-        member: [...member, loggedUser],
+        member: [...member, loggedUser._id],
       }),
     };
     await onUpdateGroup(data);
