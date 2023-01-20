@@ -58,8 +58,6 @@ function SearchResult() {
     if (!groupList) return;
     searchGroupByName();
     searchGroupByTag();
-    console.log(groupListByName);
-    console.log(groupListByTag);
   }, [groupList, filterValue, searchValue]);
 
   return (
