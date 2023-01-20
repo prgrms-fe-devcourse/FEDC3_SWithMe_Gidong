@@ -1,6 +1,6 @@
 import { postUserAvatar, putUserFullName, putUserPassword } from '@/api/userInfo';
-import { imgMypage } from '@/assets/images';
-import { Avatar } from '@/components/base';
+import { imgMypage, imgUserAvatar } from '@/assets/images';
+import { Avatar, Text, Input } from '@/components/base';
 import { MyPageButton } from '@/components/domain/MyPage';
 import { useAuthContext } from '@/context/AuthProvider';
 import { COLOR } from '@/styles/color';
@@ -115,61 +115,61 @@ function MyPage() {
 
   return (
     <StyledPageWrapper>
-      <StyledBanner>
-        <div>
-          <label
-            htmlFor='upload'
-            style={{
-              display: 'inline-block',
-              width: '27.5rem',
-              height: '27.5rem',
-            }}>
-            <Avatar src={values.image} size={'27.5'} shape={'circle'} />
+      <StyledHeader>
+        <StyledProfile>
+          <label htmlFor='upload'>
+            <Avatar src={values.image ? values.image : imgUserAvatar} size={'23'} shape={'circle'} />
           </label>
-          <input
-            id='upload'
-            type='file'
-            accept='image/*'
-            style={{ position: 'absolute', width: '0.1rem', height: '0.1rem' }}
-            onChange={(e) => onClickEditAvatar(e.target.files[0])}
-          />
-        </div>
-        <img
-          src={imgMypage}
-          style={{
-            position: 'absolute',
-            width: '55.6rem',
-            height: '35.2rem',
-            bottom: '-0.8rem',
-            right: '-0.8rem',
-            transform: 'rotate(-9.84deg)',
-          }}
-        />
-      </StyledBanner>
-      <StyledUserInfoContainer>
-        <StyledUserInfoWrapper>
-          <StyledUserInfoInput
+          <input id='upload' type='file' accept='image/*' onChange={(e) => onClickEditAvatar(e.target.files[0])} />
+        </StyledProfile>
+        <img src={imgMypage} alt='' />
+      </StyledHeader>
+      <StyledMyInfoBox>
+        <StyledMyInfoItem>
+          <Text block size={2}>
+            이메일
+          </Text>
+          <Input
             type='text'
-            placeholder='닉네임 수정'
-            value={values.fullName}
-            onChange={(e) => setValues({ ...values, fullName: e.target.value })}
+            defaultValue={values.email}
+            block
+            readOnly
+            style={{
+              borderBottom: 'none',
+            }}
           />
-          <MyPageButton content={'수정하기'} onClick={onClickEditFullName} />
-        </StyledUserInfoWrapper>
-        <StyledUserInfoInput type='text' value={values.email} readOnly style={{ width: '72rem' }} />
-        <StyledUserInfoWrapper>
-          <StyledUserInfoInput
-            type={passwordInputType}
-            placeholder='비밀번호 수정'
-            minLength='2'
-            maxLength='20'
-            onChange={(e) => setValues({ ...values, password: e.target.value })}
-            style={{ fontSize: '2rem' }}
-          />
-          <MyPageButton content={'비밀번호 보기'} onClick={togglePasswordBlind} />
-          <MyPageButton content={'수정하기'} onClick={onClickEditPassword} />
-        </StyledUserInfoWrapper>
-      </StyledUserInfoContainer>
+        </StyledMyInfoItem>
+        <StyledMyInfoItem>
+          <Text block size={2}>
+            이름
+          </Text>
+          <StyledInputBox>
+            <StyledUserInfoInput
+              type='text'
+              placeholder='이름 수정'
+              value={values.fullName}
+              onChange={(e) => setValues({ ...values, fullName: e.target.value })}
+            />
+            <MyPageButton content={'수정'} onClick={onClickEditFullName} />
+          </StyledInputBox>
+        </StyledMyInfoItem>
+        <StyledMyInfoItem>
+          <Text block size={2}>
+            비밀번호
+          </Text>
+          <StyledInputBox>
+            <StyledUserInfoInput
+              type={passwordInputType}
+              placeholder='수정할 비밀번호를 입력해 주세요.'
+              minLength='2'
+              maxLength='20'
+              onChange={(e) => setValues({ ...values, password: e.target.value })}
+            />
+            <MyPageButton content={'보기'} onClick={togglePasswordBlind} />
+            <MyPageButton content={'수정'} onClick={onClickEditPassword} />
+          </StyledInputBox>
+        </StyledMyInfoItem>
+      </StyledMyInfoBox>
     </StyledPageWrapper>
   );
 }
@@ -177,44 +177,92 @@ function MyPage() {
 export default MyPage;
 
 const StyledPageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   position: relative;
   width: 100%;
   height: 100%;
 `;
 
-const StyledBanner = styled.div`
+const StyledHeader = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 50.2rem;
-  top: 0;
-  border-radius: 0 0 24rem 4rem;
-  background: linear-gradient(135deg, ${COLOR.MYPAGE_BG_GRADIENT_LEFT}, ${COLOR.MYPAGE_BG_GRADIENT_RIGHT});
-`;
-
-const StyledUserInfoContainer = styled.div`
-  display: grid;
   gap: 3rem;
-  place-items: center;
-  text-align: center;
-  margin-top: 5rem;
+  position: relative;
+
   width: 100%;
+  min-height: 43rem;
+  padding-top: 11rem;
+  background: linear-gradient(135deg, ${COLOR.MYPAGE_BG_GRADIENT_LEFT} 0%, ${COLOR.MYPAGE_BG_GRADIENT_RIGHT} 100%);
+  border-radius: 0 0 20rem 3rem;
+  color: ${COLOR.WHITE};
+  overflow: hidden;
+
+  & > img {
+    position: absolute;
+    bottom: -2rem;
+    right: -5rem;
+    width: 45rem;
+    transform: rotate(-10deg);
+  }
 `;
 
-const StyledUserInfoWrapper = styled.div`
+const StyledProfile = styled.div`
+  & > label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1rem;
+    cursor: pointer;
+  }
+
+  & > input {
+    position: absolute;
+    width: 0.1rem;
+    height: 0.1rem;
+  }
+`;
+
+const StyledMyInfoBox = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  width: 72rem;
-  height: 5rem;
-  padding: 0;
+  justify-content: center;
+
+  width: 80rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  background-color: ${COLOR.WHITE};
+
+  & > div {
+    width: 45rem;
+  }
 `;
 
 const StyledUserInfoInput = styled.input`
+  margin: 1rem 0 2rem 0;
   width: 40rem;
   height: 4rem;
   font-size: 3.2rem;
+  border-bottom: 0.1rem solid ${({ invalid }) => (invalid ? COLOR.RED : COLOR.GRAY)};
+`;
+
+const StyledMyInfoItem = styled.div`
+  width: 100%;
+  padding: 2rem 0;
+
+  & input {
+    height: 3rem;
+    font-weight: 100;
+    font-size: 1.6rem;
+    color: ${COLOR.DARK};
+  }
+`;
+
+const StyledInputBox = styled.div`
+  display: flex;
+  gap: 1rem;
 `;
