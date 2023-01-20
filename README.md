@@ -18,7 +18,7 @@
 |팀장|팀원|팀원|
 |:---:|:---:|:---:|
 |<img src="https://avatars.githubusercontent.com/u/63948884?v=4" width="150"/>|<img src="https://avatars.githubusercontent.com/u/73218463?v=4" width="150"/>|<img src="https://avatars.githubusercontent.com/u/34560965?v=4" width="150"/>
-|[이혜준](https://github.com/solar3070)|[김재현](https://github.com/hanyugeon)|[](https://github.com/rjsduf0503)
+|[이혜준](https://github.com/solar3070)|[김재현](https://github.com/hanyugeon)|[류건열](https://github.com/rjsduf0503)
 
 <br/>
 
