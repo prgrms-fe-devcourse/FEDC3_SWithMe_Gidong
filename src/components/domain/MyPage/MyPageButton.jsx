@@ -8,12 +8,15 @@ function MyPageButton(props) {
     <Button
       onClick={onClick}
       style={{
-        width: '12.0rem',
-        height: '4rem',
-        borderRadius: '0.5rem',
+        width: '10rem',
+        height: 'fit-content',
+        padding: '1rem',
+        borderRadius: '0.6rem',
         fontSize: '1.8rem',
         color: COLOR.WHITE,
         backgroundColor: COLOR.MYPAGE_SUBMIT_BUTTON_BG,
+        textAlign: 'center',
+        cursor: 'pointer',
       }}>
       {content}
     </Button>

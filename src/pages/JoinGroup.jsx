@@ -8,6 +8,7 @@ import { useAuthContext } from '@/context/AuthProvider';
 import { css } from '@emotion/react';
 import { useState, useEffect } from 'react';
 import { useGroupContext } from '@/context/GroupProvider';
+import { imgJoin } from '@/assets/images';
 
 const GUIDE_MESSAGE = ['로그인이 필요한 서비스입니다.', '그룹의 정원이 모두 찼습니다.', '이미 가입된 그룹입니다.'];
 
@@ -76,6 +77,7 @@ function JoinGroup() {
             </StyledTag>
           ))}
         </StyledTagList>
+        <img src={imgJoin} alt='' />
       </StyledHeader>
       <StyledBody>
         <Text paragraph size={1.8}>
@@ -108,6 +110,7 @@ const StyledHeader = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 3rem;
+  position: relative;
 
   width: 100%;
   height: 43rem;
@@ -115,6 +118,20 @@ const StyledHeader = styled.div`
   background: linear-gradient(135deg, ${COLOR.JOIN_GROUP_GRADIENT_LEFT} 0%, ${COLOR.JOIN_GROUP_GRADIENT_RIGHT} 100%);
   border-radius: 0 0 20rem 3rem;
   color: ${COLOR.WHITE};
+
+  & > img {
+    position: absolute;
+    bottom: 1rem;
+    right: 10rem;
+    width: 32rem;
+    transform: rotate(-20deg);
+  }
+
+  @media (max-width: 850px) {
+    & > img {
+      display: none;
+    }
+  }
 `;
 
 const StyledMaster = styled.div`
