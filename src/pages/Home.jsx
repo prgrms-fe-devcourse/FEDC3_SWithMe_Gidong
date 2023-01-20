@@ -59,11 +59,11 @@ function Home() {
     <StyledHome>
       <StyledHeader>
         <StyledInfo>
-          <Text strong size={3.4} lineHeight={1.2}>
+          <Text paragraph strong size={3.4} lineHeight={1.2}>
             그룹을 생성하여 TIL을 공유하고,
             <br /> 서로 피드백을 나누자!
           </Text>
-          <Text size={2.2} weight={300}>
+          <Text paragraph size={2.2} weight={300}>
             함께 공부해요. 스터디 윗미, 스윗미!
           </Text>
           <button onClick={() => navigate('/myGroup')}>내 그룹 보러가기</button>
@@ -111,7 +111,7 @@ const StyledHeader = styled.div`
     margin-right: 20rem;
   }
   & > img {
-    @media (max-width: 1024px) {
+    @media (max-width: 1150px) {
       display: none;
     }
   }
@@ -124,8 +124,13 @@ const StyledInfo = styled.div`
   gap: 2rem;
   flex: 1 0 40rem;
 
-  width: fit-content;
+  min-width: 45rem;
+  /* width: fit-content; */
   padding: 10rem;
+
+  & > p {
+    min-width: 45rem;
+  }
 
   @media (max-width: 624px) {
     padding: 10rem 4rem;
