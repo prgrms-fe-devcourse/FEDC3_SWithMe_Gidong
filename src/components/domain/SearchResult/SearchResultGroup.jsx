@@ -3,25 +3,25 @@ import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 
 function SearchResultGroup(props) {
-  const { current, max, title, index, tags } = props;
+  const { group, index, onClick } = props;
 
   return (
     <StyledResultGruopCard>
       <div style={{ color: COLOR.GROUP_SEARCH_RESULT_COLOR[index], textAlign: 'right' }}>
         <Icon name='user' size={2} />
         <Text size={1.6}>
-          {current}/{max}
+          {group.description.member.length}/{group.description.headCount}
         </Text>
       </div>
-      <Header size='2.4rem'>{title}</Header>
+      <Header size='2.4rem'>{group.name}</Header>
       <StyledResultGroupTags>
-        {tags?.map((tag, index) => (
+        {group.description.tagList?.map((tag, index) => (
           <div key={index} style={{ textAlign: 'center', width: '100%', height: '2rem' }}>
             <Text size={1.6}>#{tag}</Text>
           </div>
         ))}
       </StyledResultGroupTags>
-      <Button style={{ backgroundColor: COLOR.WHITE }}>
+      <Button onClick={onClick} style={{ backgroundColor: COLOR.WHITE }}>
         <Text size={1.5} underline>
           자세히 보기
         </Text>
