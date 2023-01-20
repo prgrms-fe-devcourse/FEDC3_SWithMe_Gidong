@@ -88,7 +88,7 @@ function CreateGroupModal({ visible, onClose, ...props }) {
   };
 
   return (
-    <Modal visible={visible} onClose={handleModalClose} width='50rem' style={{ ...props.style }} {...props}>
+    <StyledModal visible={visible} onClose={handleModalClose} style={{ ...props.style }} {...props}>
       <StyledHeaderContainer>
         <Text size={1.4} weight={400}>
           STEP {step} / {MAX_STEP_SIZE}
@@ -185,11 +185,18 @@ function CreateGroupModal({ visible, onClose, ...props }) {
           {step === MAX_STEP_SIZE ? '완료' : '다음'}
         </Button>
       </StyledButtonContainer>
-    </Modal>
+    </StyledModal>
   );
 }
 
 export default CreateGroupModal;
+
+const StyledModal = styled(Modal)`
+  width: 50rem;
+  @media (max-width: 624px) {
+    width: 100%;
+  }
+`;
 
 const StyledHeaderContainer = styled.div`
   padding: 0.5rem 2rem 0 2rem;

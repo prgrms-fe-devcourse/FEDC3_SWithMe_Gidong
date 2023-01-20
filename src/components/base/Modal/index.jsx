@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 
-function Modal({ children, width = 500, height, visible = false, round = true, onClose, ...props }) {
+function Modal({ children, width, height, visible = false, round = true, onClose, ...props }) {
   const ref = useClickAway(() => {
     onClose && onClose();
   });
