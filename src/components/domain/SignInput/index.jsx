@@ -38,9 +38,11 @@ function SignInput(props) {
         onChange={(e) => inputOnChange(e.target.value)}
       />
       {isSignupInput ? (
-        <Text paragraph size={1.5} color={COLOR.SIGNUP_INPUT_COUNTER} align='right'>
-          {value.length}/20
-        </Text>
+        <StyledLabel>
+          <Text size={1.2} weight={300}>
+            {value.length}/20
+          </Text>
+        </StyledLabel>
       ) : null}
       <Text paragraph size={1.5} color={COLOR.RED}>
         {alert}
@@ -63,4 +65,12 @@ const StyledSignInput = styled.input`
   border-bottom: 0.1rem solid ${({ invalid }) => (invalid ? COLOR.RED : COLOR.GRAY)};
   box-sizing: border-box;
   margin: 1rem 0 2rem 0;
+`;
+
+const StyledLabel = styled.label`
+  display: block;
+  position: absolute;
+  bottom: 0.3em;
+  right: 0;
+  background-color: transparent;
 `;
