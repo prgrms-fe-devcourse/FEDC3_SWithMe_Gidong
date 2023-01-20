@@ -1,7 +1,7 @@
 import { Button, Icon } from '@/components/base';
 import { COLOR } from '@/styles/color';
 
-const HeaderIcon = (props) => {
+const NavIcon = (props) => {
   const { onClick, icon } = props;
 
   return (
@@ -14,4 +14,4 @@ const HeaderIcon = (props) => {
   );
 };
 
-export default HeaderIcon;
+export default NavIcon;

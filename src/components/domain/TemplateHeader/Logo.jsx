@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/base';
 
-const HeaderLogo = () => {
+const Logo = () => {
   const navigate = useNavigate();
 
   return (
@@ -16,7 +16,7 @@ const HeaderLogo = () => {
   );
 };
 
-export default HeaderLogo;
+export default Logo;
 
 const StyledHeaderLogo = styled.button`
   display: flex;
