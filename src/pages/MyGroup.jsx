@@ -54,6 +54,10 @@ const StyledMyGroup = styled.div`
   flex: 1;
   padding: 10rem;
   background-color: ${COLOR.MY_GROUP_BG};
+
+  @media (max-width: 624px) {
+    padding: 10rem 6rem;
+  }
 `;
 
 const StyledHeader = styled.div`
@@ -85,19 +89,31 @@ const StyledDesc = styled.div`
   display: flex;
   justify-content: space-between;
 
-  height: 20rem;
   margin: 3rem 0;
-  padding: 0 3rem;
+  padding: 3rem;
   border-radius: 1rem;
   background-color: ${COLOR.MY_GROUP_BOX_BG};
+  flex-wrap: wrap;
 
   & > div {
     display: flex;
     flex-direction: column;
     justify-content: center;
 
+    flex: 1 0 6.5rem;
+
     p {
       margin: 0.5rem 0;
+    }
+  }
+
+  & > img {
+    flex: 0;
+  }
+
+  @media (max-width: 624px) {
+    & > img {
+      display: none;
     }
   }
 `;

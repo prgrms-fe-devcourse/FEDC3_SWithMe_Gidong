@@ -101,7 +101,7 @@ const StyledHeader = styled.div`
   align-items: flex-end;
 
   width: 100%;
-  height: 43rem;
+  padding-top: 10rem;
   background: linear-gradient(10deg, #fff6b7 0%, #f6416c 100%);
   border-radius: 0 0 20rem 3rem;
   color: ${COLOR.WHITE};
@@ -110,6 +110,11 @@ const StyledHeader = styled.div`
     height: 35rem;
     margin-right: 20rem;
   }
+  & > img {
+    @media (max-width: 1024px) {
+      display: none;
+    }
+  }
 `;
 
 const StyledInfo = styled.div`
@@ -117,9 +122,14 @@ const StyledInfo = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   gap: 2rem;
+  flex: 1 0 40rem;
 
   width: fit-content;
-  padding: 0 0 10rem 10rem;
+  padding: 10rem;
+
+  @media (max-width: 624px) {
+    padding: 10rem 4rem;
+  }
 
   & > button {
     width: fit-content;

@@ -67,7 +67,7 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
   };
 
   return (
-    <Modal visible={visible} onClose={handleModalClose} width='70rem' style={{ ...props.style }} {...props}>
+    <StyledModal visible={visible} onClose={handleModalClose} style={{ ...props.style }} {...props}>
       <StyledHeaderContainer>
         <span />
         <Text size={3.4} weight={700}>
@@ -126,11 +126,18 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
           </StyledButtonWrapper>
         )}
       </StyledContentContainer>
-    </Modal>
+    </StyledModal>
   );
 }
 
 export default GroupInfoModal;
+
+const StyledModal = styled(Modal)`
+  width: 70rem;
+  @media (max-width: 624px) {
+    width: 100%;
+  }
+`;
 
 const StyledHeaderContainer = styled.div`
   padding: 0.5rem 2rem 0 2rem;
