@@ -36,7 +36,7 @@ const SearchBar = () => {
         <StyledDropdownUl>
           {FILLTER_OPTIONS.map((option, index) => (
             <li key={index}>
-              <button value={option} onClick={handleDropdown}>
+              <button value={option} onClick={handleDropdown} style={{ color: COLOR.DARK }}>
                 {option}
               </button>
             </li>
