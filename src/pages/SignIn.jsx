@@ -10,8 +10,8 @@ import { imgLogin } from '@/assets/images';
 import { css } from '@emotion/react';
 
 const ERRORS = {
-  EMAIL_EMPTY_ERROR: '이메일을 입력해 주세요',
-  PASSWORD_EMPTY_ERROR: '비밀번호를 입력해 주세요',
+  EMAIL_EMPTY_ERROR: '이메일을 입력해 주세요.',
+  PASSWORD_EMPTY_ERROR: '비밀번호를 입력해 주세요.',
   EMAIL_VALIDATE_ERROR: '이메일 형식이 올바르지 않습니다.',
   LOGIN_USER_FAIL_ERROR: '이메일 또는 비밀번호가 틀립니다.',
 };

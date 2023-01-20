@@ -9,10 +9,10 @@ import { imgLogin } from '@/assets/images';
 import { css } from '@emotion/react';
 
 const ERRORS = {
-  FULLNAME_EMPTY_ERROR: '이름을 입력해 주세요',
-  EMAIL_EMPTY_ERROR: '이메일을 입력해 주세요',
-  PASSWORD_EMPTY_ERROR: '비밀번호를 입력해 주세요',
-  CONFIRMPASSWORD_EMPTY_ERROR: '비밀번호 확인을 입력해 주세요',
+  FULLNAME_EMPTY_ERROR: '이름을 입력해 주세요.',
+  EMAIL_EMPTY_ERROR: '이메일을 입력해 주세요.',
+  PASSWORD_EMPTY_ERROR: '비밀번호를 입력해 주세요.',
+  CONFIRMPASSWORD_EMPTY_ERROR: '비밀번호 확인을 입력해 주세요.',
   FULLNAME_MIN_LENGTH_ERROR: '이름을 2글자 이상 입력해주세요.',
   EMAIL_VALIDATE_ERROR: '이메일 형식이 올바르지 않습니다.',
   PASSWORD_MIN_LENGTH_ERROR: '비밀번호를 2글자 이상 20글자 이하로 입력해주세요.',
