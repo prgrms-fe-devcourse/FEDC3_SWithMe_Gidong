@@ -37,13 +37,13 @@ function SignInput(props) {
         maxLength={maxLength}
         onChange={(e) => inputOnChange(e.target.value)}
       />
-      {isSignupInput ? (
+      {isSignupInput && (
         <StyledLengthLabel>
           <Text size={1.2} weight={300}>
             {value.length}/20
           </Text>
         </StyledLengthLabel>
-      ) : null}
+      )}
       <StyledLabel>
         <Text paragraph size={1.2} color={COLOR.RED}>
           {alert}

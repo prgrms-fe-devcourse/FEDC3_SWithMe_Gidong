@@ -54,7 +54,6 @@ function SignIn() {
       return;
     }
     onLogin(data);
-    // alert('로그인');
     navigate('/');
   };
 

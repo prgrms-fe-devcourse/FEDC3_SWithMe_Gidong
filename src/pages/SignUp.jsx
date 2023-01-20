@@ -66,7 +66,7 @@ function SignUp() {
     setIsLoading(true);
     await onCreateUser(requestBody);
 
-    // alert('회원가입이 완료 되었습니다.');
+    alert('회원가입이 완료 되었습니다.');
     setIsLoading(false);
 
     navigate('/signIn');
