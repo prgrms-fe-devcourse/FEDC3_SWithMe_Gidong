@@ -105,6 +105,7 @@ function SearchResult() {
 export default SearchResult;
 
 const StyledPageWrapper = styled.div`
-  width: 100%;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 6rem;
 `;

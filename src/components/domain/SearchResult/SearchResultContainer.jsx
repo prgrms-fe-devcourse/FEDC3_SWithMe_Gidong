@@ -19,9 +19,10 @@ function SearchResultContainer({ title, groupTotal, children }) {
 export default SearchResultContainer;
 
 const StyledGroupContainer = styled.div`
-  width: 115.6rem;
-  height: 78.5rem;
-  margin: 12rem auto;
+  display: block;
+  margin: 6rem auto;
+  max-width: 115.6rem;
+  min-width: 62.5rem;
 `;
 
 const StyledGroupListHeader = styled.div`
@@ -40,8 +41,6 @@ const StyledGroupListContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 4rem 5.2rem;
-  width: 115.6rem;
-  height: 78.5rem;
   padding: 5.3rem 7.2rem;
   border-radius: 5rem;
   background-color: ${COLOR.GRAY};
