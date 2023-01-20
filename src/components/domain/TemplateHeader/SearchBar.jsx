@@ -23,16 +23,22 @@ const SearchBar = () => {
     if (dropdown) setFilterValue(e.target.innerText);
   };
 
-  const handleSearchButtonClick = async () => {
+  const handleGroupSearch = async () => {
     if (searchValue.length < SEARCH_VALUE_LENGTH_MIN) return alert(SEARCH_ERROR.INPUT_VALUE_LENGTH_MIN);
 
     navigate('/searchResult', { state: { filterValue, searchValue } });
   };
 
+  const onClickEnter = (e) => {
+    if (e.key === 'Enter') {
+      handleGroupSearch();
+    }
+  };
+
   return (
     <StyledHeaderSearchBar>
       <StyledDropdownTrigger onClick={handleDropdown}>{filterValue}</StyledDropdownTrigger>
-      {dropdown ? (
+      {dropdown && (
         <StyledDropdownUl>
           {FILLTER_OPTIONS.map((option, index) => (
             <li key={index}>
@@ -42,16 +48,17 @@ const SearchBar = () => {
             </li>
           ))}
         </StyledDropdownUl>
-      ) : null}
+      )}
       <StyledSearchInput
         type={'text'}
         placeholder={'스터디 그룹 검색'}
         onChange={(e) => setSearchValue(e.target.value)}
+        onKeyDown={(e) => onClickEnter(e)}
       />
       <Button
         bgcolor={COLOR.HEADER_SEARCHBAR_SUBMIT_BG}
         style={{ width: '3rem', height: '3rem', padding: '0', marginRight: '2rem', borderRadius: '50%' }}
-        onClick={handleSearchButtonClick}>
+        onClick={handleGroupSearch}>
         <SearchSubmitIcon src={icSearchSubmit} />
       </Button>
     </StyledHeaderSearchBar>
@@ -64,9 +71,9 @@ const StyledHeaderSearchBar = styled.div`
   display: flex;
   align-items: center;
 
-  width: 52.9rem;
+  width: 100%;
+  max-width: 52.9rem;
   height: 5rem;
-  margin: 0 2rem;
   border-radius: 2.5rem;
   background: ${COLOR.HEADER_SEARCHBAR_BG};
   filter: drop-shadow(0 0.4rem 0.4rem rgba(0, 0, 0, 0.1));
@@ -126,4 +133,5 @@ const StyledSearchInput = styled.input`
   border: 0;
   font-size: 1.8rem;
   margin: 1.9rem 0 1.9rem 1.7rem;
+  background: ${COLOR.HEADER_SEARCHBAR_BG};
 `;

@@ -7,17 +7,17 @@ function SearchResultGroup(props) {
 
   return (
     <StyledResultGruopCard>
-      <div style={{ color: COLOR.GROUP_SEARCH_RESULT_COLOR[index], textAlign: 'right' }}>
+      <StyledGroupUserAmount style={{ color: COLOR.GROUP_SEARCH_RESULT_COLOR[index] }}>
         <Icon name='user' size={2} />
         <Text size={1.6}>
           {group.description.member.length}/{group.description.headCount}
         </Text>
-      </div>
+      </StyledGroupUserAmount>
       <Header size='2.4rem'>{group.name}</Header>
       <StyledResultGroupTags>
         {group.description.tagList?.map((tag, index) => (
           <div key={index} style={{ textAlign: 'center', width: '100%', height: '2rem' }}>
-            <Text size={1.6}>#{tag}</Text>
+            <Text size={1.8}>#{tag}</Text>
           </div>
         ))}
       </StyledResultGroupTags>
@@ -46,15 +46,21 @@ const StyledResultGruopCard = styled.div`
   }
 `;
 
+const StyledGroupUserAmount = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
 const StyledResultGroupTags = styled.div`
   display: flex;
   flex-direction: column;
   align-content: center;
-  padding: 1rem 0;
-  gap: 0.8rem;
+  padding: 1.6rem 0;
+  gap: 1rem;
   width: 100%;
   height: 17.6rem;
   border-radius: 2.4rem;
   background-color: ${COLOR.GRAY};
-  color: ${COLOR.GRAY2};
+  color: ${COLOR.GRAY4};
 `;
