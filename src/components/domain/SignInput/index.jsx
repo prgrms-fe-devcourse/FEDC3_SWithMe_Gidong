@@ -24,7 +24,7 @@ function SignInput(props) {
 
   return (
     <StyledSignInputContainer>
-      <Text paragraph size={1.5} strong>
+      <Text block size={2}>
         {header}
       </Text>
       <StyledSignInput
@@ -37,14 +37,18 @@ function SignInput(props) {
         maxLength={maxLength}
         onChange={(e) => inputOnChange(e.target.value)}
       />
-      {isSignupInput ? (
-        <Text paragraph size={1.5} color={COLOR.SIGNUP_INPUT_COUNTER} align='right'>
-          {value.length}/20
+      {isSignupInput && (
+        <StyledLengthLabel>
+          <Text size={1.2} weight={300}>
+            {value.length}/20
+          </Text>
+        </StyledLengthLabel>
+      )}
+      <StyledLabel>
+        <Text paragraph size={1.2} color={COLOR.RED}>
+          {alert}
         </Text>
-      ) : null}
-      <Text paragraph size={1.5} color={COLOR.RED}>
-        {alert}
-      </Text>
+      </StyledLabel>
     </StyledSignInputContainer>
   );
 }
@@ -52,14 +56,26 @@ function SignInput(props) {
 export default SignInput;
 
 const StyledSignInputContainer = styled.div`
-  width: 56.8rem;
-  height: 9.6rem;
+  position: relative;
+  display: block;
 `;
 
 const StyledSignInput = styled.input`
-  width: 56.8rem;
-  height: 7.3rem;
-  font-size: 3.3rem;
-  font-weight: bold;
-  border-bottom: 0.1rem solid ${COLOR.BLACK};
+  width: 100%;
+  border: none;
+  outline: none;
+  border-bottom: 0.1rem solid ${({ invalid }) => (invalid ? COLOR.RED : COLOR.GRAY)};
+  box-sizing: border-box;
+  margin: 1rem 0 2rem 0;
+`;
+
+const StyledLabel = styled.label`
+  display: block;
+  position: absolute;
+  bottom: 0.3em;
+  background-color: transparent;
+`;
+
+const StyledLengthLabel = styled(StyledLabel)`
+  right: 0;
 `;
