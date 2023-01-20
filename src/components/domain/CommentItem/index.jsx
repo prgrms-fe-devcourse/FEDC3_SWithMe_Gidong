@@ -102,7 +102,11 @@ function CommentItem({ comment }) {
         {writtenTime}
       </Text>
       <StyledCommentWrapper>
-        {author._id !== loggedUser._id ? null : mode === 'view' ? (
+        {author._id !== loggedUser._id ? (
+          <Text size={1.8} color={COLOR.DARK}>
+            {body}
+          </Text>
+        ) : mode === 'view' ? (
           <Text size={1.8} color={COLOR.DARK}>
             {body}
           </Text>
