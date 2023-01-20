@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-// import Home from '../pages/Home';
+
+import Home from '@/pages/Home';
 import MyGroup from '@/pages/MyGroup';
 import SignIn from '@/pages/SignIn';
 import SignUp from '@/pages/SignUp';
@@ -16,6 +17,7 @@ function Router() {
     <BrowserRouter>
       <Template>
         <Routes>
+          <Route path='/' element={<Home />} />
           <Route path='/signIn' element={<SignIn />} />
           <Route path='/signUp' element={<SignUp />} />
           <Route path='/myPage' element={<MyPage />} />

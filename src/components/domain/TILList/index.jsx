@@ -71,21 +71,21 @@ function TILList({ groupId, groupName }) {
                   </div>
                   <StyledFilter>
                     <StyledViewType>
-                      <StyledFilterButton isActive={isViewByDate === false} onClick={() => setIsViewByDate(false)}>
+                      <StyledFilterButton isActive={!isViewByDate} onClick={() => setIsViewByDate(false)}>
                         전체 보기
                       </StyledFilterButton>
                       <Divider type='vertical' color={COLOR.GRAY_30} />
-                      <StyledFilterButton isActive={isViewByDate === true} onClick={() => setIsViewByDate(true)}>
+                      <StyledFilterButton isActive={isViewByDate} onClick={() => setIsViewByDate(true)}>
                         날짜 보기
                       </StyledFilterButton>
                       {isViewByDate && <Calendar onChange={setSelectedDate} />}
                     </StyledViewType>
                     <StyledViewType>
-                      <StyledFilterButton isActive={isSortByLike === false} onClick={() => setIsSortByLike(false)}>
+                      <StyledFilterButton isActive={!isSortByLike} onClick={() => setIsSortByLike(false)}>
                         최신순
                       </StyledFilterButton>
                       <Divider type='vertical' color={COLOR.GRAY_30} />
-                      <StyledFilterButton isActive={isSortByLike === true} onClick={() => setIsSortByLike(true)}>
+                      <StyledFilterButton isActive={isSortByLike} onClick={() => setIsSortByLike(true)}>
                         좋아요순
                       </StyledFilterButton>
                     </StyledViewType>

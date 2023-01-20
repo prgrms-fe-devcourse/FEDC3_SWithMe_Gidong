@@ -8,13 +8,18 @@ import { Logo, SearchBar, UserNav } from '@/components/domain/TemplateHeader';
 function Template({ children }) {
   const headerRef = useRef(null);
   const location = useLocation();
-  const [isWhite, setIsWhite] = useState(false);
-  const pathnameList = ['/joinGroup', '/myPage'];
+  const [isFontWhite, setIsFontWhite] = useState(false);
+  const [isColorHeaderPage, setIsColorHeaderPage] = useState(false);
+  const pathnameList = ['/', '/joinGroup', '/myPage'];
 
   useEffect(() => {
-    if (pathnameList.includes(location.pathname)) return setIsWhite(true);
-
-    return setIsWhite(false);
+    if (pathnameList.includes(location.pathname)) {
+      setIsColorHeaderPage(true);
+      setIsFontWhite(true);
+      return;
+    }
+    setIsColorHeaderPage(false);
+    setIsFontWhite(false);
   }, [location.pathname]);
 
   useEffect(() => {
@@ -22,20 +27,22 @@ function Template({ children }) {
       if (window.scrollY) {
         headerRef.current.style.backgroundColor = 'white';
         headerRef.current.style.boxShadow = '0 0.5rem 1.5rem rgba(0, 0, 0, 0.1)';
+        isColorHeaderPage && setIsFontWhite(false);
       } else {
         headerRef.current.style.backgroundColor = 'transparent';
         headerRef.current.style.boxShadow = 'none';
+        isColorHeaderPage && setIsFontWhite(true);
       }
     };
     window.addEventListener('scroll', changeHeaderBackground);
     return () => {
       window.removeEventListener('scroll', changeHeaderBackground);
     };
-  }, []);
+  }, [isFontWhite]);
 
   return (
     <StyledTemplate>
-      <StyledHeaderContainer ref={headerRef} isWhite={isWhite}>
+      <StyledHeaderContainer ref={headerRef} isFontWhite={isFontWhite}>
         <Logo />
         <SearchBar />
         <UserNav />
@@ -66,16 +73,12 @@ const StyledHeaderContainer = styled.div`
   height: 7rem;
   background-color: transparent;
 
-  ${({ isWhite }) =>
-    isWhite &&
+  ${({ isFontWhite }) =>
+    isFontWhite &&
     css`
       & h1,
       & button {
         color: ${COLOR.WHITE};
-      }
-
-      & button:hover {
-        color: ${COLOR.DARK};
       }
     `};
 `;
