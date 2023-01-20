@@ -64,9 +64,9 @@ const StyledHeaderSearchBar = styled.div`
   display: flex;
   align-items: center;
 
-  width: 52.9rem;
+  width: 100%;
+  max-width: 52.9rem;
   height: 5rem;
-  margin: 0 2rem;
   border-radius: 2.5rem;
   background: ${COLOR.HEADER_SEARCHBAR_BG};
   filter: drop-shadow(0 0.4rem 0.4rem rgba(0, 0, 0, 0.1));
@@ -126,4 +126,5 @@ const StyledSearchInput = styled.input`
   border: 0;
   font-size: 1.8rem;
   margin: 1.9rem 0 1.9rem 1.7rem;
+  background: ${COLOR.HEADER_SEARCHBAR_BG};
 `;
