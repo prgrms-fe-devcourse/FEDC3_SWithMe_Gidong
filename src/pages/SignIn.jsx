@@ -94,7 +94,7 @@ function SignIn() {
               type={'email'}
               value={email}
               ref={inputRef.current[0]}
-              placeholder={'study@with.me'}
+              placeholder={'이메일을 입력해 주세요.'}
               inputOnChange={setEmail}
               alert={emailAlert}
               alertOnChange={setEmailAlert}

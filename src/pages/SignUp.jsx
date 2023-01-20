@@ -108,7 +108,7 @@ function SignUp() {
               type={'text'}
               value={fullName}
               ref={inputRef.current[0]}
-              placeholder={'스윗미'}
+              placeholder={'이름을 입력해 주세요.'}
               inputOnChange={setFullName}
               alert={fullNameAlert}
               alertOnChange={setFullNameAlert}
@@ -120,7 +120,7 @@ function SignUp() {
               type={'email'}
               value={email}
               ref={inputRef.current[1]}
-              placeholder={'study@with.me'}
+              placeholder={'이메일을 입력해 주세요.'}
               inputOnChange={setEmail}
               alert={emailAlert}
               alertOnChange={setEmailAlert}
