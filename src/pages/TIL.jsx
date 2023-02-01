@@ -10,12 +10,11 @@ import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import { convertDate } from '@/utils/date';
 import { getItem, removeItem, setItem } from '@/utils/storage';
-import { checkAbleSubmit } from '@/utils/validation';
+import { checkAbleSubmit, checkIsEmptyObj } from '@/utils/validation';
 import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { checkIsEmptyObj } from '@/utils/validation';
 
 function TIL() {
   const {
@@ -36,31 +35,26 @@ function TIL() {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(() => {
-    const getTIL = async () => {
-      const response = await onGetTIL(id);
-      setTil(response);
-    };
+  const getTIL = useCallback(async () => {
+    const response = await onGetTIL(id);
+    await setTil(response);
 
-    if (id) {
-      getTIL();
-    }
+    return response;
   }, [id]);
 
+  const init = useCallback(async (til) => {
+    await onInitComment(til.comments);
+    await onInitLike(til.likes);
+  }, []);
+
   useEffect(() => {
-    const initComment = async () => {
-      await onInitComment(til.comments);
-    };
+    if (!id) return;
 
-    const initLike = async () => {
-      await onInitLike(til.likes);
-    };
-
-    if (til) {
-      initComment();
-      initLike();
-    }
-  }, [til]);
+    (async () => {
+      const til = await getTIL();
+      init(til);
+    })();
+  }, [id]);
 
   const ableSubmit = useMemo(() => checkAbleSubmit([comment.value.length]), [comment.value]);
 
@@ -76,63 +70,71 @@ function TIL() {
   const handleSubmitButtonClick = async () => {
     if (!ableSubmit) return;
 
-    const createdComment = await onCreateComment({
+    const {
+      _id: postId,
+      author: { _id: userId },
+    } = til;
+    const { _id: notificationTypeId } = await onCreateComment({
       comment: comment.value,
-      postId: til._id,
+      postId,
     });
-    const createdAlarm = await createAlarm({
+    const { _id: alarmId } = await createAlarm({
       notificationType: 'COMMENT',
-      notificationTypeId: createdComment._id,
-      userId: til.author._id,
-      postId: til._id,
+      notificationTypeId,
+      userId,
+      postId,
     });
-    setItem(createdComment._id, createdAlarm._id);
+    setItem(notificationTypeId, alarmId);
 
     comment.onChange('');
   };
 
   const toggleLikeButtonClick = async () => {
-    const loggedUserLike = likes.filter((like) => like.user === loggedUser._id);
+    const loggedUserLike = likes.find((like) => like.user === loggedUser._id);
 
-    if (loggedUserLike.length === 0) {
-      const createdLike = await onCreateLike({
+    if (!loggedUserLike) {
+      const {
+        _id: postId,
+        author: { _id: userId },
+      } = til;
+      const { _id: notificationTypeId } = await onCreateLike({
         comment: comment.value,
-        postId: til._id,
+        postId,
       });
-      const createdAlarm = await createAlarm({
+      const { _id: alarmId } = await createAlarm({
         notificationType: 'LIKE',
-        notificationTypeId: createdLike._id,
-        userId: til.author._id,
-        postId: til._id,
+        notificationTypeId,
+        userId,
+        postId,
       });
 
-      setItem(createdLike._id, createdAlarm._id);
+      setItem(notificationTypeId, alarmId);
     } else {
-      const deletedLike = await onDeleteLike({
-        id: loggedUserLike[0]._id,
+      const { _id: likeId } = await onDeleteLike({
+        id: loggedUserLike._id,
       });
       await deleteAlarm({
-        id: getItem(deletedLike._id, ''),
+        id: getItem(likeId, ''),
       });
 
-      removeItem(deletedLike._id);
+      removeItem(likeId);
     }
   };
 
   return (
     <StyledPageWrapper>
       <StyledTIL className='til'>
-        {til && (
+        {!checkIsEmptyObj(til) && (
           <>
             <StyledLikeButton
               ref={likeButtonRef}
               onClick={() => !checkIsEmptyObj(loggedUser) && toggleLikeButtonClick()}
               disabled={checkIsEmptyObj(loggedUser)}>
-              {likes.length && likes.filter((like) => like.user === loggedUser._id).length ? (
-                <Icon name='heart' size={3} />
-              ) : (
-                <Icon type='regular' name='heart' size={3} />
-              )}
+              <Icon
+                name='heart'
+                size={3}
+                type={likes.length && likes.filter((like) => like.user === loggedUser._id).length ? 'solid' : 'regular'}
+              />
               <Text size={1.2}>{likes.length}</Text>
             </StyledLikeButton>
             <Header level={1} strong size={40} color={COLOR.DARK}>

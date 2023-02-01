@@ -3,5 +3,5 @@ export function checkAbleSubmit(values) {
 }
 
 export function checkIsEmptyObj(obj) {
-  return obj.constructor === Object && Object.keys(obj).length === 0;
+  return typeof obj === 'undefined' || (obj.constructor === Object && Object.keys(obj).length === 0);
 }
