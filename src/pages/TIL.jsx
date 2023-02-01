@@ -15,6 +15,7 @@ import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { checkIsEmptyObj } from '@/utils/validation';
 
 function TIL() {
   const {
@@ -66,31 +67,25 @@ function TIL() {
   const handleDeleteButtonClick = async () => {
     if (!confirm('정말 삭제하시겠습니까? 한번 삭제하면 되돌릴 수 없습니다.')) return;
 
-    const data = {
+    await onDeleteTIL({
       id: til._id,
-    };
-
-    await onDeleteTIL(data);
+    });
     navigate('/myGroup');
   };
 
   const handleSubmitButtonClick = async () => {
     if (!ableSubmit) return;
 
-    const data = {
+    const createdComment = await onCreateComment({
       comment: comment.value,
       postId: til._id,
-    };
-
-    const createdComment = await onCreateComment(data);
-
-    const alarmData = {
+    });
+    const createdAlarm = await createAlarm({
       notificationType: 'COMMENT',
       notificationTypeId: createdComment._id,
       userId: til.author._id,
       postId: til._id,
-    };
-    const createdAlarm = await createAlarm(alarmData);
+    });
     setItem(createdComment._id, createdAlarm._id);
 
     comment.onChange('');
@@ -100,31 +95,25 @@ function TIL() {
     const loggedUserLike = likes.filter((like) => like.user === loggedUser._id);
 
     if (loggedUserLike.length === 0) {
-      const data = {
+      const createdLike = await onCreateLike({
         comment: comment.value,
         postId: til._id,
-      };
-      const createdLike = await onCreateLike(data);
-
-      const alarmData = {
+      });
+      const createdAlarm = await createAlarm({
         notificationType: 'LIKE',
         notificationTypeId: createdLike._id,
         userId: til.author._id,
         postId: til._id,
-      };
-      const createdAlarm = await createAlarm(alarmData);
+      });
 
       setItem(createdLike._id, createdAlarm._id);
     } else {
-      const data = {
+      const deletedLike = await onDeleteLike({
         id: loggedUserLike[0]._id,
-      };
-      const deletedLike = await onDeleteLike(data);
-
-      const alarmData = {
+      });
+      await deleteAlarm({
         id: getItem(deletedLike._id, ''),
-      };
-      await deleteAlarm(alarmData);
+      });
 
       removeItem(deletedLike._id);
     }
@@ -135,7 +124,10 @@ function TIL() {
       <StyledTIL className='til'>
         {til && (
           <>
-            <StyledLikeButton ref={likeButtonRef} onClick={toggleLikeButtonClick}>
+            <StyledLikeButton
+              ref={likeButtonRef}
+              onClick={() => !checkIsEmptyObj(loggedUser) && toggleLikeButtonClick()}
+              disabled={checkIsEmptyObj(loggedUser)}>
               {likes.length && likes.filter((like) => like.user === loggedUser._id).length ? (
                 <Icon name='heart' size={3} />
               ) : (
@@ -180,27 +172,31 @@ function TIL() {
             <StyledViewerWrapper>{<Viewer ref={viewerRef} initialValue={til.title.body || ''} />}</StyledViewerWrapper>
             <Tag tagList={til.title.tagList} />
             <Divider color={COLOR.GRAY} height={0.05} size={4} />
-            <Textarea
-              defaultValue={comment.value}
-              placeholder='댓글을 입력하세요.'
-              max={300}
-              wrapperProps={{ style: { width: '100%' } }}
-              style={{ fontSize: '1.2rem', height: '16rem' }}
-              handleParentChange={comment.onChange}
-            />
-            <StyledButtonContainer isEnd={true}>
-              <Button
-                as='button'
-                disabled={!ableSubmit}
-                bgcolor={!ableSubmit ? COLOR.GRAY : COLOR.PRIMARY_BTN}
-                color={!ableSubmit ? COLOR.DARK : COLOR.WHITE}
-                style={{ fontSize: '2.2rem', padding: '1.3rem 7rem', borderRadius: '1rem', width: '100%' }}
-                round={+true}
-                onClick={handleSubmitButtonClick}>
-                작성
-              </Button>
-            </StyledButtonContainer>
-            <StyledCommentListWrapper>
+            {!checkIsEmptyObj(loggedUser) && (
+              <>
+                <Textarea
+                  defaultValue={comment.value}
+                  placeholder='댓글을 입력하세요.'
+                  max={300}
+                  wrapperProps={{ style: { width: '100%' } }}
+                  style={{ fontSize: '1.2rem', height: '16rem' }}
+                  handleParentChange={comment.onChange}
+                />
+                <StyledButtonContainer isEnd={true}>
+                  <Button
+                    as='button'
+                    disabled={!ableSubmit}
+                    bgcolor={!ableSubmit ? COLOR.GRAY : COLOR.PRIMARY_BTN}
+                    color={!ableSubmit ? COLOR.DARK : COLOR.WHITE}
+                    style={{ fontSize: '2.2rem', padding: '1.3rem 7rem', borderRadius: '1rem', width: '100%' }}
+                    round={+true}
+                    onClick={handleSubmitButtonClick}>
+                    작성
+                  </Button>
+                </StyledButtonContainer>
+              </>
+            )}
+            <StyledCommentListWrapper marginTop={checkIsEmptyObj(loggedUser) ? '0' : '4rem'}>
               <CommentList comments={comments} />
             </StyledCommentListWrapper>
           </>
@@ -270,7 +266,7 @@ const StyledViewerWrapper = styled.div`
 `;
 
 const StyledCommentListWrapper = styled.div`
-  margin-top: 4rem;
+  margin-top: ${({ marginTop }) => marginTop};
 `;
 
 const StyledLikeButton = styled.div`
@@ -288,7 +284,7 @@ const StyledLikeButton = styled.div`
   width: 8rem;
   height: 8rem;
   border-radius: 50%;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 
   background-color: ${COLOR.WHITE};
   box-shadow: 0.5rem 1rem 0.5rem rgba(0, 0, 0, 0.25);
