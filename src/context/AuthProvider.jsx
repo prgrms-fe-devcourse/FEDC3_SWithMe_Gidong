@@ -7,7 +7,7 @@ export const useAuthContext = () => useContext(AuthContext);
 const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState({
     isLoggedIn: getItem('token') ? true : false,
-    loggedUser: getItem('user'),
+    loggedUser: getItem('user', {}),
     userToken: getItem('token'),
   });
 

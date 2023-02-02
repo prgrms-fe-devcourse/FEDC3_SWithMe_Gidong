@@ -14,7 +14,14 @@ export const getPostListByChannel = async (channelId, offset, limit) => {
 export const getTIL = async (id) => {
   try {
     const response = await axiosInstance.get(`/posts/${id}`);
-    const parsedResponse = { ...response, title: JSON.parse(response.title) };
+    const parsedResponse = {
+      ...response,
+      title: JSON.parse(response.title),
+      channel: {
+        ...response.channel,
+        description: JSON.parse(response.channel.description),
+      },
+    };
 
     return parsedResponse;
   } catch (error) {
