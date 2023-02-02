@@ -11,6 +11,7 @@ import { COLOR } from '@/styles/color';
 import { convertDate } from '@/utils/date';
 import { getItem, removeItem, setItem } from '@/utils/storage';
 import { checkAbleSubmit, checkIsEmptyObj } from '@/utils/validation';
+import { isMember } from '@/utils/group';
 import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -137,9 +138,24 @@ function TIL() {
               />
               <Text size={1.2}>{likes.length}</Text>
             </StyledLikeButton>
-            <Header level={1} strong size={40} color={COLOR.DARK}>
-              📚 [{til.channel.name}]에 대한 TIL
-            </Header>
+            <StyledHeader>
+              <Header level={1} strong size={40} color={COLOR.DARK}>
+                📚 [{til.channel.name}]에 대한 TIL
+              </Header>
+              {!isMember(til.channel, loggedUser._id) && (
+                <>
+                  <Button
+                    as='button'
+                    bgcolor={COLOR.PRIMARY_BTN}
+                    color={COLOR.WHITE}
+                    style={{ fontSize: '2.2rem', padding: '1.3rem 3rem', borderRadius: '1rem' }}
+                    onClick={() => navigate('/joinGroup', { state: { group: til.channel } })}>
+                    그룹 가입하기
+                  </Button>
+                  <div className='hide'></div>
+                </>
+              )}
+            </StyledHeader>
             <StyledTitleWrapper>
               <Text size={3.2} weight={500}>
                 {til.title.title}
@@ -191,7 +207,6 @@ function TIL() {
                     bgcolor={!ableSubmit ? COLOR.GRAY : COLOR.PRIMARY_BTN}
                     color={!ableSubmit ? COLOR.DARK : COLOR.WHITE}
                     style={{ fontSize: '2.2rem', padding: '1.3rem 7rem', borderRadius: '1rem', width: '100%' }}
-                    round={+true}
                     onClick={handleSubmitButtonClick}>
                     작성
                   </Button>
@@ -228,7 +243,7 @@ const StyledTIL = styled.div`
   padding: 16rem 8rem 8rem 8rem;
 
   @media (max-width: 624px) {
-    padding: 16rem 4rem 8rem 4rem;
+    padding: 12rem 4rem 8rem 4rem;
   }
 
   background-color: ${COLOR.MY_GROUP_BG};
@@ -290,4 +305,22 @@ const StyledLikeButton = styled.div`
 
   background-color: ${COLOR.WHITE};
   box-shadow: 0.5rem 1rem 0.5rem rgba(0, 0, 0, 0.25);
+`;
+
+const StyledHeader = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+
+  flex-wrap: wrap;
+  gap: 4rem 2rem;
+
+  & > h1 {
+    flex: 1 1 auto;
+    order: 1;
+  }
+
+  .hide {
+    visibility: collapse;
+  }
 `;
