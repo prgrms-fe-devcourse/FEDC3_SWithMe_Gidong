@@ -119,10 +119,10 @@ const StyledDropdownUl = styled.ul`
     padding: 0;
     border-bottom: 0.05rem solid ${COLOR.LIGHTGRAY2};
     font-size: 1.8rem;
-    color: COLOR.DARK;
+    color: ${COLOR.DARK};
   }
 
-  &>li>button: hover {
+  &> li > button: hover {
     background-color: ${COLOR.LIGHTGRAY};
   }
 `;
