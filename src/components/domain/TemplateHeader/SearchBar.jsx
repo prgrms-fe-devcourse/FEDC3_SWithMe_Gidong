@@ -27,9 +27,11 @@ const SearchBar = () => {
     if (searchValue.length < SEARCH_VALUE_LENGTH_MIN) return alert(SEARCH_ERROR.INPUT_VALUE_LENGTH_MIN);
 
     navigate('/searchResult', { state: { filterValue, searchValue } });
+    setSearchValue('');
   };
 
   const onClickEnter = (e) => {
+    if (e.nativeEvent.isComposing) return;
     if (e.key === 'Enter') {
       handleGroupSearch();
     }
@@ -52,6 +54,7 @@ const SearchBar = () => {
       <StyledSearchInput
         type={'text'}
         placeholder={'스터디 그룹 검색'}
+        value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
         onKeyDown={(e) => onClickEnter(e)}
       />
@@ -59,7 +62,7 @@ const SearchBar = () => {
         bgcolor={COLOR.HEADER_SEARCHBAR_SUBMIT_BG}
         style={{ width: '3rem', height: '3rem', padding: '0', marginRight: '2rem', borderRadius: '50%' }}
         onClick={handleGroupSearch}>
-        <SearchSubmitIcon src={icSearchSubmit} />
+        <StyledSearchSubmitIcon src={icSearchSubmit} />
       </Button>
     </StyledHeaderSearchBar>
   );
@@ -85,7 +88,7 @@ const StyledHeaderSearchBar = styled.div`
   }
 `;
 
-const SearchSubmitIcon = styled.img`
+const StyledSearchSubmitIcon = styled.img`
   width: 1.5rem;
   height: 1.5rem;
 `;
@@ -116,10 +119,10 @@ const StyledDropdownUl = styled.ul`
     padding: 0;
     border-bottom: 0.05rem solid ${COLOR.LIGHTGRAY2};
     font-size: 1.8rem;
-    color: COLOR.DARK;
+    color: ${COLOR.DARK};
   }
 
-  &>li>button: hover {
+  &> li > button: hover {
     background-color: ${COLOR.LIGHTGRAY};
   }
 `;
