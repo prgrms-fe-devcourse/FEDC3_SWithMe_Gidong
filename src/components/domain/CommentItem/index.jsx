@@ -1,12 +1,14 @@
 import { createAlarm, deleteAlarm } from '@/api/alarm';
 import { getTIL } from '@/api/post';
 import { imgDefaultAvatar } from '@/assets/images';
-import { Avatar, Button, Text, Textarea } from '@/components/base';
+import { Avatar, Text, Textarea } from '@/components/base';
+import AuthorNav from '@/components/domain/AuthorNav';
 import { useAuthContext } from '@/context/AuthProvider';
 import { useCommentContext } from '@/context/CommentProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import { convertDate } from '@/utils/date';
+import { isAuthor } from '@/utils/post';
 import { getItem, removeItem, setItem } from '@/utils/storage';
 import styled from '@emotion/styled';
 import { useState } from 'react';
@@ -70,58 +72,33 @@ function CommentItem({ comment }) {
 
   const toggleEditButtonClick = () => {
     setMode(mode === 'view' ? 'edit' : 'view');
+    commentInput.onChange(body);
   };
 
   return (
     <StyledCommentItem>
-      <FlexContainer>
+      <StyledFlexContainer>
         <StyledWriterInfoContainer>
           <Avatar src={author.image || imgDefaultAvatar} size={3} />
           <Text size={2} color={COLOR.DARK}>
             {author.fullName}
           </Text>
         </StyledWriterInfoContainer>
-        {author._id !== loggedUser._id ? null : mode === 'view' ? (
-          <StyledButtonContainer>
-            <Button
-              as='span'
-              style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}
-              onClick={toggleEditButtonClick}>
-              수정
-            </Button>
-            <Button
-              as='span'
-              style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}
-              onClick={handleDeleteButtonClick}>
-              삭제
-            </Button>
-          </StyledButtonContainer>
+        {!isAuthor(author._id, loggedUser._id) ? null : mode === 'view' ? (
+          <AuthorNav onLeftButtonClick={toggleEditButtonClick} onRightButtonClick={handleDeleteButtonClick} />
         ) : (
-          <StyledButtonContainer>
-            <Button
-              as='span'
-              style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}
-              onClick={handleSubmitButtonClick}>
-              완료
-            </Button>
-            <Button
-              as='span'
-              style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}
-              onClick={toggleEditButtonClick}>
-              취소
-            </Button>
-          </StyledButtonContainer>
+          <AuthorNav
+            onLeftButtonClick={handleSubmitButtonClick}
+            onRightButtonClick={toggleEditButtonClick}
+            text={['완료', '취소']}
+          />
         )}
-      </FlexContainer>
+      </StyledFlexContainer>
       <Text size={1.2} color={COLOR.DARK}>
         {writtenTime}
       </Text>
       <StyledCommentWrapper>
-        {author._id !== loggedUser._id ? (
-          <Text size={1.8} color={COLOR.DARK}>
-            {body}
-          </Text>
-        ) : mode === 'view' ? (
+        {!isAuthor(author._id, loggedUser._id) || mode === 'view' ? (
           <Text size={1.8} color={COLOR.DARK}>
             {body}
           </Text>
@@ -150,7 +127,7 @@ const StyledCommentItem = styled.div`
   background-color: ${COLOR.TEXTAREA_BG};
 `;
 
-const FlexContainer = styled.div`
+const StyledFlexContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -160,15 +137,6 @@ const StyledWriterInfoContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
-`;
-
-const StyledButtonContainer = styled.div`
-  display: flex;
-  gap: 1rem;
-
-  & > span:hover {
-    text-decoration: underline;
-  }
 `;
 
 const StyledCommentWrapper = styled.div`
