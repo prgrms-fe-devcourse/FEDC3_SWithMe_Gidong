@@ -1,6 +1,7 @@
 import { createAlarm, deleteAlarm } from '@/api/alarm';
 import { imgDefaultAvatar } from '@/assets/images';
 import { Avatar, Button, Divider, Header, Tag, Text } from '@/components/base';
+import AuthorNav from '@/components/domain/AuthorNav';
 import CommentList from '@/components/domain/CommentList';
 import CreateComment from '@/components/domain/CreateComment';
 import FloatingLikeButton from '@/components/domain/FloatingLikeButton';
@@ -12,13 +13,13 @@ import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import { convertDate } from '@/utils/date';
 import { isMember } from '@/utils/group';
+import { isAuthor } from '@/utils/post';
 import { getItem, removeItem, setItem } from '@/utils/storage';
 import { checkAbleSubmit, checkIsEmptyObj } from '@/utils/validation';
-import { isAuthor } from '@/utils/post';
 import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function TIL() {
   const {
@@ -162,19 +163,10 @@ function TIL() {
                 </Text>
               </StyledWriterInfoContainer>
               {isAuthor(til.author._id, loggedUser._id) && (
-                <StyledButtonContainer>
-                  <Link to={`/updateTIL/${til._id}`} state={{ til }}>
-                    <Button as='span' style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}>
-                      수정
-                    </Button>
-                  </Link>
-                  <Button
-                    as='span'
-                    style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}
-                    onClick={handleDeleteButtonClick}>
-                    삭제
-                  </Button>
-                </StyledButtonContainer>
+                <AuthorNav
+                  onLeftButtonClick={() => navigate(`/updateTIL/${til._id}`, { state: { til } })}
+                  onRightButtonClick={handleDeleteButtonClick}
+                />
               )}
             </StyledFlexContainer>
             <Text size={1.4} color={COLOR.DARK}>
@@ -256,27 +248,6 @@ const StyledViewerWrapper = styled.div`
 
 const StyledCommentListWrapper = styled.div`
   margin-top: ${({ marginTop }) => marginTop};
-`;
-
-const StyledLikeButton = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-
-  position: fixed;
-  right: 6rem;
-  bottom: 6rem;
-  z-index: 2000;
-
-  width: 8rem;
-  height: 8rem;
-  border-radius: 50%;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-
-  background-color: ${COLOR.WHITE};
-  box-shadow: 0.5rem 1rem 0.5rem rgba(0, 0, 0, 0.25);
 `;
 
 const StyledHeader = styled.div`

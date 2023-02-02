@@ -31,12 +31,5 @@ function CreateComment({ comment, ableSubmit, onSubmit }) {
 export default CreateComment;
 
 const StyledButtonWrapper = styled.div`
-  display: flex;
-  gap: 1rem;
-
-  & > span:hover {
-    text-decoration: underline;
-  }
-
   align-self: flex-end;
 `;
