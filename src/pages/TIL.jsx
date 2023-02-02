@@ -1,7 +1,9 @@
 import { createAlarm, deleteAlarm } from '@/api/alarm';
 import { imgDefaultAvatar } from '@/assets/images';
-import { Avatar, Button, Divider, Header, Icon, Tag, Text, Textarea } from '@/components/base';
+import { Avatar, Button, Divider, Header, Tag, Text } from '@/components/base';
 import CommentList from '@/components/domain/CommentList';
+import CreateComment from '@/components/domain/CreateComment';
+import FloatingLikeButton from '@/components/domain/FloatingLikeButton';
 import { useAuthContext } from '@/context/AuthProvider';
 import { useCommentContext } from '@/context/CommentProvider';
 import { useLikeContext } from '@/context/LikeProvider';
@@ -9,9 +11,10 @@ import { useTILContext } from '@/context/TILProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import { convertDate } from '@/utils/date';
+import { isMember } from '@/utils/group';
 import { getItem, removeItem, setItem } from '@/utils/storage';
 import { checkAbleSubmit, checkIsEmptyObj } from '@/utils/validation';
-import { isMember } from '@/utils/group';
+import { isAuthor } from '@/utils/post';
 import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -127,17 +130,7 @@ function TIL() {
       <StyledTIL className='til'>
         {!checkIsEmptyObj(til) && (
           <>
-            <StyledLikeButton
-              ref={likeButtonRef}
-              onClick={() => !checkIsEmptyObj(loggedUser) && toggleLikeButtonClick()}
-              disabled={checkIsEmptyObj(loggedUser)}>
-              <Icon
-                name='heart'
-                size={3}
-                type={likes.length && likes.filter((like) => like.user === loggedUser._id).length ? 'solid' : 'regular'}
-              />
-              <Text size={1.2}>{likes.length}</Text>
-            </StyledLikeButton>
+            <FloatingLikeButton likes={likes} likeButtonRef={likeButtonRef} onClick={toggleLikeButtonClick} />
             <StyledHeader>
               <Header level={1} strong size={40} color={COLOR.DARK}>
                 📚 [{til.channel.name}]에 대한 TIL
@@ -161,14 +154,14 @@ function TIL() {
                 {til.title.title}
               </Text>
             </StyledTitleWrapper>
-            <FlexContainer>
+            <StyledFlexContainer>
               <StyledWriterInfoContainer>
                 <Avatar src={til.author.image || imgDefaultAvatar} size={3} />
                 <Text size={2} color={COLOR.DARK}>
                   {til.author.fullName}
                 </Text>
               </StyledWriterInfoContainer>
-              {til.author._id === loggedUser._id && (
+              {isAuthor(til.author._id, loggedUser._id) && (
                 <StyledButtonContainer>
                   <Link to={`/updateTIL/${til._id}`} state={{ til }}>
                     <Button as='span' style={{ backgroundColor: 'transparent', fontSize: '1.4rem' }}>
@@ -183,7 +176,7 @@ function TIL() {
                   </Button>
                 </StyledButtonContainer>
               )}
-            </FlexContainer>
+            </StyledFlexContainer>
             <Text size={1.4} color={COLOR.DARK}>
               {convertDate(new Date(til.createdAt))}
             </Text>
@@ -191,27 +184,7 @@ function TIL() {
             <Tag tagList={til.title.tagList} />
             <Divider color={COLOR.GRAY} height={0.05} size={4} />
             {!checkIsEmptyObj(loggedUser) && (
-              <>
-                <Textarea
-                  defaultValue={comment.value}
-                  placeholder='댓글을 입력하세요.'
-                  max={300}
-                  wrapperProps={{ style: { width: '100%' } }}
-                  style={{ fontSize: '1.2rem', height: '16rem' }}
-                  handleParentChange={comment.onChange}
-                />
-                <StyledButtonContainer isEnd={true}>
-                  <Button
-                    as='button'
-                    disabled={!ableSubmit}
-                    bgcolor={!ableSubmit ? COLOR.GRAY : COLOR.PRIMARY_BTN}
-                    color={!ableSubmit ? COLOR.DARK : COLOR.WHITE}
-                    style={{ fontSize: '2.2rem', padding: '1.3rem 7rem', borderRadius: '1rem', width: '100%' }}
-                    onClick={handleSubmitButtonClick}>
-                    작성
-                  </Button>
-                </StyledButtonContainer>
-              </>
+              <CreateComment comment={comment} ableSubmit={ableSubmit} onSubmit={handleSubmitButtonClick} />
             )}
             <StyledCommentListWrapper marginTop={checkIsEmptyObj(loggedUser) ? '0' : '4rem'}>
               <CommentList comments={comments} />
@@ -225,7 +198,7 @@ function TIL() {
 
 export default TIL;
 
-const FlexContainer = styled.div`
+const StyledFlexContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -266,12 +239,11 @@ const StyledWriterInfoContainer = styled.div`
 const StyledButtonContainer = styled.div`
   display: flex;
   gap: 1rem;
+  align-self: center;
 
   & > span:hover {
     text-decoration: underline;
   }
-
-  align-self: ${({ isEnd }) => (isEnd ? 'flex-end' : 'center')};
 `;
 
 const StyledViewerWrapper = styled.div`
