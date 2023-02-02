@@ -139,7 +139,7 @@ const StyledDropdownUl = styled.ul`
     color: ${COLOR.DARK};
   }
 
-  &> li > button: hover {
+  & > li > button:hover {
     background-color: ${COLOR.LIGHTGRAY};
   }
 `;
