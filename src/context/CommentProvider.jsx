@@ -42,11 +42,13 @@ const CommentProvider = ({ children }) => {
   }, []);
 
   const onUpdateComment = useCallback(async (data, id) => {
-    let payload = await deleteComment(id);
-    dispatch({ type: 'DELETE_COMMENT', payload });
+    const deletedPayload = await deleteComment(id);
+    dispatch({ type: 'DELETE_COMMENT', payload: deletedPayload });
 
-    payload = await createComment(data);
-    dispatch({ type: 'CREATE_COMMENT', payload });
+    const createdPayload = await createComment(data);
+    dispatch({ type: 'CREATE_COMMENT', payload: createdPayload });
+
+    return [deletedPayload, createdPayload];
   }, []);
 
   return (

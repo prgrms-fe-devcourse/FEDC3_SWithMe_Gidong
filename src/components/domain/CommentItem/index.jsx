@@ -1,4 +1,5 @@
-import { deleteAlarm } from '@/api/alarm';
+import { createAlarm, deleteAlarm } from '@/api/alarm';
+import { getTIL } from '@/api/post';
 import { imgDefaultAvatar } from '@/assets/images';
 import { Avatar, Text, Textarea } from '@/components/base';
 import AuthorNav from '@/components/domain/AuthorNav';
@@ -8,7 +9,7 @@ import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import { convertDate } from '@/utils/date';
 import { isAuthor } from '@/utils/post';
-import { getItem, removeItem } from '@/utils/storage';
+import { getItem, removeItem, setItem } from '@/utils/storage';
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
@@ -19,21 +20,18 @@ function CommentItem({ comment }) {
   const { onDeleteComment, onUpdateComment } = useCommentContext();
   const [mode, setMode] = useState('view');
 
-  const { author, comment: body, updatedAt, _id: id, post } = comment;
+  const { author, comment: body, updatedAt, _id: id, post: postId } = comment;
   const writtenTime = convertDate(new Date(updatedAt));
 
   const commentInput = useInput(body);
 
   const handleDeleteButtonClick = async () => {
-    const data = { id };
-    const deletedComment = await onDeleteComment(data);
+    const { _id: commentId } = await onDeleteComment({ id });
 
-    const alarmData = {
-      id: getItem(deletedComment._id, ''),
-    };
-    await deleteAlarm(alarmData);
-
-    removeItem(deletedComment._id);
+    await deleteAlarm({
+      id: getItem(commentId, ''),
+    });
+    removeItem(commentId);
   };
 
   const handleSubmitButtonClick = async () => {
@@ -46,13 +44,30 @@ function CommentItem({ comment }) {
       return;
     }
 
-    const deleteData = { id };
-    const createData = {
-      comment: commentInput.value,
-      postId: post,
-    };
+    const {
+      author: { _id: userId },
+    } = await getTIL(postId);
 
-    await onUpdateComment(createData, deleteData);
+    const [{ _id: deletedId }, { _id: createdId }] = await onUpdateComment(
+      {
+        comment: commentInput.value,
+        postId,
+      },
+      { id },
+    );
+
+    await deleteAlarm({
+      id: getItem(deletedId, ''),
+    });
+    removeItem(deletedId);
+
+    const { _id: alarmId } = await createAlarm({
+      notificationType: 'COMMENT',
+      notificationTypeId: createdId,
+      userId,
+      postId,
+    });
+    setItem(createdId, alarmId);
   };
 
   const toggleEditButtonClick = () => {
@@ -62,7 +77,7 @@ function CommentItem({ comment }) {
 
   return (
     <StyledCommentItem>
-      <FlexContainer>
+      <StyledFlexContainer>
         <StyledWriterInfoContainer>
           <Avatar src={author.image || imgDefaultAvatar} size={3} />
           <Text size={2} color={COLOR.DARK}>
@@ -78,7 +93,7 @@ function CommentItem({ comment }) {
             text={['완료', '취소']}
           />
         )}
-      </FlexContainer>
+      </StyledFlexContainer>
       <Text size={1.2} color={COLOR.DARK}>
         {writtenTime}
       </Text>
@@ -112,7 +127,7 @@ const StyledCommentItem = styled.div`
   background-color: ${COLOR.TEXTAREA_BG};
 `;
 
-const FlexContainer = styled.div`
+const StyledFlexContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -122,15 +137,6 @@ const StyledWriterInfoContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
-`;
-
-const StyledButtonContainer = styled.div`
-  display: flex;
-  gap: 1rem;
-
-  & > span:hover {
-    text-decoration: underline;
-  }
 `;
 
 const StyledCommentWrapper = styled.div`
