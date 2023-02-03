@@ -67,9 +67,15 @@ const StyledHeaderContainer = styled.div`
       & button {
         color: ${COLOR.WHITE};
       }
+      & i {
+        color: ${COLOR.WHITE};
+      }
+      & sup {
+        background-color: ${COLOR.ALARM_GREEN};
+      }
     `};
 
-    ${({ isScrolled }) =>
+  ${({ isScrolled }) =>
     isScrolled &&
     css`
       background-color: white;
@@ -77,6 +83,12 @@ const StyledHeaderContainer = styled.div`
 
       & button {
         color: black;
+      }
+      & i {
+        color: black;
+      }
+      & sup {
+        background-color: ${COLOR.RED};
       }
     `};
 `;

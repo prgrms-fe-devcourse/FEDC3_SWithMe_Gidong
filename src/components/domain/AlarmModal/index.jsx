@@ -1,7 +1,6 @@
 import { getAlarms, updateSeenAlarm } from '@/api/alarm';
 import { imgDefaultAvatar } from '@/assets/images';
-import { Avatar, Button, Header, Icon, Text } from '@/components/base';
-import useClickAway from '@/hooks/useClickAway';
+import { Avatar, Button, Header, Icon, Modal, Text } from '@/components/base';
 import { COLOR } from '@/styles/color';
 import { convertDate } from '@/utils/date';
 import { css } from '@emotion/react';
@@ -13,9 +12,6 @@ const FILTER_METHODS = ['전체', '읽은 알림', '안읽은 알림'];
 
 function AlarmModal({ visible, onClose }) {
   const navigate = useNavigate();
-  const ref = useClickAway(() => {
-    onClose && onClose();
-  });
 
   const [alarms, setAlarms] = useState([]);
   const [filteredAlarms, setFilteredAlarms] = useState(alarms);
@@ -63,65 +59,64 @@ function AlarmModal({ visible, onClose }) {
   }, [alarms, clickedIndex]);
 
   return (
-    <StyledModalWrapper visible={visible}>
-      <StyledModalContainer ref={ref}>
-        <StyledHeaderContainer>
-          <StyledHeaderItem>
-            <Header level={2} strong={+true} size='2rem'>
-              알림
-            </Header>
-            <StyledButton as='span' onClick={handleUpdateSeenAlarm}>
-              전체 읽기
-            </StyledButton>
-          </StyledHeaderItem>
-          <Icon size={2} style={{ cursor: 'pointer' }} onClick={() => onClose && onClose()} />
-        </StyledHeaderContainer>
-        <StyledFilterTabContainer>
-          {FILTER_METHODS.map((method, i) => (
-            <StyledFilterTab key={method} onClick={() => setClickedIndex(i)} isClicked={clickedIndex === i}>
-              {method}
-            </StyledFilterTab>
-          ))}
-        </StyledFilterTabContainer>
-        <StyledAlarmContainer>
-          {alarms.length === 0 ? (
-            <StyledNoAlarm>🥲 알림이 없어요...</StyledNoAlarm>
-          ) : filteredAlarms.length === 0 ? (
-            <StyledNoAlarm>🥲 읽지 않은 알림이 없어요...</StyledNoAlarm>
-          ) : (
-            filteredAlarms.map(({ _id, author, post, like, comment }) => (
-              <StyledAlarm key={_id} onClick={() => handleAlarmClick(post)}>
-                <StyledAvatar src={author.image || imgDefaultAvatar} size={4} />
-                <StyledContentContainer>
-                  <StyledContent size={1.6}>
-                    {like
-                      ? `${author.fullName}님이 ${like.post.title.title}을(를) 좋아합니다.`
-                      : `${author.fullName}님이 ${comment.post.title.title}에 남긴 댓글: ${comment.comment}`}
-                  </StyledContent>
-                  <Text size={1.2} color={COLOR.CREATEDAT}>
-                    {convertDate(new Date(like ? like.post.updatedAt : comment.post.updatedAt))}
-                  </Text>
-                </StyledContentContainer>
-              </StyledAlarm>
-            ))
-          )}
-        </StyledAlarmContainer>
-      </StyledModalContainer>
-    </StyledModalWrapper>
+    <StyledAlarmModal visible={visible} onClose={onClose} dimColor='transparent'>
+      {visible && (
+        <>
+          <StyledHeaderContainer>
+            <StyledHeaderItem>
+              <Header level={2} strong={+true} size='2rem'>
+                알림
+              </Header>
+              <StyledButton as='span' onClick={handleUpdateSeenAlarm}>
+                전체 읽기
+              </StyledButton>
+            </StyledHeaderItem>
+            <Icon size={2} style={{ cursor: 'pointer' }} onClick={() => onClose && onClose()} />
+          </StyledHeaderContainer>
+          <StyledFilterTabContainer>
+            {FILTER_METHODS.map((method, i) => (
+              <StyledFilterTab key={method} onClick={() => setClickedIndex(i)} isClicked={clickedIndex === i}>
+                {method}
+              </StyledFilterTab>
+            ))}
+          </StyledFilterTabContainer>
+          <StyledAlarmContainer>
+            {alarms.length === 0 ? (
+              <StyledNoAlarm>🥲 알림이 없어요...</StyledNoAlarm>
+            ) : filteredAlarms.length === 0 ? (
+              <StyledNoAlarm>🥲 읽지 않은 알림이 없어요...</StyledNoAlarm>
+            ) : (
+              filteredAlarms.map(({ _id, author, post, like, comment }) => (
+                <StyledAlarm key={_id} onClick={() => handleAlarmClick(post)}>
+                  <StyledAvatar src={author.image || imgDefaultAvatar} size={4} />
+                  <StyledContentContainer>
+                    <StyledContent size={1.6}>
+                      {like
+                        ? `${author.fullName}님이 ${like.post.title.title}을(를) 좋아합니다.`
+                        : `${author.fullName}님이 ${comment.post.title.title}에 남긴 댓글: ${comment.comment}`}
+                    </StyledContent>
+                    <Text size={1.2} color={COLOR.CREATEDAT}>
+                      {convertDate(new Date(like ? like.post.updatedAt : comment.post.updatedAt))}
+                    </Text>
+                  </StyledContentContainer>
+                </StyledAlarm>
+              ))
+            )}
+          </StyledAlarmContainer>
+        </>
+      )}
+    </StyledAlarmModal>
   );
 }
 
 export default AlarmModal;
 
-const StyledModalWrapper = styled.div`
-  display: ${({ visible }) => (visible ? 'block' : 'none')};
-  z-index: 2000;
-`;
-
-const StyledModalContainer = styled.div`
+const StyledAlarmModal = styled(Modal)`
+  padding: 0;
   position: absolute;
-  top: 5rem;
-  right: 12rem;
+  top: 7rem;
+  right: 14rem;
+  transform: none;
 
   width: 48rem;
   height: 64rem;
@@ -146,7 +141,7 @@ const StyledModalContainer = styled.div`
     border-top-right-radius: 0;
     border-top-left-radius: 0;
 
-    & > :nth-child(1) {
+    & > :nth-of-type(1) {
       border-top-left-radius: 0;
       border-top-right-radius: 0;
     }

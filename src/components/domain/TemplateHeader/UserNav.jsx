@@ -1,11 +1,11 @@
+import { getAlarms } from '@/api/alarm';
 import { postUserSignOut } from '@/api/userSign';
-import { Button } from '@/components/base';
+import { Badge, Button, Icon } from '@/components/base';
 import AlarmModal from '@/components/domain/AlarmModal';
-import { NavIcon } from '@/components/domain/TemplateHeader';
 import { useAuthContext } from '@/context/AuthProvider';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const UserNav = () => {
@@ -36,12 +36,22 @@ const UserNav = () => {
     );
   }
 
+  // TODO: alarm 데이터 최신으로 관리 -> react query or swr
+  const [hasUnseenAlarm, setHasUnseenAlarm] = useState(false);
+  useEffect(() => {
+    (async () => {
+      setHasUnseenAlarm((await getAlarms()).some(({ seen }) => !seen));
+    })();
+  }, [alarmModalVisible]);
+
   return (
     <StyledHeaderUserNav>
-      <AlarmModal visible={alarmModalVisible} onClose={() => setAlarmModalVisible(false)} />
-      <NavIcon onClick={() => navigate('/myGroup')} icon='users' />
-      <NavIcon onClick={() => setAlarmModalVisible(true)} icon='bell' />
-      <NavIcon onClick={() => navigate('/myPage')} icon='user' />
+      {alarmModalVisible && <AlarmModal visible={alarmModalVisible} onClose={() => setAlarmModalVisible(false)} />}
+      <Icon name='users' size={2} onClick={() => navigate('/myGroup')} style={{ cursor: 'pointer' }} />
+      <Badge dot={hasUnseenAlarm}>
+        <Icon name='bell' size={2} onClick={() => setAlarmModalVisible(true)} style={{ cursor: 'pointer' }} />
+      </Badge>
+      <Icon name='user' size={2} onClick={() => navigate('/myPage')} style={{ cursor: 'pointer' }} />
       <Button
         style={{ width: '7.7rem', height: '2.1rem', margin: '0.7rem 0', padding: '0', fontSize: '1.8rem' }}
         bgcolor={COLOR.HEADER_TRANSPARENT_BG}
@@ -59,6 +69,7 @@ const StyledHeaderUserNav = styled.div`
   justify-content: flex-end;
   align-items: center;
   margin-right: 2rem;
+  gap: 2rem;
 
   position: relative;
 
