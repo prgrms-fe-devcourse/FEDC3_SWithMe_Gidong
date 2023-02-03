@@ -1,11 +1,11 @@
-import { getAlarms } from '@/api/alarm';
+import { useAlarms } from '@/api/alarm';
 import { postUserSignOut } from '@/api/userSign';
 import { Badge, Button, Icon } from '@/components/base';
 import AlarmModal from '@/components/domain/AlarmModal';
 import { useAuthContext } from '@/context/AuthProvider';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const UserNav = () => {
@@ -36,19 +36,13 @@ const UserNav = () => {
     );
   }
 
-  // TODO: alarm 데이터 최신으로 관리 -> react query or swr
-  const [hasUnseenAlarm, setHasUnseenAlarm] = useState(false);
-  useEffect(() => {
-    (async () => {
-      setHasUnseenAlarm((await getAlarms()).some(({ seen }) => !seen));
-    })();
-  }, [alarmModalVisible]);
+  const { data, isLoading, error } = useAlarms();
 
   return (
     <StyledHeaderUserNav>
       {alarmModalVisible && <AlarmModal visible={alarmModalVisible} onClose={() => setAlarmModalVisible(false)} />}
       <Icon name='users' size={2} onClick={() => navigate('/myGroup')} style={{ cursor: 'pointer' }} />
-      <Badge dot={hasUnseenAlarm}>
+      <Badge dot={!isLoading && data && data.length && data.some(({ seen }) => !seen)}>
         <Icon name='bell' size={2} onClick={() => setAlarmModalVisible(true)} style={{ cursor: 'pointer' }} />
       </Badge>
       <Icon name='user' size={2} onClick={() => navigate('/myPage')} style={{ cursor: 'pointer' }} />

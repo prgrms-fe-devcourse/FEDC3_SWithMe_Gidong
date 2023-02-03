@@ -1,4 +1,5 @@
 import { axiosInstance } from '@/api/core';
+import useSWR from 'swr';
 
 export const getAlarms = async () => {
   try {
@@ -61,4 +62,11 @@ export const updateSeenAlarm = async () => {
   } catch (error) {
     console.error(error);
   }
+};
+
+const fetcher = (url) => axiosInstance.get(url);
+export const useAlarms = () => {
+  const { data, error, isLoading } = useSWR('notifications', fetcher, { refreshInterval: 1000 });
+
+  return { data, isLoading, error };
 };
