@@ -3,7 +3,7 @@ import { Header, Text } from '@/components/base';
 import useClickAway from '@/hooks/useClickAway';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function AlarmModal({ visible, onClose }) {
@@ -15,19 +15,14 @@ function AlarmModal({ visible, onClose }) {
   const [alarms, setAlarms] = useState([]);
 
   useEffect(() => {
-    const getAlarm = async () => {
-      const data = await getAlarms();
-      return data;
-    };
+    if (!visible) return;
 
-    if (visible) {
-      (async () => {
-        const alarms = await getAlarm();
-        alarms?.sort((a, b) => new Date(a.updatedAt) - new Date(b.createdAt));
+    (async () => {
+      const alarms = await getAlarms();
+      alarms?.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt));
 
-        setAlarms(alarms);
-      })();
-    }
+      setAlarms(alarms);
+    })();
   }, [visible]);
 
   const handleAlarmClick = (postId) => {
@@ -39,15 +34,17 @@ function AlarmModal({ visible, onClose }) {
     <StyledModalWrapper visible={visible}>
       <StyledModalContainer ref={ref}>
         <StyledHeader level={1} strong={+true} size='2rem'>
-          알람
+          알림
         </StyledHeader>
         <StyledAlarmContainer>
-          {alarms.length !== 0 ? (
+          {alarms && alarms.length !== 0 ? (
             alarms.map((alarm) => (
               <StyledAlarm key={alarm._id} onClick={() => handleAlarmClick(alarm.post)}>
-                <Text size={1.6} color={'black'}>{`[${
-                  alarm.like ? alarm.like.post.title.title : alarm.comment.post.title.title
-                }]에 ${alarm.like ? '좋아요가 눌렸습니다.' : '댓글이 달렸습니다.'}`}</Text>
+                <Text size={1.6} color={'black'}>
+                  {alarm.like
+                    ? `${alarm.author.fullName}님이 ${alarm.like.post.title.title}에 댓글을 남겼습니다.`
+                    : `${alarm.author.fullName}님이 ${alarm.comment.post.title.title}에 공감을 남겼습니다.`}
+                </Text>
               </StyledAlarm>
             ))
           ) : (
@@ -73,30 +70,33 @@ const StyledModalContainer = styled.div`
 
   width: 24rem;
   height: 30rem;
-  padding: 2rem 1rem;
+  padding-bottom: 2rem;
 
-  background-color: ${COLOR.TEXTAREA_BG};
+  background-color: ${COLOR.WHITE};
   border-radius: 1rem;
   box-sizing: border-box;
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+
+  display: flex;
+  flex-direction: column;
 `;
 
 const StyledHeader = styled(Header)`
-  padding: 0 1rem;
+  padding: 2rem 2rem 1rem 2rem;
 `;
 
 const StyledAlarmContainer = styled.div`
   display: flex;
   flex-direction: column;
-
   height: calc(100% - 4rem);
-  margin-top: 2rem;
-  overflow-y: scroll;
+  overflow: auto;
 `;
 
 const StyledAlarm = styled.div`
-  padding: 0.6rem 1rem;
   cursor: pointer;
+  margin: 0 1rem;
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
 
   &:hover {
     background-color: ${COLOR.GRAY};
