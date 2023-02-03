@@ -1,12 +1,15 @@
-import { getAlarms } from '@/api/alarm';
+import { getAlarms, updateSeenAlarm } from '@/api/alarm';
 import { imgDefaultAvatar } from '@/assets/images';
-import { Avatar, Header, Text } from '@/components/base';
+import { Avatar, Button, Header, Icon, Text } from '@/components/base';
 import useClickAway from '@/hooks/useClickAway';
 import { COLOR } from '@/styles/color';
 import { convertDate } from '@/utils/date';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+const FILTER_METHODS = ['전체', '읽은 알림', '안읽은 알림'];
 
 function AlarmModal({ visible, onClose }) {
   const navigate = useNavigate();
@@ -15,48 +18,92 @@ function AlarmModal({ visible, onClose }) {
   });
 
   const [alarms, setAlarms] = useState([]);
+  const [filteredAlarms, setFilteredAlarms] = useState(alarms);
+  const [clickedIndex, setClickedIndex] = useState(0);
 
   useEffect(() => {
     if (!visible) return;
 
     (async () => {
-      const alarms = await getAlarms();
-      alarms?.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-
-      setAlarms(alarms);
+      setAlarms(await getOrderedAlarms());
     })();
   }, [visible]);
+
+  const getOrderedAlarms = async () => {
+    return (await getAlarms()).sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+  };
 
   const handleAlarmClick = (postId) => {
     navigate(`/TIL/${postId}`);
     onClose && onClose();
   };
 
+  const handleUpdateSeenAlarm = async () => {
+    if (alarms.every(({ seen }) => seen)) return;
+
+    await updateSeenAlarm();
+    setAlarms(await getOrderedAlarms());
+  };
+
+  useEffect(() => {
+    switch (clickedIndex) {
+      case 0:
+        setFilteredAlarms(alarms);
+        break;
+      case 1:
+        setFilteredAlarms(alarms.filter(({ seen }) => seen));
+        break;
+      case 2:
+        setFilteredAlarms(alarms.filter(({ seen }) => !seen));
+        break;
+      default:
+        setFilteredAlarms(alarms);
+        break;
+    }
+  }, [alarms, clickedIndex]);
+
   return (
     <StyledModalWrapper visible={visible}>
       <StyledModalContainer ref={ref}>
-        <StyledHeader level={1} strong={+true} size='2rem'>
-          알림
-        </StyledHeader>
+        <StyledHeaderContainer>
+          <StyledHeaderItem>
+            <Header level={2} strong={+true} size='2rem'>
+              알림
+            </Header>
+            <StyledButton as='span' onClick={handleUpdateSeenAlarm}>
+              전체 읽기
+            </StyledButton>
+          </StyledHeaderItem>
+          <Icon size={2} style={{ cursor: 'pointer' }} onClick={() => onClose && onClose()} />
+        </StyledHeaderContainer>
+        <StyledFilterTabContainer>
+          {FILTER_METHODS.map((method, i) => (
+            <StyledFilterTab key={method} onClick={() => setClickedIndex(i)} isClicked={clickedIndex === i}>
+              {method}
+            </StyledFilterTab>
+          ))}
+        </StyledFilterTabContainer>
         <StyledAlarmContainer>
-          {alarms && alarms.length !== 0 ? (
-            alarms.map((alarm) => (
-              <StyledAlarm key={alarm._id} onClick={() => handleAlarmClick(alarm.post)}>
-                <StyledAvatar src={alarm.author.image || imgDefaultAvatar} size={4} />
+          {alarms.length === 0 ? (
+            <StyledNoAlarm>🥲 알림이 없어요...</StyledNoAlarm>
+          ) : filteredAlarms.length === 0 ? (
+            <StyledNoAlarm>🥲 읽지 않은 알림이 없어요...</StyledNoAlarm>
+          ) : (
+            filteredAlarms.map(({ _id, author, post, like, comment }) => (
+              <StyledAlarm key={_id} onClick={() => handleAlarmClick(post)}>
+                <StyledAvatar src={author.image || imgDefaultAvatar} size={4} />
                 <StyledContentContainer>
-                  <StyledContent size={1.6} color={'black'}>
-                    {alarm.like
-                      ? `${alarm.author.fullName}님이 ${alarm.like.post.title.title}에 공감을 남겼습니다.`
-                      : `${alarm.author.fullName}님이 ${alarm.comment.post.title.title}에 남긴 댓글: ${alarm.comment.comment}`}
+                  <StyledContent size={1.6}>
+                    {like
+                      ? `${author.fullName}님이 ${like.post.title.title}을(를) 좋아합니다.`
+                      : `${author.fullName}님이 ${comment.post.title.title}에 남긴 댓글: ${comment.comment}`}
                   </StyledContent>
                   <Text size={1.2} color={COLOR.CREATEDAT}>
-                    {convertDate(new Date(alarm.like ? alarm.like.post.updatedAt : alarm.comment.post.updatedAt))}
+                    {convertDate(new Date(like ? like.post.updatedAt : comment.post.updatedAt))}
                   </Text>
                 </StyledContentContainer>
               </StyledAlarm>
             ))
-          ) : (
-            <Text style={{ padding: '0 1rem', fontSize: '1.6rem' }}>알림이 없습니다!</Text>
           )}
         </StyledAlarmContainer>
       </StyledModalContainer>
@@ -73,7 +120,7 @@ const StyledModalWrapper = styled.div`
 
 const StyledModalContainer = styled.div`
   position: absolute;
-  top: 4rem;
+  top: 5rem;
   right: 12rem;
 
   width: 48rem;
@@ -96,22 +143,86 @@ const StyledModalContainer = styled.div`
 
     max-width: 100%;
     width: 100%;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+
+    & > :nth-child(1) {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
   }
 `;
 
-const StyledHeader = styled(Header)`
+const StyledHeaderContainer = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
 
   min-height: 4.8rem;
-  padding-left: 2rem;
+  padding: 0 2rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  color: white;
+
+  background-color: ${COLOR.HEADER_SEARCHBAR_SUBMIT_BG};
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+`;
+
+const StyledHeaderItem = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: 2rem;
+`;
+
+const StyledFilterTabContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 1.4rem;
+  min-height: 4rem;
+`;
+
+const StyledFilterTab = styled.div`
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 calc(100% / 3);
+
+  ${({ isClicked }) =>
+    isClicked &&
+    css`
+      background-color: ${COLOR.MY_GROUP_BOX_BG};
+      color: ${COLOR.HEADER_SEARCHBAR_SUBMIT_BG};
+      font-weight: 700;
+    `};
+
+  &:hover {
+    background-color: ${COLOR.MY_GROUP_BOX_BG};
+    color: ${COLOR.HEADER_SEARCHBAR_SUBMIT_BG};
+  }
+  &:not(:nth-last-of-type(1)) {
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const StyledButton = styled(Button)`
+  background-color: transparent;
+  font-size: 1.4rem;
+  color: white;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const StyledAlarmContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow: auto;
+
+  flex-grow: 1;
 `;
 
 const StyledAlarm = styled.div`
@@ -132,6 +243,7 @@ const StyledContentContainer = styled.div`
 `;
 
 const StyledContent = styled(Text)`
+  color: black;
   overflow: hidden;
   text-overflow: ellipsis;
   max-height: 6rem;
@@ -144,4 +256,14 @@ const StyledContent = styled(Text)`
 const StyledAvatar = styled(Avatar)`
   align-self: flex-start;
   margin: 0 1.6rem;
+`;
+
+const StyledNoAlarm = styled(Text)`
+  padding: 0 1rem;
+  font-size: 2rem;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

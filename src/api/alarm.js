@@ -52,3 +52,13 @@ export const deleteAlarm = async (data) => {
     console.error(error);
   }
 };
+
+export const updateSeenAlarm = async () => {
+  try {
+    const response = await axiosInstance.put('notifications/seen');
+
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
