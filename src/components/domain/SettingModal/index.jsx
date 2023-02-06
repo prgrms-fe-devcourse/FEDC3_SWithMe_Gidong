@@ -6,18 +6,28 @@ import styled from '@emotion/styled';
 const FILTER_METHODS = ['전체', '읽은 알림', '안읽은 알림'];
 
 function SettingModal({ visible, onClose, clickedIndex, onReadAll }) {
+  const handleFiltering = async (i) => {
+    clickedIndex.onChange && (await clickedIndex.onChange(i));
+    onClose && onClose();
+  };
+
+  const handleReadAll = async () => {
+    onReadAll && (await onReadAll());
+    onClose && onClose();
+  };
+
   return (
     <StyledSettingModal visible={visible} onClose={onClose} dimColor='transparent'>
       <StyledSettingModalWrapper>
         <StyledFilterTabContainer>
           {FILTER_METHODS.map((method, i) => (
-            <StyledFilterTab key={method} onClick={() => clickedIndex.onChange(i)} isClicked={clickedIndex.value === i}>
+            <StyledFilterTab key={method} onClick={() => handleFiltering(i)} isClicked={clickedIndex.value === i}>
               {method}
             </StyledFilterTab>
           ))}
         </StyledFilterTabContainer>
         <Divider type='horizontal' color={COLOR.GRAY_30} color={COLOR.GRAY} height={0.05} size={1} />
-        <StyledButton as='span' onClick={onReadAll}>
+        <StyledButton as='span' onClick={handleReadAll}>
           전체 읽음 처리
         </StyledButton>
       </StyledSettingModalWrapper>
@@ -47,7 +57,6 @@ const StyledSettingModal = styled(Modal)`
 const StyledSettingModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  /* width: 10rem; */
 
   padding: 1rem;
 `;
