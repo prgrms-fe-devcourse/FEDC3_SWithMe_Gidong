@@ -15,7 +15,6 @@ const useClickAway = (handler) => {
     if (!element) return;
 
     const handleEvent = (e) => {
-      console.log(element);
       !element.contains(e.target) && savedHandler.current(e);
     };
 

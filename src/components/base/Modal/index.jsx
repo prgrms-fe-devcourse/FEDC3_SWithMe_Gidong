@@ -16,7 +16,7 @@ function Modal({
   ...props
 }) {
   const ref = useClickAway(() => {
-    onClose && onClose();
+    onClose && !hasChild && onClose();
   });
   const containerStyle = useMemo(() => ({ width, height }), [width, height]);
 

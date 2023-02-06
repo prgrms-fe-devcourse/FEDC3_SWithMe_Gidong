@@ -1,22 +1,20 @@
 import { getAlarms, updateSeenAlarm } from '@/api/alarm';
 import { imgDefaultAvatar } from '@/assets/images';
-import { Avatar, Button, Header, Icon, Modal, Text } from '@/components/base';
+import { Avatar, Header, Icon, Modal, Text } from '@/components/base';
+import SettingModal from '@/components/domain/SettingModal';
+import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import { convertDate } from '@/utils/date';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SettingModal from '@/components/domain/SettingModal';
-
-const FILTER_METHODS = ['전체', '읽은 알림', '안읽은 알림'];
 
 function AlarmModal({ visible, onClose }) {
   const navigate = useNavigate();
 
   const [alarms, setAlarms] = useState([]);
   const [filteredAlarms, setFilteredAlarms] = useState(alarms);
-  const [clickedIndex, setClickedIndex] = useState(0);
+  const clickedIndex = useInput(0);
   const [settingModalVisible, setSettingModalVisible] = useState(false);
 
   useEffect(() => {
@@ -44,7 +42,7 @@ function AlarmModal({ visible, onClose }) {
   };
 
   useEffect(() => {
-    switch (clickedIndex) {
+    switch (clickedIndex.value) {
       case 0:
         setFilteredAlarms(alarms);
         break;
@@ -58,34 +56,27 @@ function AlarmModal({ visible, onClose }) {
         setFilteredAlarms(alarms);
         break;
     }
-  }, [alarms, clickedIndex]);
+  }, [alarms, clickedIndex.value]);
 
   return (
-    <StyledAlarmModal visible={visible} onClose={onClose} dimColor='transparent' hasChild={true}>
+    <StyledAlarmModal visible={visible} onClose={onClose} dimColor='transparent' hasChild={settingModalVisible}>
       <StyledHeaderContainer>
-        <StyledHeaderItem>
+        <StyledHeaderItem onClick={() => setSettingModalVisible(true)}>
           <Header level={2} strong={+true} size='2rem'>
             알림
           </Header>
-          <StyledButton as='span' onClick={handleUpdateSeenAlarm}>
-            전체 읽기
-          </StyledButton>
+          <Icon name='caret-down' size={2} />
+          {settingModalVisible && (
+            <SettingModal
+              visible={settingModalVisible}
+              onClose={() => setSettingModalVisible(false)}
+              clickedIndex={clickedIndex}
+              onReadAll={handleUpdateSeenAlarm}
+            />
+          )}
         </StyledHeaderItem>
-
-        <Icon name='gear' size={2} style={{ cursor: 'pointer' }} onClick={() => setSettingModalVisible(true)} />
-        {settingModalVisible && (
-          <SettingModal visible={settingModalVisible} onClose={() => setSettingModalVisible(false)} />
-        )}
-
         <Icon size={2} style={{ cursor: 'pointer' }} onClick={() => onClose && onClose()} />
       </StyledHeaderContainer>
-      <StyledFilterTabContainer>
-        {FILTER_METHODS.map((method, i) => (
-          <StyledFilterTab key={method} onClick={() => setClickedIndex(i)} isClicked={clickedIndex === i}>
-            {method}
-          </StyledFilterTab>
-        ))}
-      </StyledFilterTabContainer>
       <StyledAlarmContainer>
         {alarms.length === 0 || (filteredAlarms.length === 0 && clickedIndex !== 2) ? (
           <StyledNoAlarm>🥲 알림이 없어요...</StyledNoAlarm>
@@ -169,48 +160,10 @@ const StyledHeaderContainer = styled.div`
 
 const StyledHeaderItem = styled.div`
   display: flex;
-  align-items: flex-end;
-  gap: 2rem;
-`;
-
-const StyledFilterTabContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  font-size: 1.4rem;
-  min-height: 4rem;
-`;
-
-const StyledFilterTab = styled.div`
+  gap: 0.6rem;
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1 1 calc(100% / 3);
 
-  ${({ isClicked }) =>
-    isClicked &&
-    css`
-      background-color: ${COLOR.C};
-      color: ${COLOR.HEADER_SEARCHBAR_SUBMIT_BG};
-      font-weight: 700;
-    `};
-
-  &:hover {
-    background-color: ${COLOR.MY_GROUP_BOX_BG};
-    color: ${COLOR.HEADER_SEARCHBAR_SUBMIT_BG};
-  }
-  &:not(:nth-last-of-type(1)) {
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
-  }
-`;
-
-const StyledButton = styled(Button)`
-  background-color: transparent;
-  font-size: 1.4rem;
-  color: white;
-  text-decoration: underline;
+  position: relative;
 `;
 
 const StyledAlarmContainer = styled.div`
