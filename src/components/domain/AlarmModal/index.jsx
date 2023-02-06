@@ -206,10 +206,7 @@ const StyledButton = styled(Button)`
   background-color: transparent;
   font-size: 1.4rem;
   color: white;
-
-  &:hover {
-    text-decoration: underline;
-  }
+  text-decoration: underline;
 `;
 
 const StyledAlarmContainer = styled.div`

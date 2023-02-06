@@ -64,14 +64,9 @@ const StyledHeaderContainer = styled.div`
   ${({ isFontWhite }) =>
     isFontWhite &&
     css`
-      & button {
-        color: ${COLOR.WHITE};
-      }
+      & button,
       & i {
         color: ${COLOR.WHITE};
-      }
-      & sup {
-        background-color: ${COLOR.ALARM_GREEN};
       }
     `};
 
@@ -81,14 +76,9 @@ const StyledHeaderContainer = styled.div`
       background-color: white;
       box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
 
-      & button {
-        color: black;
-      }
+      & button,
       & i {
         color: black;
-      }
-      & sup {
-        background-color: ${COLOR.RED};
       }
     `};
 `;
