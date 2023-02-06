@@ -5,6 +5,7 @@ import CommentProvider from '@/context/CommentProvider';
 import GroupProvider from '@/context/GroupProvider';
 import LikeProvider from '@/context/LikeProvider';
 import TILProvider from '@/context/TILProvider';
+import ToastProvider from '@/context/ToastProvider';
 import UserProvider from '@/context/UserProvider';
 import { useAsync } from '@/hooks';
 import Router from '@/Router';
@@ -27,23 +28,25 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <AuthProvider>
-        <UserProvider initialUsers={initialUsers}>
-          <GroupProvider
-            initialGroups={initialGroups}
-            handleCreateGroup={handleCreateGroup}
-            handleUpdateGroup={handleUpdateGroup}
-            handleDeleteGroup={handleDeleteGroup}>
-            <TILProvider>
-              <CommentProvider>
-                <LikeProvider>
-                  <Router />
-                </LikeProvider>
-              </CommentProvider>
-            </TILProvider>
-          </GroupProvider>
-        </UserProvider>
-      </AuthProvider>
+      <ToastProvider>
+        <AuthProvider>
+          <UserProvider initialUsers={initialUsers}>
+            <GroupProvider
+              initialGroups={initialGroups}
+              handleCreateGroup={handleCreateGroup}
+              handleUpdateGroup={handleUpdateGroup}
+              handleDeleteGroup={handleDeleteGroup}>
+              <TILProvider>
+                <CommentProvider>
+                  <LikeProvider>
+                    <Router />
+                  </LikeProvider>
+                </CommentProvider>
+              </TILProvider>
+            </GroupProvider>
+          </UserProvider>
+        </AuthProvider>
+      </ToastProvider>
     </>
   );
 }

@@ -1,6 +1,7 @@
 import { Header, Icon, Input, SearchBar, TagInput, Text, Textarea } from '@/components/base';
 import { Member, MemberList } from '@/components/domain/groupInfo';
 import { useGroupContext } from '@/context/GroupProvider';
+import { useToastContext } from '@/context/ToastProvider';
 import { useUserContext } from '@/context/UserProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
@@ -29,14 +30,14 @@ function ManageGroup() {
   const {
     state: { _id },
   } = useLocation();
-  const { groups } = useGroupContext();
+  const { groups, onUpdateGroup, onDeleteGroup } = useGroupContext();
+  const { addToast } = useToastContext();
   const [group, setGroup] = useState();
   const tags = useInput([]);
   const groupNameInputRef = useRef(null);
   const groupMemberCountInputRef = useRef(null);
   const groupIntroductionInputRef = useRef(null);
-  const { onUpdateGroup } = useGroupContext();
-  const { onDeleteGroup } = useGroupContext();
+
   const navigate = useNavigate();
   const { value, onChange } = useInput('');
 
@@ -64,16 +65,16 @@ function ManageGroup() {
 
   const inputValidate = () => {
     if (groupNameInputRef.current === '') {
-      alert(ALERT_MESSAGE.GROUP_NAME);
+      addToast(ALERT_MESSAGE.GROUP_NAME);
       return false;
     } else if (groupMemberCountInputRef.current < 2) {
-      alert(ALERT_MESSAGE.GROUP_HEAD_COUNT_1);
+      addToast(ALERT_MESSAGE.GROUP_HEAD_COUNT_1);
       return false;
     } else if (groupMemberCountInputRef.current < group.description.member.length + 1) {
-      alert(ALERT_MESSAGE.GROUP_HEAD_COUNT_2);
+      addToast(ALERT_MESSAGE.GROUP_HEAD_COUNT_2);
       return false;
     } else if (tags.value.length === 0) {
-      alert(ALERT_MESSAGE.GROUP_TAG);
+      addToast(ALERT_MESSAGE.GROUP_TAG);
       return false;
     }
     return true;
@@ -93,7 +94,7 @@ function ManageGroup() {
     };
     const updatedGroup = await onUpdateGroup(data);
     setGroup(updatedGroup);
-    alert(ALERT_MESSAGE.GROUP_UPDATE);
+    addToast(ALERT_MESSAGE.GROUP_UPDATE);
   };
 
   const handleDeleteClick = async () => {
@@ -101,7 +102,7 @@ function ManageGroup() {
     await onDeleteGroup({
       id: group._id,
     });
-    alert(ALERT_MESSAGE.GROUP_DELETE);
+    addToast(ALERT_MESSAGE.GROUP_DELETE);
     navigate('/myGroup');
   };
 
@@ -117,7 +118,7 @@ function ManageGroup() {
     };
     const updatedGroup = await onUpdateGroup(data);
     setGroup(updatedGroup);
-    alert(`'${fullName}님'${ALERT_MESSAGE.MEMBER_KICK}`);
+    addToast(`'${fullName}님'${ALERT_MESSAGE.MEMBER_KICK}`);
   };
 
   const handleDelegateClick = async (member) => {
@@ -133,7 +134,7 @@ function ManageGroup() {
     };
     const updatedGroup = await onUpdateGroup(data);
     setGroup(updatedGroup);
-    alert(`'${fullName}님'${ALERT_MESSAGE.MASTER_DELEGATE}`);
+    addToast(`'${fullName}님'${ALERT_MESSAGE.MASTER_DELEGATE}`);
     navigate('/myGroup');
   };
 

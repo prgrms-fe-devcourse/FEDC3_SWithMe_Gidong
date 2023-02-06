@@ -1,8 +1,9 @@
 import { postUserAvatar, putUserFullName, putUserPassword } from '@/api/userInfo';
 import { imgMypage, imgUserAvatar } from '@/assets/images';
-import { Avatar, Text, Input } from '@/components/base';
+import { Avatar, Input, Text } from '@/components/base';
 import { MyPageButton } from '@/components/domain/MyPage';
 import { useAuthContext } from '@/context/AuthProvider';
+import { useToastContext } from '@/context/ToastProvider';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
@@ -29,6 +30,7 @@ function MyPage() {
     authState: { isLoggedIn, loggedUser },
     onReload,
   } = useAuthContext();
+  const { addToast } = useToastContext();
 
   if (!isLoggedIn) navigate('/');
 
@@ -88,7 +90,7 @@ function MyPage() {
     if (response) {
       setValues({ ...values, fullName: response.fullName });
       onReload(response);
-      alert(CONFIRM_MESSAGES.CONFIRMED);
+      addToast(CONFIRM_MESSAGES.CONFIRMED);
 
       return;
     }
@@ -106,7 +108,10 @@ function MyPage() {
       password: values.password,
     };
 
-    if (await putUserPassword(data)) return alert(CONFIRM_MESSAGES.CONFIRMED);
+    if (await putUserPassword(data)) {
+      addToast(CONFIRM_MESSAGES.CONFIRMED);
+      return;
+    }
 
     return;
   };

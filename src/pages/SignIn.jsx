@@ -1,13 +1,14 @@
 import { postUserSignIn } from '@/api/userSign';
-import { Spinner, Header, Text, Image, Button } from '@/components/base';
+import { imgLogin } from '@/assets/images';
+import { Button, Header, Image, Spinner, Text } from '@/components/base';
 import SignInput from '@/components/domain/SignInput';
+import { useAuthContext } from '@/context/AuthProvider';
+import { useToastContext } from '@/context/ToastProvider';
 import { COLOR } from '@/styles/color';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from '@/context/AuthProvider';
-import { imgLogin } from '@/assets/images';
-import { css } from '@emotion/react';
 
 const ERRORS = {
   EMAIL_EMPTY_ERROR: '이메일을 입력해 주세요.',
@@ -24,6 +25,7 @@ const INPUT_NUMBER_LIMIT = {
 function SignIn() {
   const navigate = useNavigate();
   const { onLogin } = useAuthContext();
+  const { addToast } = useToastContext();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -50,7 +52,7 @@ function SignIn() {
     setIsLoading(false);
 
     if (data.isFailed) {
-      alert(data.errorMessage);
+      addToast(data.errorMessage);
       return;
     }
     onLogin(data);
