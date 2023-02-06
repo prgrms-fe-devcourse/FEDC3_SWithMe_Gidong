@@ -118,10 +118,10 @@ const StyledAlarmModal = styled(Modal)`
   right: 14rem;
   transform: none;
 
-  width: 48rem;
-  height: 64rem;
-  max-width: 48rem;
-  max-height: 64rem;
+  width: 40rem;
+  height: 45rem;
+  max-width: 40rem;
+  max-height: 45rem;
 
   background-color: ${COLOR.WHITE};
   border-radius: 1rem;
@@ -188,7 +188,7 @@ const StyledFilterTab = styled.div`
   ${({ isClicked }) =>
     isClicked &&
     css`
-      background-color: ${COLOR.MY_GROUP_BOX_BG};
+      background-color: ${COLOR.C};
       color: ${COLOR.HEADER_SEARCHBAR_SUBMIT_BG};
       font-weight: 700;
     `};
