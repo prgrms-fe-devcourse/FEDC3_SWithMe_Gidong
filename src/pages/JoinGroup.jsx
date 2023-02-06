@@ -41,11 +41,11 @@ function JoinGroup() {
     if (!isLoggedIn) {
       setGuideMessage(GUIDE_MESSAGE[0]);
       return;
-    } else if (member.length === headCount) {
-      setGuideMessage(GUIDE_MESSAGE[1]);
-      return;
-    } else if (member.some((el) => el._id === loggedUser._id)) {
+    } else if (master === loggedUser._id || member.some((id) => id === loggedUser._id)) {
       setGuideMessage(GUIDE_MESSAGE[2]);
+      return;
+    } else if (member.length >= headCount) {
+      setGuideMessage(GUIDE_MESSAGE[1]);
       return;
     }
     setGuideMessage('');
