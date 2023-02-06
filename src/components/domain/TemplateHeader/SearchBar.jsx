@@ -24,14 +24,12 @@ const SearchBar = () => {
   };
 
   const onKeyDownEsc = (e) => {
-    if (dropdown === false) return;
     if (e.key === 'Escape') {
       setDropdown(false);
     }
   };
 
-  const onBlurDropDown = (e) => {
-    if (dropdown === false) return;
+  const onBlurDropDown = () => {
     setDropdown(false);
   };
 
@@ -52,16 +50,16 @@ const SearchBar = () => {
   return (
     <StyledHeaderSearchBar>
       <StyledDropdownTrigger
-        onClick={(e) => handleDropdown(e)}
-        onKeyDown={(e) => onKeyDownEsc(e)}
-        onBlur={(e) => onBlurDropDown(e)}>
+        onClick={handleDropdown}
+        onKeyDown={onKeyDownEsc}
+        onBlur={onBlurDropDown}>
         {filterValue}
       </StyledDropdownTrigger>
       {dropdown && (
         <StyledDropdownUl>
           {FILLTER_OPTIONS.map((option, index) => (
             <li key={index}>
-              <button value={option} onMouseDown={(e) => handleDropdown(e)} style={{ color: COLOR.DARK }}>
+              <button value={option} onMouseDown={handleDropdown} style={{ color: COLOR.DARK }}>
                 {option}
               </button>
             </li>
