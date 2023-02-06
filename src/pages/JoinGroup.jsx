@@ -103,6 +103,7 @@ const StyledJoinGroup = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 2rem;
+  padding-bottom: 8rem;
 `;
 
 const StyledHeader = styled.div`
