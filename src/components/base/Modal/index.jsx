@@ -12,6 +12,7 @@ function Modal({
   round = true,
   dimColor = 'rgba(0, 0, 0, 0.5)',
   onClose,
+  hasChild,
   ...props
 }) {
   const ref = useClickAway(() => {
@@ -33,14 +34,14 @@ function Modal({
   useEffect(() => {
     document.body.appendChild(modal);
     document.body.style.overflow = 'hidden';
-    document.addEventListener('keyup', handleEscKey, false);
+    if (!hasChild) document.addEventListener('keyup', handleEscKey, false);
 
     return () => {
       document.body.removeChild(modal);
       document.body.style.overflow = 'unset';
-      document.removeEventListener('keyup', handleEscKey, false);
+      if (!hasChild) document.removeEventListener('keyup', handleEscKey, false);
     };
-  }, []);
+  }, [hasChild]);
 
   return ReactDOM.createPortal(
     <StyledBackgroundDim style={{ display: visible ? 'block' : 'none' }} dimColor={dimColor}>
