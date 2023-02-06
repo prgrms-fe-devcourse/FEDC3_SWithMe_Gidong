@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
 import { Image as ImageComponent } from '@/components/base';
+import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 
 function Avatar({ lazy, threshold, src, size = 1, shape = 'circle', placeholder, alt, mode = 'cover', ...props }) {
@@ -44,6 +44,7 @@ const AvatarWrapper = styled.div`
   background-color: #eee;
   width: ${({ size }) => `${size}rem`};
   height: ${({ size }) => `${size}rem`};
+  flex: none;
 
   > img {
     transition: opacity 0.2s ease-out;

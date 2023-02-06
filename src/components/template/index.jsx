@@ -64,18 +64,20 @@ const StyledHeaderContainer = styled.div`
   ${({ isFontWhite }) =>
     isFontWhite &&
     css`
-      & button {
+      & button,
+      & i {
         color: ${COLOR.WHITE};
       }
     `};
 
-    ${({ isScrolled }) =>
+  ${({ isScrolled }) =>
     isScrolled &&
     css`
       background-color: white;
       box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
 
-      & button {
+      & button,
+      & i {
         color: black;
       }
     `};
