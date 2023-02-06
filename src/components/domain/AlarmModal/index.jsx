@@ -81,7 +81,7 @@ function AlarmModal({ visible, onClose }) {
             ))}
           </StyledFilterTabContainer>
           <StyledAlarmContainer>
-            {alarms.length === 0 ? (
+            {alarms.length === 0 || (filteredAlarms.length === 0 && clickedIndex !== 2) ? (
               <StyledNoAlarm>🥲 알림이 없어요...</StyledNoAlarm>
             ) : filteredAlarms.length === 0 ? (
               <StyledNoAlarm>🥲 읽지 않은 알림이 없어요...</StyledNoAlarm>
