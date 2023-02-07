@@ -3,7 +3,7 @@ import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-const Pagination = ({ defaultPage, limit, total, onChange }) => {
+const Pagination = ({ defaultPage = 0, limit, total, onChange }) => {
   const [page, setPage] = useState(defaultPage);
   const totalPage = Math.ceil(total / limit);
 
