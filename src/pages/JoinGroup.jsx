@@ -10,7 +10,11 @@ import { useState, useEffect } from 'react';
 import { useGroupContext } from '@/context/GroupProvider';
 import { imgJoin } from '@/assets/images';
 
-const GUIDE_MESSAGE = ['로그인이 필요한 서비스입니다.', '그룹의 정원이 모두 찼습니다.', '이미 가입된 그룹입니다.'];
+const DISABLED_MESSAGE = {
+  NEED_LOGIN: '로그인이 필요한 서비스입니다.',
+  FULL_MEMBER: '그룹의 정원이 모두 찼습니다.',
+  ALREADY_JOINED: '이미 가입된 그룹입니다.',
+};
 
 function JoinGroup() {
   const {
@@ -39,13 +43,13 @@ function JoinGroup() {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      setGuideMessage(GUIDE_MESSAGE[0]);
+      setGuideMessage(DISABLED_MESSAGE.NEED_LOGIN);
       return;
     } else if (master === loggedUser._id || member.some((id) => id === loggedUser._id)) {
-      setGuideMessage(GUIDE_MESSAGE[2]);
+      setGuideMessage(DISABLED_MESSAGE.ALREADY_JOINED);
       return;
     } else if (member.length >= headCount) {
-      setGuideMessage(GUIDE_MESSAGE[1]);
+      setGuideMessage(DISABLED_MESSAGE.FULL_MEMBER);
       return;
     }
     setGuideMessage('');
