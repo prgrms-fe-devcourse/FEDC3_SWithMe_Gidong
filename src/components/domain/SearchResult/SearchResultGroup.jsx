@@ -1,9 +1,15 @@
 import { Button, Header, Icon, Text } from '@/components/base';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 
 function SearchResultGroup(props) {
-  const { group, index, onClick } = props;
+  const { group, index } = props;
+  const navigate = useNavigate();
+
+  const onClickJoinGroup = (group) => {
+    navigate('/joinGroup', { state: { group } });
+  };
 
   return (
     <StyledResultGruopCard>
@@ -21,7 +27,7 @@ function SearchResultGroup(props) {
           </div>
         ))}
       </StyledResultGroupTags>
-      <Button onClick={onClick} style={{ backgroundColor: COLOR.WHITE }}>
+      <Button onClick={() => onClickJoinGroup(group)} style={{ backgroundColor: COLOR.WHITE }}>
         <Text size={1.5} underline>
           자세히 보기
         </Text>
@@ -33,8 +39,6 @@ function SearchResultGroup(props) {
 export default SearchResultGroup;
 
 const StyledResultGruopCard = styled.div`
-  display: grid;
-  overflow: hidden;
   width: 21.4rem;
   height: 32rem;
   padding: 2rem 1.5rem;

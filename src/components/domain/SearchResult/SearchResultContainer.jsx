@@ -1,47 +1,55 @@
-import { Header, Text } from '@/components/base';
+import { Header, Pagination } from '@/components/base';
+import { SearchResultGroup } from '@/components/domain/SearchResult';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
+import { useState } from 'react';
 
-function SearchResultContainer({ title, groupTotal, children }) {
+const PAGINATION_CONTENTS_LIMIT = 8;
+
+function SearchResultContainer({ title, groupList }) {
+  const [currentPage, setCurrentPage] = useState(0);
+  const offset = currentPage * PAGINATION_CONTENTS_LIMIT;
+
   return (
-    <StyledGroupContainer>
-      <StyledGroupListHeader>
-        <Header size='4.8rem'>{title}</Header>
-        <Text size={2}>
-          전체 <Text style={{ color: COLOR.RED }}> {groupTotal} </Text> 결과
-        </Text>
-      </StyledGroupListHeader>
-      <StyledGroupListContainer>{children}</StyledGroupListContainer>
-    </StyledGroupContainer>
+    <StyledSearchResultContainer>
+      <Header strong size={30}>
+        {title}
+      </Header>
+      <StyledSearchResult>
+        <StyledGroupList>
+          {groupList?.slice(offset, offset + PAGINATION_CONTENTS_LIMIT).map((group, index) => (
+            <SearchResultGroup key={group._id} group={group} index={index} />
+          ))}
+        </StyledGroupList>
+        <Pagination limit={PAGINATION_CONTENTS_LIMIT} total={groupList?.length} onChange={setCurrentPage} />
+      </StyledSearchResult>
+    </StyledSearchResultContainer>
   );
 }
 
 export default SearchResultContainer;
 
-const StyledGroupContainer = styled.div`
-  display: block;
-  margin: 6rem auto;
-  max-width: 115.6rem;
-  min-width: 62.5rem;
+const StyledSearchResultContainer = styled.div`
+  position: relative;
+  flex: 1;
+  padding: 10rem 10rem 0 10rem;
 `;
 
-const StyledGroupListHeader = styled.div`
-  display: flex;
-  align-items: flex-end;
-  margin-left: 2.4rem;
-  margin-bottom: 3.2rem;
-  height: 6rem;
-
-  & > span {
-    margin-left: 1.5rem;
-  }
+const StyledSearchResult = styled.div`
+  margin: 3rem 0;
+  padding: 3rem;
+  border-radius: 1rem;
+  background-color: ${COLOR.GRAY_10};
 `;
 
-const StyledGroupListContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4rem 5.2rem;
-  padding: 5.3rem 7.2rem;
-  border-radius: 5rem;
-  background-color: ${COLOR.GRAY};
+const StyledGroupList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 22rem);
+  gap: 3rem 0;
+  padding: 1rem;
+
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  margin: 0 auto;
 `;
