@@ -15,3 +15,5 @@ export { default as Spinner } from './Spinner';
 export { Tag, TagInput } from './Tag';
 export { default as Text } from './Text';
 export { default as Textarea } from './Textarea';
+export { default as Toast } from './Toast';
+

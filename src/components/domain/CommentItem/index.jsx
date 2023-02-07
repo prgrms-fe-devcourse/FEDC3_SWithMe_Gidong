@@ -5,6 +5,7 @@ import { Avatar, Text, Textarea } from '@/components/base';
 import AuthorNav from '@/components/domain/AuthorNav';
 import { useAuthContext } from '@/context/AuthProvider';
 import { useCommentContext } from '@/context/CommentProvider';
+import { useToastContext } from '@/context/ToastProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import { convertDate } from '@/utils/date';
@@ -18,6 +19,8 @@ function CommentItem({ comment }) {
     authState: { loggedUser },
   } = useAuthContext();
   const { onDeleteComment, onUpdateComment } = useCommentContext();
+  const { addToast } = useToastContext();
+
   const [mode, setMode] = useState('view');
 
   const { author, comment: body, updatedAt, _id: id, post: postId } = comment;
@@ -36,11 +39,11 @@ function CommentItem({ comment }) {
 
   const handleSubmitButtonClick = async () => {
     if (commentInput.value === '') {
-      alert('한 글자 이상 입력해 주세요.');
+      addToast('한 글자 이상 입력해 주세요.');
       return;
     }
     if (commentInput.value === body) {
-      alert('이전과 다른 댓글을 입력해 주세요.');
+      addToast('이전과 다른 댓글을 입력해 주세요.');
       return;
     }
 

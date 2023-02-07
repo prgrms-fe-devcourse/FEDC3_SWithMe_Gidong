@@ -1,12 +1,13 @@
-import { Spinner, Header, Text, Image, Button } from '@/components/base';
+import { imgLogin } from '@/assets/images';
+import { Header, Image, Spinner, Text } from '@/components/base';
 import SignInput from '@/components/domain/SignInput';
+import { useToastContext } from '@/context/ToastProvider';
 import { useUserContext } from '@/context/UserProvider';
 import { COLOR } from '@/styles/color';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { imgLogin } from '@/assets/images';
-import { css } from '@emotion/react';
 
 const ERRORS = {
   FULLNAME_EMPTY_ERROR: '이름을 입력해 주세요.',
@@ -32,6 +33,7 @@ const INPUT_NUMBER_LIMIT = {
 function SignUp() {
   const navigate = useNavigate();
   const { onCreateUser } = useUserContext();
+  const { addToast } = useToastContext();
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -66,7 +68,7 @@ function SignUp() {
     setIsLoading(true);
     await onCreateUser(requestBody);
 
-    alert('회원가입이 완료 되었습니다.');
+    addToast('회원가입이 완료 되었습니다.');
     setIsLoading(false);
 
     navigate('/signIn');
