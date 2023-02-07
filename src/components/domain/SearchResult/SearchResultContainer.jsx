@@ -44,7 +44,7 @@ const StyledSearchResult = styled.div`
 
 const StyledGroupList = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, 22rem);
+  grid-template-columns: repeat(auto-fill, 24rem);
   gap: 3rem 0;
   padding: 1rem;
 

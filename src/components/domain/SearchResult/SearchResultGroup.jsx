@@ -12,7 +12,7 @@ function SearchResultGroup(props) {
   };
 
   return (
-    <StyledResultGruopCard>
+    <StyledResultGroupCard>
       <StyledGroupUserAmount style={{ color: COLOR.GROUP_SEARCH_RESULT_COLOR[index] }}>
         <Icon name='user' size={2} />
         <Text size={1.6}>
@@ -28,43 +28,47 @@ function SearchResultGroup(props) {
         ))}
       </StyledResultGroupTags>
       <Button onClick={() => onClickJoinGroup(group)} style={{ backgroundColor: COLOR.WHITE }}>
-        <Text size={1.5} underline>
+        <Text size={1.5} underline color={COLOR.DARK}>
           자세히 보기
         </Text>
       </Button>
-    </StyledResultGruopCard>
+    </StyledResultGroupCard>
   );
 }
 
 export default SearchResultGroup;
 
-const StyledResultGruopCard = styled.div`
-  width: 21.4rem;
-  height: 32rem;
-  padding: 2rem 1.5rem;
-  border-radius: 2.4rem;
-  background-color: ${COLOR.WHITE};
+const StyledResultGroupCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 
-  & > h1 {
-    text-align: center;
-  }
+  width: 22rem;
+  height: 30rem;
+  padding: 2rem;
+  border-radius: 2rem;
+  background-color: ${COLOR.WHITE};
 `;
 
 const StyledGroupUserAmount = styled.div`
   display: flex;
   justify-content: flex-end;
-  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
 `;
 
 const StyledResultGroupTags = styled.div`
   display: flex;
   flex-direction: column;
   align-content: center;
-  padding: 1.6rem 0;
   gap: 1rem;
+
   width: 100%;
   height: 17.6rem;
+  padding: 1.6rem 0;
   border-radius: 2.4rem;
-  background-color: ${COLOR.GRAY};
+  background-color: ${COLOR.GRAY_10};
   color: ${COLOR.GRAY4};
 `;

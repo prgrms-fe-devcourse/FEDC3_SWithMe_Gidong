@@ -17,7 +17,6 @@ function SearchResult() {
   } = useGroupContext();
   const lowerSearchValue = searchValue.toLowerCase();
 
-
   const searchGroupByName = () => {
     return groupList?.filter(({ name }) => name.toLowerCase().includes(lowerSearchValue));
   };
