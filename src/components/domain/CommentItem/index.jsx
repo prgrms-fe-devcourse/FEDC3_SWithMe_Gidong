@@ -107,7 +107,7 @@ function CommentItem({ comment }) {
           </Text>
         ) : (
           <Textarea
-            defaultValue={commentInput.value}
+            value={commentInput.value}
             placeholder='댓글을 입력하세요.'
             max={300}
             wrapperProps={{ style: { width: '100%', border: `0.1rem solid ${COLOR.DARK}` } }}

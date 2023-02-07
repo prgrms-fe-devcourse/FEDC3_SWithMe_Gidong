@@ -19,6 +19,11 @@ const CONFIRM_MESSAGES = {
   CONFIRM_PASSWORD: '정말로 비밀번호를 바꾸시겠습니까?',
 };
 
+const ALERT_MESSEAGES = {
+  CONFIRMED_FULLNAME: '닉네임이 변경되었습니다.',
+  CONFIRMED_PASSWORD: '비밀번호가 변경되었습니다.',
+};
+
 const INPUT_NUMBER_LIMIT = {
   MIN: 2,
   MAX: 20,
@@ -90,7 +95,7 @@ function MyPage() {
     if (response) {
       setValues({ ...values, fullName: response.fullName });
       onReload(response);
-      addToast(CONFIRM_MESSAGES.CONFIRMED);
+      addToast(ALERT_MESSEAGES.CONFIRMED_FULLNAME);
 
       return;
     }
@@ -109,7 +114,7 @@ function MyPage() {
     };
 
     if (await putUserPassword(data)) {
-      addToast(CONFIRM_MESSAGES.CONFIRMED);
+      addToast(ALERT_MESSEAGES.CONFIRMED_PASSWORD);
       return;
     }
 
@@ -134,7 +139,7 @@ function MyPage() {
           </Text>
           <Input
             type='text'
-            defaultValue={values.email}
+            value={values.email}
             block
             readOnly
             style={{
