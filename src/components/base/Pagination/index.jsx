@@ -12,6 +12,8 @@ const Pagination = ({ defaultPage, limit, total, onChange }) => {
     setPage(newPage);
   };
 
+  if (!totalPage) return null;
+
   return (
     <StyledPagination>
       <button onClick={() => handleChangePage(0)}>
