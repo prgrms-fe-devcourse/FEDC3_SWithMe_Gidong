@@ -23,6 +23,16 @@ const SearchBar = () => {
     if (dropdown) setFilterValue(e.target.innerText);
   };
 
+  const onKeyDownEsc = (e) => {
+    if (e.key === 'Escape') {
+      setDropdown(false);
+    }
+  };
+
+  const onBlurDropDown = () => {
+    setDropdown(false);
+  };
+
   const handleGroupSearch = async () => {
     if (searchValue.length < SEARCH_VALUE_LENGTH_MIN) return alert(SEARCH_ERROR.INPUT_VALUE_LENGTH_MIN);
 
@@ -39,12 +49,17 @@ const SearchBar = () => {
 
   return (
     <StyledHeaderSearchBar>
-      <StyledDropdownTrigger onClick={handleDropdown}>{filterValue}</StyledDropdownTrigger>
+      <StyledDropdownTrigger
+        onClick={handleDropdown}
+        onKeyDown={onKeyDownEsc}
+        onBlur={onBlurDropDown}>
+        {filterValue}
+      </StyledDropdownTrigger>
       {dropdown && (
         <StyledDropdownUl>
           {FILLTER_OPTIONS.map((option, index) => (
             <li key={index}>
-              <button value={option} onClick={handleDropdown} style={{ color: COLOR.DARK }}>
+              <button value={option} onMouseDown={handleDropdown} style={{ color: COLOR.DARK }}>
                 {option}
               </button>
             </li>
@@ -122,7 +137,7 @@ const StyledDropdownUl = styled.ul`
     color: ${COLOR.DARK};
   }
 
-  &> li > button: hover {
+  & > li > button:hover {
     background-color: ${COLOR.LIGHTGRAY};
   }
 `;
