@@ -78,7 +78,7 @@ function AlarmModal({ visible, onClose }) {
         <Icon size={2} style={{ cursor: 'pointer' }} onClick={() => onClose && onClose()} />
       </StyledHeaderContainer>
       <StyledAlarmContainer>
-        {alarms.length === 0 || (filteredAlarms.length === 0 && clickedIndex !== 2) ? (
+        {alarms.length === 0 || (filteredAlarms.length === 0 && clickedIndex.value !== 2) ? (
           <StyledNoAlarm>🥲 알림이 없어요...</StyledNoAlarm>
         ) : filteredAlarms.length === 0 ? (
           <StyledNoAlarm>🥲 읽지 않은 알림이 없어요...</StyledNoAlarm>

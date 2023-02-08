@@ -1,15 +1,17 @@
 import { Input, Text } from '@/components/base';
+import { useToastContext } from '@/context/ToastProvider';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { forwardRef, useState } from 'react';
 import TagList from './TagList';
 
 const TagInput = forwardRef(({ onChange, wrapperProps, inputProps, initialTagList = [], ...props }, ref) => {
+  const { addToast } = useToastContext();
   const [tagList, setTagList] = useState(ref?.current || [...initialTagList]);
 
   const addTagItem = (value) => {
     if (tagList.includes(value) || (ref && ref.current.includes(value))) {
-      alert('이미 존재하는 태그입니다.');
+      addToast('이미 존재하는 태그입니다.');
       return;
     }
 

@@ -1,6 +1,7 @@
 import { Button, Icon, Input, Modal, TagInput, Text, Textarea } from '@/components/base';
 import { useAuthContext } from '@/context/AuthProvider';
 import { useGroupContext } from '@/context/GroupProvider';
+import { useToastContext } from '@/context/ToastProvider';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
@@ -9,7 +10,7 @@ const MAX_STEP_SIZE = 4;
 const STEPS = {
   1: {
     MIN: 1,
-    ERROR_MESSAGE: '그룹 이름은 최소 1글자 이상이어야 합니다.',
+    ERROR_MESSAGE: '그룹 이름은 타 그룹과 중복되지 않는 1글자 이상이어야 합니다.',
   },
   2: {
     MIN: 2,
@@ -22,7 +23,8 @@ function CreateGroupModal({ visible, onClose, ...props }) {
   const {
     authState: { loggedUser },
   } = useAuthContext();
-  const { onCreateGroup } = useGroupContext();
+  const { onCreateGroup, groups } = useGroupContext();
+  const { addToast } = useToastContext();
 
   const [step, setStep] = useState(1);
   const groupNameInputRef = useRef('');
@@ -45,7 +47,10 @@ function CreateGroupModal({ visible, onClose, ...props }) {
 
   const checkNextButtonClickAble = () => {
     if (step === 1) {
-      return groupNameInputRef.current.length >= STEPS[step].MIN;
+      return (
+        groupNameInputRef.current.length >= STEPS[step].MIN &&
+        !groups.value.some(({ name }) => name === groupNameInputRef.current)
+      );
     } else if (step === 2) {
       return groupMemberCountInputRef.current >= STEPS[step].MIN;
     } else if (step === 4) {
@@ -64,12 +69,12 @@ function CreateGroupModal({ visible, onClose, ...props }) {
 
   const handleNextButtonClick = async () => {
     if (!checkNextButtonClickAble()) {
-      alert(STEPS[step].ERROR_MESSAGE);
+      addToast(STEPS[step].ERROR_MESSAGE);
       return;
     }
 
     if (step === MAX_STEP_SIZE) {
-      const data = {
+      await onCreateGroup({
         name: groupNameInputRef.current,
         description: JSON.stringify({
           master: loggedUser._id,
@@ -78,9 +83,7 @@ function CreateGroupModal({ visible, onClose, ...props }) {
           intro: groupIntroductionInputRef.current,
           member: [],
         }),
-      };
-
-      await onCreateGroup(data);
+      });
       handleModalClose();
     } else {
       setStep(step + 1);
