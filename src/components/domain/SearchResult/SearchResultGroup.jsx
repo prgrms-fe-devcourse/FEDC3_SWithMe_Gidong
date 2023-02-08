@@ -19,7 +19,9 @@ function SearchResultGroup(props) {
           {group.description.member.length + 1}/{group.description.headCount}
         </Text>
       </StyledGroupUserAmount>
-      <Header size='2.4rem'>{group.name}</Header>
+      <Header level='2' size='2.2rem'>
+        {group.name}
+      </Header>
       <StyledResultGroupTags>
         {group.description.tagList?.map((tag, index) => (
           <div key={index} style={{ textAlign: 'center', width: '100%', height: '2rem' }}>
@@ -29,7 +31,7 @@ function SearchResultGroup(props) {
       </StyledResultGroupTags>
       <Button onClick={() => onClickJoinGroup(group)} style={{ backgroundColor: COLOR.WHITE }}>
         <Text size={1.5} underline color={COLOR.DARK}>
-          자세히 보기
+          그룹 가입하기
         </Text>
       </Button>
     </StyledResultGroupCard>
@@ -50,6 +52,14 @@ const StyledResultGroupCard = styled.div`
   padding: 2rem;
   border-radius: 2rem;
   background-color: ${COLOR.WHITE};
+
+  h2 {
+    width: 18rem;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 `;
 
 const StyledGroupUserAmount = styled.div`

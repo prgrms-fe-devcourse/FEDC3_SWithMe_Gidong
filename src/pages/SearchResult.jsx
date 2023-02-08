@@ -42,5 +42,5 @@ export default SearchResult;
 const StyledPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  padding-bottom: 8rem;
 `;

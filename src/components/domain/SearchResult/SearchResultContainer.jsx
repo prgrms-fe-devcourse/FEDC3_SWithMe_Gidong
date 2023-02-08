@@ -4,7 +4,7 @@ import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-const PAGINATION_CONTENTS_LIMIT = 8;
+const PAGINATION_CONTENTS_LIMIT = 5;
 
 function SearchResultContainer({ title, groupList }) {
   const [currentPage, setCurrentPage] = useState(0);
