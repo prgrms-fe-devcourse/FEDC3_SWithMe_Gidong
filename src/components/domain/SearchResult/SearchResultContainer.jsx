@@ -1,4 +1,4 @@
-import { Header, Pagination } from '@/components/base';
+import { Header, Pagination, Text } from '@/components/base';
 import { SearchResultGroup } from '@/components/domain/SearchResult';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
@@ -12,9 +12,14 @@ function SearchResultContainer({ title, groupList }) {
 
   return (
     <StyledSearchResultContainer>
-      <Header strong size={30}>
-        {title}
-      </Header>
+      <StyledHeader>
+        <Header strong size={30}>
+          {title}
+        </Header>
+        <Text size={1.5}>
+          전체 <Text style={{ color: COLOR.RED }}>{groupList?.length}개</Text> 그룹
+        </Text>
+      </StyledHeader>
       <StyledSearchResult>
         <StyledGroupList>
           {groupList?.slice(offset, offset + PAGINATION_CONTENTS_LIMIT).map((group, index) => (
@@ -33,6 +38,12 @@ const StyledSearchResultContainer = styled.div`
   position: relative;
   flex: 1;
   padding: 10rem 10rem 0 10rem;
+`;
+
+const StyledHeader = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
 `;
 
 const StyledSearchResult = styled.div`
