@@ -1,4 +1,6 @@
 import { Header, Input, TagInput, Text, Textarea } from '@/components/base';
+import { GroupDelete, ManageMember } from '@/components/domain/ManageGroup';
+import * as S from '@/components/domain/ManageGroup/styles';
 import { useGroupContext } from '@/context/GroupProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import { useUserContext } from '@/context/UserProvider';
@@ -7,7 +9,6 @@ import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { GroupDelete, ManageMember } from '@/components/domain/ManageGroup';
 
 const ALERT_MESSAGE = {
   GROUP_NAME: '그룹명은 한 글자 이상이어야 합니다.',
@@ -89,17 +90,17 @@ function ManageGroup() {
   return (
     <StyledPageWrapper>
       <StyledManageGroup>
-        <StyledGroupBox>
+        <S.GroupBox>
           <Header level={3} size={25}>
             그룹 정보 관리
           </Header>
-          <StyledGroupInfo>
+          <S.GroupInfo>
             <Text block size={2}>
               그룹명
             </Text>
             <Input type='text' value={groupName.value} onChange={groupName.onChange} max={15} block required />
-          </StyledGroupInfo>
-          <StyledGroupInfo>
+          </S.GroupInfo>
+          <S.GroupInfo>
             <Text block size={2}>
               최대 인원
             </Text>
@@ -112,14 +113,14 @@ function ManageGroup() {
               max={50}
               required
             />
-          </StyledGroupInfo>
-          <StyledGroupInfo>
+          </S.GroupInfo>
+          <S.GroupInfo>
             <Text block size={2}>
               태그
             </Text>
             <TagInput tagList={tagList.value} onChange={tagList.onChange} />
-          </StyledGroupInfo>
-          <StyledGroupInfo>
+          </S.GroupInfo>
+          <S.GroupInfo>
             <Text block size={2}>
               소개
             </Text>
@@ -130,9 +131,9 @@ function ManageGroup() {
               max={300}
               wrapperProps={{ style: { width: '100%' } }}
             />
-          </StyledGroupInfo>
-          <StyledButton onClick={handleSubmit}>수정</StyledButton>
-        </StyledGroupBox>
+          </S.GroupInfo>
+          <S.Button onClick={handleSubmit}>수정</S.Button>
+        </S.GroupBox>
         <ManageMember member={member} />
         <GroupDelete />
       </StyledManageGroup>
@@ -158,60 +159,4 @@ const StyledManageGroup = styled.div`
   flex: 1;
   padding: 10rem;
   background-color: ${COLOR.MY_GROUP_BG};
-`;
-
-export const StyledGroupBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  width: 80rem;
-  padding: 2rem;
-  border-radius: 1rem;
-  background-color: ${COLOR.WHITE};
-
-  & > h3 {
-    margin-bottom: 1rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid ${COLOR.GRAY_10};
-  }
-
-  & > div {
-    width: 45rem;
-  }
-`;
-
-export const StyledGroupInfo = styled.div`
-  width: 100%;
-  padding: 2rem 0;
-
-  & input {
-    height: 3rem;
-    font-weight: 100;
-    font-size: 1.6rem;
-    color: ${COLOR.DARK};
-  }
-
-  & textarea {
-    height: 20rem;
-    border-radius: 0.5rem;
-    font-weight: 100;
-    font-size: 1.6rem;
-  }
-`;
-
-export const StyledButton = styled.button`
-  width: 10rem;
-  padding: 1rem;
-  border-radius: 0.6rem;
-
-  background-color: ${COLOR.PRIMARY_BTN};
-  text-align: center;
-  font-size: 1.8rem;
-  color: ${COLOR.WHITE};
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.9;
-  }
 `;

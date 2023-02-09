@@ -1,5 +1,5 @@
 import { Header, Text } from '@/components/base';
-import { StyledButton, StyledGroupBox } from '@/pages/ManageGroup';
+import * as S from '@/components/domain/ManageGroup/styles';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 
@@ -33,7 +33,7 @@ function GroupDelete() {
 
 export default GroupDelete;
 
-const StyledGroupDelete = styled(StyledGroupBox)`
+const StyledGroupDelete = styled(S.GroupBox)`
   background-color: ${COLOR.MY_GROUP_BOX_BG};
 
   & > h3 {
@@ -46,7 +46,7 @@ const StyledGroupDelete = styled(StyledGroupBox)`
   }
 `;
 
-const StyledDeleteButton = styled(StyledButton)`
+const StyledDeleteButton = styled(S.Button)`
   margin-top: 1rem;
   background-color: ${COLOR.RED_20};
 `;

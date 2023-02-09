@@ -1,8 +1,8 @@
 import { Header, Icon, SearchBar } from '@/components/base';
 import { Member, MemberList } from '@/components/domain/groupInfo';
+import * as S from '@/components/domain/ManageGroup/styles';
 import { useGroupContext } from '@/context/GroupProvider';
 import useInput from '@/hooks/useInput';
-import { StyledGroupBox, StyledGroupInfo } from '@/pages/ManageGroup';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 
@@ -54,7 +54,7 @@ function ManageMember({ member }) {
       <Header level={3} size={25}>
         그룹원 관리
       </Header>
-      <StyledGroupInfo>
+      <S.GroupInfo>
         <SearchBar
           placeholder='찾고 싶은 그룹원의 이름을 검색하세요.'
           value={value}
@@ -62,7 +62,7 @@ function ManageMember({ member }) {
           iconProps={{ size: 2, style: { color: `${COLOR.DARK}` } }}
           style={{ fontSize: '1.8rem', fontWeight: 100, borderBottom: `0.1rem solid ${COLOR.GRAY}` }}
         />
-      </StyledGroupInfo>
+      </S.GroupInfo>
       <MemberList>
         {member &&
           member
@@ -84,7 +84,7 @@ function ManageMember({ member }) {
 
 export default ManageMember;
 
-const StyledManageMember = styled(StyledGroupBox)`
+const StyledManageMember = styled(S.GroupBox)`
   & > div {
     overflow-y: auto;
   }
