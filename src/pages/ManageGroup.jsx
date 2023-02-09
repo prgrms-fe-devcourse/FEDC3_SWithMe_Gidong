@@ -6,8 +6,8 @@ import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { ManageMember } from '../components/domain/ManageGroup';
+import { useLocation } from 'react-router-dom';
+import { GroupDelete, ManageMember } from '@/components/domain/ManageGroup';
 
 const ALERT_MESSAGE = {
   GROUP_NAME: '그룹명은 한 글자 이상이어야 합니다.',
@@ -15,15 +15,6 @@ const ALERT_MESSAGE = {
   GROUP_HEAD_COUNT_2: '그룹의 최대 인원은 현재 그룹 인원보다 많아야 합니다.',
   GROUP_TAG: '태그는 최소 1개 이상이어야 합니다.',
   GROUP_UPDATE: '그룹 정보가 수정되었습니다.',
-  GROUP_DELETE: '그룹이 삭제되었습니다.',
-  MEMBER_KICK: '이 강퇴 되었습니다.',
-  MASTER_DELEGATE: '이 방장이 되었습니다.',
-};
-
-const CONFIRM_MESSAGE = {
-  GROUP_DELETE: '정말 그룹을 삭제하시겠습니까?',
-  MEMBER_KICK: '을 정말 강퇴하시겠습니까?',
-  MASTER_DELEGATE: '에게 방장을 위임하시겠습니까?',
 };
 
 function ManageGroup() {
@@ -37,7 +28,6 @@ function ManageGroup() {
   const headCount = useInput(0);
   const intro = useInput('');
   const tagList = useInput([]);
-  const navigate = useNavigate();
   const { users } = useUserContext();
 
   useEffect(() => {
@@ -94,15 +84,6 @@ function ManageGroup() {
     addToast(ALERT_MESSAGE.GROUP_UPDATE);
   };
 
-  const handleDeleteClick = async () => {
-    if (!confirm(CONFIRM_MESSAGE.GROUP_DELETE)) return;
-    await onDeleteGroup({
-      id: group._id,
-    });
-    addToast(ALERT_MESSAGE.GROUP_DELETE);
-    navigate('/myGroup');
-  };
-
   if (!group) return;
 
   return (
@@ -153,15 +134,7 @@ function ManageGroup() {
           <StyledButton onClick={handleSubmit}>수정</StyledButton>
         </StyledGroupBox>
         <ManageMember member={member} />
-        <StyledGroupDelete>
-          <Header level={3} size={25}>
-            그룹 삭제
-          </Header>
-          <Text paragraph strong size={1.6}>
-            한번 그룹을 삭제하면 다시 되돌릴 수 없습니다.
-          </Text>
-          <StyledDeleteButton onClick={handleDeleteClick}>삭제</StyledDeleteButton>
-        </StyledGroupDelete>
+        <GroupDelete />
       </StyledManageGroup>
     </StyledPageWrapper>
   );
@@ -187,7 +160,7 @@ const StyledManageGroup = styled.div`
   background-color: ${COLOR.MY_GROUP_BG};
 `;
 
-const StyledGroupBox = styled.div`
+export const StyledGroupBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -208,7 +181,7 @@ const StyledGroupBox = styled.div`
   }
 `;
 
-const StyledGroupInfo = styled.div`
+export const StyledGroupInfo = styled.div`
   width: 100%;
   padding: 2rem 0;
 
@@ -227,7 +200,7 @@ const StyledGroupInfo = styled.div`
   }
 `;
 
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
   width: 10rem;
   padding: 1rem;
   border-radius: 0.6rem;
@@ -240,37 +213,5 @@ const StyledButton = styled.button`
 
   &:hover {
     opacity: 0.9;
-  }
-`;
-
-const StyledGroupDelete = styled(StyledGroupBox)`
-  background-color: ${COLOR.MY_GROUP_BOX_BG};
-
-  & > h3 {
-    border-bottom: 1px solid ${COLOR.RED_20};
-    color: ${COLOR.RED_20};
-  }
-
-  & > p {
-    padding: 1rem 0;
-  }
-`;
-
-const StyledDeleteButton = styled(StyledButton)`
-  margin-top: 1rem;
-  background-color: ${COLOR.RED_20};
-`;
-
-const StyledManageMember = styled(StyledGroupBox)`
-  & > div {
-    overflow-y: auto;
-  }
-
-  & i {
-    color: ${COLOR.PRIMARY_BTN};
-    &:hover {
-      color: ${COLOR.WHITE};
-      cursor: pointer;
-    }
   }
 `;
