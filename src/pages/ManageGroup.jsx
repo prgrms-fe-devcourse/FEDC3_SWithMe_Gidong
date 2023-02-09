@@ -1,13 +1,13 @@
-import { Header, Icon, Input, SearchBar, TagInput, Text, Textarea } from '@/components/base';
-import { Member, MemberList } from '@/components/domain/groupInfo';
+import { Header, Input, TagInput, Text, Textarea } from '@/components/base';
 import { useGroupContext } from '@/context/GroupProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import { useUserContext } from '@/context/UserProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { ManageMember } from '../components/domain/ManageGroup';
 
 const ALERT_MESSAGE = {
   GROUP_NAME: '그룹명은 한 글자 이상이어야 합니다.',
@@ -33,14 +33,11 @@ function ManageGroup() {
   const { groups, onUpdateGroup, onDeleteGroup } = useGroupContext();
   const { addToast } = useToastContext();
   const [group, setGroup] = useState();
-  const tags = useInput([]);
-  const groupNameInputRef = useRef(null);
-  const groupMemberCountInputRef = useRef(null);
-  const groupIntroductionInputRef = useRef(null);
-
+  const groupName = useInput('');
+  const headCount = useInput(0);
+  const intro = useInput('');
+  const tagList = useInput([]);
   const navigate = useNavigate();
-  const { value, onChange } = useInput('');
-
   const { users } = useUserContext();
 
   useEffect(() => {
@@ -48,51 +45,51 @@ function ManageGroup() {
   }, [groups]);
 
   const [member, setMember] = useState();
+
   useEffect(() => {
     const getMemberInfo = (members) => {
       return users?.filter((user) => members.includes(user._id));
     };
 
     if (group && users) {
-      const { headCount, tagList, intro, member } = group.description;
+      const { headCount: memberCount, tagList: tags, intro: introduction, member } = group.description;
       setMember(getMemberInfo(member));
-      groupNameInputRef.current = group.name;
-      groupMemberCountInputRef.current = headCount;
-      groupIntroductionInputRef.current = intro;
-      tags.onChange(tagList);
+      groupName.onChange(group.name);
+      headCount.onChange(memberCount);
+      intro.onChange(introduction);
+      tagList.onChange(tags);
     }
   }, [group, users]);
 
   const inputValidate = () => {
-    if (groupNameInputRef.current === '') {
+    if (groupName.value === '') {
       addToast(ALERT_MESSAGE.GROUP_NAME);
       return false;
-    } else if (groupMemberCountInputRef.current < 2) {
+    } else if (headCount.value < 2) {
       addToast(ALERT_MESSAGE.GROUP_HEAD_COUNT_1);
       return false;
-    } else if (groupMemberCountInputRef.current < group.description.member.length + 1) {
+    } else if (headCount.value < group.description.member.length + 1) {
       addToast(ALERT_MESSAGE.GROUP_HEAD_COUNT_2);
       return false;
-    } else if (tags.value.length === 0) {
+    } else if (tagList.value.length === 0) {
       addToast(ALERT_MESSAGE.GROUP_TAG);
       return false;
     }
-    return true;
   };
 
   const handleSubmit = async () => {
     if (!inputValidate()) return false;
-    const data = {
+
+    const updatedGroup = await onUpdateGroup({
       ...group,
-      name: groupNameInputRef.current,
+      name: groupName.value,
       description: JSON.stringify({
         ...group.description,
-        headCount: groupMemberCountInputRef.current,
-        tagList: tags.value,
-        intro: groupIntroductionInputRef.current,
+        headCount: headCount.value,
+        tagList: tagList.value,
+        intro: intro.value,
       }),
-    };
-    const updatedGroup = await onUpdateGroup(data);
+    });
     setGroup(updatedGroup);
     addToast(ALERT_MESSAGE.GROUP_UPDATE);
   };
@@ -103,38 +100,6 @@ function ManageGroup() {
       id: group._id,
     });
     addToast(ALERT_MESSAGE.GROUP_DELETE);
-    navigate('/myGroup');
-  };
-
-  const handleKickClick = async (member) => {
-    const { fullName, _id } = member;
-    if (!confirm(`'${fullName}'님${CONFIRM_MESSAGE.MEMBER_KICK}`)) return false;
-    const data = {
-      ...group,
-      description: JSON.stringify({
-        ...group.description,
-        member: group.description.member.filter((memberId) => memberId !== _id),
-      }),
-    };
-    const updatedGroup = await onUpdateGroup(data);
-    setGroup(updatedGroup);
-    addToast(`'${fullName}님'${ALERT_MESSAGE.MEMBER_KICK}`);
-  };
-
-  const handleDelegateClick = async (member) => {
-    const { fullName, _id } = member;
-    if (!confirm(`'${fullName}'님${CONFIRM_MESSAGE.MASTER_DELEGATE}`)) return false;
-    const data = {
-      ...group,
-      description: JSON.stringify({
-        ...group.description,
-        master: _id,
-        member: [...group.description.member.filter((memberId) => memberId !== _id), group.description.master],
-      }),
-    };
-    const updatedGroup = await onUpdateGroup(data);
-    setGroup(updatedGroup);
-    addToast(`'${fullName}님'${ALERT_MESSAGE.MASTER_DELEGATE}`);
     navigate('/myGroup');
   };
 
@@ -151,7 +116,7 @@ function ManageGroup() {
             <Text block size={2}>
               그룹명
             </Text>
-            <Input type='text' defaultValue={group.name} max={15} block required ref={groupNameInputRef} />
+            <Input type='text' value={groupName.value} onChange={groupName.onChange} max={15} block required />
           </StyledGroupInfo>
           <StyledGroupInfo>
             <Text block size={2}>
@@ -161,61 +126,33 @@ function ManageGroup() {
               type='number'
               block
               label={`최대 2~50명`}
-              defaultValue={group.description.headCount}
+              value={headCount.value}
+              onChange={headCount.onChange}
               max={50}
               required
-              ref={groupMemberCountInputRef}
             />
           </StyledGroupInfo>
           <StyledGroupInfo>
             <Text block size={2}>
               태그
             </Text>
-            <TagInput initialTagList={group.description.tagList} onChange={(tagList) => tags.onChange(tagList)} />
+            <TagInput tagList={tagList.value} onChange={tagList.onChange} />
           </StyledGroupInfo>
           <StyledGroupInfo>
             <Text block size={2}>
               소개
             </Text>
             <Textarea
-              defaultValue={group.description.intro}
+              value={intro.value}
+              onChange={intro.onChange}
               placeholder='그룹을 소개하는 글을 작성해주세요.'
               max={300}
               wrapperProps={{ style: { width: '100%' } }}
-              ref={groupIntroductionInputRef}
             />
           </StyledGroupInfo>
           <StyledButton onClick={handleSubmit}>수정</StyledButton>
         </StyledGroupBox>
-        <StyledManageMember>
-          <Header level={3} size={25}>
-            그룹원 관리
-          </Header>
-          <StyledGroupInfo>
-            <SearchBar
-              placeholder='찾고 싶은 그룹원의 이름을 검색하세요.'
-              value={value}
-              onChange={onChange}
-              iconProps={{ size: 2, style: { color: `${COLOR.DARK}` } }}
-              style={{ fontSize: '1.8rem', fontWeight: 100, borderBottom: `0.1rem solid ${COLOR.GRAY}` }}
-            />
-          </StyledGroupInfo>
-          <MemberList>
-            {member &&
-              member
-                .filter(({ fullName }) => fullName.includes(value))
-                .map((member) => {
-                  return (
-                    <Member key={member._id} image={member.image} fullName={member.fullName}>
-                      <div>
-                        <Icon name='right-to-bracket' size={2} onClick={() => handleKickClick(member)} />
-                        <Icon name='crown' size={2} onClick={() => handleDelegateClick(member)} />
-                      </div>
-                    </Member>
-                  );
-                })}
-          </MemberList>
-        </StyledManageMember>
+        <ManageMember member={member} />
         <StyledGroupDelete>
           <Header level={3} size={25}>
             그룹 삭제
