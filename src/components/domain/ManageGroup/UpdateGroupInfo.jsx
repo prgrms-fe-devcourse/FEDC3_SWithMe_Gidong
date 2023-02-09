@@ -1,9 +1,12 @@
-import * as S from '@/components/domain/ManageGroup/styles';
 import { Header, Input, TagInput, Text, Textarea } from '@/components/base';
+import * as S from '@/components/domain/ManageGroup/styles';
 import { useGroupContext } from '@/context/GroupProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import useInput from '@/hooks/useInput';
-import { useEffect } from 'react';
+import { COLOR } from '@/styles/color';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { useEffect, useState } from 'react';
 
 const ALERT_MESSAGE = {
   GROUP_NAME: '그룹명은 한 글자 이상이어야 합니다.',
@@ -14,22 +17,34 @@ const ALERT_MESSAGE = {
 };
 
 function UpdateGroupInfo({ group, setGroup }) {
+  const { headCount: memberCount, tagList: tags, intro: introduction } = group.description;
   const { onUpdateGroup } = useGroupContext();
   const { addToast } = useToastContext();
   const groupName = useInput('');
   const headCount = useInput(0);
   const intro = useInput('');
   const tagList = useInput([]);
+  const [isInfoChanged, setIsInfoChanged] = useState(false);
 
   useEffect(() => {
-    if (group) {
-      const { headCount: memberCount, tagList: tags, intro: introduction } = group.description;
-      groupName.onChange(group.name);
-      headCount.onChange(memberCount);
-      intro.onChange(introduction);
-      tagList.onChange(tags);
-    }
+    groupName.onChange(group.name);
+    headCount.onChange(memberCount);
+    intro.onChange(introduction);
+    tagList.onChange(tags);
   }, [group]);
+
+  useEffect(() => {
+    if (
+      groupName.value !== group.name ||
+      headCount.value !== memberCount ||
+      intro.value !== introduction ||
+      JSON.stringify(tagList.value) !== JSON.stringify(tags)
+    ) {
+      setIsInfoChanged(true);
+      return;
+    }
+    setIsInfoChanged(false);
+  }, [groupName, headCount, intro, tagList]);
 
   const inputValidate = () => {
     if (groupName.value === '') {
@@ -49,7 +64,6 @@ function UpdateGroupInfo({ group, setGroup }) {
   };
 
   const handleSubmit = async () => {
-    console.log('inputValidate', inputValidate());
     if (!inputValidate()) return false;
 
     const updatedGroup = await onUpdateGroup({
@@ -109,9 +123,23 @@ function UpdateGroupInfo({ group, setGroup }) {
           wrapperProps={{ style: { width: '100%' } }}
         />
       </S.GroupInfo>
-      <S.Button onClick={handleSubmit}>수정</S.Button>
+      <StyledUpdateButton disabled={!isInfoChanged} isInfoChanged={isInfoChanged} onClick={handleSubmit}>
+        수정
+      </StyledUpdateButton>
     </S.GroupBox>
   );
 }
 
 export default UpdateGroupInfo;
+
+const StyledUpdateButton = styled(S.Button)`
+  ${({ isInfoChanged }) =>
+    !isInfoChanged &&
+    css`
+      background-color: ${COLOR.GRAY_30};
+      cursor: not-allowed;
+      &:hover {
+        opacity: 1;
+      }
+    `};
+`;
