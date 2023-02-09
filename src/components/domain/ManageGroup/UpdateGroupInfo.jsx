@@ -23,7 +23,7 @@ function UpdateGroupInfo({ group, setGroup }) {
 
   useEffect(() => {
     if (group) {
-      const { headCount: memberCount, tagList: tags, intro: introduction } = group.description
+      const { headCount: memberCount, tagList: tags, intro: introduction } = group.description;
       groupName.onChange(group.name);
       headCount.onChange(memberCount);
       intro.onChange(introduction);
@@ -45,9 +45,11 @@ function UpdateGroupInfo({ group, setGroup }) {
       addToast(ALERT_MESSAGE.GROUP_TAG);
       return false;
     }
+    return true;
   };
 
   const handleSubmit = async () => {
+    console.log('inputValidate', inputValidate());
     if (!inputValidate()) return false;
 
     const updatedGroup = await onUpdateGroup({
