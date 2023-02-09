@@ -3,8 +3,7 @@ import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 
-function SearchResultGroup(props) {
-  const { group, index } = props;
+function SearchResultGroup({ group, index }) {
   const navigate = useNavigate();
 
   const onClickJoinGroup = (group) => {
@@ -23,8 +22,8 @@ function SearchResultGroup(props) {
         {group.name}
       </Header>
       <StyledResultGroupTags>
-        {group.description.tagList?.map((tag, index) => (
-          <div key={index} style={{ textAlign: 'center', width: '100%', height: '2rem' }}>
+        {group.description.tagList?.map((tag) => (
+          <div key={tag} style={{ textAlign: 'center', width: '100%', height: '2rem' }}>
             <Text size={1.8}>#{tag}</Text>
           </div>
         ))}
@@ -45,7 +44,7 @@ const StyledResultGroupCard = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 0.8rem;
 
   width: 22rem;
   height: 30rem;
@@ -77,7 +76,7 @@ const StyledResultGroupTags = styled.div`
 
   width: 100%;
   height: 17.6rem;
-  padding: 1.6rem 0;
+  padding: 1.8rem 0;
   border-radius: 2.4rem;
   background-color: ${COLOR.GRAY_10};
   color: ${COLOR.GRAY4};
