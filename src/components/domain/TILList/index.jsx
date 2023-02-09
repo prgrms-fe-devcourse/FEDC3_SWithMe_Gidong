@@ -43,7 +43,7 @@ function TILList({ groupId, groupName }) {
             <TILItem key={til._id} til={til} />
           ))}
         </StyledTILWrapper>
-        <Pagination defaultPage={0} limit={LIMIT} total={tils.length} onChange={setCurrentPage} />
+        <Pagination limit={LIMIT} total={tils.length} onChange={setCurrentPage} />
       </>
     ) : (
       <Empty src={imgTIL} width={30} mainText='해당 날짜에 TIL이 없습니다.' subText='TIL을 작성해보세요!' />
