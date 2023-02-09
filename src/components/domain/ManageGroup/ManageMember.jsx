@@ -2,18 +2,15 @@ import { Header, Icon, SearchBar } from '@/components/base';
 import { Member, MemberList } from '@/components/domain/groupInfo';
 import { useGroupContext } from '@/context/GroupProvider';
 import useInput from '@/hooks/useInput';
+import { StyledGroupBox, StyledGroupInfo } from '@/pages/ManageGroup';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
-import { StyledGroupBox, StyledGroupInfo } from '@/pages/ManageGroup';
 
-const ALERT_MESSAGE = {
-  MEMBER_KICK: '이 강퇴 되었습니다.',
-  MASTER_DELEGATE: '이 방장이 되었습니다.',
-};
-
-const CONFIRM_MESSAGE = {
-  MEMBER_KICK: '을 정말 강퇴하시겠습니까?',
-  MASTER_DELEGATE: '에게 방장을 위임하시겠습니까?',
+const TOAST_MESSAGE = {
+  ALERT_MEMBER_KICK: '이 강퇴 되었습니다.',
+  ALERT_MASTER_DELEGATE: '이 방장이 되었습니다.',
+  CONFIRM_MEMBER_KICK: '을 정말 강퇴하시겠습니까?',
+  CONFIRM_MASTER_DELEGATE: '에게 방장을 위임하시겠습니까?',
 };
 
 function ManageMember({ member }) {
@@ -22,7 +19,7 @@ function ManageMember({ member }) {
 
   const handleKickClick = async (member) => {
     const { fullName, _id } = member;
-    if (!confirm(`'${fullName}'님${CONFIRM_MESSAGE.MEMBER_KICK}`)) return false;
+    if (!confirm(`'${fullName}'님${TOAST_MESSAGE.CONFIRM_MEMBER_KICK}`)) return false;
     const data = {
       ...group,
       description: JSON.stringify({
@@ -32,12 +29,12 @@ function ManageMember({ member }) {
     };
     const updatedGroup = await onUpdateGroup(data);
     setGroup(updatedGroup);
-    addToast(`'${fullName}님'${ALERT_MESSAGE.MEMBER_KICK}`);
+    addToast(`'${fullName}님'${TOAST_MESSAGE.ALERT_MEMBER_KICK}`);
   };
 
   const handleDelegateClick = async (member) => {
     const { fullName, _id } = member;
-    if (!confirm(`'${fullName}'님${CONFIRM_MESSAGE.MASTER_DELEGATE}`)) return false;
+    if (!confirm(`'${fullName}'님${TOAST_MESSAGE.CONFIRM_MASTER_DELEGATE}`)) return false;
     const data = {
       ...group,
       description: JSON.stringify({
@@ -48,7 +45,7 @@ function ManageMember({ member }) {
     };
     const updatedGroup = await onUpdateGroup(data);
     setGroup(updatedGroup);
-    addToast(`'${fullName}님'${ALERT_MESSAGE.MASTER_DELEGATE}`);
+    addToast(`'${fullName}님'${TOAST_MESSAGE.ALERT_MASTER_DELEGATE}`);
     navigate('/myGroup');
   };
 
