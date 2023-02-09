@@ -6,7 +6,7 @@ function CreateComment({ comment, ableSubmit, onSubmit }) {
   return (
     <>
       <Textarea
-        defaultValue={comment.value}
+        value={comment.value}
         placeholder='댓글을 입력하세요.'
         max={300}
         wrapperProps={{ style: { width: '100%' } }}

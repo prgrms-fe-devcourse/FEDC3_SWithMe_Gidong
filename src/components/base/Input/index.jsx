@@ -4,78 +4,69 @@ import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { forwardRef, useEffect } from 'react';
 
-const Input = forwardRef(
-  (
-    {
-      type = 'text',
-      defaultValue = '',
-      placeholder = '',
-      label,
-      block = false,
-      invalid = false,
-      required = false,
-      disabled = false,
-      readonly = false,
-      max,
-      onKeyPress,
-      wrapperProps,
-      ...props
-    },
-    ref,
-  ) => {
-    const { value, onChange } = useInput(defaultValue);
-
-    const handleInputChange = (e) => {
-      if (type === 'number') {
-        e.target.value = parseInt(e.target.value.replace(/[^0-9]/g, ''), 10);
-        if (max && e.target.value > max) {
-          e.target.value = max;
-        }
-      } else {
-        if (max && e.target.value.length > max) {
-          e.target.value = e.target.value.slice(0, max);
-        }
+function Input({
+  type = 'text',
+  value = '',
+  onChange,
+  onKeyPress,
+  placeholder = '',
+  label,
+  block = false,
+  invalid = false,
+  required = false,
+  disabled = false,
+  readonly = false,
+  max,
+  wrapperProps,
+  ...props
+}) {
+  const handleInputChange = (e) => {
+    if (type === 'number') {
+      e.target.value = parseInt(e.target.value.replace(/[^0-9]/g, ''), 10);
+      if (max && e.target.value > max) {
+        e.target.value = max;
       }
-      if (ref && !Array.isArray(ref.current)) {
-        ref.current = e.target.value;
+    } else {
+      if (max && e.target.value.length > max) {
+        e.target.value = e.target.value.slice(0, max);
       }
-      onChange && onChange(e.target.value);
-    };
+    }
 
-    useEffect(() => {
-      onChange && onChange(defaultValue);
-    }, [defaultValue]);
+    onChange && onChange(e.target.value);
+  };
 
-    return (
-      <StyledInputContainer block={block} {...wrapperProps}>
-        <StyledInput
-          type='text'
-          placeholder={placeholder}
-          invalid={invalid}
-          required={required}
-          disabled={disabled}
-          readOnly={readonly}
-          max={max ? max : 'none'}
-          value={type === 'number' ? (parseInt(value) ? parseInt(value) : 0) : value}
-          onChange={(e) => handleInputChange(e)}
-          onKeyPress={(e) => {
-            if (onKeyPress && e.key === 'Enter') {
-              onKeyPress(e);
-              onChange && onChange('');
-            }
-          }}
-          {...props}
-        />
-        <StyledLabel>
-          <Text size={type === 'number' ? 0.9 : 1.2} weight={300}>
-            {label ? label : max ? value.length + ' / ' + max : ''}
-          </Text>
-        </StyledLabel>
-      </StyledInputContainer>
-    );
-  },
-);
-Input.displayName = 'Input';
+  const handleKeyPress = (e) => {
+    if (!onKeyPress || e.key !== 'Enter') {
+      return;
+    }
+
+    onKeyPress(e);
+    onChange && onChange('');
+  };
+
+  return (
+    <StyledInputContainer block={block} {...wrapperProps}>
+      <StyledInput
+        type='text'
+        placeholder={placeholder}
+        invalid={invalid}
+        required={required}
+        disabled={disabled}
+        readOnly={readonly}
+        max={max ? max : 'none'}
+        value={type === 'number' ? (parseInt(value) ? parseInt(value) : 0) : value}
+        onChange={(e) => handleInputChange(e)}
+        onKeyPress={handleKeyPress}
+        {...props}
+      />
+      <StyledLabel>
+        <Text size={type === 'number' ? 0.9 : 1.2} weight={300}>
+          {label ? label : max ? value.length + ' / ' + max : ''}
+        </Text>
+      </StyledLabel>
+    </StyledInputContainer>
+  );
+}
 
 export default Input;
 

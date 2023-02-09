@@ -30,12 +30,12 @@ function TILEditor() {
   const editMode = til ? '수정' : '작성';
 
   const title = useInput(til ? til.title.title : '');
-  const tags = useInput(til ? [...til.title.tagList] : []);
+  const tagList = useInput(til ? [...til.title.tagList] : []);
   const editorRef = useRef();
 
   const ableSubmit = useMemo(
-    () => checkAbleSubmit([title.value.length, tags.value.length]),
-    [title.value, tags.value.length],
+    () => checkAbleSubmit([title.value.length, tagList.value.length]),
+    [title.value, tagList.value.length],
   );
 
   const handleCancelButtonClick = () => {
@@ -52,7 +52,7 @@ function TILEditor() {
         JSON.stringify({
           title: title.value,
           body: editorRef.current.getInstance().getMarkdown(),
-          tagList: tags.value,
+          tagList: tagList.value,
         }),
       );
       formData.append('postId', til._id);
@@ -68,7 +68,7 @@ function TILEditor() {
         JSON.stringify({
           title: title.value,
           body: editorRef.current.getInstance().getMarkdown(),
-          tagList: tags.value,
+          tagList: tagList.value,
         }),
       );
       formData.append('channelId', groupId);
@@ -112,8 +112,8 @@ function TILEditor() {
         <StyledFooterContanier>
           <div>
             <TagInput
-              initialTagList={tags.value}
-              onChange={(tagList) => tags.onChange(tagList)}
+              tagList={tagList.value}
+              onChange={tagList.onChange}
               wrapperProps={{ style: { width: '100%' } }}
               inputProps={{ style: { backgroundColor: COLOR.MY_GROUP_BG } }}
             />

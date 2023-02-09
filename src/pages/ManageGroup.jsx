@@ -6,7 +6,7 @@ import { useUserContext } from '@/context/UserProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const ALERT_MESSAGE = {
@@ -33,10 +33,10 @@ function ManageGroup() {
   const { groups, onUpdateGroup, onDeleteGroup } = useGroupContext();
   const { addToast } = useToastContext();
   const [group, setGroup] = useState();
-  const tags = useInput([]);
-  const groupNameInputRef = useRef(null);
-  const groupMemberCountInputRef = useRef(null);
-  const groupIntroductionInputRef = useRef(null);
+  const groupName = useInput('');
+  const headCount = useInput(0);
+  const intro = useInput('');
+  const tagList = useInput([]);
 
   const navigate = useNavigate();
   const { value, onChange } = useInput('');
@@ -54,26 +54,26 @@ function ManageGroup() {
     };
 
     if (group && users) {
-      const { headCount, tagList, intro, member } = group.description;
+      const { headCount: memberCount, tagList: tags, intro: introduction, member } = group.description;
       setMember(getMemberInfo(member));
-      groupNameInputRef.current = group.name;
-      groupMemberCountInputRef.current = headCount;
-      groupIntroductionInputRef.current = intro;
-      tags.onChange(tagList);
+      groupName.onChange(group.name);
+      headCount.onChange(memberCount);
+      intro.onChange(introduction);
+      tagList.onChange(tags);
     }
   }, [group, users]);
 
   const inputValidate = () => {
-    if (groupNameInputRef.current === '') {
+    if (groupName.value === '') {
       addToast(ALERT_MESSAGE.GROUP_NAME);
       return false;
-    } else if (groupMemberCountInputRef.current < 2) {
+    } else if (headCount.value < 2) {
       addToast(ALERT_MESSAGE.GROUP_HEAD_COUNT_1);
       return false;
-    } else if (groupMemberCountInputRef.current < group.description.member.length + 1) {
+    } else if (headCount.value < group.description.member.length + 1) {
       addToast(ALERT_MESSAGE.GROUP_HEAD_COUNT_2);
       return false;
-    } else if (tags.value.length === 0) {
+    } else if (tagList.value.length === 0) {
       addToast(ALERT_MESSAGE.GROUP_TAG);
       return false;
     }
@@ -82,17 +82,17 @@ function ManageGroup() {
 
   const handleSubmit = async () => {
     if (!inputValidate()) return false;
-    const data = {
+
+    const updatedGroup = await onUpdateGroup({
       ...group,
-      name: groupNameInputRef.current,
+      name: groupName.value,
       description: JSON.stringify({
         ...group.description,
-        headCount: groupMemberCountInputRef.current,
-        tagList: tags.value,
-        intro: groupIntroductionInputRef.current,
+        headCount: headCount.value,
+        tagList: tagList.value,
+        intro: intro.value,
       }),
-    };
-    const updatedGroup = await onUpdateGroup(data);
+    });
     setGroup(updatedGroup);
     addToast(ALERT_MESSAGE.GROUP_UPDATE);
   };
@@ -151,7 +151,7 @@ function ManageGroup() {
             <Text block size={2}>
               그룹명
             </Text>
-            <Input type='text' defaultValue={group.name} max={15} block required ref={groupNameInputRef} />
+            <Input type='text' value={groupName.value} onChange={groupName.onChange} max={15} block required />
           </StyledGroupInfo>
           <StyledGroupInfo>
             <Text block size={2}>
@@ -161,28 +161,28 @@ function ManageGroup() {
               type='number'
               block
               label={`최대 2~50명`}
-              defaultValue={group.description.headCount}
+              value={headCount.value}
+              onChange={headCount.onChange}
               max={50}
               required
-              ref={groupMemberCountInputRef}
             />
           </StyledGroupInfo>
           <StyledGroupInfo>
             <Text block size={2}>
               태그
             </Text>
-            <TagInput initialTagList={group.description.tagList} onChange={(tagList) => tags.onChange(tagList)} />
+            <TagInput tagList={tagList.value} onChange={tagList.onChange} />
           </StyledGroupInfo>
           <StyledGroupInfo>
             <Text block size={2}>
               소개
             </Text>
             <Textarea
-              defaultValue={group.description.intro}
+              value={intro.value}
+              onChange={intro.onChange}
               placeholder='그룹을 소개하는 글을 작성해주세요.'
               max={300}
               wrapperProps={{ style: { width: '100%' } }}
-              ref={groupIntroductionInputRef}
             />
           </StyledGroupInfo>
           <StyledButton onClick={handleSubmit}>수정</StyledButton>
