@@ -42,6 +42,10 @@ function JoinGroup() {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     if (!isLoggedIn) {
       setGuideMessage(DISABLED_MESSAGE.NEED_LOGIN);
       return;
