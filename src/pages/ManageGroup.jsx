@@ -22,7 +22,7 @@ function ManageGroup() {
   const {
     state: { _id },
   } = useLocation();
-  const { groups, onUpdateGroup, onDeleteGroup } = useGroupContext();
+  const { groups, onUpdateGroup } = useGroupContext();
   const { addToast } = useToastContext();
   const [group, setGroup] = useState();
   const groupName = useInput('');
@@ -134,8 +134,8 @@ function ManageGroup() {
           </S.GroupInfo>
           <S.Button onClick={handleSubmit}>수정</S.Button>
         </S.GroupBox>
-        <ManageMember member={member} />
-        <GroupDelete />
+        <ManageMember group={group} setGroup={setGroup} member={member} />
+        <GroupDelete groupId={group._id} />
       </StyledManageGroup>
     </StyledPageWrapper>
   );
