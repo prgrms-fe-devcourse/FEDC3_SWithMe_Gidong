@@ -2,7 +2,6 @@ import { Text } from '@/components/base';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
-import { forwardRef, useEffect } from 'react';
 
 function Input({
   type = 'text',

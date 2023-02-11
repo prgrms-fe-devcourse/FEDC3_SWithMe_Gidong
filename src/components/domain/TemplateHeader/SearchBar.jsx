@@ -1,5 +1,4 @@
-import { icSearchSubmit } from '@/assets/icons';
-import { Button } from '@/components/base';
+import { Button, Icon } from '@/components/base';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useState } from 'react';
@@ -79,7 +78,7 @@ const SearchBar = () => {
         bgcolor={COLOR.HEADER_SEARCHBAR_SUBMIT_BG}
         style={{ width: '3rem', height: '3rem', padding: '0', marginRight: '2rem', borderRadius: '50%' }}
         onClick={handleGroupSearch}>
-        <StyledSearchSubmitIcon src={icSearchSubmit} />
+        <Icon name='magnifying-glass' style={{ color: 'white' }} />
       </Button>
     </StyledHeaderSearchBar>
   );
@@ -103,11 +102,6 @@ const StyledHeaderSearchBar = styled.div`
     justify-content: center;
     align-items: center;
   }
-`;
-
-const StyledSearchSubmitIcon = styled.img`
-  width: 1.5rem;
-  height: 1.5rem;
 `;
 
 const StyledDropdownTrigger = styled.button`

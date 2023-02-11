@@ -2,7 +2,6 @@ import { Input, Text } from '@/components/base';
 import { useToastContext } from '@/context/ToastProvider';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
-import { forwardRef, useState } from 'react';
 import TagList from './TagList';
 import useInput from '@/hooks/useInput';
 

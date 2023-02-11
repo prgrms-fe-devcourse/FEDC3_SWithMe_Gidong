@@ -7,7 +7,6 @@ import { useGroupContext } from '@/context/GroupProvider';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { Fragment, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 function GroupList() {
   const {
