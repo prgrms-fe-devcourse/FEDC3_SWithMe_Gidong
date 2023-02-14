@@ -1,9 +1,9 @@
-import { Header, Pagination, Text, Empty } from '@/components/base';
+import { imgSearch } from '@/assets/images';
+import { Empty, Header, Pagination, Text } from '@/components/base';
 import { SearchResultGroup } from '@/components/domain/SearchResult';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useState } from 'react';
-import { imgSearch } from '@/assets/images';
 
 const PAGINATION_CONTENTS_LIMIT = 5;
 
@@ -25,7 +25,7 @@ function SearchResultContainer({ title, groupList }) {
         {groupList?.length > 0 ? (
           <>
             <StyledGroupList>
-              {groupList?.slice(offset, offset + PAGINATION_CONTENTS_LIMIT).map((group, index) => (
+              {groupList.slice(offset, offset + PAGINATION_CONTENTS_LIMIT).map((group, index) => (
                 <SearchResultGroup key={group._id} group={group} index={index} />
               ))}
             </StyledGroupList>
