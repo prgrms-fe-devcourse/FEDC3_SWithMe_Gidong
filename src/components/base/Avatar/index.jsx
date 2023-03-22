@@ -1,6 +1,6 @@
 import { Image as ImageComponent } from '@/components/base';
-import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
+import { AvatarWrapper } from './styles';
 
 function Avatar({ lazy, threshold, src, size = 1, shape = 'circle', placeholder, alt, mode = 'cover', ...props }) {
   const [loaded, setLoaded] = useState(false);
@@ -28,27 +28,5 @@ function Avatar({ lazy, threshold, src, size = 1, shape = 'circle', placeholder,
     </AvatarWrapper>
   );
 }
-
-const ShapeToCssValue = {
-  circle: '50%',
-  round: '0.4rem',
-  square: '0',
-};
-
-const AvatarWrapper = styled.div`
-  position: relative;
-  display: inline-block;
-  border: 1px solid #dadada;
-  border-radius: ${({ shape }) => ShapeToCssValue[shape]};
-  overflow: hidden;
-  background-color: #eee;
-  width: ${({ size }) => `${size}rem`};
-  height: ${({ size }) => `${size}rem`};
-  flex: none;
-
-  > img {
-    transition: opacity 0.2s ease-out;
-  }
-`;
 
 export default Avatar;
