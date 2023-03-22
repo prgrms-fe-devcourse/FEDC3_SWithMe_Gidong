@@ -1,13 +1,12 @@
-import styled from '@emotion/styled';
-import { useGroupContext } from '@/context/GroupProvider';
-import GroupItem from '@/components/domain/GroupItem';
-import { COLOR } from '@/styles/color';
 import { imgSearch } from '@/assets/images';
 import { Empty, Spinner } from '@/components/base';
+import GroupItem from '@/components/domain/GroupItem';
 import TILList from '@/components/domain/TILList';
-import { Fragment, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useAuthContext } from '@/context/AuthProvider';
+import { useGroupContext } from '@/context/GroupProvider';
+import { COLOR } from '@/styles/color';
+import styled from '@emotion/styled';
+import { Fragment, useEffect, useState } from 'react';
 
 function GroupList() {
   const {
@@ -23,7 +22,7 @@ function GroupList() {
     setMyGroupList(
       groups?.filter(
         ({ description }) =>
-          description.master._id === loggedUser._id || description.member.some((el) => el._id === loggedUser._id),
+          description.master === loggedUser._id || description.member.some((el) => el === loggedUser._id),
       ),
     );
   }, [groups]);
@@ -37,9 +36,6 @@ function GroupList() {
           {myGroupList?.length ? (
             myGroupList.map((group, i) => (
               <Fragment key={group._id}>
-                <Link to='/joinGroup' state={{ group }}>
-                  그룹 가입하기
-                </Link>
                 <GroupItem group={group} isLastGroup={myGroupList.length - 1 === i} />
                 {openedGroupId === group._id && <TILList groupId={group._id} groupName={group.name} />}
               </Fragment>

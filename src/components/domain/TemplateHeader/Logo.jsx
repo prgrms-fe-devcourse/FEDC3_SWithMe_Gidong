@@ -3,20 +3,22 @@ import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/base';
 
-const HeaderLogo = () => {
+const Logo = () => {
   const navigate = useNavigate();
 
   return (
-    <StyledHeaderLogo onClick={() => navigate('/')}>
-      <img src={icLogo} alt='' />
-      <Header strong level={1} size={24}>
-        스윗미
-      </Header>
-    </StyledHeaderLogo>
+    <div>
+      <StyledHeaderLogo onClick={() => navigate('/')}>
+        <img src={icLogo} alt='' />
+        <Header strong level={1} size={24}>
+          스윗미
+        </Header>
+      </StyledHeaderLogo>
+    </div>
   );
 };
 
-export default HeaderLogo;
+export default Logo;
 
 const StyledHeaderLogo = styled.button`
   display: flex;

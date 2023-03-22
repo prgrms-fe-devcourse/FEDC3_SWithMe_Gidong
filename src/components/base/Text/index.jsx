@@ -18,6 +18,7 @@ const Text = ({
     fontWeight: strong ? 'bold' : weight ? `${weight}` : undefined,
     fontSize: typeof size === 'number' ? `${size}rem` : undefined,
     textDecoration: underline ? 'underline' : undefined,
+    textUnderlinePosition: underline ? 'under' : undefined,
     color,
     lineHeight,
   };

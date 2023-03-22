@@ -1,31 +1,27 @@
 import { Input, Text } from '@/components/base';
+import { useToastContext } from '@/context/ToastProvider';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
-import { forwardRef, useState } from 'react';
 import TagList from './TagList';
+import useInput from '@/hooks/useInput';
 
-const TagInput = forwardRef(({ onChange, wrapperProps, inputProps, initialTagList = [], ...props }, ref) => {
-  const [tagList, setTagList] = useState(ref?.current || [...initialTagList]);
+function TagInput({ tagList = [], onChange, wrapperProps, inputProps, ...props }) {
+  const tag = useInput('');
+  const { addToast } = useToastContext();
 
   const addTagItem = (value) => {
-    if (tagList.includes(value) || (ref && ref.current.includes(value))) {
-      alert('이미 존재하는 태그입니다.');
+    if (tagList.includes(value)) {
+      addToast('이미 존재하는 태그입니다.');
       return;
     }
 
     const addedTagList = [...tagList, value];
-
-    setTagList(addedTagList);
-    if (ref) ref.current = addedTagList;
     onChange && onChange(addedTagList);
   };
 
   const removeTagItem = (e) => {
     const deleteTagItem = e.target.parentNode.firstChild.nodeValue;
     const filteredTagList = tagList.filter((tagItem) => tagItem !== deleteTagItem);
-
-    setTagList(filteredTagList);
-    if (ref) ref.current = filteredTagList;
     onChange && onChange(filteredTagList);
   };
 
@@ -43,7 +39,8 @@ const TagInput = forwardRef(({ onChange, wrapperProps, inputProps, initialTagLis
       )}
       {tagList.length < 5 ? (
         <Input
-          ref={ref}
+          value={tag.value}
+          onChange={tag.onChange}
           type='text'
           placeholder='태그를 추가하려면 엔터를 누르세요.'
           max={8}
@@ -64,8 +61,7 @@ const TagInput = forwardRef(({ onChange, wrapperProps, inputProps, initialTagLis
       )}
     </>
   );
-});
-TagInput.displayName = 'TagInput';
+}
 
 function Tag({ tagList, fontsize, ...props }) {
   return (

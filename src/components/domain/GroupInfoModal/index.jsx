@@ -2,19 +2,40 @@ import { Button, Icon, Modal, SearchBar, Tag, Text } from '@/components/base';
 import { Introduction, Member, MemberList } from '@/components/domain/groupInfo';
 import { useAuthContext } from '@/context/AuthProvider';
 import { useGroupContext } from '@/context/GroupProvider';
+import { useUserContext } from '@/context/UserProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
+import { useEffect, useState } from 'react';
 
 function GroupInfoModal({ group, visible, onClose, ...props }) {
   const {
     authState: { loggedUser },
   } = useAuthContext();
-  const { onDeleteGroup } = useGroupContext();
+  const { onUpdateGroup } = useGroupContext();
+  const { users } = useUserContext();
 
   const { name, description, _id } = group;
-  const { master, tagList, intro, member } = description;
+  const { master: masterId, tagList, intro, member: memberIds } = description;
   const { value, onChange } = useInput('');
+
+  const [member, setMember] = useState();
+  const [master, setMaster] = useState();
+
+  useEffect(() => {
+    const getMemberInfo = () => {
+      return [...users, loggedUser].filter((user) => memberIds.includes(user._id));
+    };
+
+    const getMasterInfo = () => {
+      return [...users, loggedUser].filter((user) => user._id === masterId)[0];
+    };
+
+    if (description && users) {
+      setMember(getMemberInfo());
+      setMaster(getMasterInfo());
+    }
+  }, [description, users]);
 
   const checkWriteTIL = (posts) => {
     return posts.filter(
@@ -27,19 +48,26 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
     onClose && onClose();
   };
 
-  const handleDeleteGroup = async () => {
-    if (confirm('정말 삭제하시겠습니까? 한번 삭제하면 되돌릴 수 없습니다.')) {
-      const data = {
-        id: _id,
-      };
-
-      await onDeleteGroup(data);
-      onClose && onClose();
+  const handleWithdrawButtonClick = async () => {
+    if (!confirm('정말 탈퇴하시겠습니까?')) {
+      return;
     }
+
+    const data = {
+      _id,
+      name,
+      description: JSON.stringify({
+        ...description,
+        member: [...memberIds.filter((memberId) => memberId !== loggedUser._id)],
+      }),
+    };
+
+    await onUpdateGroup(data);
+    onClose && onClose();
   };
 
   return (
-    <Modal visible={visible} onClose={handleModalClose} width='70rem' style={{ ...props.style }} {...props}>
+    <StyledModal visible={visible} onClose={handleModalClose} style={{ ...props.style }} {...props}>
       <StyledHeaderContainer>
         <span />
         <Text size={3.4} weight={700}>
@@ -69,38 +97,47 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
             <Icon type='regular' name='face-smile' size={1} /> : 오늘 TIL 작성자
           </Text>
         </StyledMemberListContainerLabel>
-        <MemberList>
-          <Member image={master.image} fullName={master.fullName} isMaster={true}>
-            {checkWriteTIL(master.posts) ? <Icon type='regular' name='face-smile' size={2} /> : null}
-          </Member>
-          {member
-            .filter(({ fullName }) => fullName.includes(value))
-            .map(({ image, fullName, _id, posts }) => {
-              return (
-                <Member key={_id} image={image} fullName={fullName}>
-                  {checkWriteTIL(posts) ? <Icon type='regular' name='face-smile' size={2} /> : null}
-                </Member>
-              );
-            })}
-        </MemberList>
-        {loggedUser._id === master._id && (
+        {master && member && (
+          <MemberList>
+            <Member image={master.image} fullName={master.fullName} isMaster={true}>
+              {checkWriteTIL(master.posts) ? <Icon type='regular' name='face-smile' size={2} /> : null}
+            </Member>
+            {member
+              .filter(({ fullName }) => fullName.includes(value))
+              .map(({ image, fullName, _id, posts }) => {
+                return (
+                  <Member key={_id} image={image} fullName={fullName}>
+                    {checkWriteTIL(posts) ? <Icon type='regular' name='face-smile' size={2} /> : null}
+                  </Member>
+                );
+              })}
+          </MemberList>
+        )}
+        {loggedUser._id !== masterId && (
           <StyledButtonWrapper>
             <Button
               as='button'
               bgcolor='transpaent'
               color={COLOR.GRAY2}
               style={{ padding: 0, textDecoration: 'underline' }}
-              onClick={handleDeleteGroup}>
-              그룹 삭제하기
+              onClick={handleWithdrawButtonClick}>
+              그룹 탈퇴하기
             </Button>
           </StyledButtonWrapper>
         )}
       </StyledContentContainer>
-    </Modal>
+    </StyledModal>
   );
 }
 
 export default GroupInfoModal;
+
+const StyledModal = styled(Modal)`
+  width: 70rem;
+  @media (max-width: 624px) {
+    width: 100%;
+  }
+`;
 
 const StyledHeaderContainer = styled.div`
   padding: 0.5rem 2rem 0 2rem;

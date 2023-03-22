@@ -1,16 +1,19 @@
-import { postUserSignUp } from '@/api/userSign';
-import { Button, Spinner, Text } from '@/components/base';
+import { imgLogin } from '@/assets/images';
+import { Header, Image, Spinner, Text } from '@/components/base';
 import SignInput from '@/components/domain/SignInput';
+import { useToastContext } from '@/context/ToastProvider';
+import { useUserContext } from '@/context/UserProvider';
 import { COLOR } from '@/styles/color';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const ERRORS = {
-  FULLNAME_EMPTY_ERROR: '이름을 입력해 주세요',
-  EMAIL_EMPTY_ERROR: '이메일을 입력해 주세요',
-  PASSWORD_EMPTY_ERROR: '비밀번호를 입력해 주세요',
-  CONFIRMPASSWORD_EMPTY_ERROR: '비밀번호 확인을 입력해 주세요',
+  FULLNAME_EMPTY_ERROR: '이름을 입력해 주세요.',
+  EMAIL_EMPTY_ERROR: '이메일을 입력해 주세요.',
+  PASSWORD_EMPTY_ERROR: '비밀번호를 입력해 주세요.',
+  CONFIRMPASSWORD_EMPTY_ERROR: '비밀번호 확인을 입력해 주세요.',
   FULLNAME_MIN_LENGTH_ERROR: '이름을 2글자 이상 입력해주세요.',
   EMAIL_VALIDATE_ERROR: '이메일 형식이 올바르지 않습니다.',
   PASSWORD_MIN_LENGTH_ERROR: '비밀번호를 2글자 이상 20글자 이하로 입력해주세요.',
@@ -29,6 +32,8 @@ const INPUT_NUMBER_LIMIT = {
 
 function SignUp() {
   const navigate = useNavigate();
+  const { onCreateUser } = useUserContext();
+  const { addToast } = useToastContext();
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -61,9 +66,9 @@ function SignUp() {
     };
 
     setIsLoading(true);
-    await postUserSignUp(requestBody);
+    await onCreateUser(requestBody);
 
-    alert('회원가입이 완료 되었습니다.');
+    addToast('회원가입이 완료 되었습니다.');
     setIsLoading(false);
 
     navigate('/signIn');
@@ -75,39 +80,55 @@ function SignUp() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <StyledSpinnerWrapper>
+        <Spinner size={64} />
+      </StyledSpinnerWrapper>
+    );
+  }
+
   return (
-    <>
-      {isLoading ? (
-        <StyledSpinnerWrapper>
-          <Spinner size={64} />
-        </StyledSpinnerWrapper>
-      ) : null}
-      <StyledPageWrapper>
-        <StyledSignUpContainer>
-          <Text paragraph size={3.3} strong>
+    <StyledPageWrapper>
+      <StyledContainer>
+        <StyledSignUpBox onKeyDown={onClickEnter}>
+          <Header level={3} size={25}>
             회원가입
-          </Text>
-          <StyledSignUpForm onKeyDown={onClickEnter}>
+          </Header>
+          <StyledDesc>
+            <div>
+              <Text paragraph color={COLOR.DARK} size={2.1} weight={500}>
+                <Text color={COLOR.TAG_COLOR[0]}>회원가입</Text>하여 <Text color={COLOR.TAG_COLOR[1]}>스윗미</Text>의
+                서비스를 즐겨보세요.
+              </Text>
+            </div>
+            <Image src={imgLogin} width={20} />
+          </StyledDesc>
+          <StyledSignUpItem>
             <SignInput
               header={'이름'}
               type={'text'}
               value={fullName}
               ref={inputRef.current[0]}
-              placeholder={'스윗미'}
+              placeholder={'이름을 입력해 주세요.'}
               inputOnChange={setFullName}
               alert={fullNameAlert}
               alertOnChange={setFullNameAlert}
             />
+          </StyledSignUpItem>
+          <StyledSignUpItem>
             <SignInput
               header={'이메일'}
               type={'email'}
               value={email}
               ref={inputRef.current[1]}
-              placeholder={'study@with.me'}
+              placeholder={'이메일을 입력해 주세요.'}
               inputOnChange={setEmail}
               alert={emailAlert}
               alertOnChange={setEmailAlert}
             />
+          </StyledSignUpItem>
+          <StyledSignUpItem>
             <SignInput
               header={'비밀번호'}
               type={'password'}
@@ -121,6 +142,8 @@ function SignUp() {
               alertOnChange={setPasswordAlert}
               isSignupInput={true}
             />
+          </StyledSignUpItem>
+          <StyledSignUpItem>
             <SignInput
               header={'비밀번호 확인'}
               type={'password'}
@@ -134,18 +157,11 @@ function SignUp() {
               alertOnChange={setConfirmPasswordAlert}
               isSignupInput={true}
             />
-          </StyledSignUpForm>
-          <Button
-            as='button'
-            style={{ fontSize: '2.4rem', width: '15.7rem', height: '5.2rem' }}
-            color={COLOR.WHITE}
-            bgcolor={COLOR.SIGNUP_BUTTON_BG}
-            onClick={handleSignUp}>
-            회원가입
-          </Button>
-        </StyledSignUpContainer>
-      </StyledPageWrapper>
-    </>
+          </StyledSignUpItem>
+          <StyledButton onClick={handleSignUp}>회원가입</StyledButton>
+        </StyledSignUpBox>
+      </StyledContainer>
+    </StyledPageWrapper>
   );
 }
 
@@ -153,11 +169,98 @@ export default SignUp;
 
 const StyledPageWrapper = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 12.6rem;
-  width: 100%;
+  flex-direction: column;
   height: 100%;
+`;
+
+const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  flex: 1;
+
+  position: relative;
+  padding: 10rem;
+  background-color: ${COLOR.MY_GROUP_BG};
+`;
+
+const StyledSignUpBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+
+  width: 80rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  background-color: ${COLOR.WHITE};
+
+  & > h3 {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid ${COLOR.GRAY_10};
+  }
+
+  & > div:not(:nth-of-type(1)) {
+    width: 45rem;
+  }
+`;
+
+const StyledDesc = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  height: 15rem;
+  margin: 3rem 0;
+  padding: 0 3rem;
+  border-radius: 1rem;
+  background-color: ${COLOR.MY_GROUP_BOX_BG};
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    p {
+      margin: 0.5rem 0;
+    }
+  }
+`;
+
+const StyledSignUpItem = styled.div`
+  width: 100%;
+  padding: 2rem 0;
+
+  & input {
+    height: 3rem;
+    font-weight: 100;
+    font-size: 1.6rem;
+    color: ${COLOR.DARK};
+  }
+
+  ${({ isLastItem }) =>
+    isLastItem &&
+    css`
+      padding-bottom: 0;
+    `};
+`;
+
+const StyledButton = styled.button`
+  width: 10rem;
+  padding: 1rem;
+  border-radius: 0.6rem;
+
+  background-color: ${COLOR.PRIMARY_BTN};
+  text-align: center;
+  font-size: 1.8rem;
+  color: ${COLOR.WHITE};
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.9;
+  }
 `;
 
 const StyledSpinnerWrapper = styled.div`
@@ -169,21 +272,4 @@ const StyledSpinnerWrapper = styled.div`
   width: 100%;
   height: 100%;
   background-color: ${COLOR.SIGNUP_SPINNER_BG};
-`;
-
-const StyledSignUpContainer = styled.div`
-  display: grid;
-  align-items: center;
-  justify-items: center;
-  width: 68.2rem;
-  height: 100%;
-`;
-
-const StyledSignUpForm = styled.div`
-  display: grid;
-  width: 68.2rem;
-  height: 70.1rem;
-  margin: 5.6rem 0;
-  padding: 8rem 5.7rem;
-  border: 0.1rem solid ${COLOR.BLACK};
 `;

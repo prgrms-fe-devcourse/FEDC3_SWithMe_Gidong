@@ -30,12 +30,12 @@ function TILEditor() {
   const editMode = til ? '수정' : '작성';
 
   const title = useInput(til ? til.title.title : '');
-  const tags = useInput(til ? [...til.title.tagList] : []);
+  const tagList = useInput(til ? [...til.title.tagList] : []);
   const editorRef = useRef();
 
   const ableSubmit = useMemo(
-    () => checkAbleSubmit([title.value.length, tags.value.length]),
-    [title.value, tags.value.length],
+    () => checkAbleSubmit([title.value.length, tagList.value.length]),
+    [title.value, tagList.value.length],
   );
 
   const handleCancelButtonClick = () => {
@@ -52,7 +52,7 @@ function TILEditor() {
         JSON.stringify({
           title: title.value,
           body: editorRef.current.getInstance().getMarkdown(),
-          tagList: tags.value,
+          tagList: tagList.value,
         }),
       );
       formData.append('postId', til._id);
@@ -68,7 +68,7 @@ function TILEditor() {
         JSON.stringify({
           title: title.value,
           body: editorRef.current.getInstance().getMarkdown(),
-          tagList: tags.value,
+          tagList: tagList.value,
         }),
       );
       formData.append('channelId', groupId);
@@ -98,7 +98,7 @@ function TILEditor() {
           style={{ fontSize: '3rem', backgroundColor: `${COLOR.MY_GROUP_BG}` }}
           icon={+false}
         />
-        <div style={{ backgroundColor: `${COLOR.WHITE}` }}>
+        <EditorWrapper>
           <Editor
             initialValue={til ? til.title.body : '여기에서 자유롭게 TIL을 작성하세요!'}
             hideModeSwitch={true}
@@ -108,12 +108,12 @@ function TILEditor() {
             placeholder='여기에서 자유롭게 TIL을 작성하세요!'
             ref={editorRef}
           />
-        </div>
+        </EditorWrapper>
         <StyledFooterContanier>
-          <div style={{ width: '50%' }}>
+          <div>
             <TagInput
-              initialTagList={tags.value}
-              onChange={(tagList) => tags.onChange(tagList)}
+              tagList={tagList.value}
+              onChange={tagList.onChange}
               wrapperProps={{ style: { width: '100%' } }}
               inputProps={{ style: { backgroundColor: COLOR.MY_GROUP_BG } }}
             />
@@ -154,8 +154,12 @@ const StyledPageWrapper = styled.div`
 const StyledTILEditor = styled.div`
   position: relative;
   flex: 1;
-  padding: 8rem;
-  margin-top: 8rem;
+  padding: 16rem 8rem 8rem 8rem;
+
+  @media (max-width: 624px) {
+    padding: 16rem 4rem 8rem 4rem;
+  }
+
   background-color: ${COLOR.MY_GROUP_BG};
 
   & > button:not(:last-child) {
@@ -168,11 +172,24 @@ const StyledFooterContanier = styled.div`
   justify-content: space-between;
   align-items: flex-end;
   margin-top: 2rem;
-  height: 10rem;
+  height: 14rem;
+  flex-wrap: wrap;
+  gap: 3rem;
 
   & > div:nth-of-type(1) {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    flex: 1 1 40rem;
   }
+
+  & > div:nth-of-type(2) {
+    display: flex;
+    justify-content: flex-end;
+    flex: 1 1 40rem;
+  }
+`;
+
+const EditorWrapper = styled.div`
+  background-color: ${COLOR.WHITE};
 `;

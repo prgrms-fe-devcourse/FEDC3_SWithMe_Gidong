@@ -6,13 +6,13 @@ export default {
 };
 
 export function Default() {
-  return <Textarea defaultValue='' label='label' />;
+  return <Textarea value='' label='label' />;
 }
 
 export function CraeteGroupModalTextarea() {
   return (
     <Textarea
-      defaultValue=''
+      value=''
       placeholder='그룹을 소개하는 글을 작성해주세요.'
       max={300}
       wrapperProps={{ style: { width: '32rem' } }}
