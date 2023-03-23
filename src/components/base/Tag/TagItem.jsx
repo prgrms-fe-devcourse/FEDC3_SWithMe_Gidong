@@ -1,6 +1,6 @@
 import { Button, Text } from '@/components/base';
 import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
+import { StyledTagItem } from './styles';
 
 function TagItem({ tag, onDeleteTagButtonClick, fontsize }) {
   return (
@@ -21,17 +21,3 @@ function TagItem({ tag, onDeleteTagButtonClick, fontsize }) {
 }
 
 export default TagItem;
-
-const StyledTagItem = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 0.3rem;
-  padding: 0.5rem;
-  background-color: ${COLOR.PRIMARY_BTN};
-  border-radius: 0.4rem;
-
-  &:nth-of-type(1) {
-    margin: 0 0.3rem 0 0;
-  }
-`;

@@ -1,9 +1,8 @@
 import { Input, Text } from '@/components/base';
 import { useToastContext } from '@/context/ToastProvider';
-import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
-import TagList from './TagList';
 import useInput from '@/hooks/useInput';
+import { DefaultWrapper, StyledTagListWrapper } from './styles';
+import TagList from './TagList';
 
 function TagInput({ tagList = [], onChange, wrapperProps, inputProps, ...props }) {
   const tag = useInput('');
@@ -72,19 +71,3 @@ function Tag({ tagList, fontsize, ...props }) {
 }
 
 export { TagInput, Tag };
-
-const DefaultWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-`;
-
-const StyledTagListWrapper = styled(DefaultWrapper)`
-  justify-content: center;
-  margin: 1rem 0;
-  padding: 1rem;
-  border: 0.2rem solid rgba(0, 0, 0, 0.3);
-  border-radius: 1rem;
-
-  border-color: ${({ disabled }) => (disabled ? 'none' : COLOR.PRIMARY_BTN)};
-`;
