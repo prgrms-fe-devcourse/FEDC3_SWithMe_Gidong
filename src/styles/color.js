@@ -50,4 +50,8 @@ export const COLOR = {
   TEXTAREA_BG: '#F3F3F3',
   CREATEDAT: '#606060',
   ALARM_GREEN: '#1fd771',
+
+  MODAL_BOX_SHADOW: 'rgba(0, 0, 0, 0.2)',
+
+  SPINNER_COLOR: '#919EAB',
 };
