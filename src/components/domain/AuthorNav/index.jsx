@@ -1,5 +1,5 @@
 import { Button } from '@/components/base';
-import styled from '@emotion/styled';
+import { StyledButtonContainer } from './styles';
 
 function AuthorNav({ onLeftButtonClick, onRightButtonClick, text = ['수정', '삭제'] }) {
   return (
@@ -14,13 +14,3 @@ function AuthorNav({ onLeftButtonClick, onRightButtonClick, text = ['수정', '�
   );
 }
 export default AuthorNav;
-
-const StyledButtonContainer = styled.div`
-  display: flex;
-  gap: 1rem;
-  align-self: center;
-
-  & > span:hover {
-    text-decoration: underline;
-  }
-`;
