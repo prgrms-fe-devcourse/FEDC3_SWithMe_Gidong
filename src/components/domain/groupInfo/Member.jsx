@@ -1,7 +1,7 @@
 import { imgUserAvatar } from '@/assets/images';
 import { Avatar, Icon, Text } from '@/components/base';
 import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
+import { StyledMemberContainer } from './styles';
 
 function Member({ children, image, fullName, isMaster = false, ...props }) {
   return (
@@ -19,26 +19,3 @@ function Member({ children, image, fullName, isMaster = false, ...props }) {
 }
 
 export default Member;
-
-const StyledMemberContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 1rem;
-  background-color: ${COLOR.GRAY};
-  border-radius: 0.5rem;
-
-  &:not(:nth-last-of-type(1)) {
-    margin-bottom: 1rem;
-  }
-
-  & > div {
-    display: flex;
-    align-items: center;
-
-    & > :not(:last-child) {
-      margin-right: 1rem;
-    }
-  }
-`;
