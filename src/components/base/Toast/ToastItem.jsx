@@ -1,7 +1,7 @@
 import { Text } from '@/components/base';
 import useTimeout from '@/hooks/useTimeout';
 import { useState } from 'react';
-import { ToastContainer, ToastProgressBar } from './styles';
+import { StyledToastItemContainer, StyledProgressBar } from './styles';
 
 function ToastItem({ id, message, duration, onDone }) {
   const [show, setShow] = useState(true);
@@ -12,10 +12,10 @@ function ToastItem({ id, message, duration, onDone }) {
   }, duration);
 
   return (
-    <ToastContainer style={{ opacity: show ? 1 : 0 }}>
-      <ToastProgressBar style={{ animationDuration: `${duration}ms` }} />
+    <StyledToastItemContainer style={{ opacity: show ? 1 : 0 }}>
+      <StyledProgressBar style={{ animationDuration: `${duration}ms` }} />
       <Text size={1.6}>{message}</Text>
-    </ToastContainer>
+    </StyledToastItemContainer>
   );
 }
 

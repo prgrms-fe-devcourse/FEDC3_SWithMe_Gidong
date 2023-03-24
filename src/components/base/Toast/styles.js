@@ -16,7 +16,7 @@ const StyledToast = styled.div`
   flex-direction: column-reverse;
 `;
 
-const ToastContainer = styled.div`
+const StyledToastItemContainer = styled.div`
   position: relative;
   display: flex;
   width: 100%;
@@ -47,7 +47,7 @@ const ToastContainer = styled.div`
   }
 `;
 
-const ToastProgressBar = styled.div`
+const StyledProgressBar = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
@@ -69,4 +69,4 @@ const ToastProgressBar = styled.div`
   }
 `;
 
-export { StyledToast, ToastContainer, ToastProgressBar };
+export { StyledToast, StyledToastItemContainer, StyledProgressBar };
