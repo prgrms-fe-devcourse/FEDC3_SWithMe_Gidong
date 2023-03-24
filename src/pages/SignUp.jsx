@@ -1,5 +1,5 @@
 import { imgLogin } from '@/assets/images';
-import { Header, Image, Spinner, Text } from '@/components/base';
+import { Heading, Image, Spinner, Text } from '@/components/base';
 import SignInput from '@/components/domain/SignInput';
 import { useToastContext } from '@/context/ToastProvider';
 import { useUserContext } from '@/context/UserProvider';
@@ -92,9 +92,7 @@ function SignUp() {
     <StyledPageWrapper>
       <StyledContainer>
         <StyledSignUpBox onKeyDown={onClickEnter}>
-          <Header level={3} size={25}>
-            회원가입
-          </Header>
+          <Heading level={5}>회원가입</Heading>
           <StyledDesc>
             <div>
               <Text paragraph color={COLOR.DARK} size={2.1} weight={500}>

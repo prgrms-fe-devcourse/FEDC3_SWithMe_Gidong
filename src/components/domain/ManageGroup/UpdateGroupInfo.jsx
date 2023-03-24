@@ -1,4 +1,4 @@
-import { Header, Input, TagInput, Text, Textarea } from '@/components/base';
+import { Heading, Input, TagInput, Text, Textarea } from '@/components/base';
 import { useGroupContext } from '@/context/GroupProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import useInput from '@/hooks/useInput';
@@ -79,9 +79,7 @@ function UpdateGroupInfo({ group, setGroup }) {
 
   return (
     <StyledGroupBox>
-      <Header level={3} size={25}>
-        그룹 정보 관리
-      </Header>
+      <Heading level={5}>그룹 정보 관리</Heading>
       <StyledGroupInfo>
         <Text block size={2}>
           그룹명

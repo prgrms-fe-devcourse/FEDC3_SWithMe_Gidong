@@ -52,9 +52,7 @@ function ManageMember({ group, setGroup, member }) {
 
   return (
     <StyledManageMember>
-      <Header level={3} size={25}>
-        그룹원 관리
-      </Header>
+      <Heading level={5}>그룹원 관리</Heading>
       <StyledGroupInfo>
         <SearchBar
           placeholder='찾고 싶은 그룹원의 이름을 검색하세요.'

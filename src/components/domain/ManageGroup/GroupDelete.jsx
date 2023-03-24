@@ -1,4 +1,4 @@
-import { Header, Text } from '@/components/base';
+import { Heading, Text } from '@/components/base';
 import { useGroupContext } from '@/context/GroupProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import { useNavigate } from 'react-router-dom';
@@ -25,9 +25,7 @@ function GroupDelete({ groupId }) {
 
   return (
     <StyledGroupDelete>
-      <Header level={3} size={25}>
-        그룹 삭제
-      </Header>
+      <Heading level={5}>그룹 삭제</Heading>
       <Text paragraph strong size={1.6}>
         한번 그룹을 삭제하면 다시 되돌릴 수 없습니다.
       </Text>

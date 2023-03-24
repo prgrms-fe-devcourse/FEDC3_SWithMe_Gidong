@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { COLOR } from '@/styles/color';
-import { Header, Image, Text, Icon } from '@/components/base';
+import { Heading, Image, Text, Icon } from '@/components/base';
 import { icCrown } from '@/assets/icons';
 import { imgUserAvatar } from '@/assets/images';
 import { useAuthContext } from '@/context/AuthProvider';
@@ -62,9 +62,9 @@ function JoinGroup() {
   return (
     <StyledJoinGroup>
       <StyledHeader>
-        <Header strong level={1} size={40} color={COLOR.WHITE}>
+        <Heading level={1} color={COLOR.WHITE}>
           {name}
-        </Header>
+        </Heading>
         <StyledMaster>
           <Image src={icCrown} width={5} alt='' />
           <Image src={master.image ? master.image : imgUserAvatar} width={4} alt='' />

@@ -1,6 +1,6 @@
 import { getAlarms, updateSeenAlarm } from '@/api/alarm';
 import { imgDefaultAvatar } from '@/assets/images';
-import { Header, Icon, Text } from '@/components/base';
+import { Heading, Icon, Text } from '@/components/base';
 import SettingModal from '@/components/domain/SettingModal';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
@@ -72,9 +72,7 @@ function AlarmModal({ visible, onClose }) {
     <StyledAlarmModal visible={visible} onClose={onClose} dimColor='transparent' hasChild={settingModalVisible}>
       <StyledHeaderContainer>
         <StyledHeaderItem onClick={() => setSettingModalVisible(true)}>
-          <Header level={2} strong={+true} size='2rem'>
-            알림
-          </Header>
+          <Heading level={6}>알림</Heading>
           <Icon name='caret-down' size={2} />
           {settingModalVisible && (
             <SettingModal

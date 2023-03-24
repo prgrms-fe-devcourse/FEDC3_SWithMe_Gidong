@@ -1,4 +1,4 @@
-import { Button, Header, Icon, Text } from '@/components/base';
+import { Button, Heading, Icon, Text } from '@/components/base';
 import { COLOR } from '@/styles/color';
 import { useNavigate } from 'react-router-dom';
 import { StyledGroupUserAmount, StyledResultGroupCard, StyledResultGroupTags } from './styles';
@@ -18,9 +18,7 @@ function SearchResultGroup({ group, index }) {
           {group.description.member.length + 1}/{group.description.headCount}
         </Text>
       </StyledGroupUserAmount>
-      <Header level='2' size='2.2rem'>
-        {group.name}
-      </Header>
+      <Heading level={6}>{group.name}</Heading>
       <StyledResultGroupTags>
         {group.description.tagList?.map((tag) => (
           <div key={tag} style={{ textAlign: 'center', width: '100%', height: '2rem' }}>

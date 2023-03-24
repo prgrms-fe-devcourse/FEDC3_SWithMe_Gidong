@@ -1,6 +1,6 @@
 import { createAlarm, deleteAlarm } from '@/api/alarm';
 import { imgDefaultAvatar } from '@/assets/images';
-import { Avatar, Button, Divider, Header, Tag, Text } from '@/components/base';
+import { Avatar, Button, Divider, Heading, Tag, Text } from '@/components/base';
 import AuthorNav from '@/components/domain/AuthorNav';
 import CommentList from '@/components/domain/CommentList';
 import CreateComment from '@/components/domain/CreateComment';
@@ -133,9 +133,7 @@ function TIL() {
           <>
             <FloatingLikeButton likes={likes} likeButtonRef={likeButtonRef} onClick={toggleLikeButtonClick} />
             <StyledHeader>
-              <Header level={1} strong size={40} color={COLOR.DARK}>
-                📚 [{til.channel.name}]에 대한 TIL
-              </Header>
+              <Heading level={1}>📚 [{til.channel.name}]에 대한 TIL</Heading>
               {!isMember(til.channel, loggedUser._id) && (
                 <>
                   <Button
