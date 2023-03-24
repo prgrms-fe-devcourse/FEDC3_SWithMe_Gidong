@@ -1,11 +1,11 @@
-import { Button, Icon, Input, Modal, TagInput, Text, Textarea } from '@/components/base';
+import { Button, Icon, Input, TagInput, Text, Textarea } from '@/components/base';
 import { useAuthContext } from '@/context/AuthProvider';
 import { useGroupContext } from '@/context/GroupProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
 import { useState } from 'react';
+import { StyledButtonContainer, StyledContentContainer, StyledHeaderContainer, StyledModal } from './styles';
 
 const MAX_STEP_SIZE = 4;
 const STEPS = {
@@ -178,32 +178,3 @@ function CreateGroupModal({ visible, onClose, ...props }) {
 }
 
 export default CreateGroupModal;
-
-const StyledModal = styled(Modal)`
-  width: 50rem;
-  @media (max-width: 624px) {
-    width: 100%;
-  }
-`;
-
-const StyledHeaderContainer = styled.div`
-  padding: 0.5rem 2rem 0 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const StyledContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 30rem;
-  padding: 0 15%;
-`;
-
-const StyledButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 0 15% 2rem;
-`;
