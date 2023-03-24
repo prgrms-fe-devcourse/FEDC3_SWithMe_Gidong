@@ -8,9 +8,9 @@ const ShapeToCssValue = {
 };
 
 export const SizeToCssValue = {
-  small: '3',
-  medium: '4',
-  large: '23',
+  small: '3rem',
+  medium: '4rem',
+  large: '23rem',
 };
 
 const AvatarWrapper = styled.div`
@@ -20,8 +20,8 @@ const AvatarWrapper = styled.div`
   border-radius: ${({ shape }) => ShapeToCssValue[shape]};
   overflow: hidden;
   background-color: ${COLOR.AVATAR_WRAPPER_BG};
-  width: ${({ size }) => `${SizeToCssValue[size]} + rem`};
-  height: ${({ size }) => `${SizeToCssValue[size]} + rem`};
+  width: ${({ size }) => SizeToCssValue[size]};
+  height: ${({ size }) => SizeToCssValue[size]};
   flex: none;
 
   > img {
