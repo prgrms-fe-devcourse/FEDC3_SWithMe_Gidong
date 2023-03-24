@@ -59,8 +59,8 @@ const StyledViewType = styled.div`
 
 const StyledFilterButton = styled.div`
   font-size: 1.3rem;
-  ${(props) =>
-    props.isActive &&
+  ${({ isActive }) =>
+    isActive &&
     css`
       font-weight: 600;
     `};

@@ -59,8 +59,8 @@ const StyledGroupButton = styled.button`
 `;
 
 const StyledUpdateButton = styled(StyledGroupButton)`
-  ${(props) =>
-    !props.isInfoChanged &&
+  ${({ isInfoChanged }) =>
+    !isInfoChanged &&
     css`
       background-color: ${COLOR.GRAY_30};
       cursor: not-allowed;
