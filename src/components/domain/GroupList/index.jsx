@@ -41,7 +41,7 @@ function GroupList() {
               </Fragment>
             ))
           ) : (
-            <Empty src={imgSearch} width={25} mainText='참여중인 그룹이 없습니다.' subText='그룹에 참여해보세요!' />
+            <Empty src={imgSearch} imageWidth='25rem' mainText='참여중인 그룹이 없습니다.' subText='그룹에 참여해보세요!' />
           )}
         </StyledGroupList>
       )}

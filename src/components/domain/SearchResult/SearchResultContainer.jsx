@@ -32,7 +32,7 @@ function SearchResultContainer({ title, groupList }) {
             <Pagination limit={PAGINATION_CONTENTS_LIMIT} total={groupList?.length} onChange={setCurrentPage} />
           </>
         ) : (
-          <Empty src={imgSearch} width={30} mainText='그룹 검색 결과가 없습니다.' />
+          <Empty src={imgSearch} imageWidth='30rem' mainText='그룹 검색 결과가 없습니다.' />
         )}
       </StyledSearchResult>
     </StyledSearchResultContainer>
