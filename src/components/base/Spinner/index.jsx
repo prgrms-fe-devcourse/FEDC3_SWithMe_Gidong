@@ -1,6 +1,7 @@
-import styled from '@emotion/styled';
+import { COLOR } from '@/styles/color';
+import { StyledSpinnerWrapper, Icon } from './styles';
 
-const Spinner = ({ size = 24, color = '#919EAB', loading = true, ...props }) => {
+const Spinner = ({ size = 24, color = COLOR.SPINNER_COLOR, loading = true, ...props }) => {
   const sizeStyle = {
     width: size,
     height: size,
@@ -41,15 +42,3 @@ const Spinner = ({ size = 24, color = '#919EAB', loading = true, ...props }) => 
 };
 
 export default Spinner;
-
-const StyledSpinnerWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-bottom: 3rem;
-`;
-
-const Icon = styled.i`
-  display: inline-block;
-  vertical-align: middle;
-`;

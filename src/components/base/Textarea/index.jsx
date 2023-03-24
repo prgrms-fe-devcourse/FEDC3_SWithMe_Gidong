@@ -1,6 +1,5 @@
 import { Text } from '@/components/base';
-import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
+import { StyledTextareaContainer, StyledLabel, StyledTextarea } from './styles';
 
 function Textarea({
   value = '',
@@ -18,7 +17,6 @@ function Textarea({
   wrapperProps,
   ...props
 }) {
-
   const handleChange = (e) => {
     if (max && e.target.value.length > max) {
       e.target.value = e.target.value.slice(0, max);
@@ -64,27 +62,3 @@ function Textarea({
 }
 
 export default Textarea;
-
-const StyledTextareaContainer = styled.div`
-  position: relative;
-  display: ${({ block }) => (block ? 'block' : 'inline-block')};
-  margin: 1rem 0 2rem 0;
-`;
-
-const StyledLabel = styled.label`
-  display: block;
-  position: absolute;
-  bottom: -1.6em;
-  right: 0;
-  background-color: transparent;
-`;
-
-const StyledTextarea = styled.textarea`
-  width: 100%;
-  outline: none;
-  border: none;
-  background-color: ${COLOR.TEXTAREA_BG};
-  box-sizing: border-box;
-  padding: 1rem;
-  resize: ${({ resize }) => (resize ? 'auto' : 'none')};
-`;

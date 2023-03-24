@@ -1,7 +1,7 @@
 import { Icon } from '@/components/base';
 import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
 import { useState } from 'react';
+import { StyledPagination } from './styles';
 
 const Pagination = ({ defaultPage = 0, limit, total, onChange }) => {
   const [page, setPage] = useState(defaultPage);
@@ -40,13 +40,3 @@ const Pagination = ({ defaultPage = 0, limit, total, onChange }) => {
 };
 
 export default Pagination;
-
-const StyledPagination = styled.div`
-  padding-top: 3rem;
-  text-align: center;
-
-  & > button {
-    font-weight: bold;
-    color: ${COLOR.GRAY_30};
-  }
-`;

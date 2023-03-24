@@ -12,8 +12,8 @@ export { default as Modal } from './Modal';
 export { default as Pagination } from './Pagination';
 export { default as SearchBar } from './SearchBar';
 export { default as Spinner } from './Spinner';
-export { Tag, TagInput } from './Tag';
+export { default as Tag } from './Tag';
+export { default as TagInput } from './Tag/TagInput';
 export { default as Text } from './Text';
 export { default as Textarea } from './Textarea';
 export { default as Toast } from './Toast';
-
