@@ -1,12 +1,11 @@
 import { Header, Icon, SearchBar } from '@/components/base';
 import { Member, MemberList } from '@/components/domain/groupInfo';
-import * as S from '@/components/domain/ManageGroup/styles';
 import { useGroupContext } from '@/context/GroupProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
+import { StyledManageMember, StyledGroupInfo } from './styles';
 
 const MESSAGE = {
   ALERT_MEMBER_KICK: '이 강퇴 되었습니다.',
@@ -56,7 +55,7 @@ function ManageMember({ group, setGroup, member }) {
       <Header level={3} size={25}>
         그룹원 관리
       </Header>
-      <S.GroupInfo>
+      <StyledGroupInfo>
         <SearchBar
           placeholder='찾고 싶은 그룹원의 이름을 검색하세요.'
           value={value}
@@ -64,7 +63,7 @@ function ManageMember({ group, setGroup, member }) {
           iconProps={{ size: 2, style: { color: `${COLOR.DARK}` } }}
           style={{ fontSize: '1.8rem', fontWeight: 100, borderBottom: `0.1rem solid ${COLOR.GRAY}` }}
         />
-      </S.GroupInfo>
+      </StyledGroupInfo>
       <MemberList>
         {member &&
           member
@@ -85,17 +84,3 @@ function ManageMember({ group, setGroup, member }) {
 }
 
 export default ManageMember;
-
-const StyledManageMember = styled(S.GroupBox)`
-  & > div {
-    overflow-y: auto;
-  }
-
-  & i {
-    color: ${COLOR.PRIMARY_BTN};
-    &:hover {
-      color: ${COLOR.WHITE};
-      cursor: pointer;
-    }
-  }
-`;

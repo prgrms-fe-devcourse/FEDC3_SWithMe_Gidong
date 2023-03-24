@@ -1,12 +1,9 @@
 import { Header, Input, TagInput, Text, Textarea } from '@/components/base';
-import * as S from '@/components/domain/ManageGroup/styles';
 import { useGroupContext } from '@/context/GroupProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import useInput from '@/hooks/useInput';
-import { COLOR } from '@/styles/color';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
+import { StyledGroupBox, StyledGroupInfo, StyledUpdateButton } from './styles';
 
 const ALERT_MESSAGE = {
   GROUP_NAME: '그룹명은 한 글자 이상이어야 합니다.',
@@ -81,17 +78,17 @@ function UpdateGroupInfo({ group, setGroup }) {
   };
 
   return (
-    <S.GroupBox>
+    <StyledGroupBox>
       <Header level={3} size={25}>
         그룹 정보 관리
       </Header>
-      <S.GroupInfo>
+      <StyledGroupInfo>
         <Text block size={2}>
           그룹명
         </Text>
         <Input type='text' value={groupName.value} onChange={groupName.onChange} max={15} block required />
-      </S.GroupInfo>
-      <S.GroupInfo>
+      </StyledGroupInfo>
+      <StyledGroupInfo>
         <Text block size={2}>
           최대 인원
         </Text>
@@ -104,14 +101,14 @@ function UpdateGroupInfo({ group, setGroup }) {
           max={50}
           required
         />
-      </S.GroupInfo>
-      <S.GroupInfo>
+      </StyledGroupInfo>
+      <StyledGroupInfo>
         <Text block size={2}>
           태그
         </Text>
         <TagInput tagList={tagList.value} onChange={tagList.onChange} />
-      </S.GroupInfo>
-      <S.GroupInfo>
+      </StyledGroupInfo>
+      <StyledGroupInfo>
         <Text block size={2}>
           소개
         </Text>
@@ -122,24 +119,12 @@ function UpdateGroupInfo({ group, setGroup }) {
           max={300}
           wrapperProps={{ style: { width: '100%' } }}
         />
-      </S.GroupInfo>
+      </StyledGroupInfo>
       <StyledUpdateButton disabled={!isInfoChanged} isInfoChanged={isInfoChanged} onClick={handleSubmit}>
         수정
       </StyledUpdateButton>
-    </S.GroupBox>
+    </StyledGroupBox>
   );
 }
 
 export default UpdateGroupInfo;
-
-const StyledUpdateButton = styled(S.Button)`
-  ${({ isInfoChanged }) =>
-    !isInfoChanged &&
-    css`
-      background-color: ${COLOR.GRAY_30};
-      cursor: not-allowed;
-      &:hover {
-        opacity: 1;
-      }
-    `};
-`;

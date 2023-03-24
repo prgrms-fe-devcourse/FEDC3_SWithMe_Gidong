@@ -5,8 +5,8 @@ import TILList from '@/components/domain/TILList';
 import { useAuthContext } from '@/context/AuthProvider';
 import { useGroupContext } from '@/context/GroupProvider';
 import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
 import { Fragment, useEffect, useState } from 'react';
+import { StyledGroupList } from './styles';
 
 function GroupList() {
   const {
@@ -50,9 +50,3 @@ function GroupList() {
 }
 
 export default GroupList;
-
-const StyledGroupList = styled.ul`
-  padding: 0 2rem;
-  border-radius: 1rem;
-  background-color: ${({ isEmpty }) => (isEmpty ? COLOR.GRAY_10 : COLOR.WHITE)};
-`;

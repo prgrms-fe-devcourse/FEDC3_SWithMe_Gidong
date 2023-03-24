@@ -1,12 +1,19 @@
 import { imgTIL } from '@/assets/images';
-import { Button, Calendar, Divider, Empty, Pagination, Spinner, Text, Icon } from '@/components/base';
+import { Button, Calendar, Divider, Empty, Icon, Pagination, Spinner, Text } from '@/components/base';
 import TILItem from '@/components/domain/TILItem';
 import { useTILContext } from '@/context/TILProvider';
 import { COLOR } from '@/styles/color';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import {
+  StyledButtonWrapper,
+  StyledFilter,
+  StyledFilterButton,
+  StyledFilterWrapper,
+  StyledTILList,
+  StyledTILWrapper,
+  StyledViewType,
+} from './styles';
 
 function TILList({ groupId, groupName }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -117,74 +124,3 @@ function TILList({ groupId, groupName }) {
 }
 
 export default TILList;
-
-const StyledTILList = styled.div`
-  border-bottom: 0.1rem solid ${COLOR.GRAY_10};
-`;
-
-const StyledTILWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 24rem);
-  gap: 3rem 0;
-  padding: 1rem;
-
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-  margin: 0 auto;
-  max-width: 100rem;
-
-  @keyframes smoothAppear {
-    from {
-      opacity: 0;
-      transform: translateY(-5%);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  animation: smoothAppear 1s;
-`;
-
-const StyledFilterWrapper = styled.div`
-  margin: 0 1rem 1rem 1rem;
-  padding: 1rem;
-  border-radius: 1rem;
-  border: 0.1rem solid ${COLOR.GRAY_10};
-`;
-
-const StyledFilter = styled.div`
-  display: flex;
-  justify-content: space-between;
-
-  padding-top: 0.5rem;
-
-  & button {
-    width: fit-content;
-    white-space: nowrap;
-    padding: 0;
-  }
-`;
-
-const StyledViewType = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const StyledFilterButton = styled.div`
-  font-size: 1.3rem;
-  ${({ isActive }) =>
-    isActive &&
-    css`
-      font-weight: 600;
-    `};
-  cursor: pointer;
-`;
-
-const StyledButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-`;

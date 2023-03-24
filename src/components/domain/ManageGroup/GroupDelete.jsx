@@ -1,10 +1,8 @@
 import { Header, Text } from '@/components/base';
-import * as S from '@/components/domain/ManageGroup/styles';
 import { useGroupContext } from '@/context/GroupProvider';
 import { useToastContext } from '@/context/ToastProvider';
-import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
+import { StyledDeleteButton, StyledGroupDelete } from './styles';
 
 const TOAST_MESSAGE = {
   ALERT_GROUP_DELETE: '그룹이 삭제되었습니다.',
@@ -39,21 +37,3 @@ function GroupDelete({ groupId }) {
 }
 
 export default GroupDelete;
-
-const StyledGroupDelete = styled(S.GroupBox)`
-  background-color: ${COLOR.MY_GROUP_BOX_BG};
-
-  & > h3 {
-    border-bottom: 1px solid ${COLOR.RED_20};
-    color: ${COLOR.RED_20};
-  }
-
-  & > p {
-    padding: 1rem 0;
-  }
-`;
-
-const StyledDeleteButton = styled(S.Button)`
-  margin-top: 1rem;
-  background-color: ${COLOR.RED_20};
-`;

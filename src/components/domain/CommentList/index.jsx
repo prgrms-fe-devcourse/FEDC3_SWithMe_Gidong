@@ -1,7 +1,7 @@
-import { Text, Divider } from '@/components/base';
+import { Divider, Text } from '@/components/base';
 import CommentItem from '@/components/domain/CommentItem';
 import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
+import { StyledCommentList } from './styles';
 
 function CommentList({ comments }) {
   return (
@@ -27,12 +27,3 @@ function CommentList({ comments }) {
 }
 
 export default CommentList;
-
-const StyledCommentList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  background-color: ${COLOR.TEXTAREA_BG};
-  padding: 2rem;
-  border-radius: 1rem;
-`;
