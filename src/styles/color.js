@@ -54,4 +54,6 @@ export const COLOR = {
   MODAL_BOX_SHADOW: 'rgba(0, 0, 0, 0.2)',
 
   SPINNER_COLOR: '#919EAB',
+  AVATAR_WRAPPER_BORDER: '#DADADA',
+  AVATAR_WRAPPER_BG: '#EEEEEE',
 };

@@ -1,6 +1,5 @@
-import styled from '@emotion/styled';
 import { Text } from '@/components/base';
-import { COLOR } from '@/styles/color';
+import { StyledEmpty } from './styles';
 
 function Empty({ src, width, height, mainText, subText, ...props }) {
   const imgStyle = {
@@ -22,12 +21,3 @@ function Empty({ src, width, height, mainText, subText, ...props }) {
 }
 
 export default Empty;
-
-const StyledEmpty = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  padding: 8rem 0;
-  color: ${COLOR.DARK};
-`;

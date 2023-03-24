@@ -1,4 +1,5 @@
-import { Header, Pagination, Text } from '@/components/base';
+import { imgSearch } from '@/assets/images';
+import { Empty, Header, Pagination, Text } from '@/components/base';
 import { SearchResultGroup } from '@/components/domain/SearchResult';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
@@ -21,12 +22,18 @@ function SearchResultContainer({ title, groupList }) {
         </Text>
       </StyledHeader>
       <StyledSearchResult>
-        <StyledGroupList>
-          {groupList?.slice(offset, offset + PAGINATION_CONTENTS_LIMIT).map((group, index) => (
-            <SearchResultGroup key={group._id} group={group} index={index} />
-          ))}
-        </StyledGroupList>
-        <Pagination limit={PAGINATION_CONTENTS_LIMIT} total={groupList?.length} onChange={setCurrentPage} />
+        {groupList?.length > 0 ? (
+          <>
+            <StyledGroupList>
+              {groupList.slice(offset, offset + PAGINATION_CONTENTS_LIMIT).map((group, index) => (
+                <SearchResultGroup key={group._id} group={group} index={index} />
+              ))}
+            </StyledGroupList>
+            <Pagination limit={PAGINATION_CONTENTS_LIMIT} total={groupList?.length} onChange={setCurrentPage} />
+          </>
+        ) : (
+          <Empty src={imgSearch} width={30} mainText='그룹 검색 결과가 없습니다.' />
+        )}
       </StyledSearchResult>
     </StyledSearchResultContainer>
   );
