@@ -1,8 +1,21 @@
 import { Image as ImageComponent } from '@/components/base';
 import { useEffect, useState } from 'react';
 import { AvatarWrapper } from './styles';
+import PropTypes from 'prop-types';
+import { imgDefaultAvatar } from '@/assets/images';
+import { SizeToCssValue } from './styles';
 
-function Avatar({ lazy, threshold, src, size = 1, shape = 'circle', placeholder, alt, mode = 'cover', ...props }) {
+function Avatar({
+  lazy,
+  threshold,
+  src = imgDefaultAvatar,
+  size = 'small',
+  shape = 'circle',
+  placeholder,
+  alt,
+  mode = 'cover',
+  ...props
+}) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -12,13 +25,13 @@ function Avatar({ lazy, threshold, src, size = 1, shape = 'circle', placeholder,
   }, [src]);
 
   return (
-    <AvatarWrapper {...props} shape={shape}>
+    <AvatarWrapper {...props} shape={shape} size={size}>
       <ImageComponent
         block
         lazy={lazy}
         threshold={threshold}
-        width={size}
-        height={size}
+        width={SizeToCssValue[size]}
+        height={SizeToCssValue[size]}
         src={src}
         placeholder={placeholder}
         alt={alt}
@@ -28,5 +41,16 @@ function Avatar({ lazy, threshold, src, size = 1, shape = 'circle', placeholder,
     </AvatarWrapper>
   );
 }
+
+Avatar.propTypes = {
+  lazy: PropTypes.bool,
+  threshold: PropTypes.number,
+  src: PropTypes.string,
+  size: PropTypes.oneOf(['small', 'large']),
+  shape: PropTypes.oneOf(['circle', 'round', 'square']),
+  placeholder: PropTypes.string,
+  alt: PropTypes.string,
+  mode: PropTypes.oneOf(['cover', 'fill', 'contain', 'none', 'scale-down']),
+};
 
 export default Avatar;

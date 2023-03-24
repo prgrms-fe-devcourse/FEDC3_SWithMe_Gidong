@@ -1,6 +1,5 @@
 import { createAlarm, deleteAlarm } from '@/api/alarm';
 import { getTIL } from '@/api/post';
-import { imgDefaultAvatar } from '@/assets/images';
 import { Avatar, Text, Textarea } from '@/components/base';
 import AuthorNav from '@/components/domain/AuthorNav';
 import { useAuthContext } from '@/context/AuthProvider';
@@ -82,7 +81,7 @@ function CommentItem({ comment }) {
     <StyledCommentItem>
       <StyledFlexContainer>
         <StyledWriterInfoContainer>
-          <Avatar src={author.image || imgDefaultAvatar} size={3} />
+          <Avatar src={author.image} />
           <Text size={2} color={COLOR.DARK}>
             {author.fullName}
           </Text>

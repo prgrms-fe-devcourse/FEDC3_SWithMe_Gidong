@@ -7,6 +7,12 @@ const ShapeToCssValue = {
   square: '0',
 };
 
+export const SizeToCssValue = {
+  small: '3',
+  medium: '4',
+  large: '23',
+};
+
 const AvatarWrapper = styled.div`
   position: relative;
   display: inline-block;
@@ -14,8 +20,8 @@ const AvatarWrapper = styled.div`
   border-radius: ${({ shape }) => ShapeToCssValue[shape]};
   overflow: hidden;
   background-color: ${COLOR.AVATAR_WRAPPER_BG};
-  width: ${({ size }) => `${size}rem`};
-  height: ${({ size }) => `${size}rem`};
+  width: ${({ size }) => `${SizeToCssValue[size]} + rem`};
+  height: ${({ size }) => `${SizeToCssValue[size]} + rem`};
   flex: none;
 
   > img {

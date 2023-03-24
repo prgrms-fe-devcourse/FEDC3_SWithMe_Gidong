@@ -102,7 +102,7 @@ function SignUp() {
                 서비스를 즐겨보세요.
               </Text>
             </div>
-            <Image src={imgLogin} width={20} />
+            <Image src={imgLogin} width='20rem' />
           </StyledDesc>
           <StyledSignUpItem>
             <SignInput

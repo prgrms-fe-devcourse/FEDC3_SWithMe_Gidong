@@ -1,5 +1,4 @@
 import { createAlarm, deleteAlarm } from '@/api/alarm';
-import { imgDefaultAvatar } from '@/assets/images';
 import { Avatar, Button, Divider, Header, Tag, Text } from '@/components/base';
 import AuthorNav from '@/components/domain/AuthorNav';
 import CommentList from '@/components/domain/CommentList';
@@ -157,7 +156,7 @@ function TIL() {
             </StyledTitleWrapper>
             <StyledFlexContainer>
               <StyledWriterInfoContainer>
-                <Avatar src={til.author.image || imgDefaultAvatar} size={3} />
+                <Avatar src={til.author.image} />
                 <Text size={2} color={COLOR.DARK}>
                   {til.author.fullName}
                 </Text>

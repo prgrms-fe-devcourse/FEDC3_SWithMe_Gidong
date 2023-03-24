@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useEffect, useRef, useState } from 'react';
 
 let observer = null;
 const LOAD_IMG_EVENT_TYPE = 'loadImage';
@@ -12,14 +13,14 @@ const onIntersection = (entries, io) => {
   });
 };
 
-function Image({ lazy, threshold = 0.5, placeholder, src, block, width, height, alt, mode, ...props }) {
+function Image({ lazy, threshold = 0.5, src, block, width, height, placeholder, alt, mode, ...props }) {
   const [loaded, setLoaded] = useState(false);
   const imgRef = useRef(null);
 
   const imageStyle = {
     display: block ? 'block' : undefined,
-    width: `${width}rem`,
-    height: `${height}rem`,
+    width,
+    height,
     objectFit: mode,
   };
 
@@ -47,5 +48,17 @@ function Image({ lazy, threshold = 0.5, placeholder, src, block, width, height, 
 
   return <img ref={imgRef} src={loaded ? src : placeholder} alt={alt} style={{ ...props.style, ...imageStyle }} />;
 }
+
+Image.propTypes = {
+  lazy: PropTypes.bool,
+  threshold: PropTypes.number,
+  src: PropTypes.string,
+  block: PropTypes.bool,
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  placeholder: PropTypes.string,
+  alt: PropTypes.string,
+  mode: PropTypes.oneOf(['cover', 'fill', 'contain', 'none', 'scale-down']),
+};
 
 export default Image;
