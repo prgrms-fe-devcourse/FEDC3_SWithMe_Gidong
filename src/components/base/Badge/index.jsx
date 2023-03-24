@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { StyledBadgeContainer, StyledSuper } from './styles';
 
 function Badge({ children, count, maxCount, showZero, dot = false, bgColor, textColor, ...props }) {
@@ -24,5 +25,15 @@ function Badge({ children, count, maxCount, showZero, dot = false, bgColor, text
     </StyledBadgeContainer>
   );
 }
+
+Badge.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+  count: PropTypes.number,
+  maxCount: PropTypes.number,
+  showZero: PropTypes.bool,
+  dot: PropTypes.bool,
+  bgColor: PropTypes.string,
+  textColor: PropTypes.string,
+};
 
 export default Badge;

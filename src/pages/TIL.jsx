@@ -173,7 +173,7 @@ function TIL() {
             </Text>
             <StyledViewerWrapper>{<Viewer ref={viewerRef} initialValue={til.title.body || ''} />}</StyledViewerWrapper>
             <Tag tagList={til.title.tagList} />
-            <Divider color={COLOR.GRAY} height={0.05} size={4} />
+            <Divider height='0.05rem' margin={4} />
             {!checkIsEmptyObj(loggedUser) && (
               <CreateComment comment={comment} ableSubmit={ableSubmit} onSubmit={handleSubmitButtonClick} />
             )}
