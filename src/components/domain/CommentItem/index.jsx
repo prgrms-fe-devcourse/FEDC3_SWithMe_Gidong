@@ -11,8 +11,8 @@ import { COLOR } from '@/styles/color';
 import { convertDate } from '@/utils/date';
 import { isAuthor } from '@/utils/post';
 import { getItem, removeItem, setItem } from '@/utils/storage';
-import styled from '@emotion/styled';
 import { useState } from 'react';
+import { StyledCommentItem, StyledFlexContainer, StyledWriterInfoContainer, StyledCommentWrapper } from './styles';
 
 function CommentItem({ comment }) {
   const {
@@ -121,27 +121,3 @@ function CommentItem({ comment }) {
 }
 
 export default CommentItem;
-
-const StyledCommentItem = styled.div`
-  display: flex;
-  gap: 1rem;
-  flex-direction: column;
-  padding: 1.6rem;
-  background-color: ${COLOR.TEXTAREA_BG};
-`;
-
-const StyledFlexContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const StyledWriterInfoContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-`;
-
-const StyledCommentWrapper = styled.div`
-  margin-top: 2rem;
-`;

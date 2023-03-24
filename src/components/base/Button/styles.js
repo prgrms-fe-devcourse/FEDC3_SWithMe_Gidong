@@ -1,6 +1,6 @@
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
-import View from './view';
+import View from './View';
 
 const StyledButton = styled(View)`
   background-color: ${({ bgcolor }) => (bgcolor ? bgcolor : COLOR.GRAY)};

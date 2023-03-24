@@ -1,7 +1,7 @@
 import { icLogo } from '@/assets/icons';
-import styled from '@emotion/styled';
-import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/base';
+import { useNavigate } from 'react-router-dom';
+import { StyledHeaderLogo } from './styles';
 
 const Logo = () => {
   const navigate = useNavigate();
@@ -19,17 +19,3 @@ const Logo = () => {
 };
 
 export default Logo;
-
-const StyledHeaderLogo = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  height: 6.4rem;
-  margin-left: 2rem;
-  padding: 0;
-
-  & > h1 {
-    white-space: nowrap;
-  }
-`;

@@ -1,6 +1,6 @@
 import { Button, Textarea } from '@/components/base';
 import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
+import { StyledButtonWrapper } from './styles';
 
 function CreateComment({ comment, ableSubmit, onSubmit }) {
   return (
@@ -29,7 +29,3 @@ function CreateComment({ comment, ableSubmit, onSubmit }) {
 }
 
 export default CreateComment;
-
-const StyledButtonWrapper = styled.div`
-  align-self: flex-end;
-`;

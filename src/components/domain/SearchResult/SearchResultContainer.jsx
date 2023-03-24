@@ -2,8 +2,8 @@ import { imgSearch } from '@/assets/images';
 import { Empty, Header, Pagination, Text } from '@/components/base';
 import { SearchResultGroup } from '@/components/domain/SearchResult';
 import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
 import { useState } from 'react';
+import { StyledGroupList, StyledHeader, StyledSearchResult, StyledSearchResultContainer } from './styles';
 
 const PAGINATION_CONTENTS_LIMIT = 5;
 
@@ -40,34 +40,3 @@ function SearchResultContainer({ title, groupList }) {
 }
 
 export default SearchResultContainer;
-
-const StyledSearchResultContainer = styled.div`
-  position: relative;
-  flex: 1;
-  padding: 10rem 10rem 0 10rem;
-`;
-
-const StyledHeader = styled.div`
-  display: flex;
-  align-items: flex-end;
-  gap: 1rem;
-`;
-
-const StyledSearchResult = styled.div`
-  margin: 3rem 0;
-  padding: 3rem;
-  border-radius: 1rem;
-  background-color: ${COLOR.GRAY_10};
-`;
-
-const StyledGroupList = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 24rem);
-  gap: 3rem 0;
-  padding: 1rem;
-
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-  margin: 0 auto;
-`;
