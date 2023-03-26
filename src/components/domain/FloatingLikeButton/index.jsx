@@ -15,7 +15,7 @@ function FloatingLikeButton({ likes, likeButtonRef, onClick }) {
       disabled={checkIsEmptyObj(loggedUser)}>
       <Icon
         name='heart'
-        size={3}
+        size='large'
         type={likes.length && likes.filter((like) => like.user === loggedUser._id).length ? 'solid' : 'regular'}
       />
       <Text size={1.2}>{likes.length}</Text>

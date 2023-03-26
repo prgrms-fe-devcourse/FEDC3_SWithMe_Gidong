@@ -78,7 +78,7 @@ const SearchBar = () => {
         bgcolor={COLOR.HEADER_SEARCHBAR_SUBMIT_BG}
         style={{ width: '3rem', height: '3rem', padding: '0', marginRight: '2rem', borderRadius: '50%' }}
         onClick={handleGroupSearch}>
-        <Icon name='magnifying-glass' style={{ color: 'white' }} />
+        <Icon name='magnifying-glass' color={COLOR.WHITE} />
       </Button>
     </StyledHeaderSearchBar>
   );

@@ -23,11 +23,11 @@ const Authorized = () => {
   return (
     <>
       {alarmModalVisible && <AlarmModal visible={alarmModalVisible} onClose={() => setAlarmModalVisible(false)} />}
-      <Icon name='users' size={2} onClick={() => navigate('/myGroup')} style={{ cursor: 'pointer' }} />
+      <Icon name='users' size='medium' isPointer={true} onClick={() => navigate('/myGroup')} />
       <Badge dot={!isLoading && data && data.length && data.some(({ seen }) => !seen)} bgColor={COLOR.ALARM_GREEN}>
-        <Icon name='bell' size={2} onClick={() => setAlarmModalVisible(true)} style={{ cursor: 'pointer' }} />
+        <Icon name='bell' size='medium' isPointer={true} onClick={() => setAlarmModalVisible(true)} />
       </Badge>
-      <Icon name='user' size={2} onClick={() => navigate('/myPage')} style={{ cursor: 'pointer' }} />
+      <Icon name='user' size='medium' isPointer={true} onClick={() => navigate('/myPage')} />
       <Button
         style={{ width: '7.7rem', height: '2.1rem', margin: '0.7rem 0', padding: '0', fontSize: '1.8rem' }}
         bgcolor={COLOR.HEADER_TRANSPARENT_BG}

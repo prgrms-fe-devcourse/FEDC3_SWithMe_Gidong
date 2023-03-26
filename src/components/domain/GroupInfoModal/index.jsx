@@ -79,7 +79,7 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
         <Text size={3.4} weight={700}>
           {name}
         </Text>
-        <Icon size={4} style={{ cursor: 'pointer' }} onClick={handleModalClose} />
+        <Icon size='large' isPointer={true} onClick={handleModalClose} />
       </StyledHeaderContainer>
       <StyledContentContainer>
         <Tag tagList={tagList} fontsize={1.4} style={{ marginBottom: '1rem' }} />
@@ -96,24 +96,24 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
             value={value}
             onChange={onChange}
             wrapperProps={{ style: { width: '30rem', marginLeft: '1rem' } }}
-            iconProps={{ size: 2, style: { color: `${COLOR.DARK}` } }}
+            iconProps={{ size: 'medium', color: COLOR.DARK }}
             style={{ fontSize: '1.8rem' }}
           />
           <Text color={COLOR.GRAY2} size={1.6}>
-            <Icon type='regular' name='face-smile' size={1} /> : 오늘 TIL 작성자
+            <Icon type='regular' name='face-smile' size='xSmall' /> : 오늘 TIL 작성자
           </Text>
         </StyledMemberListContainerLabel>
         {master && member && (
           <MemberList>
             <Member image={master.image} fullName={master.fullName} isMaster={true}>
-              {checkWriteTIL(master.posts) ? <Icon type='regular' name='face-smile' size={2} /> : null}
+              {checkWriteTIL(master.posts) ? <Icon type='regular' name='face-smile' size='medium' /> : null}
             </Member>
             {member
               .filter(({ fullName }) => fullName.includes(value))
               .map(({ image, fullName, _id, posts }) => {
                 return (
                   <Member key={_id} image={image} fullName={fullName}>
-                    {checkWriteTIL(posts) ? <Icon type='regular' name='face-smile' size={2} /> : null}
+                    {checkWriteTIL(posts) ? <Icon type='regular' name='face-smile' size='medium' /> : null}
                   </Member>
                 );
               })}

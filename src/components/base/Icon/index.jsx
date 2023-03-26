@@ -1,11 +1,27 @@
+import PropTypes from 'prop-types';
 import './index.scss';
+import * as S from './styles';
+import { COLOR } from '@/styles/color';
 
-function Icon({ type = 'solid', name = 'xmark', size, ...props }) {
-  let classname = `fa-${type} fa-${name} ${name}`;
-  if (size) {
-    classname += ` fa-${size}x`;
-  }
-  return <i className={classname} style={{ ...props.style }} {...props}></i>;
+function Icon({ type = 'solid', name = 'xmark', size = 'small', color = 'inherit', isPointer = false, ...props }) {
+  return (
+    <S.StyledIcon
+      className={`fa-${type} fa-${name} ${name}`}
+      style={{ ...props.style }}
+      size={size}
+      color={color}
+      isPointer={isPointer}
+      {...props}
+    />
+  );
 }
+
+Icon.propTypes = {
+  type: PropTypes.oneOf(['light', 'regular', 'solid', 'thin']),
+  name: PropTypes.string,
+  size: PropTypes.oneOf(['xSmall', 'small', 'medium', 'large']),
+  color: PropTypes.string,
+  isPointer: PropTypes.bool,
+};
 
 export default Icon;

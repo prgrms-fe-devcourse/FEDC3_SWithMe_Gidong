@@ -73,7 +73,7 @@ function JoinGroup() {
           </Text>
         </StyledMaster>
         <div>
-          <Icon name='user' size={2} style={{ marginRight: '1rem' }} />
+          <Icon name='user' size='medium' style={{ marginRight: '1rem' }} />
           <Text strong size={2.4}>
             {member.length + 1}/{headCount}
           </Text>

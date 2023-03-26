@@ -13,7 +13,7 @@ function SearchResultGroup({ group, index }) {
   return (
     <StyledResultGroupCard>
       <StyledGroupUserAmount style={{ color: COLOR.GROUP_SEARCH_RESULT_COLOR[index] }}>
-        <Icon name='user' size={2} />
+        <Icon name='user' size='medium' />
         <Text size={1.6}>
           {group.description.member.length + 1}/{group.description.headCount}
         </Text>

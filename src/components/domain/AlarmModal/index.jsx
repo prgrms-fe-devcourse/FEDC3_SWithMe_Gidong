@@ -73,7 +73,7 @@ function AlarmModal({ visible, onClose }) {
       <StyledHeaderContainer>
         <StyledHeaderItem onClick={() => setSettingModalVisible(true)}>
           <Heading level={6}>알림</Heading>
-          <Icon name='caret-down' size={2} />
+          <Icon name='caret-down' size='medium' />
           {settingModalVisible && (
             <SettingModal
               visible={settingModalVisible}
@@ -83,7 +83,7 @@ function AlarmModal({ visible, onClose }) {
             />
           )}
         </StyledHeaderItem>
-        <Icon size={2} style={{ cursor: 'pointer' }} onClick={() => onClose && onClose()} />
+        <Icon size='medium' isPointer={true} onClick={() => onClose && onClose()} />
       </StyledHeaderContainer>
       <StyledAlarmContainer>
         {alarms.length === 0 || (filteredAlarms.length === 0 && clickedIndex.value !== 2) ? (
