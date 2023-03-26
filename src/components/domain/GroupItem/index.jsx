@@ -42,46 +42,15 @@ function GroupItem({ group, isLastGroup }) {
   }, [description, users]);
 
   return (
-    <StyledGroupItem>
-      <StyledGroupHeader isOpened={isOpened} isLastGroup={isLastGroup}>
-        <StyledGroupInfo>
-          <StyledGroupTitle>
-            {groupInfoModalVisible && (
-              <GroupInfoModal
-                group={group}
-                visible={groupInfoModalVisible}
-                onClose={() => setGroupInfoModalVisible(false)}
-              />
-            )}
-            <Header strong level={3} color={COLOR.DARK}>
-              {name}
-            </Header>
-            {isOpened && (
-              <StyledGroupIcons>
-                <Icon name='circle-info' onClick={() => setGroupInfoModalVisible(true)} />
-                {isMaster && <Icon name='gear' onClick={() => navigate('/manageGroup', { state: group })} />}
-              </StyledGroupIcons>
-            )}
-          </StyledGroupTitle>
-          {!isOpened && master && (
-            <>
-              <div>
-                <Text color={COLOR.GRAY_30} size={1.8} weight={400}>
-                  <i className='fa-solid fa-crown'></i> {master.fullName}
-                </Text>
-                <Divider type='vertical' />
-                <Text color={COLOR.GRAY_30} size={1.8} weight={300}>
-                  {intro}
-                </Text>
-              </div>
-              <StyledTagList>
-                {tagList.map((tag, i) => (
-                  <StyledTag key={tag} i={i % 4}>
-                    {tag}
-                  </StyledTag>
-                ))}
-              </StyledTagList>
-            </>
+    <StyledGroupHeader isOpened={isOpened} isLastGroup={isLastGroup}>
+      <StyledGroupInfo>
+        <StyledGroupTitle>
+          {groupInfoModalVisible && (
+            <GroupInfoModal
+              group={group}
+              visible={groupInfoModalVisible}
+              onClose={() => setGroupInfoModalVisible(false)}
+            />
           )}
           <Header strong level={3} color={COLOR.DARK}>
             {name}
@@ -99,7 +68,7 @@ function GroupItem({ group, isLastGroup }) {
               <Text color={COLOR.GRAY_30} size={1.8} weight={400}>
                 <i className='fa-solid fa-crown'></i> {master.fullName}
               </Text>
-              <Divider type='vertical' color={COLOR.GRAY_30} />
+              <Divider type='vertical' />
               <Text color={COLOR.GRAY_30} size={1.8} weight={300}>
                 {intro}
               </Text>
