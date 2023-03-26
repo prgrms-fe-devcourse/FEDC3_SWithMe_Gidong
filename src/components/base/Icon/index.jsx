@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types';
-import './index.scss';
 import * as S from './styles';
-import { COLOR } from '@/styles/color';
 
 function Icon({ type = 'solid', name = 'xmark', size = 'small', color = 'inherit', isPointer = false, ...props }) {
   return (
