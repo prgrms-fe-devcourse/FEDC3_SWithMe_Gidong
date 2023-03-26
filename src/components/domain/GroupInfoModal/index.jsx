@@ -100,7 +100,7 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
             style={{ fontSize: '1.8rem' }}
           />
           <Text color={COLOR.GRAY2} size={1.6}>
-            <Icon type='regular' name='face-smile' size='xSmall' /> : 오늘 TIL 작성자
+            <Icon type='regular' name='face-smile' size='small' /> : 오늘 TIL 작성자
           </Text>
         </StyledMemberListContainerLabel>
         {master && member && (

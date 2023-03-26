@@ -57,8 +57,10 @@ function GroupItem({ group, isLastGroup }) {
           </Heading>
           {isOpened && (
             <StyledGroupIcons>
-              <Icon name='circle-info' onClick={() => setGroupInfoModalVisible(true)} />
-              {isMaster && <Icon name='gear' onClick={() => navigate('/manageGroup', { state: group })} />}
+              <Icon name='circle-info' size='medium' onClick={() => setGroupInfoModalVisible(true)} />
+              {isMaster && (
+                <Icon name='gear' size='medium' onClick={() => navigate('/manageGroup', { state: group })} />
+              )}
             </StyledGroupIcons>
           )}
         </StyledGroupTitle>
