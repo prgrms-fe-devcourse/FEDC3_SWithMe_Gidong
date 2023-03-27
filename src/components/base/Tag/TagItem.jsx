@@ -1,5 +1,6 @@
 import { Button, Text } from '@/components/base';
 import { COLOR } from '@/styles/color';
+import PropTypes from 'prop-types';
 import { StyledTagItem } from './styles';
 
 function TagItem({ tag, onDeleteTagButtonClick, fontsize }) {
@@ -19,5 +20,11 @@ function TagItem({ tag, onDeleteTagButtonClick, fontsize }) {
     </StyledTagItem>
   );
 }
+
+TagItem.propTypes = {
+  tag: PropTypes.string,
+  onDeleteTagButtonClick: PropTypes.func,
+  fontsize: PropTypes.oneOf(['default', 'xSmall', 'small', 'medium', 'large', 'xLarge', 'xxLarge', 'huge']),
+};
 
 export default TagItem;

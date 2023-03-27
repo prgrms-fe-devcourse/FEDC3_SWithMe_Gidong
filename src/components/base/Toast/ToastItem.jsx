@@ -1,7 +1,8 @@
 import { Text } from '@/components/base';
 import useTimeout from '@/hooks/useTimeout';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { StyledToastItemContainer, StyledProgressBar } from './styles';
+import { StyledProgressBar, StyledToastItemContainer } from './styles';
 
 function ToastItem({ id, message, duration, onDone }) {
   const [show, setShow] = useState(true);
@@ -18,5 +19,12 @@ function ToastItem({ id, message, duration, onDone }) {
     </StyledToastItemContainer>
   );
 }
+
+ToastItem.propTypes = {
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  message: PropType.string,
+  duration: propTypes.number,
+  onDone: PropTypes.func,
+};
 
 export default ToastItem;

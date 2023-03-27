@@ -1,6 +1,7 @@
 import { Input, Text } from '@/components/base';
 import { useToastContext } from '@/context/ToastProvider';
 import useInput from '@/hooks/useInput';
+import PropTypes from 'prop-types';
 import { StyledTagListWrapper } from './styles';
 import TagList from './TagList';
 
@@ -61,5 +62,12 @@ function TagInput({ tagList = [], onChange, wrapperProps, inputProps, ...props }
     </>
   );
 }
+
+TagInput.propTypes = {
+  tagList: PropTypes.array,
+  onChange: PropTypes.func,
+  wrapperProps: PropTypes.object,
+  inputProps: PropTypes.object,
+};
 
 export default TagInput;

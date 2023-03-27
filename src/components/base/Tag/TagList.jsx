@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import TagItem from './TagItem';
 
 function TagList({ tagList, onDeleteTagButtonClick, fontsize }) {
@@ -9,5 +10,11 @@ function TagList({ tagList, onDeleteTagButtonClick, fontsize }) {
     </>
   );
 }
+
+TagList.propTypes = {
+  tag: PropTypes.string,
+  onDeleteTagButtonClick: PropTypes.func,
+  fontsize: PropTypes.oneOf(['default', 'xSmall', 'small', 'medium', 'large', 'xLarge', 'xxLarge', 'huge']),
+};
 
 export default TagList;

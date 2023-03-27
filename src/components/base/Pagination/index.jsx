@@ -1,5 +1,6 @@
 import { Icon } from '@/components/base';
 import { COLOR } from '@/styles/color';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { StyledPagination } from './styles';
 
@@ -37,6 +38,10 @@ const Pagination = ({ defaultPage = 0, limit, total, onChange }) => {
       </button>
     </StyledPagination>
   );
+};
+
+Pagination.propTypes = {
+  onChange: PropTypes.func,
 };
 
 export default Pagination;
