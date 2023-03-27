@@ -75,7 +75,7 @@ function Home() {
           <StyledFilterButton isActive={isSortByLike} onClick={() => setIsSortByLike(true)}>
             인기 TIL
           </StyledFilterButton>
-          <Divider type='vertical' color={COLOR.GRAY_30} height={2} size={1.2} />
+          <Divider type='vertical' height='2rem' />
           <StyledFilterButton isActive={!isSortByLike} onClick={() => setIsSortByLike(false)}>
             최신 TIL
           </StyledFilterButton>
@@ -176,7 +176,7 @@ const StyledTILWrapper = styled.div`
 
 const StyledViewType = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   padding: 2rem 0 3rem 10rem;
 `;
 

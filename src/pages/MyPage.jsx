@@ -1,5 +1,5 @@
 import { postUserAvatar, putUserFullName, putUserPassword } from '@/api/userInfo';
-import { imgMypage, imgUserAvatar } from '@/assets/images';
+import { imgMypage } from '@/assets/images';
 import { Avatar, Input, Text } from '@/components/base';
 import { MyPageButton } from '@/components/domain/MyPage';
 import { useAuthContext } from '@/context/AuthProvider';
@@ -126,7 +126,7 @@ function MyPage() {
       <StyledHeader>
         <StyledProfile>
           <label htmlFor='upload'>
-            <Avatar src={values.image ? values.image : imgUserAvatar} size={'23'} shape={'circle'} />
+            <Avatar src={values.image} size='large' />
           </label>
           <input id='upload' type='file' accept='image/*' onChange={(e) => onClickEditAvatar(e.target.files[0])} />
         </StyledProfile>
