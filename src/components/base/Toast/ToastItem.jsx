@@ -23,7 +23,7 @@ function ToastItem({ id, message, duration, onDone }) {
 ToastItem.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   message: PropTypes.string,
-  duration: propTypes.number,
+  duration: PropTypes.number,
   onDone: PropTypes.func,
 };
 
