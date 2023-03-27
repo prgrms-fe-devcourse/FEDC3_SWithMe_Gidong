@@ -1,5 +1,5 @@
 import { getAlarms, updateSeenAlarm } from '@/api/alarm';
-import { Header, Icon, Text } from '@/components/base';
+import { Heading, Icon, Text } from '@/components/base';
 import SettingModal from '@/components/domain/SettingModal';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
@@ -71,10 +71,8 @@ function AlarmModal({ visible, onClose }) {
     <StyledAlarmModal visible={visible} onClose={onClose} dimColor='transparent' hasChild={settingModalVisible}>
       <StyledHeaderContainer>
         <StyledHeaderItem onClick={() => setSettingModalVisible(true)}>
-          <Header level={2} strong={+true} size='2rem'>
-            알림
-          </Header>
-          <Icon name='caret-down' size={2} />
+          <Heading level={6}>알림</Heading>
+          <Icon name='caret-down' size='medium' />
           {settingModalVisible && (
             <SettingModal
               visible={settingModalVisible}
@@ -84,7 +82,7 @@ function AlarmModal({ visible, onClose }) {
             />
           )}
         </StyledHeaderItem>
-        <Icon size={2} style={{ cursor: 'pointer' }} onClick={() => onClose && onClose()} />
+        <Icon size='medium' isPointer={true} onClick={() => onClose && onClose()} />
       </StyledHeaderContainer>
       <StyledAlarmContainer>
         {alarms.length === 0 || (filteredAlarms.length === 0 && clickedIndex.value !== 2) ? (

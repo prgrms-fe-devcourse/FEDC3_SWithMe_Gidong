@@ -53,7 +53,7 @@ function TILList({ groupId, groupName }) {
         <Pagination limit={LIMIT} total={tils.length} onChange={setCurrentPage} />
       </>
     ) : (
-      <Empty src={imgTIL} width={30} mainText='해당 날짜에 TIL이 없습니다.' subText='TIL을 작성해보세요!' />
+      <Empty src={imgTIL} imageWidth='30rem' mainText='해당 날짜에 TIL이 없습니다.' subText='TIL을 작성해보세요!' />
     );
   };
 
@@ -101,7 +101,7 @@ function TILList({ groupId, groupName }) {
                 {filterTILList()}
               </>
             ) : (
-              <Empty src={imgTIL} width={30} mainText='그룹에 TIL이 없습니다.' subText='TIL을 작성해보세요!' />
+              <Empty src={imgTIL} imageWidth='30rem' mainText='그룹에 TIL이 없습니다.' subText='TIL을 작성해보세요!' />
             )}
             <StyledButtonWrapper>
               <Link to='/writeTIL' state={{ groupName, groupId }}>

@@ -1,4 +1,4 @@
-import { Header, Icon, SearchBar } from '@/components/base';
+import { Heading, Icon, SearchBar } from '@/components/base';
 import { Member, MemberList } from '@/components/domain/groupInfo';
 import { useGroupContext } from '@/context/GroupProvider';
 import { useToastContext } from '@/context/ToastProvider';
@@ -52,15 +52,13 @@ function ManageMember({ group, setGroup, member }) {
 
   return (
     <StyledManageMember>
-      <Header level={3} size={25}>
-        그룹원 관리
-      </Header>
+      <Heading level={5}>그룹원 관리</Heading>
       <StyledGroupInfo>
         <SearchBar
           placeholder='찾고 싶은 그룹원의 이름을 검색하세요.'
           value={value}
           onChange={onChange}
-          iconProps={{ size: 2, style: { color: `${COLOR.DARK}` } }}
+          iconProps={{ size: 'medium', color: COLOR.DARK }}
           style={{ fontSize: '1.8rem', fontWeight: 100, borderBottom: `0.1rem solid ${COLOR.GRAY}` }}
         />
       </StyledGroupInfo>
@@ -72,8 +70,8 @@ function ManageMember({ group, setGroup, member }) {
               return (
                 <Member key={member._id} image={member.image} fullName={member.fullName}>
                   <div>
-                    <Icon name='right-to-bracket' size={2} onClick={() => handleMember(member, 'k')} />
-                    <Icon name='crown' size={2} onClick={() => handleMember(member, 'd')} />
+                    <Icon name='right-to-bracket' size='medium' onClick={() => handleMember(member, 'k')} />
+                    <Icon name='crown' size='medium' onClick={() => handleMember(member, 'd')} />
                   </div>
                 </Member>
               );

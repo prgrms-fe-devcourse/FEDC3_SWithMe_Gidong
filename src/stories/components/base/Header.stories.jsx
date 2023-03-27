@@ -1,8 +1,8 @@
-import Header from '@/components/base/Header';
+import { Heading } from '@/components/base';
 
 export default {
-  title: 'Component/Header',
-  component: Header,
+  title: 'Component/Heading',
+  component: Heading,
   argTypes: {
     level: { control: { type: 'range', min: 1, max: 6 } },
     size: { control: 'number' },
@@ -13,5 +13,5 @@ export default {
 };
 
 export const Default = (args) => {
-  return <Header {...args}>Header</Header>;
+  return <Heading {...args}>Heading</Heading>;
 };

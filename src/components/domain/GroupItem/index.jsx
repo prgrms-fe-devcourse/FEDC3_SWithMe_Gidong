@@ -1,4 +1,4 @@
-import { Divider, Header, Icon, Text } from '@/components/base';
+import { Divider, Heading, Icon, Text } from '@/components/base';
 import GroupInfoModal from '@/components/domain/GroupInfoModal';
 import { useAuthContext } from '@/context/AuthProvider';
 import { useGroupContext } from '@/context/GroupProvider';
@@ -52,13 +52,15 @@ function GroupItem({ group, isLastGroup }) {
               onClose={() => setGroupInfoModalVisible(false)}
             />
           )}
-          <Header strong level={3} color={COLOR.DARK}>
+          <Heading level={6} color={COLOR.DARK}>
             {name}
-          </Header>
+          </Heading>
           {isOpened && (
             <StyledGroupIcons>
-              <Icon name='circle-info' onClick={() => setGroupInfoModalVisible(true)} />
-              {isMaster && <Icon name='gear' onClick={() => navigate('/manageGroup', { state: group })} />}
+              <Icon name='circle-info' size='medium' onClick={() => setGroupInfoModalVisible(true)} />
+              {isMaster && (
+                <Icon name='gear' size='medium' onClick={() => navigate('/manageGroup', { state: group })} />
+              )}
             </StyledGroupIcons>
           )}
         </StyledGroupTitle>

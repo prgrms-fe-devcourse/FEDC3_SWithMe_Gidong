@@ -1,5 +1,5 @@
 import { imgPuzzle } from '@/assets/images';
-import { Header, Image, Text } from '@/components/base';
+import { Heading, Image, Text } from '@/components/base';
 import CreateGroupModal from '@/components/domain/CreateGroupModal';
 import GroupList from '@/components/domain/GroupList';
 import { COLOR } from '@/styles/color';
@@ -13,9 +13,7 @@ function MyGroup() {
     <StyledPageWrapper>
       <StyledMyGroup>
         <StyledHeader>
-          <Header strong size={30}>
-            내 그룹
-          </Header>
+          <Heading level={4}>내 그룹</Heading>
           <button onClick={() => setCreateGroupModalVisible(true)}>
             <i className='fa-solid fa-circle-plus'></i>
             그룹 만들기

@@ -1,15 +1,11 @@
-import { Text } from '@/components/base';
+import { Image, Text } from '@/components/base';
+import PropTypes from 'prop-types';
 import { StyledEmpty } from './styles';
 
-function Empty({ src, width, height, mainText, subText, ...props }) {
-  const imgStyle = {
-    width: width + 'rem',
-    height: height + 'rem',
-  };
-
+function Empty({ src, imageWidth, imageHeight, mainText, subText, ...props }) {
   return (
     <StyledEmpty>
-      <img src={src} alt={subText} style={imgStyle} />
+      <Image src={src} width={imageWidth} height={imageHeight} alt={subText} />
       <Text strong paragraph size={2} lineHeight={2}>
         {mainText}
       </Text>
@@ -19,5 +15,13 @@ function Empty({ src, width, height, mainText, subText, ...props }) {
     </StyledEmpty>
   );
 }
+
+Empty.propTypes = {
+  src: PropTypes.string,
+  imageWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  imageHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  mainText: PropTypes.string,
+  subText: PropTypes.string,
+};
 
 export default Empty;

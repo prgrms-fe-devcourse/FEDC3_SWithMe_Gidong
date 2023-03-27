@@ -10,7 +10,7 @@ function Member({ children, image, fullName, isMaster = false, ...props }) {
         <Text size={2} color={COLOR.DARK}>
           {fullName}
         </Text>
-        {isMaster ? <Icon name='crown' size={2} /> : null}
+        {isMaster ? <Icon name='crown' size='medium' /> : null}
       </div>
       {children}
     </StyledMemberContainer>

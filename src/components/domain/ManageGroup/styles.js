@@ -92,14 +92,6 @@ const StyledManageMember = styled(StyledGroupBox)`
   & > div {
     overflow-y: auto;
   }
-
-  & i {
-    color: ${COLOR.PRIMARY_BTN};
-    &:hover {
-      color: ${COLOR.WHITE};
-      cursor: pointer;
-    }
-  }
 `;
 
 export {

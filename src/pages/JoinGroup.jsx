@@ -1,6 +1,6 @@
+import { Heading, Image, Text, Icon } from '@/components/base';
 import { icCrown } from '@/assets/icons';
 import { imgDefaultAvatar, imgJoin } from '@/assets/images';
-import { Header, Icon, Image, Text } from '@/components/base';
 import { useAuthContext } from '@/context/AuthProvider';
 import { useGroupContext } from '@/context/GroupProvider';
 import { COLOR } from '@/styles/color';
@@ -61,9 +61,9 @@ function JoinGroup() {
   return (
     <StyledJoinGroup>
       <StyledHeader>
-        <Header strong level={1} size={40} color={COLOR.WHITE}>
+        <Heading level={1} color={COLOR.WHITE}>
           {name}
-        </Header>
+        </Heading>
         <StyledMaster>
           <Image src={icCrown} width='5rem' alt='' />
           <Image src={master.image || imgDefaultAvatar} width='4rem' alt='' />
@@ -72,7 +72,7 @@ function JoinGroup() {
           </Text>
         </StyledMaster>
         <div>
-          <Icon name='user' size={2} style={{ marginRight: '1rem' }} />
+          <Icon name='user' size='medium' style={{ marginRight: '1rem' }} />
           <Text strong size={2.4}>
             {member.length + 1}/{headCount}
           </Text>

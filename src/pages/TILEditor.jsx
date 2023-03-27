@@ -1,4 +1,4 @@
-import { Button, Header, SearchBar, TagInput } from '@/components/base';
+import { Button, Heading, SearchBar, TagInput } from '@/components/base';
 import { useTILContext } from '@/context/TILProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
@@ -86,9 +86,9 @@ function TILEditor() {
   return (
     <StyledPageWrapper>
       <StyledTILEditor>
-        <Header level={1} strong size={40} color={COLOR.DARK}>
+        <Heading level={1}>
           📚 [{til ? til.channel.name : groupName}]에 대한 TIL {editMode}하기
-        </Header>
+        </Heading>
         <SearchBar
           placeholder='제목을 입력하세요.'
           value={title.value}

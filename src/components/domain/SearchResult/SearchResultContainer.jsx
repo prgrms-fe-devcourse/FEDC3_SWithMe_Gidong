@@ -1,5 +1,5 @@
 import { imgSearch } from '@/assets/images';
-import { Empty, Header, Pagination, Text } from '@/components/base';
+import { Empty, Heading, Pagination, Text } from '@/components/base';
 import { SearchResultGroup } from '@/components/domain/SearchResult';
 import { COLOR } from '@/styles/color';
 import { useState } from 'react';
@@ -14,9 +14,7 @@ function SearchResultContainer({ title, groupList }) {
   return (
     <StyledSearchResultContainer>
       <StyledHeader>
-        <Header strong size={30}>
-          {title}
-        </Header>
+        <Heading level={4}>{title}</Heading>
         <Text size={1.5}>
           전체 <Text style={{ color: COLOR.RED }}>{groupList?.length}개</Text> 그룹
         </Text>
@@ -32,7 +30,7 @@ function SearchResultContainer({ title, groupList }) {
             <Pagination limit={PAGINATION_CONTENTS_LIMIT} total={groupList?.length} onChange={setCurrentPage} />
           </>
         ) : (
-          <Empty src={imgSearch} width={30} mainText='그룹 검색 결과가 없습니다.' />
+          <Empty src={imgSearch} imageWidth='30rem' mainText='그룹 검색 결과가 없습니다.' />
         )}
       </StyledSearchResult>
     </StyledSearchResultContainer>

@@ -81,7 +81,7 @@ function CreateGroupModal({ visible, onClose, ...props }) {
         <Text size={1.4} weight={400}>
           STEP {step} / {MAX_STEP_SIZE}
         </Text>
-        <Icon size={4} style={{ cursor: 'pointer' }} onClick={onClose} />
+        <Icon size='large' isPointer={true} onClick={onClose} />
       </StyledHeaderContainer>
       {visible && (
         <StyledContentContainer>
