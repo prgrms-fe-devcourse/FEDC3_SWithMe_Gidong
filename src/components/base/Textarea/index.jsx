@@ -53,7 +53,7 @@ function Textarea({
         {...props}
       />
       <StyledLabel>
-        <Text size={1.2} weight={300}>
+        <Text size='small' weight={300}>
           {label ? label : max ? value.length + ' / ' + max : ''}
         </Text>
       </StyledLabel>

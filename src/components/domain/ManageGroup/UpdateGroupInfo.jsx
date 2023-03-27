@@ -81,13 +81,13 @@ function UpdateGroupInfo({ group, setGroup }) {
     <StyledGroupBox>
       <Heading level={5}>그룹 정보 관리</Heading>
       <StyledGroupInfo>
-        <Text block size={2}>
+        <Text block size='xLarge'>
           그룹명
         </Text>
         <Input type='text' value={groupName.value} onChange={groupName.onChange} max={15} block required />
       </StyledGroupInfo>
       <StyledGroupInfo>
-        <Text block size={2}>
+        <Text block size='xLarge'>
           최대 인원
         </Text>
         <Input
@@ -101,13 +101,13 @@ function UpdateGroupInfo({ group, setGroup }) {
         />
       </StyledGroupInfo>
       <StyledGroupInfo>
-        <Text block size={2}>
+        <Text block size='xLarge'>
           태그
         </Text>
         <TagInput tagList={tagList.value} onChange={tagList.onChange} />
       </StyledGroupInfo>
       <StyledGroupInfo>
-        <Text block size={2}>
+        <Text block size='xLarge'>
           소개
         </Text>
         <Textarea

@@ -68,9 +68,9 @@ function TILList({ groupId, groupName }) {
               <>
                 <StyledFilterWrapper>
                   <div>
-                    <Text paragraph size={1.4} weight={400}>
+                    <Text paragraph>
                       전체{' '}
-                      <Text strong color={COLOR.TAG_COLOR[0]}>
+                      <Text weight={600} color={COLOR.TAG_COLOR[0]}>
                         {tils.length}
                       </Text>
                       개 결과

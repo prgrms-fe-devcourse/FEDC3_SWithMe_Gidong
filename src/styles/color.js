@@ -1,5 +1,6 @@
 export const COLOR = {
   PRIMARY_BTN: '#617CEB',
+  BLACK: '#000',
   WHITE: '#fff',
   DARK: '#3A3A3A',
   GRAY: '#D9D9D9',

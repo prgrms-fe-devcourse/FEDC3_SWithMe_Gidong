@@ -49,12 +49,12 @@ function TagInput({ tagList = [], onChange, wrapperProps, inputProps, ...props }
           {...inputProps}
         />
       ) : (
-        <Text size={1.2} weight={300}>
+        <Text size='small' weight={300}>
           태그는 최대 5개까지 설정 가능합니다.
         </Text>
       )}
       {tagList.length === 0 && (
-        <Text size={1.2} weight={300}>
+        <Text size='small' weight={300}>
           최소 1개 이상의 태그를 선택해주세요.
         </Text>
       )}

@@ -18,7 +18,7 @@ function FloatingLikeButton({ likes, likeButtonRef, onClick }) {
         size='large'
         type={likes.length && likes.filter((like) => like.user === loggedUser._id).length ? 'solid' : 'regular'}
       />
-      <Text size={1.2}>{likes.length}</Text>
+      <Text size='small'>{likes.length}</Text>
     </StyledLikeButtonContainer>
   );
 }

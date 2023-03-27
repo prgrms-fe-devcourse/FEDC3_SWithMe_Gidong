@@ -80,9 +80,15 @@ function SignIn() {
           <Heading level={5}>로그인</Heading>
           <StyledDesc>
             <div>
-              <Text paragraph color={COLOR.DARK} size={2.1} weight={500}>
-                <Text color={COLOR.TAG_COLOR[0]}>로그인</Text>하여 <Text color={COLOR.TAG_COLOR[1]}>스윗미</Text>의
-                서비스를 즐겨보세요.
+              <Text paragraph color={COLOR.DARK} size='xLarge' weight={500}>
+                <Text color={COLOR.TAG_COLOR[0]} inherit>
+                  로그인
+                </Text>
+                하여{' '}
+                <Text color={COLOR.TAG_COLOR[1]} inherit>
+                  스윗미
+                </Text>
+                의 서비스를 즐겨보세요.
               </Text>
             </div>
             <Image src={imgLogin} width='20rem' />
@@ -114,7 +120,7 @@ function SignIn() {
             />
           </StyledLoginItem>
           <StyledSignUpNav>
-            <Text paragraph style={{ marginRight: '1rem', fontSize: '1.5rem' }}>
+            <Text paragraph size='medium'>
               계정이 없으신가요?
             </Text>
             <Button
@@ -247,4 +253,8 @@ const StyledSignUpNav = styled.div`
   align-items: center;
   width: 100%;
   padding-bottom: 4rem;
+
+  & > :first-child {
+    margin-right: 1rem;
+  }
 `;

@@ -12,15 +12,15 @@ function TILItem({ til }) {
   return (
     <StyledTILItem>
       <StyledDate>
-        <Text paragraph size={1.2} weight={300} color={COLOR.DARK}>
+        <Text paragraph size='small' weight={300} color={COLOR.DARK}>
           {createdAt.slice(0, 10)}
         </Text>
       </StyledDate>
       <StyledTILContent>
-        <Text strong paragraph size={2.4} lineHeight={1.2}>
+        <Text paragraph size='xxLarge' weight={600}>
           {title}
         </Text>
-        <Text paragraph size={1.8} weight={300} color={COLOR.DARK}>
+        <Text paragraph size='large' weight={300} color={COLOR.DARK}>
           {body}
         </Text>
         <StyledTagList>

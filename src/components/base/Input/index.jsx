@@ -57,7 +57,7 @@ function Input({
         {...props}
       />
       <StyledLabel>
-        <Text size={type === 'number' ? 0.9 : 1.2} weight={300}>
+        <Text size={type === 'number' ? 'xSmall' : 'small'} weight={300}>
           {label ? label : max ? value.length + ' / ' + max : ''}
         </Text>
       </StyledLabel>

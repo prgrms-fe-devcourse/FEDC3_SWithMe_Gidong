@@ -5,7 +5,7 @@ import { StyledTagItem } from './styles';
 function TagItem({ tag, onDeleteTagButtonClick, fontsize }) {
   return (
     <StyledTagItem>
-      <Text size={fontsize ? fontsize : 1} weight={300} color={COLOR.WHITE}>
+      <Text size={fontsize ? fontsize : 'xSmall'} weight={300} color={COLOR.WHITE}>
         {tag}
         {onDeleteTagButtonClick && (
           <Button

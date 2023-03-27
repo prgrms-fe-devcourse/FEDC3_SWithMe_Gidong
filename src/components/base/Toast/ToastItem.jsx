@@ -14,7 +14,7 @@ function ToastItem({ id, message, duration, onDone }) {
   return (
     <StyledToastItemContainer style={{ opacity: show ? 1 : 0 }}>
       <StyledProgressBar style={{ animationDuration: `${duration}ms` }} />
-      <Text size={1.6}>{message}</Text>
+      <Text size='medium'>{message}</Text>
     </StyledToastItemContainer>
   );
 }
