@@ -68,7 +68,7 @@ function AlarmModal({ visible, onClose }) {
   }, [alarms, clickedIndex.value]);
 
   return (
-    <StyledAlarmModal visible={visible} onClose={onClose} dimColor='transparent' hasChild={settingModalVisible}>
+    <StyledAlarmModal visible={visible} onClose={onClose} isDimTransparent hasChild={settingModalVisible}>
       <StyledHeaderContainer>
         <StyledHeaderItem onClick={() => setSettingModalVisible(true)}>
           <Heading level={6}>알림</Heading>
