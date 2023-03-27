@@ -1,14 +1,13 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { COLOR } from '@/styles/color';
 import { Heading, Image, Text, Icon } from '@/components/base';
 import { icCrown } from '@/assets/icons';
-import { imgUserAvatar } from '@/assets/images';
+import { imgDefaultAvatar, imgJoin } from '@/assets/images';
 import { useAuthContext } from '@/context/AuthProvider';
-import { css } from '@emotion/react';
-import { useState, useEffect } from 'react';
 import { useGroupContext } from '@/context/GroupProvider';
-import { imgJoin } from '@/assets/images';
+import { COLOR } from '@/styles/color';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const DISABLED_MESSAGE = {
   NEED_LOGIN: '로그인이 필요한 서비스입니다.',
@@ -66,8 +65,8 @@ function JoinGroup() {
           {name}
         </Heading>
         <StyledMaster>
-          <Image src={icCrown} width={5} alt='' />
-          <Image src={master.image ? master.image : imgUserAvatar} width={4} alt='' />
+          <Image src={icCrown} width='5rem' alt='' />
+          <Image src={master.image || imgDefaultAvatar} width='4rem' alt='' />
           <Text strong size={2.4}>
             {master.fullName}
           </Text>

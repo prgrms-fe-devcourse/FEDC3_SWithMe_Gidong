@@ -1,5 +1,4 @@
 import { getAlarms, updateSeenAlarm } from '@/api/alarm';
-import { imgDefaultAvatar } from '@/assets/images';
 import { Heading, Icon, Text } from '@/components/base';
 import SettingModal from '@/components/domain/SettingModal';
 import useInput from '@/hooks/useInput';
@@ -93,7 +92,7 @@ function AlarmModal({ visible, onClose }) {
         ) : (
           filteredAlarms.map(({ _id, author, post, like, comment }) => (
             <StyledAlarm key={_id} onClick={() => handleAlarmClick(post)}>
-              <StyledAvatar src={author.image || imgDefaultAvatar} size={4} />
+              <StyledAvatar src={author.image} size='medium' />
               <StyledContentContainer>
                 <StyledContent size={1.6}>
                   {like

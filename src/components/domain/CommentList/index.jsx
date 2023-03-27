@@ -12,7 +12,7 @@ function CommentList({ comments }) {
             return (
               <div key={comment._id}>
                 <CommentItem comment={comment} />
-                {comments.length !== i + 1 && <Divider color={COLOR.GRAY} height={0.05} size={1} />}
+                {comments.length !== i + 1 && <Divider height='0.05rem' />}
               </div>
             );
           })}

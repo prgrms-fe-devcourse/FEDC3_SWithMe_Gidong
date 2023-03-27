@@ -24,7 +24,7 @@ function SettingModal({ visible, onClose, clickedIndex, onReadAll }) {
             </StyledFilterTab>
           ))}
         </StyledFilterTabContainer>
-        <Divider type='horizontal' color={COLOR.GRAY} height={0.05} size={1} />
+        <Divider type='horizontal' height='0.05rem' />
         <StyledButton as='span' onClick={handleReadAll}>
           전체 읽음 처리
         </StyledButton>

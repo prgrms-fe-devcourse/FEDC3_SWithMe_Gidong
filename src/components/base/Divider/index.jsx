@@ -1,19 +1,16 @@
+import { COLOR } from '@/styles/color';
+import PropTypes from 'prop-types';
 import { Line } from './styles';
 
-const Divider = ({
-  type = 'horizontal', // horizontal, vertical
-  size = 0.8,
-  color,
-  height,
-  ...props
-}) => {
-  const dividerStyle = {
-    margin: type === 'vertical' ? `0 ${size}rem` : `${size}rem 0`,
-    backgroundColor: color,
-    height: `${height}rem`,
-  };
+function Divider({ type = 'horizontal', margin, color = COLOR.GRAY, height = '1rem', ...props }) {
+  return <Line className={type} color={color} margin={margin} height={height} style={{ ...props.style }} />;
+}
 
-  return <Line {...props} className={type} style={{ ...dividerStyle, ...props.style }} />;
+Divider.propTypes = {
+  type: PropTypes.oneOf(['horizontal', 'vertical']),
+  margin: PropTypes.number,
+  color: PropTypes.string,
+  height: PropTypes.string,
 };
 
 export default Divider;
