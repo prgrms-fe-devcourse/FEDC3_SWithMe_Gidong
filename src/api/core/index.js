@@ -30,12 +30,14 @@ const axiosInstance = createAxiosInstance(API_BASE_URL, (config) => {
   if (config.headers && token) {
     config.headers['Authorization'] = `bearer ${token}`;
   }
+  return config;
 });
 
 const axiosAdminInstance = createAxiosInstance(API_BASE_URL, (config) => {
   if (config.headers) {
     config.headers['Authorization'] = VITE_TOKEN;
   }
+  return config;
 });
 
 export { axiosInstance, axiosAdminInstance };
