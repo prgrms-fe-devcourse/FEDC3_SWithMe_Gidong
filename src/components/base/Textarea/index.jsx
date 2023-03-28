@@ -1,5 +1,6 @@
 import { Text } from '@/components/base';
-import { StyledTextareaContainer, StyledLabel, StyledTextarea } from './styles';
+import PropTypes from 'prop-types';
+import { StyledLabel, StyledTextarea, StyledTextareaContainer } from './styles';
 
 function Textarea({
   value = '',
@@ -8,13 +9,11 @@ function Textarea({
   max,
   label,
   block = false,
-  invalid = false,
   required = false,
   disabled = false,
   readonly = false,
-  resize = false,
+  needBorder = false,
   handleParentChange,
-  wrapperProps,
   ...props
 }) {
   const handleChange = (e) => {
@@ -38,18 +37,17 @@ function Textarea({
   };
 
   return (
-    <StyledTextareaContainer block={block} {...wrapperProps}>
+    <StyledTextareaContainer block={block}>
       <StyledTextarea
-        invalid={invalid}
         required={required}
         disabled={disabled}
         readOnly={readonly}
-        resize={resize}
         placeholder={placeholder}
         value={value}
-        onChange={(e) => handleChange(e)}
-        onKeyDown={(e) => handleKeyDown(e)}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
         maxLength={max}
+        needBorder={needBorder}
         {...props}
       />
       <StyledLabel>
@@ -60,5 +58,19 @@ function Textarea({
     </StyledTextareaContainer>
   );
 }
+
+Textarea.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+  placeholer: PropTypes.string,
+  max: PropTypes.number,
+  label: PropTypes.string,
+  block: PropTypes.bool,
+  required: PropTypes.bool,
+  disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
+  needBorder: PropTypes.bool,
+  handleParentChange: PropTypes.func,
+};
 
 export default Textarea;

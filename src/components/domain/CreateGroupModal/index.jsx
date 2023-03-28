@@ -138,8 +138,6 @@ function CreateGroupModal({ visible, onClose, ...props }) {
                 onChange={intro.onChange}
                 placeholder='그룹을 소개하는 글을 작성해주세요.'
                 max={300}
-                wrapperProps={{ style: { width: '100%' } }}
-                style={{ fontSize: '1.2rem', height: '16rem' }}
               />
             </>
           ) : (

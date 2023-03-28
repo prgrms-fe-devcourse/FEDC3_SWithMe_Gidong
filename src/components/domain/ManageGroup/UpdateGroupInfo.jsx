@@ -115,7 +115,6 @@ function UpdateGroupInfo({ group, setGroup }) {
           onChange={intro.onChange}
           placeholder='그룹을 소개하는 글을 작성해주세요.'
           max={300}
-          wrapperProps={{ style: { width: '100%' } }}
         />
       </StyledGroupInfo>
       <StyledUpdateButton disabled={!isInfoChanged} isInfoChanged={isInfoChanged} onClick={handleSubmit}>
