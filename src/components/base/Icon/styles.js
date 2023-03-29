@@ -17,7 +17,7 @@ export const Icon = styled.i`
     -webkit-text-fill-color: transparent;
 
     &:hover {
-      ${({ theme }) => `linear-gradient(to top, ${theme.colors.main_400}, ${theme.colors.main_900})`}
+      background: ${({ theme }) => `linear-gradient(to top, ${theme.colors.main_400}, ${theme.colors.main_900})`};
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
