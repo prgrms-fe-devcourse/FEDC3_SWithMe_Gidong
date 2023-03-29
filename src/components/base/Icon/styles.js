@@ -6,18 +6,18 @@ const SizeToCssValue = {
   large: '3rem',
 };
 
-export const StyledIcon = styled.i`
+export const Icon = styled.i`
   font-size: ${({ size }) => SizeToCssValue[size]};
   cursor: ${({ isPointer }) => (isPointer ? 'pointer' : undefined)};
   color: ${({ color }) => color};
 
   &.heart {
-    background: linear-gradient(to top, #fba194, #f6416c);
+    background: ${({ theme }) => `linear-gradient(to top, ${theme.colors.main_300}, ${theme.colors.main_800})`};
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 
     &:hover {
-      background: linear-gradient(to top, #ff8d7b, #ff3161);
+      ${({ theme }) => `linear-gradient(to top, ${theme.colors.main_400}, ${theme.colors.main_900})`}
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
