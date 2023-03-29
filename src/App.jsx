@@ -10,9 +10,12 @@ import UserProvider from '@/context/UserProvider';
 import { useAsync } from '@/hooks';
 import Router from '@/Router';
 import GlobalStyle from '@/styles/globalStyle';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useCallback } from 'react';
 
 function App() {
+  const queryClient = new QueryClient();
   const initialGroups = useAsync(getChannelList, []);
   const initialUsers = useAsync(getAllUsers, []);
   const handleCreateGroup = useCallback(async (data) => {
@@ -26,7 +29,7 @@ function App() {
   });
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <GlobalStyle />
       <ToastProvider>
         <AuthProvider>
@@ -47,7 +50,8 @@ function App() {
           </UserProvider>
         </AuthProvider>
       </ToastProvider>
-    </>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 
