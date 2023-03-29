@@ -1,10 +1,9 @@
 import { axiosAdminInstance, axiosInstance } from '@/api/core/index';
 
-export const getChannelList = async () => {
+export const getGroupList = async () => {
   try {
     const response = await axiosInstance.get(`/channels`);
-    const channelList = response.map((channel) => ({ ...channel, description: JSON.parse(channel.description) }));
-    return channelList;
+    return response;
   } catch (error) {
     console.error(error);
   }
