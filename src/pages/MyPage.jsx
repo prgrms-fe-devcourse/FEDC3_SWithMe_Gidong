@@ -137,15 +137,7 @@ function MyPage() {
           <Text block size={2}>
             이메일
           </Text>
-          <Input
-            type='text'
-            value={values.email}
-            block
-            readOnly
-            style={{
-              borderBottom: 'none',
-            }}
-          />
+          <Input value={values.email} block readOnly />
         </StyledMyInfoItem>
         <StyledMyInfoItem>
           <Text block size={2}>

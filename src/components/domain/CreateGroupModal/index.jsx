@@ -90,16 +90,7 @@ function CreateGroupModal({ visible, onClose, ...props }) {
               <Text size={3} weight={300}>
                 우리 그룹 이름은
               </Text>
-              <Input
-                type='text'
-                value={groupName.value}
-                onChange={groupName.onChange}
-                max={15}
-                block
-                required
-                wrapperProps={{ style: { width: '100%' } }}
-                style={{ fontSize: '3rem' }}
-              />
+              <Input value={groupName.value} onChange={groupName.onChange} max={15} block required fontSize='large' />
               <Text size={3} weight={300}>
                 입니다.
               </Text>
@@ -120,8 +111,7 @@ function CreateGroupModal({ visible, onClose, ...props }) {
                   onChange={headCount.onChange}
                   max={50}
                   required
-                  wrapperProps={{ style: { width: '4rem', margin: '0 1rem' } }}
-                  style={{ fontSize: '3rem' }}
+                  size='large'
                 />
                 <Text size={3} weight={300}>
                   명까지예요.

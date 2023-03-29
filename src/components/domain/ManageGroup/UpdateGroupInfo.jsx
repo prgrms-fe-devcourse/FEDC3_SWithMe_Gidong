@@ -84,7 +84,7 @@ function UpdateGroupInfo({ group, setGroup }) {
         <Text block size={2}>
           그룹명
         </Text>
-        <Input type='text' value={groupName.value} onChange={groupName.onChange} max={15} block required />
+        <Input value={groupName.value} onChange={groupName.onChange} max={15} block required />
       </StyledGroupInfo>
       <StyledGroupInfo>
         <Text block size={2}>
@@ -93,7 +93,7 @@ function UpdateGroupInfo({ group, setGroup }) {
         <Input
           type='number'
           block
-          label={`최대 2~50명`}
+          label='최대 2~50명'
           value={headCount.value}
           onChange={headCount.onChange}
           max={50}
