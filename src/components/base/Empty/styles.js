@@ -1,13 +1,12 @@
 import styled from '@emotion/styled';
-import { COLOR } from '@/styles/color';
 
-const StyledEmpty = styled.div`
+const Empty = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
 
   padding: 8rem 0;
-  color: ${COLOR.DARK};
+  color: ${({ theme }) => theme.colors.black_800};
 `;
 
-export { StyledEmpty };
+export { Empty };

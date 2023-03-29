@@ -1,10 +1,10 @@
 import { Image, Text } from '@/components/base';
 import PropTypes from 'prop-types';
-import { StyledEmpty } from './styles';
+import * as S from './styles';
 
 function Empty({ src, imageWidth, imageHeight, mainText, subText, ...props }) {
   return (
-    <StyledEmpty>
+    <S.Empty>
       <Image src={src} width={imageWidth} height={imageHeight} alt={subText} />
       <Text strong paragraph size={2} lineHeight={2}>
         {mainText}
@@ -12,7 +12,7 @@ function Empty({ src, imageWidth, imageHeight, mainText, subText, ...props }) {
       <Text paragraph size={2}>
         {subText}
       </Text>
-    </StyledEmpty>
+    </S.Empty>
   );
 }
 
