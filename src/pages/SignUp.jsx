@@ -83,7 +83,7 @@ function SignUp() {
   if (isLoading) {
     return (
       <StyledSpinnerWrapper>
-        <Spinner size={64} />
+        <Spinner size='huge' />
       </StyledSpinnerWrapper>
     );
   }

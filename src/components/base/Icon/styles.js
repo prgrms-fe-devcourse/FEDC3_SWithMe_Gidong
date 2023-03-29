@@ -4,6 +4,8 @@ const SizeToCssValue = {
   small: '1.4rem',
   medium: '2rem',
   large: '3rem',
+  xLarge: '4rem',
+  huge: '6.4rem',
 };
 
 export const StyledIcon = styled.i`

@@ -60,7 +60,7 @@ function TILList({ groupId, groupName }) {
   return (
     <>
       {isLoading ? (
-        <Spinner size={40} color={COLOR.TAG_COLOR[1]} />
+        <Spinner size='xLarge' color={COLOR.TAG_COLOR[1]} />
       ) : (
         <>
           <StyledTILList>
