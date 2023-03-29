@@ -1,6 +1,6 @@
 import { ko } from 'date-fns/esm/locale';
 import { useEffect, useState } from 'react';
-import { StyledDatePicker } from './styles';
+import * as S from './styles';
 
 function Calendar({ onChange }) {
   const [startDate, setStartDate] = useState(new Date());
@@ -17,7 +17,7 @@ function Calendar({ onChange }) {
   }, [startDate]);
 
   return (
-    <StyledDatePicker
+    <S.DatePicker
       selected={startDate}
       locale={ko}
       disabledKeyboardNavigation
