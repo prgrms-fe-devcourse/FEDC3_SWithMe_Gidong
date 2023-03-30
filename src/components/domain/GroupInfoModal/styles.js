@@ -37,6 +37,11 @@ const StyledMemberListContainerLabel = styled.div`
   align-items: center;
   width: 100%;
   margin: 3rem 0 1rem 0;
+
+  & > div:first-of-type {
+    width: 30rem;
+    margin-left: 1rem;
+  }
 `;
 
 const StyledButtonWrapper = styled.div`

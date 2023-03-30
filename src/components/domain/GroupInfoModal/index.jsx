@@ -95,9 +95,7 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
             placeholder='찾고 싶은 그룹원의 이름을 검색하세요.'
             value={value}
             onChange={onChange}
-            wrapperProps={{ style: { width: '30rem', marginLeft: '1rem' } }}
-            iconProps={{ size: 'medium', color: COLOR.DARK }}
-            style={{ fontSize: '1.8rem' }}
+            // wrapperProps={{ style: { width: '30rem', marginLeft: '1rem' } }}
           />
           <Text color={COLOR.GRAY2} size={1.6}>
             <Icon type='regular' name='face-smile' size='small' /> : 오늘 TIL 작성자

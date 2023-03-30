@@ -44,13 +44,14 @@ function Input({
   };
 
   return (
-    <StyledInputContainer block={block}>
+    <StyledInputContainer block={block} size={size}>
       <StyledInput
         type='text'
         placeholder={placeholder}
         invalid={invalid}
         required={required}
         disabled={disabled}
+        readonly={readonly}
         readOnly={readonly}
         max={max ? max : 'none'}
         value={type === 'number' ? (parseInt(value) ? parseInt(value) : 0) : value}

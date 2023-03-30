@@ -1,6 +1,12 @@
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 
+const FontSizeToCssValue = {
+  small: '1.4rem',
+  medium: '1.6rem',
+  large: '3rem',
+};
+
 const StyledInputContainer = styled.div`
   position: relative;
   display: flex;
@@ -9,9 +15,10 @@ const StyledInputContainer = styled.div`
 
 const StyledInput = styled.input`
   width: 100%;
+  font-size: ${({ fontSize }) => FontSizeToCssValue[fontSize]};
   border: none;
   outline: none;
-  border-bottom: 0.3rem solid ${({ invalid }) => (invalid ? COLOR.RED : COLOR.GRAY)};
+  border-bottom: ${({ readonly, invalid }) => (readonly ? 'none' : `0.1rem solid ${invalid ? COLOR.RED : COLOR.GRAY}`)};
   box-sizing: border-box;
 `;
 

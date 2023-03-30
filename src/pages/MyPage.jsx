@@ -137,7 +137,7 @@ function MyPage() {
           <Text block size={2}>
             이메일
           </Text>
-          <Input value={values.email} block readOnly />
+          <Input value={values.email} block readonly />
         </StyledMyInfoItem>
         <StyledMyInfoItem>
           <Text block size={2}>

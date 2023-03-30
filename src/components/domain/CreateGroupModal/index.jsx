@@ -111,7 +111,8 @@ function CreateGroupModal({ visible, onClose, ...props }) {
                   onChange={headCount.onChange}
                   max={50}
                   required
-                  size='large'
+                  fontSize='large'
+                  size='medium'
                 />
                 <Text size={3} weight={300}>
                   명까지예요.

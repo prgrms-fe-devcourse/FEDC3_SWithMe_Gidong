@@ -15,7 +15,8 @@ const FontSizeToCssValue = {
 const StyledInputContainer = styled.div`
   position: relative;
   display: ${({ block }) => (block ? 'block' : 'inline-block')};
-  margin: 1rem 0 2rem 0;
+  margin: ${({ size }) => (size !== 'full' ? '1rem 1rem 2rem 1rem' : '1rem 0 2rem')};
+  width: ${({ block, size }) => (block ? '100%' : SizeToCssValue[size])};
 `;
 
 const StyledLabel = styled.label`
@@ -31,9 +32,9 @@ const StyledInput = styled.input`
   font-size: ${({ fontSize }) => FontSizeToCssValue[fontSize]};
   border: none;
   outline: none;
-  border-bottom: ${({ readonly }) =>
-    readonly ? 'none' : `0.1rem solid ${({ invalid }) => (invalid ? COLOR.RED : COLOR.GRAY)}`};
+  border-bottom: ${({ readonly, invalid }) => (readonly ? 'none' : `0.1rem solid ${invalid ? COLOR.RED : COLOR.GRAY}`)};
   box-sizing: border-box;
+  background-color: transparent;
 
   ${({ size }) =>
     size === 'medium' &&

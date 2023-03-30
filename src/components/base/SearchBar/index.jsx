@@ -1,8 +1,9 @@
 import { Icon, Text } from '@/components/base';
 import { memo } from 'react';
 import { StyledInputContainer, StyledInput, StyledLabel } from './styles';
+import PropTypes from 'prop-types';
 
-const SearchBar = ({
+function SearchBar({
   type = 'text',
   value = '',
   placeholder = '',
@@ -13,14 +14,13 @@ const SearchBar = ({
   max,
   min,
   label,
-  icon = true,
+  hasIcon = true,
   onChange,
-  iconProps,
-  wrapperProps,
+  fontSize = 'medium',
   ...props
-}) => {
+}) {
   return (
-    <StyledInputContainer {...wrapperProps}>
+    <StyledInputContainer>
       <StyledInput
         type={type}
         placeholder={placeholder}
@@ -32,9 +32,10 @@ const SearchBar = ({
         min={min ? min : 'none'}
         value={type === 'number' ? (parseInt(value) ? parseInt(value) : 0) : value}
         onChange={(e) => onChange(e.target.value)}
+        fontSize={fontSize}
         {...props}
       />
-      {icon ? <Icon name='search' {...iconProps} /> : null}
+      {hasIcon ? <Icon name='search' size={fontSize} /> : null}
       <StyledLabel>
         <Text size={type === 'number' ? 0.9 : 1.2} weight={300}>
           {label ? label : max ? value.length + ' / ' + max : ''}
@@ -42,6 +43,22 @@ const SearchBar = ({
       </StyledLabel>
     </StyledInputContainer>
   );
+}
+
+SearchBar.propTypes = {
+  type: PropTypes.oneOf(['text', 'number']),
+  value: PropTypes.string,
+  placeholder: PropTypes.string,
+  invalid: PropTypes.bool,
+  required: PropTypes.bool,
+  disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
+  max: PropTypes.number,
+  min: PropTypes.number,
+  label: PropTypes.string,
+  hasIcon: PropTypes.bool,
+  onChange: PropTypes.func,
+  fontSize: PropTypes.oneOf(['small', 'medium', 'large']),
 };
 
 export default memo(SearchBar);
