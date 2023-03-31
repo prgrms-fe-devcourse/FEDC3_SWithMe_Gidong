@@ -5,6 +5,7 @@ import { useGroupContext } from '@/context/GroupProvider';
 import { useUserContext } from '@/context/UserProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
+import theme from '@/styles/theme';
 import { useEffect, useState } from 'react';
 import {
   StyledButtonWrapper,
@@ -114,13 +115,10 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
         )}
         {loggedUser._id !== masterId && (
           <StyledButtonWrapper>
-            <Button
-              as='button'
-              bgcolor='transpaent'
-              color={COLOR.GRAY2}
-              style={{ padding: 0, textDecoration: 'underline' }}
-              onClick={handleWithdrawButtonClick}>
-              그룹 탈퇴하기
+            <Button version='transparent' onClick={handleWithdrawButtonClick}>
+              <Text color={theme.colors.black_400} underline>
+                그룹 탈퇴하기
+              </Text>
             </Button>
           </StyledButtonWrapper>
         )}

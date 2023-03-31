@@ -1,9 +1,9 @@
-import { Heading, Input, TagInput, Text, Textarea } from '@/components/base';
+import { Button, Heading, Input, TagInput, Text, Textarea } from '@/components/base';
 import { useGroupContext } from '@/context/GroupProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import useInput from '@/hooks/useInput';
 import { useEffect, useState } from 'react';
-import { StyledGroupBox, StyledGroupInfo, StyledUpdateButton } from './styles';
+import { StyledGroupBox, StyledGroupInfo } from './styles';
 
 const ALERT_MESSAGE = {
   GROUP_NAME: '그룹명은 한 글자 이상이어야 합니다.',
@@ -118,9 +118,9 @@ function UpdateGroupInfo({ group, setGroup }) {
           wrapperProps={{ style: { width: '100%' } }}
         />
       </StyledGroupInfo>
-      <StyledUpdateButton disabled={!isInfoChanged} isInfoChanged={isInfoChanged} onClick={handleSubmit}>
+      <Button size='large' version='primary' shape='round' disabled={!isInfoChanged} onClick={handleSubmit}>
         수정
-      </StyledUpdateButton>
+      </Button>
     </StyledGroupBox>
   );
 }

@@ -114,19 +114,18 @@ function TILEditor() {
           </div>
           <div>
             <Button
-              as='button'
-              style={{ fontSize: '2.2rem', padding: '1.3rem 7rem', borderRadius: '1rem' }}
-              round={+true}
+              version='grayInverted'
+              fontSize='xLarge'
+              size='full'
+              shape='round'
               onClick={handleCancelButtonClick}>
               취소
             </Button>
             <Button
-              as='button'
+              fontSize='xLarge'
+              size='full'
+              shape='round'
               disabled={!ableSubmit}
-              bgcolor={!ableSubmit ? COLOR.GRAY : COLOR.PRIMARY_BTN}
-              color={!ableSubmit ? COLOR.DARK : COLOR.WHITE}
-              style={{ fontSize: '2.2rem', padding: '1.3rem 7rem', borderRadius: '1rem', marginLeft: '1rem' }}
-              round={+true}
               onClick={handleSubmitButtonClick}>
               {editMode}
             </Button>
@@ -183,7 +182,7 @@ const StyledFooterContanier = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    flex: 1 1 40rem;
+    flex: 1 1 50rem;
 
     & > div:first-of-type {
       width: 100%;
@@ -194,6 +193,8 @@ const StyledFooterContanier = styled.div`
     display: flex;
     justify-content: flex-end;
     flex: 1 1 40rem;
+
+    gap: 3rem;
   }
 `;
 

@@ -3,7 +3,6 @@ import { useAuthContext } from '@/context/AuthProvider';
 import { useGroupContext } from '@/context/GroupProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import useInput from '@/hooks/useInput';
-import { COLOR } from '@/styles/color';
 import { useState } from 'react';
 import { StyledButtonContainer, StyledContentContainer, StyledHeaderContainer, StyledModal } from './styles';
 
@@ -147,20 +146,10 @@ function CreateGroupModal({ visible, onClose, ...props }) {
         </StyledContentContainer>
       )}
       <StyledButtonContainer>
-        <Button
-          as='button'
-          style={{ fontSize: '1.8rem', width: '12rem', height: '4rem' }}
-          round={+true}
-          onClick={handlePrevButtonClick}>
+        <Button fontSize='large' version='primary' size='full' shape='round' onClick={handlePrevButtonClick}>
           이전
         </Button>
-        <Button
-          as='button'
-          bgcolor={COLOR.PRIMARY_BTN}
-          color={COLOR.WHITE}
-          style={{ fontSize: '1.8rem', width: '12rem', height: '4rem' }}
-          round={+true}
-          onClick={handleNextButtonClick}>
+        <Button fontSize='large' version='primary' size='full' shape='round' onClick={handleNextButtonClick}>
           {step === MAX_STEP_SIZE ? '완료' : '다음'}
         </Button>
       </StyledButtonContainer>
