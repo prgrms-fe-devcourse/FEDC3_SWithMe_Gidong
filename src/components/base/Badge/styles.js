@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 
-const BadgeContainer = styled.div`
+export const BadgeContainer = styled.div`
   position: relative;
   display: inline-block;
 `;
 
-const Super = styled.sup`
+export const Super = styled.sup`
   position: absolute;
   top: 0;
   right: 0;
@@ -29,5 +29,3 @@ const Super = styled.sup`
     right: 0.3rem;
   }
 `;
-
-export { BadgeContainer, Super };
