@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { COLOR } from '@/styles/color';
 
 const ShapeToCssValue = {
   circle: '50%',
@@ -16,10 +15,10 @@ export const SizeToCssValue = {
 const AvatarWrapper = styled.div`
   position: relative;
   display: inline-block;
-  border: 1px solid ${COLOR.AVATAR_WRAPPER_BORDER};
+  border: 1px solid ${({ theme }) => theme.colors.white_100};
   border-radius: ${({ shape }) => ShapeToCssValue[shape]};
   overflow: hidden;
-  background-color: ${COLOR.AVATAR_WRAPPER_BG};
+  background-color: ${({ theme }) => theme.colors.white_400};
   width: ${({ size }) => SizeToCssValue[size]};
   height: ${({ size }) => SizeToCssValue[size]};
   flex: none;

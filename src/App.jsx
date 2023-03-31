@@ -10,6 +10,8 @@ import UserProvider from '@/context/UserProvider';
 import { useAsync } from '@/hooks';
 import Router from '@/Router';
 import GlobalStyle from '@/styles/globalStyle';
+import { ThemeProvider } from '@emotion/react';
+import theme from '@/styles/theme';
 import { useCallback } from 'react';
 
 function App() {
@@ -28,25 +30,27 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <ToastProvider>
-        <AuthProvider>
-          <UserProvider initialUsers={initialUsers}>
-            <GroupProvider
-              initialGroups={initialGroups}
-              handleCreateGroup={handleCreateGroup}
-              handleUpdateGroup={handleUpdateGroup}
-              handleDeleteGroup={handleDeleteGroup}>
-              <TILProvider>
-                <CommentProvider>
-                  <LikeProvider>
-                    <Router />
-                  </LikeProvider>
-                </CommentProvider>
-              </TILProvider>
-            </GroupProvider>
-          </UserProvider>
-        </AuthProvider>
-      </ToastProvider>
+      <ThemeProvider theme={theme}>
+        <ToastProvider>
+          <AuthProvider>
+            <UserProvider initialUsers={initialUsers}>
+              <GroupProvider
+                initialGroups={initialGroups}
+                handleCreateGroup={handleCreateGroup}
+                handleUpdateGroup={handleUpdateGroup}
+                handleDeleteGroup={handleDeleteGroup}>
+                <TILProvider>
+                  <CommentProvider>
+                    <LikeProvider>
+                      <Router />
+                    </LikeProvider>
+                  </CommentProvider>
+                </TILProvider>
+              </GroupProvider>
+            </UserProvider>
+          </AuthProvider>
+        </ToastProvider>
+      </ThemeProvider>
     </>
   );
 }
