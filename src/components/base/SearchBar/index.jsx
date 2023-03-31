@@ -1,6 +1,6 @@
 import { Icon, Text } from '@/components/base';
 import { memo } from 'react';
-import { StyledInputContainer, StyledInput, StyledLabel } from './styles';
+import * as S from './styles';
 import PropTypes from 'prop-types';
 
 function SearchBar({
@@ -20,8 +20,8 @@ function SearchBar({
   ...props
 }) {
   return (
-    <StyledInputContainer>
-      <StyledInput
+    <S.Container>
+      <S.Input
         type={type}
         placeholder={placeholder}
         invalid={invalid}
@@ -36,12 +36,12 @@ function SearchBar({
         {...props}
       />
       {hasIcon ? <Icon name='search' size={fontSize} /> : null}
-      <StyledLabel>
+      <S.Label>
         <Text size={type === 'number' ? 0.9 : 1.2} weight={300}>
           {label ? label : max ? value.length + ' / ' + max : ''}
         </Text>
-      </StyledLabel>
-    </StyledInputContainer>
+      </S.Label>
+    </S.Container>
   );
 }
 

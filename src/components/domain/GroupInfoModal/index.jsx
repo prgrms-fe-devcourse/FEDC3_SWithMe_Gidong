@@ -91,12 +91,7 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
           </Text>
         )}
         <StyledMemberListContainerLabel>
-          <SearchBar
-            placeholder='찾고 싶은 그룹원의 이름을 검색하세요.'
-            value={value}
-            onChange={onChange}
-            // wrapperProps={{ style: { width: '30rem', marginLeft: '1rem' } }}
-          />
+          <SearchBar placeholder='찾고 싶은 그룹원의 이름을 검색하세요.' value={value} onChange={onChange} />
           <Text color={COLOR.GRAY2} size={1.6}>
             <Icon type='regular' name='face-smile' size='small' /> : 오늘 TIL 작성자
           </Text>

@@ -1,5 +1,5 @@
 import { Text } from '@/components/base';
-import { StyledInput, StyledInputContainer, StyledLabel } from './styles';
+import * as S from './styles';
 import PropTypes from 'prop-types';
 
 function Input({
@@ -44,8 +44,8 @@ function Input({
   };
 
   return (
-    <StyledInputContainer block={block} size={size}>
-      <StyledInput
+    <S.Container block={block} size={size}>
+      <S.Input
         type='text'
         placeholder={placeholder}
         invalid={invalid}
@@ -62,12 +62,12 @@ function Input({
         fontSize={fontSize}
         {...props}
       />
-      <StyledLabel>
+      <S.Label>
         <Text size={type === 'number' ? 0.9 : 1.2} weight={300}>
           {label ? label : max ? value.length + ' / ' + max : ''}
         </Text>
-      </StyledLabel>
-    </StyledInputContainer>
+      </S.Label>
+    </S.Container>
   );
 }
 

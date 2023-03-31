@@ -1,4 +1,3 @@
-import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
@@ -12,14 +11,14 @@ const FontSizeToCssValue = {
   large: '3rem',
 };
 
-const StyledInputContainer = styled.div`
+export const Container = styled.div`
   position: relative;
   display: ${({ block }) => (block ? 'block' : 'inline-block')};
   margin: ${({ size }) => (size !== 'full' ? '1rem 1rem 2rem 1rem' : '1rem 0 2rem')};
   width: ${({ block, size }) => (block ? '100%' : SizeToCssValue[size])};
 `;
 
-const StyledLabel = styled.label`
+export const Label = styled.label`
   display: block;
   position: absolute;
   bottom: -1.6rem;
@@ -27,12 +26,13 @@ const StyledLabel = styled.label`
   background-color: transparent;
 `;
 
-const StyledInput = styled.input`
+export const Input = styled.input`
   width: ${({ block, size }) => (block ? '100%' : SizeToCssValue[size])};
   font-size: ${({ fontSize }) => FontSizeToCssValue[fontSize]};
   border: none;
   outline: none;
-  border-bottom: ${({ readonly, invalid }) => (readonly ? 'none' : `0.1rem solid ${invalid ? COLOR.RED : COLOR.GRAY}`)};
+  border-bottom: ${({ readonly, invalid, theme }) =>
+    readonly ? 'none' : `0.1rem solid ${invalid ? theme.colors.red_900 : theme.colors.black_400}`};
   box-sizing: border-box;
   background-color: transparent;
 
@@ -42,5 +42,3 @@ const StyledInput = styled.input`
       margin: 0 1rem;
     `}
 `;
-
-export { StyledInputContainer, StyledLabel, StyledInput };
