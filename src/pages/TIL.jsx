@@ -224,16 +224,6 @@ const StyledWriterInfoContainer = styled.div`
   gap: 1rem;
 `;
 
-const StyledButtonContainer = styled.div`
-  display: flex;
-  gap: 1rem;
-  align-self: center;
-
-  & > span:hover {
-    text-decoration: underline;
-  }
-`;
-
 const StyledViewerWrapper = styled.div`
   padding: 1.6rem;
   margin: 3rem 0 1rem 0;
