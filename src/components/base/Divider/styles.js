@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-const Line = styled.hr`
+export const Line = styled.hr`
   border: none;
   border-top: ${({ color }) => `1px solid ${color}`};
 
@@ -17,5 +17,3 @@ const Line = styled.hr`
     height: ${({ height }) => height};
   }
 `;
-
-export { Line };

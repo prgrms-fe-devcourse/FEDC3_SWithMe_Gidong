@@ -1,9 +1,9 @@
-import { COLOR } from '@/styles/color';
+import theme from '@/styles/theme';
 import PropTypes from 'prop-types';
-import { Line } from './styles';
+import * as S from './styles';
 
-function Divider({ type = 'horizontal', margin, color = COLOR.GRAY, height = '1rem', ...props }) {
-  return <Line className={type} color={color} margin={margin} height={height} style={{ ...props.style }} />;
+function Divider({ type = 'horizontal', margin, color = theme.colors.black_800, height = '1rem', ...props }) {
+  return <S.Line className={type} color={color} margin={margin} height={height} style={{ ...props.style }} />;
 }
 
 Divider.propTypes = {

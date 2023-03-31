@@ -30,23 +30,25 @@ const colors = {
   whiteGray_600: '#919EAB',
 
   /* main */
-  main_900: '#F6416C',
-  main_800: '#F7456E',
-  main_700: '#F85575',
-  main_600: '#F78289',
-  main_500: '#FBA194',
-  main_400: '#CE9FFC',
-  main_300: '#9998DC',
-  main_200: '#9398DB',
+  main_900: '#FF3161',
+  main_800: '#F6416C',
+  main_700: '#F7456E',
+  main_600: '#F85575',
+  main_500: '#F78289',
+  main_400: '#FF8D7B',
+  main_300: '#FBA194',
+  main_200: '#CE9FFC',
   main_100: '#7B6CF2',
   main_50: '#7367F0',
 
   /* sub */
-  sub_900: '#558CF8',
-  sub_800: '#738DFA',
+  sub_900: '#5b7ce9',
+  sub_800: '#617CEB',
   sub_700: '#6082F5',
-  sub_600: '#617CEB',
-  sub_500: '#5b7ce9',
+  sub_600: '#558CF8',
+  sub_500: '#738DFA',
+  sub_400: '#9398DB',
+  sub_300: '#9998DC',
 
   /* red */
   red_900: '#FF0000',
