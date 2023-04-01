@@ -1,4 +1,5 @@
 import ToastItem from '@/components/base/Toast/ToastItem';
+import PropTypes from 'prop-types';
 import { StyledToast } from './styles';
 
 function Toast({ toasts, removeToast }) {
@@ -10,5 +11,10 @@ function Toast({ toasts, removeToast }) {
     </StyledToast>
   );
 }
+
+Toast.propTypes = {
+  toasts: PropTypes.array,
+  removeToast: PropTypes.func,
+};
 
 export default Toast;

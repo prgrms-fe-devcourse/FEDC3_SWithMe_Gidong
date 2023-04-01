@@ -148,14 +148,14 @@ function TIL() {
               )}
             </StyledHeader>
             <StyledTitleWrapper>
-              <Text size={3.2} weight={500}>
+              <Text size='huge' weight={500}>
                 {til.title.title}
               </Text>
             </StyledTitleWrapper>
             <StyledFlexContainer>
               <StyledWriterInfoContainer>
                 <Avatar src={til.author.image} />
-                <Text size={2} color={COLOR.DARK}>
+                <Text size='xLarge' color={COLOR.DARK}>
                   {til.author.fullName}
                 </Text>
               </StyledWriterInfoContainer>
@@ -166,9 +166,7 @@ function TIL() {
                 />
               )}
             </StyledFlexContainer>
-            <Text size={1.4} color={COLOR.DARK}>
-              {convertDate(new Date(til.createdAt))}
-            </Text>
+            <Text color={COLOR.DARK}>{convertDate(new Date(til.createdAt))}</Text>
             <StyledViewerWrapper>{<Viewer ref={viewerRef} initialValue={til.title.body || ''} />}</StyledViewerWrapper>
             <Tag tagList={til.title.tagList} />
             <Divider height='0.05rem' margin={4} />

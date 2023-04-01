@@ -67,13 +67,13 @@ function JoinGroup() {
         <StyledMaster>
           <Image src={icCrown} width='5rem' alt='' />
           <Image src={master.image || imgDefaultAvatar} width='4rem' alt='' />
-          <Text strong size={2.4}>
+          <Text size='xxLarge' weight={500}>
             {master.fullName}
           </Text>
         </StyledMaster>
         <div>
           <Icon name='user' size='medium' style={{ marginRight: '1rem' }} />
-          <Text strong size={2.4}>
+          <Text size='xxLarge' weight={500}>
             {member.length + 1}/{headCount}
           </Text>
         </div>
@@ -87,7 +87,7 @@ function JoinGroup() {
         <img src={imgJoin} alt='' />
       </StyledHeader>
       <StyledBody>
-        <Text paragraph size={1.8}>
+        <Text paragraph size='large'>
           {intro}
         </Text>
       </StyledBody>

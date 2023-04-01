@@ -47,6 +47,10 @@ const style = css`
     background-color: transparent;
   }
 
+  p {
+    line-height: 120%;
+  }
+
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,

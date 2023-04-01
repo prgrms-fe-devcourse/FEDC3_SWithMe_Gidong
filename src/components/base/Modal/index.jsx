@@ -1,4 +1,5 @@
 import useClickAway from '@/hooks/useClickAway';
+import PropTypes from 'prop-types';
 import { useCallback, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import { StyledBackgroundDim, StyledModalContainer } from './styles';
@@ -9,9 +10,9 @@ function Modal({
   height,
   visible = false,
   round = true,
-  dimColor = 'rgba(0, 0, 0, 0.5)',
   onClose,
   hasChild,
+  isDimTransparent = false,
   ...props
 }) {
   const ref = useClickAway(() => {
@@ -43,7 +44,7 @@ function Modal({
   }, [hasChild]);
 
   return ReactDOM.createPortal(
-    <StyledBackgroundDim style={{ display: visible ? 'block' : 'none' }} dimColor={dimColor}>
+    <StyledBackgroundDim style={{ display: visible ? 'block' : 'none' }} isDimTransparent={isDimTransparent}>
       <StyledModalContainer ref={ref} round={round} {...props} style={{ ...containerStyle, ...props.style }}>
         {children}
       </StyledModalContainer>
@@ -51,5 +52,16 @@ function Modal({
     modal,
   );
 }
+
+Modal.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+  width: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
+  height: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
+  visible: PropTypes.bool,
+  round: PropTypes.bool,
+  onClose: PropTypes.func.isRequired,
+  hasChild: PropTypes.bool,
+  isDimTransparent: PropTypes.bool,
+};
 
 export default Modal;

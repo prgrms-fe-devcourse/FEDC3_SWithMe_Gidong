@@ -18,7 +18,7 @@ function CommentList({ comments }) {
           })}
         </StyledCommentList>
       ) : (
-        <Text size={2} weight={300}>
+        <Text size='xLarge' weight={300}>
           아직 등록된 댓글이 없습니다. 댓글을 남겨 보세요!
         </Text>
       )}

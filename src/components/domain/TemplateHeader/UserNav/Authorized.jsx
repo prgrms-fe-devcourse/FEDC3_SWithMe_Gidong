@@ -24,7 +24,7 @@ const Authorized = () => {
     <>
       {alarmModalVisible && <AlarmModal visible={alarmModalVisible} onClose={() => setAlarmModalVisible(false)} />}
       <Icon name='users' size='medium' isPointer={true} onClick={() => navigate('/myGroup')} />
-      <Badge dot={!isLoading && data && data.length && data.some(({ seen }) => !seen)} bgColor={COLOR.ALARM_GREEN}>
+      <Badge dot={!isLoading && data && data.length > 0 && data.some(({ seen }) => !seen)} bgColor={COLOR.ALARM_GREEN}>
         <Icon name='bell' size='medium' isPointer={true} onClick={() => setAlarmModalVisible(true)} />
       </Badge>
       <Icon name='user' size='medium' isPointer={true} onClick={() => navigate('/myPage')} />
