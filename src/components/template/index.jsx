@@ -1,9 +1,7 @@
 import { Logo, SearchBar, UserNav } from '@/components/domain/TemplateHeader';
-import { COLOR } from '@/styles/color';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import * as S from './styles';
 
 function Template({ children }) {
   const headerRef = useRef(null);
@@ -28,57 +26,15 @@ function Template({ children }) {
   }, []);
 
   return (
-    <StyledTemplate>
-      <StyledHeaderContainer ref={headerRef} isFontWhite={isFontWhite} isScrolled={isScrolled}>
+    <S.Template>
+      <S.HeaderContainer ref={headerRef} isFontWhite={isFontWhite} isScrolled={isScrolled}>
         <Logo />
         <SearchBar />
         <UserNav />
-      </StyledHeaderContainer>
+      </S.HeaderContainer>
       {children}
-    </StyledTemplate>
+    </S.Template>
   );
 }
 
 export default Template;
-
-const StyledTemplate = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-
-const StyledHeaderContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  justify-content: space-between;
-  align-items: center;
-  top: 0;
-
-  z-index: 1;
-  position: fixed;
-
-  width: 100%;
-  height: 7rem;
-  background-color: transparent;
-  box-shadow: none;
-
-  ${({ isFontWhite }) =>
-    isFontWhite &&
-    css`
-      & button,
-      & i {
-        color: ${COLOR.WHITE};
-      }
-    `};
-
-  ${({ isScrolled }) =>
-    isScrolled &&
-    css`
-      background-color: ${COLOR.WHITE};
-      box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
-
-      & button,
-      & div > i {
-        color: black;
-      }
-    `};
-`;

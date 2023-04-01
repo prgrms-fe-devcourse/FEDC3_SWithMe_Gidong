@@ -1,8 +1,8 @@
-import { StyledButton } from './styles';
+import * as S from './styles';
 
 function Button({ children, as, bgcolor, color, round, disabled, onClick, ...props }) {
   return (
-    <StyledButton
+    <S.Button
       as={as || 'button'}
       bgcolor={bgcolor}
       color={color}
@@ -12,7 +12,7 @@ function Button({ children, as, bgcolor, color, round, disabled, onClick, ...pro
       disabled={disabled}
       {...props}>
       {children}
-    </StyledButton>
+    </S.Button>
   );
 }
 

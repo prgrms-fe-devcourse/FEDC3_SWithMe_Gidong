@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { StyledBadgeContainer, StyledSuper } from './styles';
+import * as S from './styles';
 
 function Badge({ children, count, maxCount, showZero, dot = false, bgColor, textColor, ...props }) {
   const colorStyle = {
@@ -9,20 +9,20 @@ function Badge({ children, count, maxCount, showZero, dot = false, bgColor, text
 
   let badge = null;
   if (count) {
-    badge = <StyledSuper style={colorStyle}>{maxCount && count > maxCount ? `${maxCount}+` : count}</StyledSuper>;
+    badge = <S.Super style={colorStyle}>{maxCount && count > maxCount ? `${maxCount}+` : count}</S.Super>;
   } else {
     if (count !== undefined) {
-      badge = showZero ? <StyledSuper style={colorStyle}>0</StyledSuper> : null;
+      badge = showZero ? <S.Super style={colorStyle}>0</S.Super> : null;
     } else if (dot) {
-      badge = <StyledSuper className='dot' style={colorStyle} />;
+      badge = <S.Super className='dot' style={colorStyle} />;
     }
   }
 
   return (
-    <StyledBadgeContainer {...props}>
+    <S.BadgeContainer {...props}>
       {children}
       {badge}
-    </StyledBadgeContainer>
+    </S.BadgeContainer>
   );
 }
 

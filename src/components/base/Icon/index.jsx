@@ -3,7 +3,7 @@ import * as S from './styles';
 
 function Icon({ type = 'solid', name = 'xmark', size = 'small', color, isPointer = false, className = '', ...props }) {
   return (
-    <S.StyledIcon
+    <S.Icon
       className={`${className} fa-${type} fa-${name} ${name}`}
       style={{ ...props.style }}
       size={size}
