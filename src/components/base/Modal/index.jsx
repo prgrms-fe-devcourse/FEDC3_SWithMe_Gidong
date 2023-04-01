@@ -44,10 +44,7 @@ function Modal({
   }, [hasChild]);
 
   return ReactDOM.createPortal(
-    <StyledBackgroundDim
-      style={{ display: visible ? 'block' : 'none' }}
-      // dimColor={dimColor}
-      isDimTransparent={isDimTransparent}>
+    <StyledBackgroundDim style={{ display: visible ? 'block' : 'none' }} isDimTransparent={isDimTransparent}>
       <StyledModalContainer ref={ref} round={round} {...props} style={{ ...containerStyle, ...props.style }}>
         {children}
       </StyledModalContainer>
