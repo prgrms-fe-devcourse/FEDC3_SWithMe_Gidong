@@ -1,8 +1,8 @@
-import { Heading, Text } from '@/components/base';
+import { Button, Heading, Text } from '@/components/base';
 import { useToastContext } from '@/context/ToastProvider';
-import { useNavigate } from 'react-router-dom';
-import { StyledDeleteButton, StyledGroupDelete } from './styles';
 import { useDeleteGroup } from '@/hooks/queries/group';
+import { useNavigate } from 'react-router-dom';
+import { StyledGroupDelete } from './styles';
 
 const TOAST_MESSAGE = {
   ALERT_GROUP_DELETE: '그룹이 삭제되었습니다.',
@@ -30,10 +30,12 @@ function GroupDelete({ groupId }) {
   return (
     <StyledGroupDelete>
       <Heading level={5}>그룹 삭제</Heading>
-      <Text paragraph strong size={1.6}>
+      <Text paragraph size='medium' weight={600}>
         한번 그룹을 삭제하면 다시 되돌릴 수 없습니다.
       </Text>
-      <StyledDeleteButton onClick={handleDeleteClick}>삭제</StyledDeleteButton>
+      <Button size='large' version='red' shape='round' onClick={handleDeleteClick}>
+        삭제
+      </Button>
     </StyledGroupDelete>
   );
 }

@@ -65,11 +65,11 @@ function GroupItem({ group, isLastGroup, openedGroupId, setOpenedGroupId }) {
         {!isOpened && master && (
           <>
             <div>
-              <Text color={COLOR.GRAY_30} size={1.8} weight={400}>
+              <Text color={COLOR.GRAY_30} size='large'>
                 <i className='fa-solid fa-crown'></i> {master.fullName}
               </Text>
               <Divider type='vertical' />
-              <Text color={COLOR.GRAY_30} size={1.8} weight={300}>
+              <Text color={COLOR.GRAY_30} size='large' weight={300}>
                 {intro}
               </Text>
             </div>

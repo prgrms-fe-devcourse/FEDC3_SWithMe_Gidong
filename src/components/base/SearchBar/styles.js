@@ -1,26 +1,31 @@
-import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 
-const StyledInputContainer = styled.div`
+const FontSizeToCssValue = {
+  small: '1.4rem',
+  medium: '1.6rem',
+  large: '3rem',
+};
+
+export const Container = styled.div`
   position: relative;
   display: flex;
   align-items: center;
 `;
 
-const StyledInput = styled.input`
+export const Input = styled.input`
   width: 100%;
+  font-size: ${({ fontSize }) => FontSizeToCssValue[fontSize]};
   border: none;
   outline: none;
-  border-bottom: 0.3rem solid ${({ invalid }) => (invalid ? COLOR.RED : COLOR.GRAY)};
+  border-bottom: ${({ readonly, invalid, theme }) =>
+    readonly ? 'none' : `0.1rem solid ${invalid ? theme.colors.red_900 : theme.colors.black_400}`};
   box-sizing: border-box;
 `;
 
-const StyledLabel = styled.label`
+export const Label = styled.label`
   display: block;
   position: absolute;
-  bottom: -1.6em;
+  bottom: -1.6rem;
   right: 0;
   background-color: transparent;
 `;
-
-export { StyledInputContainer, StyledInput, StyledLabel };

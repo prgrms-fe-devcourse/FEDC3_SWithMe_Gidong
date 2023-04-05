@@ -1,13 +1,13 @@
-import styled from '@emotion/styled';
-import { COLOR } from '@/styles/color';
-import { Text, Divider } from '@/components/base';
-import { imgHomeIllust } from '@/assets/images';
-import TILItem from '@/components/domain/TILItem';
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useCallback, useState, useRef } from 'react';
 import { getPostListByChannel } from '@/api/post';
-import { css } from '@emotion/react';
+import { imgHomeIllust } from '@/assets/images';
+import { Button, Divider, Text } from '@/components/base';
+import TILItem from '@/components/domain/TILItem';
 import { useGetGroupList } from '@/hooks/queries/group';
+import { COLOR } from '@/styles/color';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const navigate = useNavigate();
@@ -53,14 +53,16 @@ function Home() {
     <StyledHome>
       <StyledHeader>
         <StyledInfo>
-          <Text paragraph strong size={3.4} lineHeight={1.2}>
+          <Text paragraph size='huge' weight={600} color={COLOR.WHITE}>
             그룹을 생성하여 TIL을 공유하고,
             <br /> 서로 피드백을 나누자!
           </Text>
-          <Text paragraph size={2.2} weight={300}>
+          <Text paragraph size='xLarge' weight={300} color={COLOR.WHITE}>
             함께 공부해요. 스터디 윗미, 스윗미!
           </Text>
-          <button onClick={() => navigate('/myGroup')}>내 그룹 보러가기</button>
+          <Button version='main' size='large' shape='round' onClick={() => navigate('/myGroup')}>
+            내 그룹 보러가기
+          </Button>
         </StyledInfo>
         <img src={imgHomeIllust} alt='' />
       </StyledHeader>
@@ -115,28 +117,12 @@ const StyledInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  align-items: flex-start;
   gap: 2rem;
-  flex: 1 0 40rem;
-
-  min-width: 45rem;
-  /* width: fit-content; */
   padding: 10rem;
-
-  & > p {
-    min-width: 45rem;
-  }
 
   @media (max-width: 624px) {
     padding: 10rem 4rem;
-  }
-
-  & > button {
-    width: fit-content;
-    padding: 1.5rem;
-    border-radius: 3rem;
-    background-color: #f6416c;
-    font-size: 1.6rem;
-    color: white;
   }
 `;
 

@@ -1,12 +1,11 @@
-import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 
-const StyledBadgeContainer = styled.div`
+export const BadgeContainer = styled.div`
   position: relative;
   display: inline-block;
 `;
 
-const StyledSuper = styled.sup`
+export const Super = styled.sup`
   position: absolute;
   top: 0;
   right: 0;
@@ -16,8 +15,8 @@ const StyledSuper = styled.sup`
   padding: 0 0.8rem;
   font-size: 1.2rem;
   border-radius: 2rem;
-  color: white;
-  background-color: ${COLOR.RED};
+  color: ${({ theme }) => theme.colors.white_900};
+  background-color: ${({ theme }) => theme.colors.red_900};
   transform: translate(50%, -50%);
 
   &.dot {
@@ -30,5 +29,3 @@ const StyledSuper = styled.sup`
     right: 0.3rem;
   }
 `;
-
-export { StyledBadgeContainer, StyledSuper };

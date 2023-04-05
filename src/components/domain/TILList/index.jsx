@@ -4,7 +4,7 @@ import TILItem from '@/components/domain/TILItem';
 import { useTILContext } from '@/context/TILProvider';
 import { COLOR } from '@/styles/color';
 import { useCallback, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   StyledButtonWrapper,
   StyledFilter,
@@ -16,6 +16,8 @@ import {
 } from './styles';
 
 function TILList({ groupId, groupName }) {
+  const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState(false);
   const { tils, onShowTILByGroup } = useTILContext();
   const [isSortByLike, setIsSortByLike] = useState(false);
@@ -60,7 +62,7 @@ function TILList({ groupId, groupName }) {
   return (
     <>
       {isLoading ? (
-        <Spinner size={40} color={COLOR.TAG_COLOR[1]} />
+        <Spinner size='xLarge' color={COLOR.TAG_COLOR[1]} />
       ) : (
         <>
           <StyledTILList>
@@ -68,9 +70,9 @@ function TILList({ groupId, groupName }) {
               <>
                 <StyledFilterWrapper>
                   <div>
-                    <Text paragraph size={1.4} weight={400}>
+                    <Text paragraph>
                       전체{' '}
-                      <Text strong color={COLOR.TAG_COLOR[0]}>
+                      <Text weight={600} color={COLOR.TAG_COLOR[0]}>
                         {tils.length}
                       </Text>
                       개 결과
@@ -104,17 +106,15 @@ function TILList({ groupId, groupName }) {
               <Empty src={imgTIL} imageWidth='30rem' mainText='그룹에 TIL이 없습니다.' subText='TIL을 작성해보세요!' />
             )}
             <StyledButtonWrapper>
-              <Link to='/writeTIL' state={{ groupName, groupId }}>
-                <Button
-                  as='button'
-                  bgcolor={COLOR.PRIMARY_BTN}
-                  color={COLOR.WHITE}
-                  style={{ fontSize: '2.2rem', padding: '1.3rem 1.6rem', margin: '2rem', borderRadius: '1rem' }}
-                  round={+true}>
-                  <Icon name='circle-plus' style={{ marginRight: '1rem' }} />
-                  TIL 작성하기
-                </Button>
-              </Link>
+              <Button
+                fontSize='xLarge'
+                version='primary'
+                size='medium'
+                shape='round'
+                onClick={() => navigate('/writeTIL', { state: { groupName, groupId } })}>
+                <Icon name='circle-plus' size='medium' />
+                TIL 작성하기
+              </Button>
             </StyledButtonWrapper>
           </StyledTILList>
         </>

@@ -1,18 +1,23 @@
 import { Image, Text } from '@/components/base';
 import PropTypes from 'prop-types';
-import { StyledEmpty } from './styles';
+import * as S from './styles';
 
-function Empty({ src, imageWidth, imageHeight, mainText, subText, ...props }) {
+function Empty({ src, imageWidth, imageHeight, mainText, subText }) {
   return (
-    <StyledEmpty>
+    <S.Empty>
       <Image src={src} width={imageWidth} height={imageHeight} alt={subText} />
-      <Text strong paragraph size={2} lineHeight={2}>
+      <Text weight={700} paragraph size='xLarge'>
         {mainText}
       </Text>
-      <Text paragraph size={2}>
-        {subText}
-      </Text>
-    </StyledEmpty>
+      {subText && (
+        <>
+          <br />
+          <Text paragraph size='large'>
+            {subText}
+          </Text>
+        </>
+      )}
+    </S.Empty>
   );
 }
 

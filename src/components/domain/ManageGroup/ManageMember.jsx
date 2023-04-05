@@ -2,7 +2,6 @@ import { Heading, Icon, SearchBar } from '@/components/base';
 import { Member, MemberList } from '@/components/domain/groupInfo';
 import { useToastContext } from '@/context/ToastProvider';
 import useInput from '@/hooks/useInput';
-import { COLOR } from '@/styles/color';
 import { useNavigate } from 'react-router-dom';
 import { StyledManageMember, StyledGroupInfo } from './styles';
 import { usePutUpdateGroup } from '@/hooks/queries/group';
@@ -59,13 +58,7 @@ function ManageMember({ group, setGroup, member }) {
     <StyledManageMember>
       <Heading level={5}>그룹원 관리</Heading>
       <StyledGroupInfo>
-        <SearchBar
-          placeholder='찾고 싶은 그룹원의 이름을 검색하세요.'
-          value={value}
-          onChange={onChange}
-          iconProps={{ size: 'medium', color: COLOR.DARK }}
-          style={{ fontSize: '1.8rem', fontWeight: 100, borderBottom: `0.1rem solid ${COLOR.GRAY}` }}
-        />
+        <SearchBar placeholder='찾고 싶은 그룹원의 이름을 검색하세요.' value={value} onChange={onChange} />
       </StyledGroupInfo>
       <MemberList>
         {member &&

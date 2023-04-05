@@ -8,6 +8,8 @@ import UserProvider from '@/context/UserProvider';
 import { useAsync } from '@/hooks';
 import Router from '@/Router';
 import GlobalStyle from '@/styles/globalStyle';
+import theme from '@/styles/theme';
+import { ThemeProvider } from '@emotion/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
@@ -16,23 +18,25 @@ function App() {
   const initialUsers = useAsync(getAllUsers, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <ToastProvider>
-        <AuthProvider>
-          <UserProvider initialUsers={initialUsers}>
-            <TILProvider>
-              <CommentProvider>
-                <LikeProvider>
-                  <Router />
-                </LikeProvider>
-              </CommentProvider>
-            </TILProvider>
-          </UserProvider>
-        </AuthProvider>
-      </ToastProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <ToastProvider>
+          <AuthProvider>
+            <UserProvider initialUsers={initialUsers}>
+              <TILProvider>
+                <CommentProvider>
+                  <LikeProvider>
+                    <Router />
+                  </LikeProvider>
+                </CommentProvider>
+              </TILProvider>
+            </UserProvider>
+          </AuthProvider>
+        </ToastProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
 

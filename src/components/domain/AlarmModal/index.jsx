@@ -68,7 +68,7 @@ function AlarmModal({ visible, onClose }) {
   }, [alarms, clickedIndex.value]);
 
   return (
-    <StyledAlarmModal visible={visible} onClose={onClose} dimColor='transparent' hasChild={settingModalVisible}>
+    <StyledAlarmModal visible={visible} onClose={onClose} isDimTransparent hasChild={settingModalVisible}>
       <StyledHeaderContainer>
         <StyledHeaderItem onClick={() => setSettingModalVisible(true)}>
           <Heading level={6}>알림</Heading>
@@ -99,7 +99,7 @@ function AlarmModal({ visible, onClose }) {
                     ? `${author.fullName}님이 ${like.post.title.title}을(를) 좋아합니다.`
                     : `${author.fullName}님이 ${comment.post.title.title}에 남긴 댓글: ${comment.comment}`}
                 </StyledContent>
-                <Text size={1.2} color={COLOR.CREATEDAT}>
+                <Text size='small' color={COLOR.CREATEDAT}>
                   {convertDate(new Date(like ? like.post.updatedAt : comment.post.updatedAt))}
                 </Text>
               </StyledContentContainer>

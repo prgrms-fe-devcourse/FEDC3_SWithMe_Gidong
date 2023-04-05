@@ -28,6 +28,11 @@ const StyledButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0 15% 2rem;
+  gap: 6rem;
+
+  @media (max-width: 624px) {
+    gap: 3rem;
+  }
 `;
 
 export { StyledModal, StyledHeaderContainer, StyledContentContainer, StyledButtonContainer };

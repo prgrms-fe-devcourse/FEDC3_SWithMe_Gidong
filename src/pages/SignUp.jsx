@@ -83,7 +83,7 @@ function SignUp() {
   if (isLoading) {
     return (
       <StyledSpinnerWrapper>
-        <Spinner size={64} />
+        <Spinner size='huge' />
       </StyledSpinnerWrapper>
     );
   }
@@ -95,9 +95,15 @@ function SignUp() {
           <Heading level={5}>회원가입</Heading>
           <StyledDesc>
             <div>
-              <Text paragraph color={COLOR.DARK} size={2.1} weight={500}>
-                <Text color={COLOR.TAG_COLOR[0]}>회원가입</Text>하여 <Text color={COLOR.TAG_COLOR[1]}>스윗미</Text>의
-                서비스를 즐겨보세요.
+              <Text paragraph color={COLOR.DARK} size='xLarge' weight={500}>
+                <Text color={COLOR.TAG_COLOR[0]} inherit>
+                  회원가입
+                </Text>
+                하여{' '}
+                <Text color={COLOR.TAG_COLOR[1]} inherit>
+                  스윗미
+                </Text>
+                의 서비스를 즐겨보세요.
               </Text>
             </div>
             <Image src={imgLogin} width='20rem' />

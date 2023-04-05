@@ -82,7 +82,7 @@ function CommentItem({ comment }) {
       <StyledFlexContainer>
         <StyledWriterInfoContainer>
           <Avatar src={author.image} />
-          <Text size={2} color={COLOR.DARK}>
+          <Text size='xLarge' color={COLOR.DARK}>
             {author.fullName}
           </Text>
         </StyledWriterInfoContainer>
@@ -96,12 +96,12 @@ function CommentItem({ comment }) {
           />
         )}
       </StyledFlexContainer>
-      <Text size={1.2} color={COLOR.DARK}>
+      <Text size='small' color={COLOR.DARK}>
         {writtenTime}
       </Text>
       <StyledCommentWrapper>
         {!isAuthor(author._id, loggedUser._id) || mode === 'view' ? (
-          <Text size={1.8} color={COLOR.DARK}>
+          <Text size='large' color={COLOR.DARK}>
             {body}
           </Text>
         ) : (
@@ -109,8 +109,7 @@ function CommentItem({ comment }) {
             value={commentInput.value}
             placeholder='댓글을 입력하세요.'
             max={300}
-            wrapperProps={{ style: { width: '100%', border: `0.1rem solid ${COLOR.DARK}` } }}
-            style={{ fontSize: '1.2rem', height: '16rem' }}
+            needBorder
             handleParentChange={commentInput.onChange}
           />
         )}

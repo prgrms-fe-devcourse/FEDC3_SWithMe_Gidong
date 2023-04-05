@@ -6,9 +6,7 @@ function Introduction({ intro, containerProps, textProps, ...props }) {
     <StyledIntroductionContainer {...containerProps}>
       {intro ? (
         <StyledTextWrapper style={{ ...props.style }} {...props}>
-          <Text size={1.4} {...textProps}>
-            {intro}
-          </Text>
+          <Text {...textProps}>{intro}</Text>
         </StyledTextWrapper>
       ) : null}
     </StyledIntroductionContainer>

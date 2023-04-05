@@ -74,10 +74,7 @@ const SearchBar = () => {
         onChange={(e) => setSearchValue(e.target.value)}
         onKeyDown={(e) => onClickEnter(e)}
       />
-      <Button
-        bgcolor={COLOR.HEADER_SEARCHBAR_SUBMIT_BG}
-        style={{ width: '3rem', height: '3rem', padding: '0', marginRight: '2rem', borderRadius: '50%' }}
-        onClick={handleGroupSearch}>
+      <Button shape='circle' version='main' onClick={handleGroupSearch}>
         <Icon name='magnifying-glass' color={COLOR.WHITE} />
       </Button>
     </StyledHeaderSearchBar>

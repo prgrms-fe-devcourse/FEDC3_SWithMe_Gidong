@@ -4,6 +4,7 @@ import { useAuthContext } from '@/context/AuthProvider';
 import { useUserContext } from '@/context/UserProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
+import theme from '@/styles/theme';
 import { useEffect, useState } from 'react';
 import {
   StyledButtonWrapper,
@@ -82,30 +83,23 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
     <StyledModal visible={visible} onClose={handleModalClose} style={{ ...props.style }} {...props}>
       <StyledHeaderContainer>
         <span />
-        <Text size={3.4} weight={700}>
+        <Text size='huge' weight={700}>
           {name}
         </Text>
         <Icon size='large' isPointer={true} onClick={handleModalClose} />
       </StyledHeaderContainer>
       <StyledContentContainer>
-        <Tag tagList={tagList} fontsize={1.4} style={{ marginBottom: '1rem' }} />
+        <Tag tagList={tagList} fontsize='default' style={{ marginBottom: '1rem' }} />
         {intro ? (
           <Introduction intro={intro} />
         ) : (
-          <Text size={2} weight={300}>
+          <Text size='xLarge' weight={300}>
             그룹에 등록된 소개가 없습니다!
           </Text>
         )}
         <StyledMemberListContainerLabel>
-          <SearchBar
-            placeholder='찾고 싶은 그룹원의 이름을 검색하세요.'
-            value={value}
-            onChange={onChange}
-            wrapperProps={{ style: { width: '30rem', marginLeft: '1rem' } }}
-            iconProps={{ size: 'medium', color: COLOR.DARK }}
-            style={{ fontSize: '1.8rem' }}
-          />
-          <Text color={COLOR.GRAY2} size={1.6}>
+          <SearchBar placeholder='찾고 싶은 그룹원의 이름을 검색하세요.' value={value} onChange={onChange} />
+          <Text size='medium' color={COLOR.GRAY2}>
             <Icon type='regular' name='face-smile' size='small' /> : 오늘 TIL 작성자
           </Text>
         </StyledMemberListContainerLabel>
@@ -127,13 +121,10 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
         )}
         {loggedUser._id !== masterId && (
           <StyledButtonWrapper>
-            <Button
-              as='button'
-              bgcolor='transpaent'
-              color={COLOR.GRAY2}
-              style={{ padding: 0, textDecoration: 'underline' }}
-              onClick={handleWithdrawButtonClick}>
-              그룹 탈퇴하기
+            <Button version='transparent' onClick={handleWithdrawButtonClick}>
+              <Text color={theme.colors.black_400} underline>
+                그룹 탈퇴하기
+              </Text>
             </Button>
           </StyledButtonWrapper>
         )}

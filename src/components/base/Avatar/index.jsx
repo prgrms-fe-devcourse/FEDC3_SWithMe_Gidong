@@ -1,8 +1,8 @@
-import { Image as ImageComponent } from '@/components/base';
-import { useEffect, useState } from 'react';
-import { AvatarWrapper } from './styles';
-import PropTypes from 'prop-types';
 import { imgDefaultAvatar } from '@/assets/images';
+import { Image as ImageComponent } from '@/components/base';
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import * as S from './styles';
 import { SizeToCssValue } from './styles';
 
 function Avatar({
@@ -25,7 +25,7 @@ function Avatar({
   }, [src]);
 
   return (
-    <AvatarWrapper {...props} shape={shape} size={size}>
+    <S.AvatarWrapper {...props} shape={shape} size={size}>
       <ImageComponent
         block
         lazy={lazy}
@@ -38,7 +38,7 @@ function Avatar({
         mode={mode}
         style={{ opacity: loaded ? 1.0 : 0 }}
       />
-    </AvatarWrapper>
+    </S.AvatarWrapper>
   );
 }
 

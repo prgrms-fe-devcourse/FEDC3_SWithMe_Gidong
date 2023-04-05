@@ -29,6 +29,10 @@ const StyledTagItem = styled.div`
   &:nth-of-type(1) {
     margin: 0 0.3rem 0 0;
   }
+
+  & button {
+    padding-left: 1rem;
+  }
 `;
 
 export { DefaultWrapper, StyledTagListWrapper, StyledTagItem };

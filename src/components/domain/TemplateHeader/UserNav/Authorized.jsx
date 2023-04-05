@@ -18,20 +18,17 @@ const Authorized = () => {
   };
 
   const [alarmModalVisible, setAlarmModalVisible] = useState(false);
-  const { data, isLoading, error } = useAlarms();
+  const { data, isLoading } = useAlarms();
 
   return (
     <>
       {alarmModalVisible && <AlarmModal visible={alarmModalVisible} onClose={() => setAlarmModalVisible(false)} />}
       <Icon name='users' size='medium' isPointer={true} onClick={() => navigate('/myGroup')} />
-      <Badge dot={!isLoading && data && data.length && data.some(({ seen }) => !seen)} bgColor={COLOR.ALARM_GREEN}>
+      <Badge dot={!isLoading && data && data.length > 0 && data.some(({ seen }) => !seen)} bgColor={COLOR.ALARM_GREEN}>
         <Icon name='bell' size='medium' isPointer={true} onClick={() => setAlarmModalVisible(true)} />
       </Badge>
       <Icon name='user' size='medium' isPointer={true} onClick={() => navigate('/myPage')} />
-      <Button
-        style={{ width: '7.7rem', height: '2.1rem', margin: '0.7rem 0', padding: '0', fontSize: '1.8rem' }}
-        bgcolor={COLOR.HEADER_TRANSPARENT_BG}
-        onClick={() => signOut()}>
+      <Button fontSize='large' version='transparent' onClick={() => signOut()}>
         로그아웃
       </Button>
     </>

@@ -7,7 +7,7 @@ function Member({ children, image, fullName, isMaster = false, ...props }) {
     <StyledMemberContainer style={{ ...props.style }} {...props}>
       <div>
         <Avatar src={image} />
-        <Text size={2} color={COLOR.DARK}>
+        <Text size='xLarge' color={COLOR.DARK}>
           {fullName}
         </Text>
         {isMaster ? <Icon name='crown' size='medium' /> : null}

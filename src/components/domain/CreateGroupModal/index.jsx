@@ -2,7 +2,6 @@ import { Button, Icon, Input, TagInput, Text, Textarea } from '@/components/base
 import { useAuthContext } from '@/context/AuthProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import useInput from '@/hooks/useInput';
-import { COLOR } from '@/styles/color';
 import { useState } from 'react';
 import { StyledButtonContainer, StyledContentContainer, StyledHeaderContainer, StyledModal } from './styles';
 import { usePostCreateGroup } from '@/hooks/queries/group';
@@ -77,7 +76,7 @@ function CreateGroupModal({ visible, groups, setMyGroupList, onClose, ...props }
   return (
     <StyledModal visible={visible} onClose={onClose} style={{ ...props.style }} {...props}>
       <StyledHeaderContainer>
-        <Text size={1.4} weight={400}>
+        <Text>
           STEP {step} / {MAX_STEP_SIZE}
         </Text>
         <Icon size='large' isPointer={true} onClick={onClose} />
@@ -86,30 +85,21 @@ function CreateGroupModal({ visible, groups, setMyGroupList, onClose, ...props }
         <StyledContentContainer>
           {step === 1 ? (
             <>
-              <Text size={3} weight={300}>
-                우리 그룹 이름은
+              <Text size='huge' weight={300}>
+                우리 그룹의 이름은
               </Text>
-              <Input
-                type='text'
-                value={groupName.value}
-                onChange={groupName.onChange}
-                max={15}
-                block
-                required
-                wrapperProps={{ style: { width: '100%' } }}
-                style={{ fontSize: '3rem' }}
-              />
-              <Text size={3} weight={300}>
+              <Input value={groupName.value} onChange={groupName.onChange} max={15} block required fontSize='large' />
+              <Text size='huge' weight={300}>
                 입니다.
               </Text>
             </>
           ) : step === 2 ? (
             <>
-              <Text size={3} weight={300}>
+              <Text size='huge' weight={300}>
                 우리 그룹은
               </Text>
               <span>
-                <Text size={3} weight={300}>
+                <Text size='huge' weight={300}>
                   최대
                 </Text>
                 <Input
@@ -119,17 +109,17 @@ function CreateGroupModal({ visible, groups, setMyGroupList, onClose, ...props }
                   onChange={headCount.onChange}
                   max={50}
                   required
-                  wrapperProps={{ style: { width: '4rem', margin: '0 1rem' } }}
-                  style={{ fontSize: '3rem' }}
+                  fontSize='large'
+                  size='medium'
                 />
-                <Text size={3} weight={300}>
+                <Text size='huge' weight={300}>
                   명까지예요.
                 </Text>
               </span>
             </>
           ) : step === 3 ? (
             <>
-              <Text size={3} weight={300}>
+              <Text size='huge' weight={300}>
                 우리는 이런 그룹이에요.
               </Text>
               <Textarea
@@ -137,16 +127,14 @@ function CreateGroupModal({ visible, groups, setMyGroupList, onClose, ...props }
                 onChange={intro.onChange}
                 placeholder='그룹을 소개하는 글을 작성해주세요.'
                 max={300}
-                wrapperProps={{ style: { width: '100%' } }}
-                style={{ fontSize: '1.2rem', height: '16rem' }}
               />
             </>
           ) : (
             <>
-              <Text size={3} weight={300}>
+              <Text size='huge' weight={300}>
                 마지막 단계입니다!
               </Text>
-              <Text size={3} weight={300}>
+              <Text size='huge' weight={300}>
                 그룹의 태그를 추가해주세요.
               </Text>
               <TagInput tagList={tagList.value} onChange={tagList.onChange} />
@@ -155,20 +143,10 @@ function CreateGroupModal({ visible, groups, setMyGroupList, onClose, ...props }
         </StyledContentContainer>
       )}
       <StyledButtonContainer>
-        <Button
-          as='button'
-          style={{ fontSize: '1.8rem', width: '12rem', height: '4rem' }}
-          round={+true}
-          onClick={handlePrevButtonClick}>
+        <Button fontSize='large' version='grayInverted' size='full' shape='round' onClick={handlePrevButtonClick}>
           이전
         </Button>
-        <Button
-          as='button'
-          bgcolor={COLOR.PRIMARY_BTN}
-          color={COLOR.WHITE}
-          style={{ fontSize: '1.8rem', width: '12rem', height: '4rem' }}
-          round={+true}
-          onClick={handleNextButtonClick}>
+        <Button fontSize='large' version='primary' size='full' shape='round' onClick={handleNextButtonClick}>
           {step === MAX_STEP_SIZE ? '완료' : '다음'}
         </Button>
       </StyledButtonContainer>

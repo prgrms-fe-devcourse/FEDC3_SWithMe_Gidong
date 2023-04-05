@@ -24,7 +24,7 @@ function SignInput(props) {
 
   return (
     <StyledSignInputContainer>
-      <Text block size={2}>
+      <Text block size='xLarge'>
         {header}
       </Text>
       <StyledSignInput
@@ -39,13 +39,13 @@ function SignInput(props) {
       />
       {isSignupInput && (
         <StyledLengthLabel>
-          <Text size={1.2} weight={300}>
+          <Text size='small' weight={300}>
             {value.length}/20
           </Text>
         </StyledLengthLabel>
       )}
       <StyledLabel>
-        <Text paragraph size={1.2} color={COLOR.RED}>
+        <Text paragraph size='small' color={COLOR.RED}>
           {alert}
         </Text>
       </StyledLabel>
