@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getGroupList, createChannel } from '@/api/channel';
+import { getGroupList, createChannel, updateChannel } from '@/api/channel';
 
 export const useGetGroupList = () => {
   return useQuery(['groupList'], getGroupList, {
@@ -9,4 +9,8 @@ export const useGetGroupList = () => {
 
 export const usePostGroupCreate = () => {
   return useMutation(async (groupInfo) => await createChannel(groupInfo));
+};
+
+export const usePutUpdateGroup = () => {
+  return useMutation(async (updateData) => await updateChannel(updateData));
 };
