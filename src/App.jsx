@@ -1,12 +1,12 @@
 import { createChannel, deleteChannel, getChannelList, updateChannel } from '@/api/channel';
 import { getAllUsers } from '@/api/user';
-import AuthProvider from '@/context/AuthProvider';
 import CommentProvider from '@/context/CommentProvider';
 import GroupProvider from '@/context/GroupProvider';
 import LikeProvider from '@/context/LikeProvider';
 import TILProvider from '@/context/TILProvider';
 import ToastProvider from '@/context/ToastProvider';
 import UserProvider from '@/context/UserProvider';
+import { RecoilRoot } from 'recoil';
 import { useAsync } from '@/hooks';
 import Router from '@/Router';
 import GlobalStyle from '@/styles/globalStyle';
@@ -28,30 +28,28 @@ function App() {
   });
 
   return (
-    <>
+    <RecoilRoot>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <ToastProvider>
-          <AuthProvider>
-            <UserProvider initialUsers={initialUsers}>
-              <GroupProvider
-                initialGroups={initialGroups}
-                handleCreateGroup={handleCreateGroup}
-                handleUpdateGroup={handleUpdateGroup}
-                handleDeleteGroup={handleDeleteGroup}>
-                <TILProvider>
-                  <CommentProvider>
-                    <LikeProvider>
-                      <Router />
-                    </LikeProvider>
-                  </CommentProvider>
-                </TILProvider>
-              </GroupProvider>
-            </UserProvider>
-          </AuthProvider>
+          <UserProvider initialUsers={initialUsers}>
+            <GroupProvider
+              initialGroups={initialGroups}
+              handleCreateGroup={handleCreateGroup}
+              handleUpdateGroup={handleUpdateGroup}
+              handleDeleteGroup={handleDeleteGroup}>
+              <TILProvider>
+                <CommentProvider>
+                  <LikeProvider>
+                    <Router />
+                  </LikeProvider>
+                </CommentProvider>
+              </TILProvider>
+            </GroupProvider>
+          </UserProvider>
         </ToastProvider>
       </ThemeProvider>
-    </>
+    </RecoilRoot>
   );
 }
 
