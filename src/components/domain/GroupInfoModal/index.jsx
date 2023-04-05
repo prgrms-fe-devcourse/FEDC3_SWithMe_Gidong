@@ -1,7 +1,6 @@
 import { Button, Icon, SearchBar, Tag, Text } from '@/components/base';
 import { Introduction, Member, MemberList } from '@/components/domain/groupInfo';
 import { useAuthContext } from '@/context/AuthProvider';
-import { useGroupContext } from '@/context/GroupProvider';
 import { useUserContext } from '@/context/UserProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
@@ -13,12 +12,16 @@ import {
   StyledMemberListContainerLabel,
   StyledModal,
 } from './styles';
+import { usePutUpdateGroup } from '@/hooks/queries/group';
+import { useQueryClient } from '@tanstack/react-query';
 
 function GroupInfoModal({ group, visible, onClose, ...props }) {
   const {
     authState: { loggedUser },
   } = useAuthContext();
-  const { onUpdateGroup } = useGroupContext();
+  const { mutate } = usePutUpdateGroup();
+  const queryClient = useQueryClient();
+
   const { users } = useUserContext();
 
   const { name, description, _id } = group;
@@ -67,9 +70,12 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
         member: [...memberIds.filter((memberId) => memberId !== loggedUser._id)],
       }),
     };
-
-    await onUpdateGroup(data);
-    onClose && onClose();
+    mutate(data, {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(['groupList'], { exact: true }, { refetchType: 'all' });
+        onClose && onClose();
+      },
+    });
   };
 
   return (
