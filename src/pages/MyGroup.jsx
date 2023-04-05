@@ -29,11 +29,19 @@ function MyGroup() {
         </StyledHeader>
         <StyledDesc>
           <div>
-            <Text paragraph color={COLOR.DARK} size={2.1} weight={500}>
-              내가 <Text color={COLOR.TAG_COLOR[0]}>가입한 그룹의 목록</Text>입니다.
+            <Text paragraph color={COLOR.DARK} size='xLarge' weight={500}>
+              내가{' '}
+              <Text color={COLOR.TAG_COLOR[0]} inherit>
+                가입한 그룹의 목록
+              </Text>
+              입니다.
             </Text>
-            <Text paragraph color={COLOR.DARK} size={2.1} weight={500}>
-              그룹 내의 멤버들과 소통하며 <Text color={COLOR.TAG_COLOR[1]}>오늘의 TIL</Text>을 작성해보세요.
+            <Text paragraph color={COLOR.DARK} size='xLarge' weight={500}>
+              그룹 내의 멤버들과 소통하며{' '}
+              <Text color={COLOR.TAG_COLOR[1]} inherit>
+                오늘의 TIL
+              </Text>
+              을 작성해보세요.
             </Text>
           </div>
           <Image src={imgPuzzle} width='30rem' />

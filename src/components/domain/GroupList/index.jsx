@@ -30,7 +30,7 @@ function GroupList() {
   return (
     <>
       {isLoading ? (
-        <Spinner size={40} color={COLOR.TAG_COLOR[1]} />
+        <Spinner size="xLarge" color={COLOR.TAG_COLOR[1]} />
       ) : (
         <StyledGroupList isEmpty={!myGroupList?.length}>
           {myGroupList?.length ? (

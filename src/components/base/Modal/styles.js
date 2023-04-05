@@ -7,7 +7,7 @@ const StyledBackgroundDim = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: ${({ dimColor }) => dimColor};
+  background-color: ${({ isDimTransparent }) => (isDimTransparent ? 'transparent' : 'rgba(0, 0, 0, 0.5)')};
   z-index: 2000;
 `;
 

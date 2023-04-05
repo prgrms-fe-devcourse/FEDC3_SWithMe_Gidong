@@ -15,8 +15,12 @@ function SearchResultContainer({ title, groupList }) {
     <StyledSearchResultContainer>
       <StyledHeader>
         <Heading level={4}>{title}</Heading>
-        <Text size={1.5}>
-          전체 <Text style={{ color: COLOR.RED }}>{groupList?.length}개</Text> 그룹
+        <Text size='medium'>
+          전체{' '}
+          <Text color={COLOR.RED} inherit>
+            {groupList?.length}개
+          </Text>{' '}
+          그룹
         </Text>
       </StyledHeader>
       <StyledSearchResult>

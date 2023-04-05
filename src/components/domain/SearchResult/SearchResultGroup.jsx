@@ -14,7 +14,7 @@ function SearchResultGroup({ group, index }) {
     <StyledResultGroupCard>
       <StyledGroupUserAmount style={{ color: COLOR.GROUP_SEARCH_RESULT_COLOR[index] }}>
         <Icon name='user' size='medium' />
-        <Text size={1.6}>
+        <Text size='medium'>
           {group.description.member.length + 1}/{group.description.headCount}
         </Text>
       </StyledGroupUserAmount>
@@ -22,7 +22,7 @@ function SearchResultGroup({ group, index }) {
       <StyledResultGroupTags>
         {group.description.tagList?.map((tag) => (
           <div key={tag} style={{ textAlign: 'center', width: '100%', height: '2rem' }}>
-            <Text size={1.8}>#{tag}</Text>
+            <Text size='large'>#{tag}</Text>
           </div>
         ))}
       </StyledResultGroupTags>

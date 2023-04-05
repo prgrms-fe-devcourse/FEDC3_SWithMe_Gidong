@@ -26,7 +26,7 @@ function GroupDelete({ groupId }) {
   return (
     <StyledGroupDelete>
       <Heading level={5}>그룹 삭제</Heading>
-      <Text paragraph strong size={1.6}>
+      <Text paragraph size='medium' weight={600}>
         한번 그룹을 삭제하면 다시 되돌릴 수 없습니다.
       </Text>
       <Button size='large' version='red' shape='round' onClick={handleDeleteClick}>

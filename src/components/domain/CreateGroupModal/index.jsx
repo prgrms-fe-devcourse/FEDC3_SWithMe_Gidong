@@ -77,7 +77,7 @@ function CreateGroupModal({ visible, onClose, ...props }) {
   return (
     <StyledModal visible={visible} onClose={onClose} style={{ ...props.style }} {...props}>
       <StyledHeaderContainer>
-        <Text size={1.4} weight={400}>
+        <Text>
           STEP {step} / {MAX_STEP_SIZE}
         </Text>
         <Icon size='large' isPointer={true} onClick={onClose} />
@@ -86,21 +86,21 @@ function CreateGroupModal({ visible, onClose, ...props }) {
         <StyledContentContainer>
           {step === 1 ? (
             <>
-              <Text size={3} weight={300}>
-                우리 그룹 이름은
+              <Text size='huge' weight={300}>
+                우리 그룹의 이름은
               </Text>
               <Input value={groupName.value} onChange={groupName.onChange} max={15} block required fontSize='large' />
-              <Text size={3} weight={300}>
+              <Text size='huge' weight={300}>
                 입니다.
               </Text>
             </>
           ) : step === 2 ? (
             <>
-              <Text size={3} weight={300}>
+              <Text size='huge' weight={300}>
                 우리 그룹은
               </Text>
               <span>
-                <Text size={3} weight={300}>
+                <Text size='huge' weight={300}>
                   최대
                 </Text>
                 <Input
@@ -113,14 +113,14 @@ function CreateGroupModal({ visible, onClose, ...props }) {
                   fontSize='large'
                   size='medium'
                 />
-                <Text size={3} weight={300}>
+                <Text size='huge' weight={300}>
                   명까지예요.
                 </Text>
               </span>
             </>
           ) : step === 3 ? (
             <>
-              <Text size={3} weight={300}>
+              <Text size='huge' weight={300}>
                 우리는 이런 그룹이에요.
               </Text>
               <Textarea
@@ -128,16 +128,14 @@ function CreateGroupModal({ visible, onClose, ...props }) {
                 onChange={intro.onChange}
                 placeholder='그룹을 소개하는 글을 작성해주세요.'
                 max={300}
-                wrapperProps={{ style: { width: '100%' } }}
-                style={{ fontSize: '1.2rem', height: '16rem' }}
               />
             </>
           ) : (
             <>
-              <Text size={3} weight={300}>
+              <Text size='huge' weight={300}>
                 마지막 단계입니다!
               </Text>
-              <Text size={3} weight={300}>
+              <Text size='huge' weight={300}>
                 그룹의 태그를 추가해주세요.
               </Text>
               <TagInput tagList={tagList.value} onChange={tagList.onChange} />

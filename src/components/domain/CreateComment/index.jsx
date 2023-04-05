@@ -8,8 +8,6 @@ function CreateComment({ comment, ableSubmit, onSubmit }) {
         value={comment.value}
         placeholder='댓글을 입력하세요.'
         max={300}
-        wrapperProps={{ style: { width: '100%' } }}
-        style={{ fontSize: '1.2rem', height: '16rem' }}
         handleParentChange={comment.onChange}
       />
       <StyledButtonWrapper>

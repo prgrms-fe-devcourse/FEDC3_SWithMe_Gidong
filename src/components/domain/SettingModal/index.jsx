@@ -15,7 +15,7 @@ function SettingModal({ visible, onClose, clickedIndex, onReadAll }) {
   };
 
   return (
-    <StyledSettingModal visible={visible} onClose={onClose} dimColor='transparent'>
+    <StyledSettingModal visible={visible} onClose={onClose} isDimTransparent>
       <StyledSettingModalWrapper>
         <StyledFilterTabContainer>
           {FILTER_METHODS.map((method, i) => (

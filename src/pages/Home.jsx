@@ -59,11 +59,11 @@ function Home() {
     <StyledHome>
       <StyledHeader>
         <StyledInfo>
-          <Text paragraph strong size={3.4} lineHeight={1.2}>
+          <Text paragraph size='huge' weight={600} color={COLOR.WHITE}>
             그룹을 생성하여 TIL을 공유하고,
             <br /> 서로 피드백을 나누자!
           </Text>
-          <Text paragraph size={2.2} weight={300}>
+          <Text paragraph size='xLarge' weight={300} color={COLOR.WHITE}>
             함께 공부해요. 스터디 윗미, 스윗미!
           </Text>
           <Button version='main' size='large' shape='round' onClick={() => navigate('/myGroup')}>

@@ -6,12 +6,17 @@ function Empty({ src, imageWidth, imageHeight, mainText, subText }) {
   return (
     <S.Empty>
       <Image src={src} width={imageWidth} height={imageHeight} alt={subText} />
-      <Text strong paragraph size={2} lineHeight={2}>
+      <Text weight={700} paragraph size='xLarge'>
         {mainText}
       </Text>
-      <Text paragraph size={2}>
-        {subText}
-      </Text>
+      {subText && (
+        <>
+          <br />
+          <Text paragraph size='large'>
+            {subText}
+          </Text>
+        </>
+      )}
     </S.Empty>
   );
 }

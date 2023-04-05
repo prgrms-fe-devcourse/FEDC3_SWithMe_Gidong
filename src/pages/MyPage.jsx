@@ -133,13 +133,13 @@ function MyPage() {
       </StyledHeader>
       <StyledMyInfoBox>
         <StyledMyInfoItem>
-          <Text block size={2}>
+          <Text block size='xLarge'>
             이메일
           </Text>
           <Input value={values.email} block readonly />
         </StyledMyInfoItem>
         <StyledMyInfoItem>
-          <Text block size={2}>
+          <Text block size='xLarge'>
             이름
           </Text>
           <StyledInputBox>
@@ -155,7 +155,7 @@ function MyPage() {
           </StyledInputBox>
         </StyledMyInfoItem>
         <StyledMyInfoItem>
-          <Text block size={2}>
+          <Text block size='xLarge'>
             비밀번호
           </Text>
           <StyledInputBox>

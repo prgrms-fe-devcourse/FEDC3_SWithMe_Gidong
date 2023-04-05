@@ -77,23 +77,23 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
     <StyledModal visible={visible} onClose={handleModalClose} style={{ ...props.style }} {...props}>
       <StyledHeaderContainer>
         <span />
-        <Text size={3.4} weight={700}>
+        <Text size='huge' weight={700}>
           {name}
         </Text>
         <Icon size='large' isPointer={true} onClick={handleModalClose} />
       </StyledHeaderContainer>
       <StyledContentContainer>
-        <Tag tagList={tagList} fontsize={1.4} style={{ marginBottom: '1rem' }} />
+        <Tag tagList={tagList} fontsize='default' style={{ marginBottom: '1rem' }} />
         {intro ? (
           <Introduction intro={intro} />
         ) : (
-          <Text size={2} weight={300}>
+          <Text size='xLarge' weight={300}>
             그룹에 등록된 소개가 없습니다!
           </Text>
         )}
         <StyledMemberListContainerLabel>
           <SearchBar placeholder='찾고 싶은 그룹원의 이름을 검색하세요.' value={value} onChange={onChange} />
-          <Text color={COLOR.GRAY2} size={1.6}>
+          <Text size='medium' color={COLOR.GRAY2}>
             <Icon type='regular' name='face-smile' size='small' /> : 오늘 TIL 작성자
           </Text>
         </StyledMemberListContainerLabel>
