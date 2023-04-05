@@ -1,13 +1,13 @@
 import { Icon } from '@/components/base';
-import { COLOR } from '@/styles/color';
+import theme from '@/styles/theme';
 import PropTypes from 'prop-types';
-import { StyledSpinnerWrapper } from './styles';
+import * as S from './styles';
 
-const Spinner = ({ size = 'xLarge', color = COLOR.SPINNER_COLOR, loading = true, ...props }) => {
+const Spinner = ({ size = 'xLarge', color = theme.colors.whiteGray_600, loading = true }) => {
   return loading ? (
-    <StyledSpinnerWrapper>
+    <S.SpinnerWrapper>
       <Icon className='fas fa-spin' name='circle-notch' size={size} color={color} />
-    </StyledSpinnerWrapper>
+    </S.SpinnerWrapper>
   ) : null;
 };
 
