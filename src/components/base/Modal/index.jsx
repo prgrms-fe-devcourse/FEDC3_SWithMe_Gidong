@@ -2,7 +2,7 @@ import useClickAway from '@/hooks/useClickAway';
 import PropTypes from 'prop-types';
 import { useCallback, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
-import { StyledBackgroundDim, StyledModalContainer } from './styles';
+import * as S from './styles';
 
 function Modal({
   children,
@@ -44,11 +44,11 @@ function Modal({
   }, [hasChild]);
 
   return ReactDOM.createPortal(
-    <StyledBackgroundDim style={{ display: visible ? 'block' : 'none' }} isDimTransparent={isDimTransparent}>
-      <StyledModalContainer ref={ref} round={round} {...props} style={{ ...containerStyle, ...props.style }}>
+    <S.BackgroundDim style={{ display: visible ? 'block' : 'none' }} isDimTransparent={isDimTransparent}>
+      <S.ModalContainer ref={ref} round={round} {...props} style={{ ...containerStyle, ...props.style }}>
         {children}
-      </StyledModalContainer>
-    </StyledBackgroundDim>,
+      </S.ModalContainer>
+    </S.BackgroundDim>,
     modal,
   );
 }
