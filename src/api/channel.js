@@ -38,12 +38,8 @@ export const updateChannel = async (updateData) => {
 
 export const deleteChannel = async (channelId) => {
   try {
-    const response = await axiosAdminInstance.delete('channels/delete', {
-      data: channelId,
-    });
-    const deletedChannel = { ...response, description: JSON.parse(response.description) };
-
-    return deletedChannel;
+    const response = await axiosAdminInstance.delete('channels/delete', { data: channelId });
+    return response;
   } catch (error) {
     console.error(error);
   }

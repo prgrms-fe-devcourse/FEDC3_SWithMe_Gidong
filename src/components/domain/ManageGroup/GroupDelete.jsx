@@ -1,8 +1,8 @@
 import { Heading, Text } from '@/components/base';
-import { useGroupContext } from '@/context/GroupProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import { useNavigate } from 'react-router-dom';
 import { StyledDeleteButton, StyledGroupDelete } from './styles';
+import { useDeleteGroup } from '@/hooks/queries/group';
 
 const TOAST_MESSAGE = {
   ALERT_GROUP_DELETE: '그룹이 삭제되었습니다.',
@@ -10,17 +10,21 @@ const TOAST_MESSAGE = {
 };
 
 function GroupDelete({ groupId }) {
-  const { onDeleteGroup } = useGroupContext();
   const { addToast } = useToastContext();
   const navigate = useNavigate();
+  const { mutate } = useDeleteGroup();
 
   const handleDeleteClick = async () => {
     if (!confirm(TOAST_MESSAGE.CONFIRM_GROUP_DELETE)) return;
-    await onDeleteGroup({
-      id: groupId,
-    });
-    addToast(TOAST_MESSAGE.ALERT_GROUP_DELETE);
-    navigate('/myGroup');
+    mutate(
+      { id: groupId },
+      {
+        onSuccess: () => {
+          addToast(TOAST_MESSAGE.ALERT_GROUP_DELETE);
+          navigate('/myGroup');
+        },
+      },
+    );
   };
 
   return (
