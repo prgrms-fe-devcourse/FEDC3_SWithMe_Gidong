@@ -24,6 +24,8 @@
     "react-datepicker": "^4.8.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.6.2",
+    "recoil": "^0.7.7",
+    "recoil-persist": "^4.2.0",
     "storybook": "^6.5.15",
     "swr": "^2.0.3",
     "v4": "^0.0.1"
