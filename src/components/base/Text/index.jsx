@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { COLOR } from '@/styles/color';
+import theme from '@/styles/theme';
 
 const SizeToCssValue = {
   default: '1.4rem',
@@ -19,7 +19,7 @@ function Text({
   size = 'default',
   weight = 400,
   underline = false,
-  color = COLOR.BLACK,
+  color = theme.colors.black_900,
   inherit = false,
   ...props
 }) {
