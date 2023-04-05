@@ -1,14 +1,14 @@
 import ToastItem from '@/components/base/Toast/ToastItem';
 import PropTypes from 'prop-types';
-import { StyledToast } from './styles';
+import * as S from './styles';
 
 function Toast({ toasts, removeToast }) {
   return (
-    <StyledToast>
+    <S.Toast>
       {toasts.map((toast) => (
         <ToastItem key={toast.id} {...toast} onDone={() => removeToast(toast.id)} />
       ))}
-    </StyledToast>
+    </S.Toast>
   );
 }
 

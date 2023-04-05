@@ -1,7 +1,6 @@
-import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 
-const StyledToast = styled.div`
+export const Toast = styled.div`
   z-index: 10000;
   position: fixed;
   bottom: 2rem;
@@ -16,7 +15,7 @@ const StyledToast = styled.div`
   flex-direction: column-reverse;
 `;
 
-const StyledToastItemContainer = styled.div`
+export const ToastItemContainer = styled.div`
   position: relative;
   display: flex;
   width: 100%;
@@ -24,7 +23,7 @@ const StyledToastItemContainer = styled.div`
   padding: 0 2rem;
   align-items: center;
   background-color: white;
-  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1rem 2rem ${({ theme }) => theme.shadows[700]};
   box-sizing: border-box;
   opacity: 1;
   transition: opacity 0.4s ease-out;
@@ -47,13 +46,13 @@ const StyledToastItemContainer = styled.div`
   }
 `;
 
-const StyledProgressBar = styled.div`
+export const ProgressBar = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
   width: 0;
   height: 0.6rem;
-  background-color: ${COLOR.HEADER_SEARCHBAR_SUBMIT_BG};
+  background-color: ${({ theme }) => theme.colors.main_700};
 
   animation-name: progress;
   animation-timing-function: linear;
@@ -68,5 +67,3 @@ const StyledProgressBar = styled.div`
     }
   }
 `;
-
-export { StyledToast, StyledToastItemContainer, StyledProgressBar };
