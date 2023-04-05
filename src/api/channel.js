@@ -21,9 +21,7 @@ export const getChannel = async (channelName) => {
 export const createChannel = async (channelInfo) => {
   try {
     const response = await axiosAdminInstance.post('channels/create', channelInfo);
-    const createdChannel = { ...response, description: JSON.parse(response.description) };
-
-    return createdChannel;
+    return response;
   } catch (error) {
     console.error(error);
   }
