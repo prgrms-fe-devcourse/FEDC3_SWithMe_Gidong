@@ -1,6 +1,6 @@
 import { Button, Icon, SearchBar, Tag, Text } from '@/components/base';
 import { Introduction, Member, MemberList } from '@/components/domain/groupInfo';
-import { useAuthContext } from '@/context/AuthProvider';
+import useAuth from '@/hooks/useAuth';
 import { useGroupContext } from '@/context/GroupProvider';
 import { useUserContext } from '@/context/UserProvider';
 import useInput from '@/hooks/useInput';
@@ -18,7 +18,7 @@ import {
 function GroupInfoModal({ group, visible, onClose, ...props }) {
   const {
     authState: { loggedUser },
-  } = useAuthContext();
+  } = useAuth();
   const { onUpdateGroup } = useGroupContext();
   const { users } = useUserContext();
 

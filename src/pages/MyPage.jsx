@@ -1,7 +1,7 @@
 import { postUserAvatar, putUserFullName, putUserPassword } from '@/api/userInfo';
 import { imgMypage } from '@/assets/images';
 import { Avatar, Button, Input, Text } from '@/components/base';
-import { useAuthContext } from '@/context/AuthProvider';
+import useAuth from '@/hooks/useAuth';
 import { useToastContext } from '@/context/ToastProvider';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
@@ -33,7 +33,7 @@ function MyPage() {
   const {
     authState: { isLoggedIn, loggedUser },
     onReload,
-  } = useAuthContext();
+  } = useAuth();
   const { addToast } = useToastContext();
 
   if (!isLoggedIn) navigate('/');

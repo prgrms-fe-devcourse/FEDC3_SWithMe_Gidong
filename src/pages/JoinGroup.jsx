@@ -1,7 +1,7 @@
 import { Heading, Image, Text, Icon } from '@/components/base';
 import { icCrown } from '@/assets/icons';
 import { imgDefaultAvatar, imgJoin } from '@/assets/images';
-import { useAuthContext } from '@/context/AuthProvider';
+import useAuth from '@/hooks/useAuth';
 import { useGroupContext } from '@/context/GroupProvider';
 import { COLOR } from '@/styles/color';
 import { css } from '@emotion/react';
@@ -23,7 +23,7 @@ function JoinGroup() {
   const { master, tagList, intro, headCount, member } = description;
   const {
     authState: { isLoggedIn, loggedUser },
-  } = useAuthContext();
+  } = useAuth();
   const [guideMessage, setGuideMessage] = useState('');
   const { onUpdateGroup } = useGroupContext();
   const navigate = useNavigate();

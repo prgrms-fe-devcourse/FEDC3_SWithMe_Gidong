@@ -1,13 +1,13 @@
 import { Button } from '@/components/base';
 import Authorized from '@/components/domain/TemplateHeader/UserNav/Authorized';
-import { useAuthContext } from '@/context/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import { StyledUserNav } from '../styles';
+import useAuth from '@/hooks/useAuth';
 
 const UserNav = () => {
   const {
     authState: { isLoggedIn },
-  } = useAuthContext();
+  } = useAuth();
   const navigate = useNavigate();
 
   return (

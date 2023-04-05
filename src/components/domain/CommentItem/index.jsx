@@ -2,7 +2,7 @@ import { createAlarm, deleteAlarm } from '@/api/alarm';
 import { getTIL } from '@/api/post';
 import { Avatar, Text, Textarea } from '@/components/base';
 import AuthorNav from '@/components/domain/AuthorNav';
-import { useAuthContext } from '@/context/AuthProvider';
+import useAuth from '@/hooks/useAuth';
 import { useCommentContext } from '@/context/CommentProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import useInput from '@/hooks/useInput';
@@ -16,7 +16,7 @@ import { StyledCommentItem, StyledFlexContainer, StyledWriterInfoContainer, Styl
 function CommentItem({ comment }) {
   const {
     authState: { loggedUser },
-  } = useAuthContext();
+  } = useAuth();
   const { onDeleteComment, onUpdateComment } = useCommentContext();
   const { addToast } = useToastContext();
 

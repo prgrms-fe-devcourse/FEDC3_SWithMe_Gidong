@@ -2,7 +2,7 @@ import { imgSearch } from '@/assets/images';
 import { Empty, Spinner } from '@/components/base';
 import GroupItem from '@/components/domain/GroupItem';
 import TILList from '@/components/domain/TILList';
-import { useAuthContext } from '@/context/AuthProvider';
+import useAuth from '@/hooks/useAuth';
 import { useGroupContext } from '@/context/GroupProvider';
 import { COLOR } from '@/styles/color';
 import { Fragment, useEffect, useState } from 'react';
@@ -15,7 +15,7 @@ function GroupList() {
   } = useGroupContext();
   const {
     authState: { loggedUser },
-  } = useAuthContext();
+  } = useAuth();
   const [myGroupList, setMyGroupList] = useState([]);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ function GroupList() {
   return (
     <>
       {isLoading ? (
-        <Spinner size="xLarge" color={COLOR.TAG_COLOR[1]} />
+        <Spinner size='xLarge' color={COLOR.TAG_COLOR[1]} />
       ) : (
         <StyledGroupList isEmpty={!myGroupList?.length}>
           {myGroupList?.length ? (
@@ -41,7 +41,12 @@ function GroupList() {
               </Fragment>
             ))
           ) : (
-            <Empty src={imgSearch} imageWidth='25rem' mainText='참여중인 그룹이 없습니다.' subText='그룹에 참여해보세요!' />
+            <Empty
+              src={imgSearch}
+              imageWidth='25rem'
+              mainText='참여중인 그룹이 없습니다.'
+              subText='그룹에 참여해보세요!'
+            />
           )}
         </StyledGroupList>
       )}

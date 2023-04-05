@@ -1,12 +1,12 @@
 import { Icon, Text } from '@/components/base';
-import { useAuthContext } from '@/context/AuthProvider';
+import useAuth from '@/hooks/useAuth';
 import { checkIsEmptyObj } from '@/utils/validation';
 import { StyledLikeButtonContainer } from './styles';
 
 function FloatingLikeButton({ likes, likeButtonRef, onClick }) {
   const {
     authState: { loggedUser },
-  } = useAuthContext();
+  } = useAuth();
 
   return (
     <StyledLikeButtonContainer

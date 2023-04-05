@@ -1,6 +1,6 @@
 import { Divider, Heading, Icon, Text } from '@/components/base';
 import GroupInfoModal from '@/components/domain/GroupInfoModal';
-import { useAuthContext } from '@/context/AuthProvider';
+import useAuth from '@/hooks/useAuth';
 import { useGroupContext } from '@/context/GroupProvider';
 import { useUserContext } from '@/context/UserProvider';
 import { COLOR } from '@/styles/color';
@@ -23,7 +23,7 @@ function GroupItem({ group, isLastGroup }) {
   const { master: masterId, tagList, intro } = description;
   const {
     authState: { loggedUser },
-  } = useAuthContext();
+  } = useAuth();
   const isOpened = openedGroupId === _id;
   const isMaster = masterId === loggedUser._id;
   const navigate = useNavigate();

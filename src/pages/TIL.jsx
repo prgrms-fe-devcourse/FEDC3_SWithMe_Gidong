@@ -4,7 +4,7 @@ import AuthorNav from '@/components/domain/AuthorNav';
 import CommentList from '@/components/domain/CommentList';
 import CreateComment from '@/components/domain/CreateComment';
 import FloatingLikeButton from '@/components/domain/FloatingLikeButton';
-import { useAuthContext } from '@/context/AuthProvider';
+import useAuth from '@/hooks/useAuth';
 import { useCommentContext } from '@/context/CommentProvider';
 import { useLikeContext } from '@/context/LikeProvider';
 import { useTILContext } from '@/context/TILProvider';
@@ -23,7 +23,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 function TIL() {
   const {
     authState: { loggedUser },
-  } = useAuthContext();
+  } = useAuth();
   const navigate = useNavigate();
   const { onDeleteTIL, onGetTIL } = useTILContext();
   const { comments, onInitComment, onCreateComment } = useCommentContext();

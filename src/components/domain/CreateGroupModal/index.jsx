@@ -1,5 +1,5 @@
 import { Button, Icon, Input, TagInput, Text, Textarea } from '@/components/base';
-import { useAuthContext } from '@/context/AuthProvider';
+import useAuth from '@/hooks/useAuth';
 import { useGroupContext } from '@/context/GroupProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import useInput from '@/hooks/useInput';
@@ -22,7 +22,7 @@ const STEPS = {
 function CreateGroupModal({ visible, onClose, ...props }) {
   const {
     authState: { loggedUser },
-  } = useAuthContext();
+  } = useAuth();
   const { onCreateGroup, groups } = useGroupContext();
   const { addToast } = useToastContext();
 
