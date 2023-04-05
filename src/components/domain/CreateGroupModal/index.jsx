@@ -146,7 +146,7 @@ function CreateGroupModal({ visible, onClose, ...props }) {
         </StyledContentContainer>
       )}
       <StyledButtonContainer>
-        <Button fontSize='large' version='primary' size='full' shape='round' onClick={handlePrevButtonClick}>
+        <Button fontSize='large' version='grayInverted' size='full' shape='round' onClick={handlePrevButtonClick}>
           이전
         </Button>
         <Button fontSize='large' version='primary' size='full' shape='round' onClick={handleNextButtonClick}>
