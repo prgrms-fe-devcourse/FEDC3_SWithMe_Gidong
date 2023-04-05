@@ -26,10 +26,8 @@ function SearchResultGroup({ group, index }) {
           </div>
         ))}
       </StyledResultGroupTags>
-      <Button onClick={() => onClickJoinGroup(group)} style={{ backgroundColor: COLOR.WHITE }}>
-        <Text size='medium' underline color={COLOR.DARK}>
-          그룹 가입하기
-        </Text>
+      <Button version='transparent' fontSize='small' underline onClick={() => onClickJoinGroup(group)}>
+        그룹 가입하기
       </Button>
     </StyledResultGroupCard>
   );

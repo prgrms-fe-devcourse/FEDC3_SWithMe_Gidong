@@ -1,4 +1,4 @@
-import { Button, Text } from '@/components/base';
+import { Button, Text, Icon } from '@/components/base';
 import { COLOR } from '@/styles/color';
 import PropTypes from 'prop-types';
 import { StyledTagItem } from './styles';
@@ -9,11 +9,8 @@ function TagItem({ tag, onDeleteTagButtonClick, fontsize }) {
       <Text size={fontsize ? fontsize : 'xSmall'} weight={300} color={COLOR.WHITE}>
         {tag}
         {onDeleteTagButtonClick && (
-          <Button
-            bgcolor='transparent'
-            onClick={onDeleteTagButtonClick}
-            style={{ fontSize: '1rem', fontWeight: '700', padding: '0 0 0 1rem' }}>
-            X
+          <Button fontSize='xSmall' version='transparent' onClick={onDeleteTagButtonClick}>
+            <Icon name='trash-can' />
           </Button>
         )}
       </Text>

@@ -1,5 +1,4 @@
 import { COLOR } from '@/styles/color';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 const StyledGroupBox = styled.div`
@@ -58,18 +57,6 @@ const StyledGroupButton = styled.button`
   }
 `;
 
-const StyledUpdateButton = styled(StyledGroupButton)`
-  ${({ isInfoChanged }) =>
-    !isInfoChanged &&
-    css`
-      background-color: ${COLOR.GRAY_30};
-      cursor: not-allowed;
-      &:hover {
-        opacity: 1;
-      }
-    `};
-`;
-
 const StyledGroupDelete = styled(StyledGroupBox)`
   background-color: ${COLOR.MY_GROUP_BOX_BG};
 
@@ -83,23 +70,10 @@ const StyledGroupDelete = styled(StyledGroupBox)`
   }
 `;
 
-const StyledDeleteButton = styled(StyledGroupButton)`
-  margin-top: 1rem;
-  background-color: ${COLOR.RED_20};
-`;
-
 const StyledManageMember = styled(StyledGroupBox)`
   & > div {
     overflow-y: auto;
   }
 `;
 
-export {
-  StyledGroupBox,
-  StyledGroupInfo,
-  StyledGroupButton,
-  StyledUpdateButton,
-  StyledGroupDelete,
-  StyledDeleteButton,
-  StyledManageMember,
-};
+export { StyledGroupBox, StyledGroupInfo, StyledGroupButton, StyledGroupDelete, StyledManageMember };

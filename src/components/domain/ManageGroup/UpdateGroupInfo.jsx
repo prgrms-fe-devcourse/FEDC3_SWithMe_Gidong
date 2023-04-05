@@ -1,9 +1,9 @@
-import { Heading, Input, TagInput, Text, Textarea } from '@/components/base';
+import { Button, Heading, Input, TagInput, Text, Textarea } from '@/components/base';
 import { useGroupContext } from '@/context/GroupProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import useInput from '@/hooks/useInput';
 import { useEffect, useState } from 'react';
-import { StyledGroupBox, StyledGroupInfo, StyledUpdateButton } from './styles';
+import { StyledGroupBox, StyledGroupInfo } from './styles';
 
 const ALERT_MESSAGE = {
   GROUP_NAME: '그룹명은 한 글자 이상이어야 합니다.',
@@ -84,7 +84,7 @@ function UpdateGroupInfo({ group, setGroup }) {
         <Text block size='xLarge'>
           그룹명
         </Text>
-        <Input type='text' value={groupName.value} onChange={groupName.onChange} max={15} block required />
+        <Input value={groupName.value} onChange={groupName.onChange} max={15} block required />
       </StyledGroupInfo>
       <StyledGroupInfo>
         <Text block size='xLarge'>
@@ -93,7 +93,7 @@ function UpdateGroupInfo({ group, setGroup }) {
         <Input
           type='number'
           block
-          label={`최대 2~50명`}
+          label='최대 2~50명'
           value={headCount.value}
           onChange={headCount.onChange}
           max={50}
@@ -117,9 +117,9 @@ function UpdateGroupInfo({ group, setGroup }) {
           max={300}
         />
       </StyledGroupInfo>
-      <StyledUpdateButton disabled={!isInfoChanged} isInfoChanged={isInfoChanged} onClick={handleSubmit}>
+      <Button size='large' version='primary' shape='round' disabled={!isInfoChanged} onClick={handleSubmit}>
         수정
-      </StyledUpdateButton>
+      </Button>
     </StyledGroupBox>
   );
 }

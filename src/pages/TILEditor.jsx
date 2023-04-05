@@ -1,4 +1,4 @@
-import { Button, Heading, SearchBar, TagInput } from '@/components/base';
+import { Button, Heading, Input, TagInput } from '@/components/base';
 import { useTILContext } from '@/context/TILProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
@@ -89,14 +89,13 @@ function TILEditor() {
         <Heading level={1}>
           📚 [{til ? til.channel.name : groupName}]에 대한 TIL {editMode}하기
         </Heading>
-        <SearchBar
+        <Input
           placeholder='제목을 입력하세요.'
           value={title.value}
           onChange={title.onChange}
           label={!title.value.length ? '한 글자 이상 입력해주세요.' : ''}
-          wrapperProps={{ style: { width: '60%', margin: '6rem 40% 3rem 0' } }}
-          style={{ fontSize: '3rem', backgroundColor: `${COLOR.MY_GROUP_BG}` }}
-          icon={+false}
+          fontSize='large'
+          block
         />
         <EditorWrapper>
           <Editor
@@ -111,28 +110,22 @@ function TILEditor() {
         </EditorWrapper>
         <StyledFooterContanier>
           <div>
-            <TagInput
-              tagList={tagList.value}
-              onChange={tagList.onChange}
-              wrapperProps={{ style: { width: '100%' } }}
-              inputProps={{ style: { backgroundColor: COLOR.MY_GROUP_BG } }}
-            />
+            <TagInput tagList={tagList.value} onChange={tagList.onChange} />
           </div>
           <div>
             <Button
-              as='button'
-              style={{ fontSize: '2.2rem', padding: '1.3rem 7rem', borderRadius: '1rem' }}
-              round={+true}
+              version='grayInverted'
+              fontSize='xLarge'
+              size='full'
+              shape='round'
               onClick={handleCancelButtonClick}>
               취소
             </Button>
             <Button
-              as='button'
+              fontSize='xLarge'
+              size='full'
+              shape='round'
               disabled={!ableSubmit}
-              bgcolor={!ableSubmit ? COLOR.GRAY : COLOR.PRIMARY_BTN}
-              color={!ableSubmit ? COLOR.DARK : COLOR.WHITE}
-              style={{ fontSize: '2.2rem', padding: '1.3rem 7rem', borderRadius: '1rem', marginLeft: '1rem' }}
-              round={+true}
               onClick={handleSubmitButtonClick}>
               {editMode}
             </Button>
@@ -165,6 +158,15 @@ const StyledTILEditor = styled.div`
   & > button:not(:last-child) {
     margin-right: 2rem;
   }
+
+  & > div:first-of-type {
+    width: 60%;
+    margin: 4rem 0 3rem 0;
+
+    @media (max-width: 624px) {
+      width: 100%;
+    }
+  }
 `;
 
 const StyledFooterContanier = styled.div`
@@ -180,13 +182,19 @@ const StyledFooterContanier = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    flex: 1 1 40rem;
+    flex: 1 1 50rem;
+
+    & > div:first-of-type {
+      width: 100%;
+    }
   }
 
   & > div:nth-of-type(2) {
     display: flex;
     justify-content: flex-end;
     flex: 1 1 40rem;
+
+    gap: 3rem;
   }
 `;
 

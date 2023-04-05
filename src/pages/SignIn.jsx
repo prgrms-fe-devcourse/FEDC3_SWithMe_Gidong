@@ -5,6 +5,7 @@ import SignInput from '@/components/domain/SignInput';
 import { useAuthContext } from '@/context/AuthProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import { COLOR } from '@/styles/color';
+import theme from '@/styles/theme';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
@@ -123,12 +124,8 @@ function SignIn() {
             <Text paragraph size='medium'>
               계정이 없으신가요?
             </Text>
-            <Button
-              bgcolor={COLOR.HEADER_TRANSPARENT_BG}
-              color={COLOR.SIGNIN_SIGNUP_FONT}
-              style={{ fontSize: '1.5rem', padding: '0' }}
-              onClick={() => navigate('/signUp')}>
-              회원가입
+            <Button fontSize='small' version='transparent' onClick={() => navigate('/signUp')}>
+              <Text color={theme.colors.sub_700}>회원가입</Text>
             </Button>
           </StyledSignUpNav>
           <StyledButton onClick={handleSignUp}>로그인</StyledButton>

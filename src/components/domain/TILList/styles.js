@@ -65,12 +65,22 @@ const StyledFilterButton = styled.div`
       font-weight: 600;
     `};
   cursor: pointer;
+
+  :hover {
+    text-decoration: underline;
+  }
 `;
 
 const StyledButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+
+  margin-bottom: 2rem;
+
+  & > button > i {
+    margin-right: 1rem;
+  }
 `;
 
 export {

@@ -5,6 +5,7 @@ import { useGroupContext } from '@/context/GroupProvider';
 import { useUserContext } from '@/context/UserProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
+import theme from '@/styles/theme';
 import { useEffect, useState } from 'react';
 import {
   StyledButtonWrapper,
@@ -91,14 +92,7 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
           </Text>
         )}
         <StyledMemberListContainerLabel>
-          <SearchBar
-            placeholder='찾고 싶은 그룹원의 이름을 검색하세요.'
-            value={value}
-            onChange={onChange}
-            wrapperProps={{ style: { width: '30rem', marginLeft: '1rem' } }}
-            iconProps={{ size: 'medium', color: COLOR.DARK }}
-            style={{ fontSize: '1.8rem' }}
-          />
+          <SearchBar placeholder='찾고 싶은 그룹원의 이름을 검색하세요.' value={value} onChange={onChange} />
           <Text size='medium' color={COLOR.GRAY2}>
             <Icon type='regular' name='face-smile' size='small' /> : 오늘 TIL 작성자
           </Text>
@@ -121,13 +115,10 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
         )}
         {loggedUser._id !== masterId && (
           <StyledButtonWrapper>
-            <Button
-              as='button'
-              bgcolor='transpaent'
-              color={COLOR.GRAY2}
-              style={{ padding: 0, textDecoration: 'underline' }}
-              onClick={handleWithdrawButtonClick}>
-              그룹 탈퇴하기
+            <Button version='transparent' onClick={handleWithdrawButtonClick}>
+              <Text color={theme.colors.black_400} underline>
+                그룹 탈퇴하기
+              </Text>
             </Button>
           </StyledButtonWrapper>
         )}

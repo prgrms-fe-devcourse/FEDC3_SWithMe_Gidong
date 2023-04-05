@@ -3,7 +3,6 @@ import { useAuthContext } from '@/context/AuthProvider';
 import { useGroupContext } from '@/context/GroupProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import useInput from '@/hooks/useInput';
-import { COLOR } from '@/styles/color';
 import { useState } from 'react';
 import { StyledButtonContainer, StyledContentContainer, StyledHeaderContainer, StyledModal } from './styles';
 
@@ -90,16 +89,7 @@ function CreateGroupModal({ visible, onClose, ...props }) {
               <Text size='huge' weight={300}>
                 우리 그룹의 이름은
               </Text>
-              <Input
-                type='text'
-                value={groupName.value}
-                onChange={groupName.onChange}
-                max={15}
-                block
-                required
-                wrapperProps={{ style: { width: '100%' } }}
-                style={{ fontSize: '3rem' }}
-              />
+              <Input value={groupName.value} onChange={groupName.onChange} max={15} block required fontSize='large' />
               <Text size='huge' weight={300}>
                 입니다.
               </Text>
@@ -120,8 +110,8 @@ function CreateGroupModal({ visible, onClose, ...props }) {
                   onChange={headCount.onChange}
                   max={50}
                   required
-                  wrapperProps={{ style: { width: '4rem', margin: '0 1rem' } }}
-                  style={{ fontSize: '3rem' }}
+                  fontSize='large'
+                  size='medium'
                 />
                 <Text size='huge' weight={300}>
                   명까지예요.
@@ -154,20 +144,10 @@ function CreateGroupModal({ visible, onClose, ...props }) {
         </StyledContentContainer>
       )}
       <StyledButtonContainer>
-        <Button
-          as='button'
-          style={{ fontSize: '1.8rem', width: '12rem', height: '4rem' }}
-          round={+true}
-          onClick={handlePrevButtonClick}>
+        <Button fontSize='large' version='grayInverted' size='full' shape='round' onClick={handlePrevButtonClick}>
           이전
         </Button>
-        <Button
-          as='button'
-          bgcolor={COLOR.PRIMARY_BTN}
-          color={COLOR.WHITE}
-          style={{ fontSize: '1.8rem', width: '12rem', height: '4rem' }}
-          round={+true}
-          onClick={handleNextButtonClick}>
+        <Button fontSize='large' version='primary' size='full' shape='round' onClick={handleNextButtonClick}>
           {step === MAX_STEP_SIZE ? '완료' : '다음'}
         </Button>
       </StyledButtonContainer>

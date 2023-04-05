@@ -41,12 +41,11 @@ function TagInput({ tagList = [], onChange, wrapperProps, inputProps, ...props }
         <Input
           value={tag.value}
           onChange={tag.onChange}
-          type='text'
           placeholder='태그를 추가하려면 엔터를 누르세요.'
           max={8}
           onKeyPress={onKeyPress}
-          wrapperProps={{ style: { width: '100%' } }}
-          style={{ fontSize: '1.8rem' }}
+          block
+          fontSize='medium'
           {...inputProps}
         />
       ) : (

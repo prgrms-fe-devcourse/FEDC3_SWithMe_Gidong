@@ -1,5 +1,5 @@
 import { imgPuzzle } from '@/assets/images';
-import { Heading, Image, Text } from '@/components/base';
+import { Button, Heading, Icon, Image, Text } from '@/components/base';
 import CreateGroupModal from '@/components/domain/CreateGroupModal';
 import GroupList from '@/components/domain/GroupList';
 import { COLOR } from '@/styles/color';
@@ -14,10 +14,15 @@ function MyGroup() {
       <StyledMyGroup>
         <StyledHeader>
           <Heading level={4}>내 그룹</Heading>
-          <button onClick={() => setCreateGroupModalVisible(true)}>
-            <i className='fa-solid fa-circle-plus'></i>
+          <Button
+            fontSize='xLarge'
+            version='primary'
+            size='medium'
+            shape='round'
+            onClick={() => setCreateGroupModalVisible(true)}>
+            <Icon name='circle-plus' size='medium' />
             그룹 만들기
-          </button>
+          </Button>
           {createGroupModalVisible && (
             <CreateGroupModal visible={createGroupModalVisible} onClose={() => setCreateGroupModalVisible(false)} />
           )}
@@ -71,23 +76,8 @@ const StyledHeader = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  & > button {
-    display: flex;
-    align-items: center;
-    column-gap: 1rem;
-
-    padding: 1.3rem 1.6rem;
-    border-radius: 1rem;
-
-    background-color: ${COLOR.MY_GROUP_BTN_BG};
-    color: ${COLOR.MY_GROUP_BTN_FONT};
-    font-size: 2.2rem;
-    font-weight: 500;
-    cursor: pointer;
-
-    &:hover {
-      background-color: ${COLOR.MY_GROUP_BTN_HOVER};
-    }
+  & > button > i {
+    margin-right: 1rem;
   }
 `;
 

@@ -136,10 +136,9 @@ function TIL() {
               {!isMember(til.channel, loggedUser._id) && (
                 <>
                   <Button
-                    as='button'
-                    bgcolor={COLOR.PRIMARY_BTN}
-                    color={COLOR.WHITE}
-                    style={{ fontSize: '2.2rem', padding: '1.3rem 3rem', borderRadius: '1rem' }}
+                    fontSize='xLarge'
+                    size='medium'
+                    shape='round'
                     onClick={() => navigate('/joinGroup', { state: { group: til.channel } })}>
                     그룹 가입하기
                   </Button>
@@ -221,16 +220,6 @@ const StyledWriterInfoContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
-`;
-
-const StyledButtonContainer = styled.div`
-  display: flex;
-  gap: 1rem;
-  align-self: center;
-
-  & > span:hover {
-    text-decoration: underline;
-  }
 `;
 
 const StyledViewerWrapper = styled.div`

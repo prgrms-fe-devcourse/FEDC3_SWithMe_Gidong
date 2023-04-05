@@ -30,6 +30,12 @@ const StyledHeaderSearchBar = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &:last-of-type {
+      width: 3rem;
+      height: 3rem;
+      margin-right: 2rem;
+    }
   }
 `;
 
