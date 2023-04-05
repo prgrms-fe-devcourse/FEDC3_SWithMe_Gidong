@@ -8,7 +8,7 @@ export const useGetGroupList = () => {
   });
 };
 
-export const usePostGroupCreate = () => {
+export const usePostCreateGroup = () => {
   return useMutation(async (groupInfo) => await createGroup(groupInfo), {
     onError: (error) => console.log(error.message),
   });

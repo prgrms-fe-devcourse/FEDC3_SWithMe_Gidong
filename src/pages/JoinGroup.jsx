@@ -25,7 +25,7 @@ function JoinGroup() {
     authState: { isLoggedIn, loggedUser },
   } = useAuthContext();
   const [guideMessage, setGuideMessage] = useState('');
-  const { mutate } = usePutUpdateGroup();
+  const { mutate: updateGroupMutate } = usePutUpdateGroup();
   const navigate = useNavigate();
 
   const handleJoinClick = async () => {
@@ -36,7 +36,7 @@ function JoinGroup() {
         member: [...member, loggedUser._id],
       }),
     };
-    mutate(data, {
+    updateGroupMutate(data, {
       onSuccess: () => navigate('/myGroup'),
     });
   };

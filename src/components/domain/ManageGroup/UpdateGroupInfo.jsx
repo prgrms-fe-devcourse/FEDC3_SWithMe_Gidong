@@ -15,7 +15,7 @@ const ALERT_MESSAGE = {
 
 function UpdateGroupInfo({ group, setGroup }) {
   const { headCount: memberCount, tagList: tags, intro: introduction } = group.description;
-  const { mutate } = usePutUpdateGroup();
+  const { mutate: updateGroupMutate } = usePutUpdateGroup();
   const { addToast } = useToastContext();
   const groupName = useInput('');
   const headCount = useInput(0);
@@ -73,7 +73,7 @@ function UpdateGroupInfo({ group, setGroup }) {
         intro: intro.value,
       }),
     };
-    mutate(data, {
+    updateGroupMutate(data, {
       onSuccess: (data) => {
         const updatedGroup = { ...data, description: JSON.parse(data.description) };
         setGroup(updatedGroup);

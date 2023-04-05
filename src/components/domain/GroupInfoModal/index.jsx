@@ -19,7 +19,7 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
   const {
     authState: { loggedUser },
   } = useAuthContext();
-  const { mutate } = usePutUpdateGroup();
+  const { mutate: updateGroupMutate } = usePutUpdateGroup();
   const queryClient = useQueryClient();
 
   const { users } = useUserContext();
@@ -70,7 +70,7 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
         member: [...memberIds.filter((memberId) => memberId !== loggedUser._id)],
       }),
     };
-    mutate(data, {
+    updateGroupMutate(data, {
       onSuccess: async () => {
         await queryClient.invalidateQueries(['groupList'], { exact: true }, { refetchType: 'all' });
         onClose && onClose();

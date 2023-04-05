@@ -5,7 +5,7 @@ import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
 import { useState } from 'react';
 import { StyledButtonContainer, StyledContentContainer, StyledHeaderContainer, StyledModal } from './styles';
-import { usePostGroupCreate } from '@/hooks/queries/group';
+import { usePostCreateGroup } from '@/hooks/queries/group';
 
 const MAX_STEP_SIZE = 4;
 const STEPS = {
@@ -19,7 +19,7 @@ function CreateGroupModal({ visible, groups, setMyGroupList, onClose, ...props }
     authState: { loggedUser },
   } = useAuthContext();
   const { addToast } = useToastContext();
-  const { mutate } = usePostGroupCreate();
+  const { mutate: createGroupMutate } = usePostCreateGroup();
   const [step, setStep] = useState(1);
   const groupName = useInput('');
   const headCount = useInput('');
@@ -62,7 +62,7 @@ function CreateGroupModal({ visible, groups, setMyGroupList, onClose, ...props }
           member: [],
         }),
       };
-      mutate(data, {
+      createGroupMutate(data, {
         onSuccess: (data) => {
           const createdGroup = { ...data, description: JSON.parse(data.description) };
           setMyGroupList((prev) => [...prev, createdGroup]);

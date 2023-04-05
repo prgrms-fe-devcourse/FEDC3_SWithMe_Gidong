@@ -12,11 +12,11 @@ const TOAST_MESSAGE = {
 function GroupDelete({ groupId }) {
   const { addToast } = useToastContext();
   const navigate = useNavigate();
-  const { mutate } = useDeleteGroup();
+  const { mutate: deleteGroupMutate } = useDeleteGroup();
 
   const handleDeleteClick = async () => {
     if (!confirm(TOAST_MESSAGE.CONFIRM_GROUP_DELETE)) return;
-    mutate(
+    deleteGroupMutate(
       { id: groupId },
       {
         onSuccess: () => {

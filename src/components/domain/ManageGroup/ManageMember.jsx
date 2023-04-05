@@ -15,7 +15,7 @@ const MESSAGE = {
 };
 
 function ManageMember({ group, setGroup, member }) {
-  const { mutate } = usePutUpdateGroup();
+  const { mutate: updateGroupMutate } = usePutUpdateGroup();
   const { addToast } = useToastContext();
   const { value, onChange } = useInput('');
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ function ManageMember({ group, setGroup, member }) {
         ...updatedMember,
       }),
     };
-    mutate(data, {
+    updateGroupMutate(data, {
       onSuccess: (data) => {
         const updatedGroup = { ...data, description: JSON.parse(data.description) };
         setGroup(updatedGroup);
