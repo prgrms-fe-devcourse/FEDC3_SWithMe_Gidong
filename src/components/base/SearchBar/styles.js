@@ -25,7 +25,7 @@ export const Input = styled.input`
 export const Label = styled.label`
   display: block;
   position: absolute;
-  bottom: -1.6em;
+  bottom: -1.6rem;
   right: 0;
   background-color: transparent;
 `;
