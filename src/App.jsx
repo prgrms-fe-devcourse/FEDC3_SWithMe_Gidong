@@ -1,4 +1,4 @@
-import { createChannel, deleteChannel, getChannelList, updateChannel } from '@/api/channel';
+import { createChannel, deleteChannel, updateChannel } from '@/api/channel';
 import { getAllUsers } from '@/api/user';
 import AuthProvider from '@/context/AuthProvider';
 import CommentProvider from '@/context/CommentProvider';
@@ -16,7 +16,6 @@ import { useCallback } from 'react';
 
 function App() {
   const queryClient = new QueryClient();
-  const initialGroups = useAsync(getChannelList, []);
   const initialUsers = useAsync(getAllUsers, []);
   const handleCreateGroup = useCallback(async (data) => {
     return await createChannel(data);
@@ -35,7 +34,7 @@ function App() {
         <AuthProvider>
           <UserProvider initialUsers={initialUsers}>
             <GroupProvider
-              initialGroups={initialGroups}
+              initialGroups={[]}
               handleCreateGroup={handleCreateGroup}
               handleUpdateGroup={handleUpdateGroup}
               handleDeleteGroup={handleDeleteGroup}>

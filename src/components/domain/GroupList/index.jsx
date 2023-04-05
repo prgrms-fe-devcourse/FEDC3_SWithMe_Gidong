@@ -2,37 +2,21 @@ import { imgSearch } from '@/assets/images';
 import { Empty, Spinner } from '@/components/base';
 import GroupItem from '@/components/domain/GroupItem';
 import TILList from '@/components/domain/TILList';
-import { useAuthContext } from '@/context/AuthProvider';
 import { COLOR } from '@/styles/color';
 import { Fragment, useEffect, useState } from 'react';
-import { useGetGroupList } from '@/hooks/queries/group';
 import { StyledGroupList } from './styles';
 import { setItem, getItem } from '@/utils/sessionStorage';
 
-function GroupList() {
-  const groupList = useGetGroupList();
+function GroupList({ myGroupList, isLoading }) {
   const [openedGroupId, setOpenedGroupId] = useState(getItem('openedGroupId'));
-  const {
-    authState: { loggedUser },
-  } = useAuthContext();
-  const [myGroupList, setMyGroupList] = useState([]);
 
   useEffect(() => {
     setItem('openedGroupId', openedGroupId);
   }, [openedGroupId]);
 
-  useEffect(() => {
-    setMyGroupList(
-      groupList.data?.filter(
-        ({ description }) =>
-          description.master === loggedUser._id || description.member.some((el) => el === loggedUser._id),
-      ),
-    );
-  }, [groupList.data]);
-
   return (
     <>
-      {groupList.isLoading ? (
+      {isLoading ? (
         <Spinner size={40} color={COLOR.TAG_COLOR[1]} />
       ) : (
         <StyledGroupList isEmpty={!myGroupList?.length}>
