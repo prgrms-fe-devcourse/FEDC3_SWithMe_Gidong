@@ -2,7 +2,7 @@ import { Icon } from '@/components/base';
 import { COLOR } from '@/styles/color';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { StyledPagination } from './styles';
+import * as S from './styles';
 
 const Pagination = ({ defaultPage = 0, limit, total, onChange }) => {
   const [page, setPage] = useState(defaultPage);
@@ -16,7 +16,7 @@ const Pagination = ({ defaultPage = 0, limit, total, onChange }) => {
   if (!totalPage) return null;
 
   return (
-    <StyledPagination>
+    <S.Pagination>
       <button onClick={() => handleChangePage(0)}>
         <Icon name='angles-left' />
       </button>
@@ -36,7 +36,7 @@ const Pagination = ({ defaultPage = 0, limit, total, onChange }) => {
       <button onClick={() => handleChangePage(totalPage - 1)}>
         <Icon name='angles-right' />
       </button>
-    </StyledPagination>
+    </S.Pagination>
   );
 };
 
