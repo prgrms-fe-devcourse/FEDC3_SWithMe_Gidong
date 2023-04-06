@@ -1,12 +1,18 @@
 import { Button, Icon, SearchBar, Tag, Text } from '@/components/base';
 import { Introduction, Member, MemberList } from '@/components/domain/groupInfo';
+
 import { useAuthContext } from '@/context/AuthProvider';
 import { useGroupContext } from '@/context/GroupProvider';
-import { useUserContext } from '@/context/UserProvider';
+
 import useInput from '@/hooks/useInput';
+
+import { usersState } from '@/stores/users';
+import { useRecoilValue } from 'recoil';
+
+import { useEffect, useState } from 'react';
+
 import { COLOR } from '@/styles/color';
 import theme from '@/styles/theme';
-import { useEffect, useState } from 'react';
 import {
   StyledButtonWrapper,
   StyledContentContainer,
@@ -16,11 +22,11 @@ import {
 } from './styles';
 
 function GroupInfoModal({ group, visible, onClose, ...props }) {
+  const users = useRecoilValue(usersState);
   const {
     authState: { loggedUser },
   } = useAuthContext();
   const { onUpdateGroup } = useGroupContext();
-  const { users } = useUserContext();
 
   const { name, description, _id } = group;
   const { master: masterId, tagList, intro, member: memberIds } = description;

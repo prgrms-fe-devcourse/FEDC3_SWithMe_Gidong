@@ -2,12 +2,10 @@ import Router from '@/Router';
 import { useCallback } from 'react';
 
 import { createChannel, deleteChannel, getChannelList, updateChannel } from '@/api/channel';
-import { getAllUsers } from '@/api/user';
 
 import AuthProvider from '@/context/AuthProvider';
 import GroupProvider from '@/context/GroupProvider';
 import ToastProvider from '@/context/ToastProvider';
-import UserProvider from '@/context/UserProvider';
 
 import { useAsync } from '@/hooks';
 
@@ -23,7 +21,6 @@ export const queryClient = new QueryClient();
 
 function App() {
   const initialGroups = useAsync(getChannelList, []);
-  const initialUsers = useAsync(getAllUsers, []);
   const handleCreateGroup = useCallback(async (data) => {
     return await createChannel(data);
   }, []);
@@ -42,15 +39,13 @@ function App() {
         <ThemeProvider theme={theme}>
           <ToastProvider>
             <AuthProvider>
-              <UserProvider initialUsers={initialUsers}>
-                <GroupProvider
-                  initialGroups={initialGroups}
-                  handleCreateGroup={handleCreateGroup}
-                  handleUpdateGroup={handleUpdateGroup}
-                  handleDeleteGroup={handleDeleteGroup}>
-                  <Router />
-                </GroupProvider>
-              </UserProvider>
+              <GroupProvider
+                initialGroups={initialGroups}
+                handleCreateGroup={handleCreateGroup}
+                handleUpdateGroup={handleUpdateGroup}
+                handleDeleteGroup={handleDeleteGroup}>
+                <Router />
+              </GroupProvider>
             </AuthProvider>
           </ToastProvider>
         </ThemeProvider>

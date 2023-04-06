@@ -1,13 +1,22 @@
+import { postUserSignUp } from '@/api/userSign';
+
 import { imgLogin } from '@/assets/images';
+
 import { Heading, Image, Spinner, Text } from '@/components/base';
 import SignInput from '@/components/domain/SignInput';
+
 import { useToastContext } from '@/context/ToastProvider';
-import { useUserContext } from '@/context/UserProvider';
-import { COLOR } from '@/styles/color';
+
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { usersState } from '@/stores/users';
+import { useSetRecoilState } from 'recoil';
+
+import { COLOR } from '@/styles/color';
 
 const ERRORS = {
   FULLNAME_EMPTY_ERROR: '이름을 입력해 주세요.',
@@ -32,8 +41,9 @@ const INPUT_NUMBER_LIMIT = {
 
 function SignUp() {
   const navigate = useNavigate();
-  const { onCreateUser } = useUserContext();
   const { addToast } = useToastContext();
+
+  const setUsers = useSetRecoilState(usersState);
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -59,16 +69,16 @@ function SignUp() {
     if (!confirmPassword) return setConfirmPasswordAlert(ERRORS.CONFIRMPASSWORD_EMPTY_ERROR);
     if (password !== confirmPassword) return setConfirmPasswordAlert(ERRORS.PASSWORD_DIFFERENT_ERROR);
 
-    const requestBody = {
+    setIsLoading(true);
+
+    const createdUser = await postUserSignUp({
       email,
       fullName,
       password,
-    };
-
-    setIsLoading(true);
-    await onCreateUser(requestBody);
-
+    });
+    setUsers((prevUsers) => [...prevUsers, createdUser]);
     addToast('회원가입이 완료 되었습니다.');
+
     setIsLoading(false);
 
     navigate('/signIn');

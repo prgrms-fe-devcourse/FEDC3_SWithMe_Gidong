@@ -1,18 +1,23 @@
 import { Divider, Heading, Icon, Text } from '@/components/base';
 import GroupInfoModal from '@/components/domain/GroupInfoModal';
+
 import { useAuthContext } from '@/context/AuthProvider';
 import { useGroupContext } from '@/context/GroupProvider';
-import { useUserContext } from '@/context/UserProvider';
-import { COLOR } from '@/styles/color';
+
+import { usersState } from '@/stores/users';
+import { useRecoilValue } from 'recoil';
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { COLOR } from '@/styles/color';
 import {
   StyledGroupHeader,
+  StyledGroupIcons,
   StyledGroupInfo,
   StyledGroupTitle,
-  StyledGroupIcons,
-  StyledTagList,
   StyledTag,
+  StyledTagList,
   StyledToggleButton,
 } from './styles';
 
@@ -28,7 +33,7 @@ function GroupItem({ group, isLastGroup }) {
   const isMaster = masterId === loggedUser._id;
   const navigate = useNavigate();
 
-  const { users } = useUserContext();
+  const users = useRecoilValue(usersState);
   const [master, setMaster] = useState();
 
   useEffect(() => {
