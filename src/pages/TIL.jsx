@@ -1,50 +1,52 @@
 import { createAlarm, deleteAlarm } from '@/api/alarm';
-import { Avatar, Button, Divider, Heading, Tag, Text } from '@/components/base';
+
+import { Avatar, Button, Divider, Heading, Spinner, Tag, Text } from '@/components/base';
 import AuthorNav from '@/components/domain/AuthorNav';
 import CommentList from '@/components/domain/CommentList';
 import CreateComment from '@/components/domain/CreateComment';
 import FloatingLikeButton from '@/components/domain/FloatingLikeButton';
+
 import { useAuthContext } from '@/context/AuthProvider';
 import { useCommentContext } from '@/context/CommentProvider';
 import { useLikeContext } from '@/context/LikeProvider';
-import { useTILContext } from '@/context/TILProvider';
+
+import { useDeleteTIL, useGetTIL } from '@/hooks/queries/tils';
 import useInput from '@/hooks/useInput';
-import { COLOR } from '@/styles/color';
+
 import { convertDate } from '@/utils/date';
 import { isMember } from '@/utils/group';
 import { isAuthor } from '@/utils/post';
 import { getItem, removeItem, setItem } from '@/utils/storage';
 import { checkAbleSubmit, checkIsEmptyObj } from '@/utils/validation';
-import styled from '@emotion/styled';
+
 import { Viewer } from '@toast-ui/react-editor';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { COLOR } from '@/styles/color';
+import styled from '@emotion/styled';
+
 function TIL() {
+  const navigate = useNavigate();
   const {
     authState: { loggedUser },
   } = useAuthContext();
-  const navigate = useNavigate();
-  const { onDeleteTIL, onGetTIL } = useTILContext();
+  const { id } = useParams();
+
+  const { data: til, isLoading } = useGetTIL(id);
+  const { mutate: deleteTIL } = useDeleteTIL();
+
   const { comments, onInitComment, onCreateComment } = useCommentContext();
   const { likes, onInitLike, onCreateLike, onDeleteLike } = useLikeContext();
+
   const viewerRef = useRef(null);
   const comment = useInput('');
   const likeButtonRef = useRef(null);
 
-  const { id } = useParams();
-  const [til, setTil] = useState();
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const getTIL = useCallback(async () => {
-    const response = await onGetTIL(id);
-    await setTil(response);
-
-    return response;
-  }, [id]);
 
   const init = useCallback(async (til) => {
     await onInitComment(til.comments);
@@ -52,22 +54,19 @@ function TIL() {
   }, []);
 
   useEffect(() => {
-    if (!id) return;
+    if (!til) return;
 
     (async () => {
-      const til = await getTIL();
       init(til);
     })();
-  }, [id]);
+  }, [til]);
 
   const ableSubmit = useMemo(() => checkAbleSubmit([comment.value.length]), [comment.value]);
 
   const handleDeleteButtonClick = async () => {
     if (!confirm('정말 삭제하시겠습니까? 한번 삭제하면 되돌릴 수 없습니다.')) return;
 
-    await onDeleteTIL({
-      id: til._id,
-    });
+    deleteTIL({ id: til._id });
     navigate('/myGroup');
   };
 
@@ -128,7 +127,9 @@ function TIL() {
   return (
     <StyledPageWrapper>
       <StyledTIL className='til'>
-        {!checkIsEmptyObj(til) && (
+        {isLoading ? (
+          <Spinner size='xLarge' color={COLOR.TAG_COLOR[1]} />
+        ) : (
           <>
             <FloatingLikeButton likes={likes} likeButtonRef={likeButtonRef} onClick={toggleLikeButtonClick} />
             <StyledHeader>
