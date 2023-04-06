@@ -5,7 +5,6 @@ import { createChannel, deleteChannel, getChannelList, updateChannel } from '@/a
 import { getAllUsers } from '@/api/user';
 
 import AuthProvider from '@/context/AuthProvider';
-import CommentProvider from '@/context/CommentProvider';
 import GroupProvider from '@/context/GroupProvider';
 import LikeProvider from '@/context/LikeProvider';
 import ToastProvider from '@/context/ToastProvider';
@@ -50,11 +49,9 @@ function App() {
                   handleCreateGroup={handleCreateGroup}
                   handleUpdateGroup={handleUpdateGroup}
                   handleDeleteGroup={handleDeleteGroup}>
-                  <CommentProvider>
-                    <LikeProvider>
-                      <Router />
-                    </LikeProvider>
-                  </CommentProvider>
+                  <LikeProvider>
+                    <Router />
+                  </LikeProvider>
                 </GroupProvider>
               </UserProvider>
             </AuthProvider>

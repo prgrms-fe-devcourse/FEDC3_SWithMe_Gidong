@@ -7,9 +7,9 @@ import CreateComment from '@/components/domain/CreateComment';
 import FloatingLikeButton from '@/components/domain/FloatingLikeButton';
 
 import { useAuthContext } from '@/context/AuthProvider';
-import { useCommentContext } from '@/context/CommentProvider';
 import { useLikeContext } from '@/context/LikeProvider';
 
+import { useCreateComment } from '@/hooks/queries/comments';
 import { useDeleteTIL, useGetTIL } from '@/hooks/queries/tils';
 import useInput from '@/hooks/useInput';
 
@@ -29,16 +29,16 @@ import styled from '@emotion/styled';
 
 function TIL() {
   const navigate = useNavigate();
+  const { id } = useParams();
+
   const {
     authState: { loggedUser },
   } = useAuthContext();
-  const { id } = useParams();
+  const { mutate: createComment } = useCreateComment();
+  const { likes, onInitLike, onCreateLike, onDeleteLike } = useLikeContext();
 
   const { data: til, isLoading } = useGetTIL(id);
   const { mutate: deleteTIL } = useDeleteTIL();
-
-  const { comments, onInitComment, onCreateComment } = useCommentContext();
-  const { likes, onInitLike, onCreateLike, onDeleteLike } = useLikeContext();
 
   const viewerRef = useRef(null);
   const comment = useInput('');
@@ -49,7 +49,6 @@ function TIL() {
   }, []);
 
   const init = useCallback(async (til) => {
-    await onInitComment(til.comments);
     await onInitLike(til.likes);
   }, []);
 
@@ -77,19 +76,25 @@ function TIL() {
       _id: postId,
       author: { _id: userId },
     } = til;
-    const { _id: notificationTypeId } = await onCreateComment({
-      comment: comment.value,
-      postId,
-    });
-    const { _id: alarmId } = await createAlarm({
-      notificationType: 'COMMENT',
-      notificationTypeId,
-      userId,
-      postId,
-    });
-    setItem(notificationTypeId, alarmId);
 
-    comment.onChange('');
+    await createComment(
+      {
+        comment: comment.value,
+        postId,
+      },
+      {
+        onSuccess: async ({ _id: notificationTypeId }) => {
+          const { _id: alarmId } = await createAlarm({
+            notificationType: 'COMMENT',
+            notificationTypeId,
+            userId,
+            postId,
+          });
+          setItem(notificationTypeId, alarmId);
+          comment.onChange('');
+        },
+      },
+    );
   };
 
   const toggleLikeButtonClick = async () => {
@@ -174,7 +179,7 @@ function TIL() {
               <CreateComment comment={comment} ableSubmit={ableSubmit} onSubmit={handleSubmitButtonClick} />
             )}
             <StyledCommentListWrapper marginTop={checkIsEmptyObj(loggedUser) ? '0' : '4rem'}>
-              <CommentList comments={comments} />
+              <CommentList comments={til.comments} authorId={til.author._id} />
             </StyledCommentListWrapper>
           </>
         )}
