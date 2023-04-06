@@ -6,7 +6,6 @@ import { getAllUsers } from '@/api/user';
 
 import AuthProvider from '@/context/AuthProvider';
 import GroupProvider from '@/context/GroupProvider';
-import LikeProvider from '@/context/LikeProvider';
 import ToastProvider from '@/context/ToastProvider';
 import UserProvider from '@/context/UserProvider';
 
@@ -49,9 +48,7 @@ function App() {
                   handleCreateGroup={handleCreateGroup}
                   handleUpdateGroup={handleUpdateGroup}
                   handleDeleteGroup={handleDeleteGroup}>
-                  <LikeProvider>
-                    <Router />
-                  </LikeProvider>
+                  <Router />
                 </GroupProvider>
               </UserProvider>
             </AuthProvider>

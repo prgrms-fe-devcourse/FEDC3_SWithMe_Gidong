@@ -7,9 +7,9 @@ import CreateComment from '@/components/domain/CreateComment';
 import FloatingLikeButton from '@/components/domain/FloatingLikeButton';
 
 import { useAuthContext } from '@/context/AuthProvider';
-import { useLikeContext } from '@/context/LikeProvider';
 
 import { useCreateComment } from '@/hooks/queries/comments';
+import { useCreateLike, useDeleteLike } from '@/hooks/queries/likes';
 import { useDeleteTIL, useGetTIL } from '@/hooks/queries/tils';
 import useInput from '@/hooks/useInput';
 
@@ -21,7 +21,7 @@ import { checkAbleSubmit, checkIsEmptyObj } from '@/utils/validation';
 
 import { Viewer } from '@toast-ui/react-editor';
 
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { COLOR } from '@/styles/color';
@@ -34,11 +34,13 @@ function TIL() {
   const {
     authState: { loggedUser },
   } = useAuthContext();
-  const { mutate: createComment } = useCreateComment();
-  const { likes, onInitLike, onCreateLike, onDeleteLike } = useLikeContext();
 
   const { data: til, isLoading } = useGetTIL(id);
   const { mutate: deleteTIL } = useDeleteTIL();
+
+  const { mutate: createComment } = useCreateComment();
+  const { mutate: createLike } = useCreateLike();
+  const { mutate: deleteLike } = useDeleteLike();
 
   const viewerRef = useRef(null);
   const comment = useInput('');
@@ -47,18 +49,6 @@ function TIL() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const init = useCallback(async (til) => {
-    await onInitLike(til.likes);
-  }, []);
-
-  useEffect(() => {
-    if (!til) return;
-
-    (async () => {
-      init(til);
-    })();
-  }, [til]);
 
   const ableSubmit = useMemo(() => checkAbleSubmit([comment.value.length]), [comment.value]);
 
@@ -97,36 +87,49 @@ function TIL() {
     );
   };
 
-  const toggleLikeButtonClick = async () => {
-    const loggedUserLike = likes.find((like) => like.user === loggedUser._id);
+  const handleLikeToggle = async () => {
+    const loggedUserLike = til.likes.find((like) => like.user === loggedUser._id);
 
     if (!loggedUserLike) {
       const {
         _id: postId,
         author: { _id: userId },
       } = til;
-      const { _id: notificationTypeId } = await onCreateLike({
-        comment: comment.value,
-        postId,
-      });
-      const { _id: alarmId } = await createAlarm({
-        notificationType: 'LIKE',
-        notificationTypeId,
-        userId,
-        postId,
-      });
 
-      setItem(notificationTypeId, alarmId);
-    } else {
-      const { _id: likeId } = await onDeleteLike({
-        id: loggedUserLike._id,
-      });
-      await deleteAlarm({
-        id: getItem(likeId, ''),
-      });
+      await createLike(
+        {
+          comment: comment.value,
+          postId,
+        },
+        {
+          onSuccess: async ({ _id: notificationTypeId }) => {
+            const { _id: alarmId } = await createAlarm({
+              notificationType: 'LIKE',
+              notificationTypeId,
+              userId,
+              postId,
+            });
+            setItem(notificationTypeId, alarmId);
+          },
+        },
+      );
 
-      removeItem(likeId);
+      return;
     }
+
+    await deleteLike(
+      {
+        id: loggedUserLike._id,
+      },
+      {
+        onSuccess: async ({ _id: likeId }) => {
+          await deleteAlarm({
+            id: getItem(likeId, ''),
+          });
+          removeItem(likeId);
+        },
+      },
+    );
   };
 
   return (
@@ -136,7 +139,7 @@ function TIL() {
           <Spinner size='xLarge' color={COLOR.TAG_COLOR[1]} />
         ) : (
           <>
-            <FloatingLikeButton likes={likes} likeButtonRef={likeButtonRef} onClick={toggleLikeButtonClick} />
+            <FloatingLikeButton likes={til.likes} likeButtonRef={likeButtonRef} onClick={handleLikeToggle} />
             <StyledHeader>
               <Heading level={1}>📚 [{til.channel.name}]에 대한 TIL</Heading>
               {!isMember(til.channel, loggedUser._id) && (
