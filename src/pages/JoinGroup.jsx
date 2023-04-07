@@ -7,7 +7,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { usePutUpdateGroup } from '@/hooks/queries/group';
+import { useUpdateGroup } from '@/hooks/queries/group';
 
 const DISABLED_MESSAGE = {
   NEED_LOGIN: '로그인이 필요한 서비스입니다.',
@@ -25,7 +25,7 @@ function JoinGroup() {
     authState: { isLoggedIn, loggedUser },
   } = useAuthContext();
   const [guideMessage, setGuideMessage] = useState('');
-  const { mutate: updateGroupMutate } = usePutUpdateGroup();
+  const { mutate: updateGroupMutate } = useUpdateGroup();
   const navigate = useNavigate();
 
   const handleJoinClick = async () => {

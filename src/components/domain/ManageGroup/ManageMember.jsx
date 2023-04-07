@@ -4,7 +4,7 @@ import { useToastContext } from '@/context/ToastProvider';
 import useInput from '@/hooks/useInput';
 import { useNavigate } from 'react-router-dom';
 import { StyledManageMember, StyledGroupInfo } from './styles';
-import { usePutUpdateGroup } from '@/hooks/queries/group';
+import { useUpdateGroup } from '@/hooks/queries/group';
 
 const MESSAGE = {
   ALERT_MEMBER_KICK: '이 강퇴 되었습니다.',
@@ -14,7 +14,7 @@ const MESSAGE = {
 };
 
 function ManageMember({ group, setGroup, member }) {
-  const { mutate: updateGroupMutate } = usePutUpdateGroup();
+  const { mutate: updateGroupMutate } = useUpdateGroup();
   const { addToast } = useToastContext();
   const { value, onChange } = useInput('');
   const navigate = useNavigate();

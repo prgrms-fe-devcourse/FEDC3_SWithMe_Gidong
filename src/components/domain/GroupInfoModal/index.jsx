@@ -13,14 +13,14 @@ import {
   StyledMemberListContainerLabel,
   StyledModal,
 } from './styles';
-import { usePutUpdateGroup } from '@/hooks/queries/group';
+import { useUpdateGroup } from '@/hooks/queries/group';
 import { useQueryClient } from '@tanstack/react-query';
 
 function GroupInfoModal({ group, visible, onClose, ...props }) {
   const {
     authState: { loggedUser },
   } = useAuthContext();
-  const { mutate: updateGroupMutate } = usePutUpdateGroup();
+  const { mutate: updateGroupMutate } = useUpdateGroup();
   const queryClient = useQueryClient();
 
   const { users } = useUserContext();
