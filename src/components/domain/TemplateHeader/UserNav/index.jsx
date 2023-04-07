@@ -6,12 +6,12 @@ import { useRecoilValue } from 'recoil';
 import { isAuthorizedState } from '@/stores/auth';
 
 const UserNav = () => {
-  const isAuthed = useRecoilValue(isAuthorizedState);
+  const isAuthorized = useRecoilValue(isAuthorizedState);
   const navigate = useNavigate();
 
   return (
     <StyledUserNav>
-      {isAuthed ? (
+      {isAuthorized ? (
         <Authorized />
       ) : (
         <Button fontSize='large' version='transparent' onClick={() => navigate('/signIn')}>

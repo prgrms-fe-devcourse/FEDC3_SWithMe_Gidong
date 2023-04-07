@@ -18,7 +18,7 @@ const DISABLED_MESSAGE = {
 };
 
 function JoinGroup() {
-  const isAuthed = useRecoilValue(isAuthorizedState);
+  const isAuthorized = useRecoilValue(isAuthorizedState);
   const loggedUser = useRecoilValue(userState);
   const {
     state: { group },
@@ -47,7 +47,7 @@ function JoinGroup() {
   }, []);
 
   useEffect(() => {
-    if (!isAuthed) {
+    if (!isAuthorized) {
       setGuideMessage(DISABLED_MESSAGE.NEED_LOGIN);
       return;
     } else if (master === loggedUser._id || member.some((id) => id === loggedUser._id)) {

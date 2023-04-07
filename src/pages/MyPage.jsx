@@ -32,13 +32,13 @@ const INPUT_NUMBER_LIMIT = {
 };
 
 function MyPage() {
-  const isAuthed = useRecoilValue(isAuthorizedState);
+  const isAuthorized = useRecoilValue(isAuthorizedState);
   const loggedUser = useRecoilValue(userState);
   const navigate = useNavigate();
   const { onReload } = useAuth();
   const { addToast } = useToastContext();
 
-  if (!isAuthed) navigate('/');
+  if (!isAuthorized) navigate('/');
 
   const [values, setValues] = useState({
     image: '',
