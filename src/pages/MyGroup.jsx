@@ -6,15 +6,14 @@ import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useState, useEffect } from 'react';
 import { useGetGroupList } from '@/hooks/queries/group';
-import { useAuthContext } from '@/context/AuthProvider';
+import { useRecoilValue } from 'recoil';
+import { userState } from '@/stores/user';
 
 function MyGroup() {
+  const loggedUser = useRecoilValue(userState);
   const [createGroupModalVisible, setCreateGroupModalVisible] = useState(false);
   const groupList = useGetGroupList();
   const [myGroupList, setMyGroupList] = useState([]);
-  const {
-    authState: { loggedUser },
-  } = useAuthContext();
 
   useEffect(() => {
     setMyGroupList(

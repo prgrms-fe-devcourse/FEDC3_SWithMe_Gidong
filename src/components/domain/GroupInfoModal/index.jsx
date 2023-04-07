@@ -1,6 +1,5 @@
 import { Button, Icon, SearchBar, Tag, Text } from '@/components/base';
 import { Introduction, Member, MemberList } from '@/components/domain/groupInfo';
-import { useAuthContext } from '@/context/AuthProvider';
 import { useUserContext } from '@/context/UserProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
@@ -13,12 +12,12 @@ import {
   StyledMemberListContainerLabel,
   StyledModal,
 } from './styles';
+import { userState } from '@/stores/user';
+import { useRecoilValue } from 'recoil';
 import { useUpdateGroup } from '@/hooks/queries/group';
 
 function GroupInfoModal({ group, visible, onClose, ...props }) {
-  const {
-    authState: { loggedUser },
-  } = useAuthContext();
+  const loggedUser = useRecoilValue(userState);
   const { mutate: updateGroupMutate } = useUpdateGroup();
 
   const { users } = useUserContext();

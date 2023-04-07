@@ -1,12 +1,11 @@
 import { Icon, Text } from '@/components/base';
-import { useAuthContext } from '@/context/AuthProvider';
 import { checkIsEmptyObj } from '@/utils/validation';
 import { StyledLikeButtonContainer } from './styles';
+import { useRecoilValue } from 'recoil';
+import { userState } from '@/stores/user';
 
 function FloatingLikeButton({ likes, likeButtonRef, onClick }) {
-  const {
-    authState: { loggedUser },
-  } = useAuthContext();
+  const loggedUser = useRecoilValue(userState);
 
   return (
     <StyledLikeButtonContainer

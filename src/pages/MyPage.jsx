@@ -1,12 +1,15 @@
 import { postUserAvatar, putUserFullName, putUserPassword } from '@/api/userInfo';
 import { imgMypage } from '@/assets/images';
 import { Avatar, Button, Input, Text } from '@/components/base';
-import { useAuthContext } from '@/context/AuthProvider';
+import useAuth from '@/hooks/useAuth';
 import { useToastContext } from '@/context/ToastProvider';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { isAuthorizedState } from '@/stores/auth';
+import { userState } from '@/stores/user';
 
 const TOGGLE_PASSWORD_BLIND_TYPES = {
   PASSWORD: 'password',
@@ -29,14 +32,13 @@ const INPUT_NUMBER_LIMIT = {
 };
 
 function MyPage() {
+  const isAuthorized = useRecoilValue(isAuthorizedState);
+  const loggedUser = useRecoilValue(userState);
   const navigate = useNavigate();
-  const {
-    authState: { isLoggedIn, loggedUser },
-    onReload,
-  } = useAuthContext();
+  const { onReload } = useAuth();
   const { addToast } = useToastContext();
 
-  if (!isLoggedIn) navigate('/');
+  if (!isAuthorized) navigate('/');
 
   const [values, setValues] = useState({
     image: '',

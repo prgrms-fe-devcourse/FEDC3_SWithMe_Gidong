@@ -1,6 +1,5 @@
 import { Divider, Heading, Icon, Text } from '@/components/base';
 import GroupInfoModal from '@/components/domain/GroupInfoModal';
-import { useAuthContext } from '@/context/AuthProvider';
 import { useUserContext } from '@/context/UserProvider';
 import { COLOR } from '@/styles/color';
 import { useEffect, useState } from 'react';
@@ -14,14 +13,14 @@ import {
   StyledTag,
   StyledToggleButton,
 } from './styles';
+import { useRecoilValue } from 'recoil';
+import { userState } from '@/stores/user';
 
 function GroupItem({ group, isLastGroup, openedGroupId, setOpenedGroupId }) {
   const [groupInfoModalVisible, setGroupInfoModalVisible] = useState(false);
   const { _id, name, description } = group;
   const { master: masterId, tagList, intro } = description;
-  const {
-    authState: { loggedUser },
-  } = useAuthContext();
+  const loggedUser = useRecoilValue(userState);
   const isOpened = openedGroupId === _id;
   const isMaster = masterId === loggedUser._id;
   const navigate = useNavigate();

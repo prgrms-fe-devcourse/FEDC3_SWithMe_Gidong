@@ -1,10 +1,10 @@
 import { getAllUsers } from '@/api/user';
-import AuthProvider from '@/context/AuthProvider';
 import CommentProvider from '@/context/CommentProvider';
 import LikeProvider from '@/context/LikeProvider';
 import TILProvider from '@/context/TILProvider';
 import ToastProvider from '@/context/ToastProvider';
 import UserProvider from '@/context/UserProvider';
+import { RecoilRoot } from 'recoil';
 import { useAsync } from '@/hooks';
 import Router from '@/Router';
 import GlobalStyle from '@/styles/globalStyle';
@@ -19,11 +19,11 @@ function App() {
   const initialUsers = useAsync(getAllUsers, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <QueryClientProvider client={queryClient}>
-        <ToastProvider>
-          <AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <GlobalStyle />
+        <ThemeProvider theme={theme}>
+          <ToastProvider>
             <UserProvider initialUsers={initialUsers}>
               <TILProvider>
                 <CommentProvider>
@@ -33,11 +33,11 @@ function App() {
                 </CommentProvider>
               </TILProvider>
             </UserProvider>
-          </AuthProvider>
-        </ToastProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </ThemeProvider>
+          </ToastProvider>
+        </ThemeProvider>
+      </RecoilRoot>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 

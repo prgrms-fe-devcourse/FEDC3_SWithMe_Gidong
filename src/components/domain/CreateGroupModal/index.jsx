@@ -1,9 +1,10 @@
 import { Button, Icon, Input, TagInput, Text, Textarea } from '@/components/base';
-import { useAuthContext } from '@/context/AuthProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import useInput from '@/hooks/useInput';
 import { useState } from 'react';
 import { StyledButtonContainer, StyledContentContainer, StyledHeaderContainer, StyledModal } from './styles';
+import { useRecoilValue } from 'recoil';
+import { userState } from '@/stores/user';
 import { useCreateGroup } from '@/hooks/queries/group';
 
 const MAX_STEP_SIZE = 4;
@@ -14,9 +15,7 @@ const STEPS = {
 };
 
 function CreateGroupModal({ visible, groups, setMyGroupList, onClose, ...props }) {
-  const {
-    authState: { loggedUser },
-  } = useAuthContext();
+  const loggedUser = useRecoilValue(userState);
   const { addToast } = useToastContext();
   const { mutate: createGroupMutate } = useCreateGroup();
   const [step, setStep] = useState(1);

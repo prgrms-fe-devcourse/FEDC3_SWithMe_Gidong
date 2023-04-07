@@ -2,14 +2,14 @@ import { useAlarms } from '@/api/alarm';
 import { postUserSignOut } from '@/api/userSign';
 import { Badge, Button, Icon } from '@/components/base';
 import AlarmModal from '@/components/domain/AlarmModal';
-import { useAuthContext } from '@/context/AuthProvider';
+import useAuth from '@/hooks/useAuth';
 import { COLOR } from '@/styles/color';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Authorized = () => {
   const navigate = useNavigate();
-  const { onLogout } = useAuthContext();
+  const { onLogout } = useAuth();
 
   const signOut = async () => {
     await postUserSignOut();
