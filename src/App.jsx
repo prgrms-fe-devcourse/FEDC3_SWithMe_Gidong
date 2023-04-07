@@ -1,7 +1,5 @@
-import { createChannel, deleteChannel, getChannelList, updateChannel } from '@/api/channel';
 import { getAllUsers } from '@/api/user';
 import CommentProvider from '@/context/CommentProvider';
-import GroupProvider from '@/context/GroupProvider';
 import LikeProvider from '@/context/LikeProvider';
 import TILProvider from '@/context/TILProvider';
 import ToastProvider from '@/context/ToastProvider';
@@ -10,34 +8,23 @@ import { RecoilRoot } from 'recoil';
 import { useAsync } from '@/hooks';
 import Router from '@/Router';
 import GlobalStyle from '@/styles/globalStyle';
-import { ThemeProvider } from '@emotion/react';
 import theme from '@/styles/theme';
-import { useCallback } from 'react';
+import { ThemeProvider } from '@emotion/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+const queryClient = new QueryClient();
 
 function App() {
-  const initialGroups = useAsync(getChannelList, []);
   const initialUsers = useAsync(getAllUsers, []);
-  const handleCreateGroup = useCallback(async (data) => {
-    return await createChannel(data);
-  }, []);
-  const handleUpdateGroup = useCallback(async (data) => {
-    return await updateChannel(data);
-  }, []);
-  const handleDeleteGroup = useCallback(async (data) => {
-    return await deleteChannel(data);
-  });
 
   return (
     <RecoilRoot>
-      <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <ToastProvider>
-          <UserProvider initialUsers={initialUsers}>
-            <GroupProvider
-              initialGroups={initialGroups}
-              handleCreateGroup={handleCreateGroup}
-              handleUpdateGroup={handleUpdateGroup}
-              handleDeleteGroup={handleDeleteGroup}>
+        <GlobalStyle />
+        <QueryClientProvider client={queryClient}>
+          <ToastProvider>
+            <UserProvider initialUsers={initialUsers}>
               <TILProvider>
                 <CommentProvider>
                   <LikeProvider>
@@ -45,9 +32,10 @@ function App() {
                   </LikeProvider>
                 </CommentProvider>
               </TILProvider>
-            </GroupProvider>
-          </UserProvider>
-        </ToastProvider>
+            </UserProvider>
+          </ToastProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
       </ThemeProvider>
     </RecoilRoot>
   );

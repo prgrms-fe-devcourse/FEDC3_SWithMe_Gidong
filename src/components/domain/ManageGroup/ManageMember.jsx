@@ -1,10 +1,10 @@
 import { Heading, Icon, SearchBar } from '@/components/base';
 import { Member, MemberList } from '@/components/domain/groupInfo';
-import { useGroupContext } from '@/context/GroupProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import useInput from '@/hooks/useInput';
 import { useNavigate } from 'react-router-dom';
 import { StyledManageMember, StyledGroupInfo } from './styles';
+import { useUpdateGroup } from '@/hooks/queries/group';
 
 const MESSAGE = {
   ALERT_MEMBER_KICK: '이 강퇴 되었습니다.',
@@ -14,7 +14,7 @@ const MESSAGE = {
 };
 
 function ManageMember({ group, setGroup, member }) {
-  const { onUpdateGroup } = useGroupContext();
+  const { mutate: updateGroupMutate } = useUpdateGroup();
   const { addToast } = useToastContext();
   const { value, onChange } = useInput('');
   const navigate = useNavigate();
@@ -37,16 +37,21 @@ function ManageMember({ group, setGroup, member }) {
             master: _id,
             member: [...group.description.member.filter((memberId) => memberId !== _id), group.description.master],
           };
-    const updatedGroup = {
+    const data = {
       ...group,
       description: JSON.stringify({
         ...group.description,
         ...updatedMember,
       }),
     };
-    setGroup(await onUpdateGroup(updatedGroup));
-    addToast(`'${fullName}'님${MESSAGE[alert]}`);
-    feat === 'd' && navigate('/myGroup');
+    updateGroupMutate(data, {
+      onSuccess: (data) => {
+        const updatedGroup = { ...data, description: JSON.parse(data.description) };
+        setGroup(updatedGroup);
+        addToast(`'${fullName}'님${MESSAGE[alert]}`);
+        feat === 'd' && navigate('/myGroup');
+      },
+    });
   };
 
   return (

@@ -1,6 +1,5 @@
 import { Divider, Heading, Icon, Text } from '@/components/base';
 import GroupInfoModal from '@/components/domain/GroupInfoModal';
-import { useGroupContext } from '@/context/GroupProvider';
 import { useUserContext } from '@/context/UserProvider';
 import { COLOR } from '@/styles/color';
 import { useEffect, useState } from 'react';
@@ -17,9 +16,8 @@ import {
 import { useRecoilValue } from 'recoil';
 import { userState } from '@/stores/user';
 
-function GroupItem({ group, isLastGroup }) {
+function GroupItem({ group, isLastGroup, openedGroupId, setOpenedGroupId }) {
   const [groupInfoModalVisible, setGroupInfoModalVisible] = useState(false);
-  const { openedGroupId, setOpenedGroupId } = useGroupContext();
   const { _id, name, description } = group;
   const { master: masterId, tagList, intro } = description;
   const loggedUser = useRecoilValue(userState);

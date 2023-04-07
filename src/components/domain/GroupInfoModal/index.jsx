@@ -1,6 +1,5 @@
 import { Button, Icon, SearchBar, Tag, Text } from '@/components/base';
 import { Introduction, Member, MemberList } from '@/components/domain/groupInfo';
-import { useGroupContext } from '@/context/GroupProvider';
 import { useUserContext } from '@/context/UserProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
@@ -15,10 +14,12 @@ import {
 } from './styles';
 import { userState } from '@/stores/user';
 import { useRecoilValue } from 'recoil';
+import { useUpdateGroup } from '@/hooks/queries/group';
 
 function GroupInfoModal({ group, visible, onClose, ...props }) {
   const loggedUser = useRecoilValue(userState);
-  const { onUpdateGroup } = useGroupContext();
+  const { mutate: updateGroupMutate } = useUpdateGroup();
+
   const { users } = useUserContext();
 
   const { name, description, _id } = group;
@@ -67,9 +68,7 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
         member: [...memberIds.filter((memberId) => memberId !== loggedUser._id)],
       }),
     };
-
-    await onUpdateGroup(data);
-    onClose && onClose();
+    updateGroupMutate(data, { onSuccess: () => onClose && onClose() });
   };
 
   return (

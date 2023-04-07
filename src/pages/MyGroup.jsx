@@ -4,10 +4,25 @@ import CreateGroupModal from '@/components/domain/CreateGroupModal';
 import GroupList from '@/components/domain/GroupList';
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useGetGroupList } from '@/hooks/queries/group';
+import { useRecoilValue } from 'recoil';
+import { userState } from '@/stores/user';
 
 function MyGroup() {
+  const loggedUser = useRecoilValue(userState);
   const [createGroupModalVisible, setCreateGroupModalVisible] = useState(false);
+  const groupList = useGetGroupList();
+  const [myGroupList, setMyGroupList] = useState([]);
+
+  useEffect(() => {
+    setMyGroupList(
+      groupList.data?.filter(
+        ({ description }) =>
+          description.master === loggedUser._id || description.member.some((el) => el === loggedUser._id),
+      ),
+    );
+  }, [groupList.data]);
 
   return (
     <StyledPageWrapper>
@@ -24,7 +39,12 @@ function MyGroup() {
             그룹 만들기
           </Button>
           {createGroupModalVisible && (
-            <CreateGroupModal visible={createGroupModalVisible} onClose={() => setCreateGroupModalVisible(false)} />
+            <CreateGroupModal
+              visible={createGroupModalVisible}
+              groups={groupList.data}
+              setMyGroupList={setMyGroupList}
+              onClose={() => setCreateGroupModalVisible(false)}
+            />
           )}
         </StyledHeader>
         <StyledDesc>
@@ -46,7 +66,7 @@ function MyGroup() {
           </div>
           <Image src={imgPuzzle} width='30rem' />
         </StyledDesc>
-        <GroupList />
+        <GroupList myGroupList={myGroupList} isLoading={groupList.isLoading} />
       </StyledMyGroup>
     </StyledPageWrapper>
   );
