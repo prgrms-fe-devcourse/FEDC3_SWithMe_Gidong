@@ -1,4 +1,4 @@
-import { atom, useRecoilState, useResetRecoilState } from 'recoil';
+import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 
 const { persistAtom } = recoilPersist();
@@ -8,7 +8,3 @@ export const userState = atom({
   default: {},
   effects_UNSTABLE: [persistAtom],
 });
-
-export const useUserState = () => useRecoilState(userState);
-
-export const useResetUserState = () => useResetRecoilState(userState);
