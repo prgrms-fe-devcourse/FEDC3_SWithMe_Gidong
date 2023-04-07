@@ -14,14 +14,12 @@ import {
   StyledModal,
 } from './styles';
 import { useUpdateGroup } from '@/hooks/queries/group';
-import { useQueryClient } from '@tanstack/react-query';
 
 function GroupInfoModal({ group, visible, onClose, ...props }) {
   const {
     authState: { loggedUser },
   } = useAuthContext();
   const { mutate: updateGroupMutate } = useUpdateGroup();
-  const queryClient = useQueryClient();
 
   const { users } = useUserContext();
 
@@ -71,12 +69,7 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
         member: [...memberIds.filter((memberId) => memberId !== loggedUser._id)],
       }),
     };
-    updateGroupMutate(data, {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['groupList'], { exact: true }, { refetchType: 'all' });
-        onClose && onClose();
-      },
-    });
+    updateGroupMutate(data, { onSuccess: () => onClose && onClose() });
   };
 
   return (
