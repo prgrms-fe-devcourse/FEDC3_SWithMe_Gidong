@@ -1,4 +1,4 @@
-import { createAlarm, deleteAlarm } from '@/api/alarm';
+import { createNotification, deleteNotification } from '@/api/alarm';
 
 import { Avatar, Text, Textarea } from '@/components/base';
 import AuthorNav from '@/components/domain/AuthorNav';
@@ -39,7 +39,7 @@ function CommentItem({ comment, authorId }) {
       { id },
       {
         onSuccess: async ({ _id: commentId }) => {
-          await deleteAlarm({ id: getItem(commentId, '') });
+          await deleteNotification({ id: getItem(commentId, '') });
           removeItem(commentId);
         },
       },
@@ -60,7 +60,7 @@ function CommentItem({ comment, authorId }) {
       { id },
       {
         onSuccess: async ({ _id: commentId }) => {
-          await deleteAlarm({ id: getItem(commentId, '') });
+          await deleteNotification({ id: getItem(commentId, '') });
           removeItem(commentId);
         },
       },
@@ -73,7 +73,7 @@ function CommentItem({ comment, authorId }) {
       },
       {
         onSuccess: async ({ _id: notificationTypeId }) => {
-          const { _id: alarmId } = await createAlarm({
+          const { _id: alarmId } = await createNotification({
             notificationType: 'COMMENT',
             notificationTypeId,
             userId: authorId,

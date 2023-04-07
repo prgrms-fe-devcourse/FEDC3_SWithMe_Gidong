@@ -1,4 +1,4 @@
-import { createAlarm, deleteAlarm } from '@/api/alarm';
+import { createNotification, deleteNotification } from '@/api/alarm';
 
 import { Avatar, Button, Divider, Heading, Spinner, Tag, Text } from '@/components/base';
 import AuthorNav from '@/components/domain/AuthorNav';
@@ -73,7 +73,7 @@ function TIL() {
       },
       {
         onSuccess: async ({ _id: notificationTypeId }) => {
-          const { _id: alarmId } = await createAlarm({
+          const { _id: alarmId } = await createNotification({
             notificationType: 'COMMENT',
             notificationTypeId,
             userId,
@@ -102,7 +102,7 @@ function TIL() {
         },
         {
           onSuccess: async ({ _id: notificationTypeId }) => {
-            const { _id: alarmId } = await createAlarm({
+            const { _id: alarmId } = await createNotification({
               notificationType: 'LIKE',
               notificationTypeId,
               userId,
@@ -122,7 +122,7 @@ function TIL() {
       },
       {
         onSuccess: async ({ _id: likeId }) => {
-          await deleteAlarm({
+          await deleteNotification({
             id: getItem(likeId, ''),
           });
           removeItem(likeId);

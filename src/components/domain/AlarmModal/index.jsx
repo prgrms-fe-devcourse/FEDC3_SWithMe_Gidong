@@ -1,4 +1,4 @@
-import { getAlarms, updateSeenAlarm } from '@/api/alarm';
+import { getNotifications, updateSeenNotification } from '@/api/alarm';
 
 import { Heading, Icon, Text } from '@/components/base';
 import SettingModal from '@/components/domain/SettingModal';
@@ -35,7 +35,7 @@ function AlarmModal({ visible, onClose }) {
     if (!visible) return;
 
     (async () => {
-      setAlarms(await getAlarms());
+      setAlarms(await getNotifications());
     })();
   }, [visible]);
 
@@ -47,8 +47,8 @@ function AlarmModal({ visible, onClose }) {
   const handleUpdateSeenAlarm = async () => {
     if (alarms.every(({ seen }) => seen)) return;
 
-    await updateSeenAlarm();
-    setAlarms(await getAlarms());
+    await updateSeenNotification();
+    setAlarms(await getNotifications());
   };
 
   useEffect(() => {
