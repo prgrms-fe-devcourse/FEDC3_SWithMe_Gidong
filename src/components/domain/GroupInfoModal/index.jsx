@@ -1,7 +1,6 @@
 import { Button, Icon, SearchBar, Tag, Text } from '@/components/base';
 import { Introduction, Member, MemberList } from '@/components/domain/groupInfo';
 import { useAuthContext } from '@/context/AuthProvider';
-import { useGroupContext } from '@/context/GroupProvider';
 import { useUserContext } from '@/context/UserProvider';
 import useInput from '@/hooks/useInput';
 import { COLOR } from '@/styles/color';
@@ -14,12 +13,14 @@ import {
   StyledMemberListContainerLabel,
   StyledModal,
 } from './styles';
+import { useUpdateGroup } from '@/hooks/queries/group';
 
 function GroupInfoModal({ group, visible, onClose, ...props }) {
   const {
     authState: { loggedUser },
   } = useAuthContext();
-  const { onUpdateGroup } = useGroupContext();
+  const { mutate: updateGroupMutate } = useUpdateGroup();
+
   const { users } = useUserContext();
 
   const { name, description, _id } = group;
@@ -68,9 +69,7 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
         member: [...memberIds.filter((memberId) => memberId !== loggedUser._id)],
       }),
     };
-
-    await onUpdateGroup(data);
-    onClose && onClose();
+    updateGroupMutate(data, { onSuccess: () => onClose && onClose() });
   };
 
   return (

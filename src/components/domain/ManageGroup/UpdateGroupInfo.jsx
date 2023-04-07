@@ -1,6 +1,6 @@
 import { Button, Heading, Input, TagInput, Text, Textarea } from '@/components/base';
-import { useGroupContext } from '@/context/GroupProvider';
 import { useToastContext } from '@/context/ToastProvider';
+import { useUpdateGroup } from '@/hooks/queries/group';
 import useInput from '@/hooks/useInput';
 import { useEffect, useState } from 'react';
 import { StyledGroupBox, StyledGroupInfo } from './styles';
@@ -15,7 +15,7 @@ const ALERT_MESSAGE = {
 
 function UpdateGroupInfo({ group, setGroup }) {
   const { headCount: memberCount, tagList: tags, intro: introduction } = group.description;
-  const { onUpdateGroup } = useGroupContext();
+  const { mutate: updateGroupMutate } = useUpdateGroup();
   const { addToast } = useToastContext();
   const groupName = useInput('');
   const headCount = useInput(0);
@@ -63,7 +63,7 @@ function UpdateGroupInfo({ group, setGroup }) {
   const handleSubmit = async () => {
     if (!inputValidate()) return false;
 
-    const updatedGroup = await onUpdateGroup({
+    const data = {
       ...group,
       name: groupName.value,
       description: JSON.stringify({
@@ -72,9 +72,14 @@ function UpdateGroupInfo({ group, setGroup }) {
         tagList: tagList.value,
         intro: intro.value,
       }),
+    };
+    updateGroupMutate(data, {
+      onSuccess: (data) => {
+        const updatedGroup = { ...data, description: JSON.parse(data.description) };
+        setGroup(updatedGroup);
+        addToast(ALERT_MESSAGE.GROUP_UPDATE);
+      },
     });
-    setGroup(updatedGroup);
-    addToast(ALERT_MESSAGE.GROUP_UPDATE);
   };
 
   return (

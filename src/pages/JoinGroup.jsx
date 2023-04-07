@@ -2,12 +2,12 @@ import { Heading, Image, Text, Icon } from '@/components/base';
 import { icCrown } from '@/assets/icons';
 import { imgDefaultAvatar, imgJoin } from '@/assets/images';
 import { useAuthContext } from '@/context/AuthProvider';
-import { useGroupContext } from '@/context/GroupProvider';
 import { COLOR } from '@/styles/color';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useUpdateGroup } from '@/hooks/queries/group';
 
 const DISABLED_MESSAGE = {
   NEED_LOGIN: '로그인이 필요한 서비스입니다.',
@@ -25,7 +25,7 @@ function JoinGroup() {
     authState: { isLoggedIn, loggedUser },
   } = useAuthContext();
   const [guideMessage, setGuideMessage] = useState('');
-  const { onUpdateGroup } = useGroupContext();
+  const { mutate: updateGroupMutate } = useUpdateGroup();
   const navigate = useNavigate();
 
   const handleJoinClick = async () => {
@@ -36,8 +36,9 @@ function JoinGroup() {
         member: [...member, loggedUser._id],
       }),
     };
-    await onUpdateGroup(data);
-    navigate('/myGroup');
+    updateGroupMutate(data, {
+      onSuccess: () => navigate('/myGroup'),
+    });
   };
 
   useEffect(() => {
