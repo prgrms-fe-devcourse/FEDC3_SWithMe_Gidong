@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { getItem, setItem, removeItem } from '@/utils/storage';
+import { setItem, removeItem } from '@/utils/storage';
 import { useAuthState, useResetAuthState } from '@/stores/auth';
 import { useUserState, useResetUserState } from '@/stores/user';
 
@@ -28,14 +27,6 @@ const useLogin = () => {
     setItem('user', user);
     setLoggedUser(user);
   };
-
-  useEffect(() => {
-    setIsAuthed(!!getItem('token'));
-  }, [loggedUser]);
-
-  useEffect(() => {
-    setLoggedUser(getItem('user', {}));
-  }, [isAuthed]);
 
   return { onLogin, onLogout, onReload };
 };
