@@ -3,13 +3,12 @@ import { recoilPersist } from 'recoil-persist';
 
 const { persistAtom } = recoilPersist();
 
-const tokenAtom = atom({
-  key: 'token',
-  default: null,
+export const authAtom = atom({
+  key: 'auth',
+  default: false,
   effects_UNSTABLE: [persistAtom],
 });
 
-const useToken = () => useRecoilState(tokenAtom);
-const useResetToken = () => useResetRecoilState(tokenAtom);
+export const useAuthState = () => useRecoilState(authAtom);
 
-export { useToken, useResetToken };
+export const useResetAuthState = () => useResetRecoilState(authAtom);
