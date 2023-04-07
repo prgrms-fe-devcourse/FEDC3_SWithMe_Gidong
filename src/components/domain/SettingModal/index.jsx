@@ -1,5 +1,5 @@
-import { Divider } from '@/components/base';
-import { COLOR } from '@/styles/color';
+import { Button, Divider } from '@/components/base';
+import * as S from './styles';
 
 const FILTER_METHODS = ['전체', '읽은 알림', '안읽은 알림'];
 
@@ -15,21 +15,21 @@ function SettingModal({ visible, onClose, clickedIndex, onReadAll }) {
   };
 
   return (
-    <StyledSettingModal visible={visible} onClose={onClose} isDimTransparent>
-      <StyledSettingModalWrapper>
-        <StyledFilterTabContainer>
+    <S.SettingModal visible={visible} onClose={onClose} isDimTransparent>
+      <S.SettingModalWrapper>
+        <S.FilterTabContainer>
           {FILTER_METHODS.map((method, i) => (
-            <StyledFilterTab key={method} onClick={() => handleFiltering(i)} isClicked={clickedIndex.value === i}>
+            <S.FilterTab key={method} onClick={() => handleFiltering(i)} isClicked={clickedIndex.value === i}>
               {method}
-            </StyledFilterTab>
+            </S.FilterTab>
           ))}
-        </StyledFilterTabContainer>
+        </S.FilterTabContainer>
         <Divider type='horizontal' height='0.05rem' />
-        <StyledButton as='span' onClick={handleReadAll}>
+        <Button underline onClick={handleReadAll} version='transparent' fontSize='small'>
           전체 읽음 처리
-        </StyledButton>
-      </StyledSettingModalWrapper>
-    </StyledSettingModal>
+        </Button>
+      </S.SettingModalWrapper>
+    </S.SettingModal>
   );
 }
 

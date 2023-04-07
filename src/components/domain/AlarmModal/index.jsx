@@ -1,20 +1,25 @@
 import { getAlarms, updateSeenAlarm } from '@/api/alarm';
+
 import { Heading, Icon, Text } from '@/components/base';
 import SettingModal from '@/components/domain/SettingModal';
+
 import useInput from '@/hooks/useInput';
-import { COLOR } from '@/styles/color';
+
 import { convertDate } from '@/utils/date';
-import { useEffect, useState } from 'react';
+
+import { memo, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { COLOR } from '@/styles/color';
 import {
+  StyledAlarm,
+  StyledAlarmContainer,
   StyledAlarmModal,
+  StyledAvatar,
+  StyledContent,
+  StyledContentContainer,
   StyledHeaderContainer,
   StyledHeaderItem,
-  StyledAlarmContainer,
-  StyledAlarm,
-  StyledContentContainer,
-  StyledContent,
-  StyledAvatar,
   StyledNoAlarm,
 } from './styles';
 
@@ -30,13 +35,9 @@ function AlarmModal({ visible, onClose }) {
     if (!visible) return;
 
     (async () => {
-      setAlarms(await getOrderedAlarms());
+      setAlarms(await getAlarms());
     })();
   }, [visible]);
-
-  const getOrderedAlarms = async () => {
-    return (await getAlarms()).sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-  };
 
   const handleAlarmClick = (postId) => {
     navigate(`/TIL/${postId}`);
@@ -47,7 +48,7 @@ function AlarmModal({ visible, onClose }) {
     if (alarms.every(({ seen }) => seen)) return;
 
     await updateSeenAlarm();
-    setAlarms(await getOrderedAlarms());
+    setAlarms(await getAlarms());
   };
 
   useEffect(() => {
@@ -94,7 +95,7 @@ function AlarmModal({ visible, onClose }) {
             <StyledAlarm key={_id} onClick={() => handleAlarmClick(post)}>
               <StyledAvatar src={author.image} size='medium' />
               <StyledContentContainer>
-                <StyledContent size={1.6}>
+                <StyledContent size='medium'>
                   {like
                     ? `${author.fullName}님이 ${like.post.title.title}을(를) 좋아합니다.`
                     : `${author.fullName}님이 ${comment.post.title.title}에 남긴 댓글: ${comment.comment}`}
@@ -111,4 +112,4 @@ function AlarmModal({ visible, onClose }) {
   );
 }
 
-export default AlarmModal;
+export default memo(AlarmModal);

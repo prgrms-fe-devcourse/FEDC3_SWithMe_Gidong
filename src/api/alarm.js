@@ -1,5 +1,4 @@
 import { axiosInstance } from '@/api/core';
-import useSWR from 'swr';
 
 export const getAlarms = async () => {
   try {
@@ -27,8 +26,9 @@ export const getAlarms = async () => {
             },
           },
     );
+    const orderedResponse = parsedResponse.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 
-    return parsedResponse;
+    return orderedResponse;
   } catch (error) {
     console.error(error);
   }
@@ -62,11 +62,4 @@ export const updateSeenAlarm = async () => {
   } catch (error) {
     console.error(error);
   }
-};
-
-const fetcher = (url) => axiosInstance.get(url);
-export const useAlarms = () => {
-  const { data, error, isLoading } = useSWR('notifications', fetcher, { refreshInterval: 1000 });
-
-  return { data, isLoading, error };
 };
