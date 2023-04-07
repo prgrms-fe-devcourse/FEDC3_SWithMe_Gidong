@@ -13,22 +13,25 @@ const useLogin = () => {
   const onLogin = ({ user, token }) => {
     setItem('user', user);
     setItem('token', token);
-    setLoggedUser(user);
     setIsAuthed(true);
+    setLoggedUser(user);
   };
 
   const onLogout = () => {
     removeItem('user');
     removeItem('token');
-    setLoggedUser({});
-    resetLoggedUser();
     resetAuth();
+    resetLoggedUser();
   };
 
   const onReload = (user) => {
     setItem('user', user);
     setLoggedUser(user);
   };
+
+  useEffect(() => {
+    setIsAuthed(!!getItem('token'));
+  }, [loggedUser]);
 
   useEffect(() => {
     setLoggedUser(getItem('user', {}));
