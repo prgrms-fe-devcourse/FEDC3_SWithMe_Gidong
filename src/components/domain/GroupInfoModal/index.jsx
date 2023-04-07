@@ -72,8 +72,8 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
       }),
     };
     updateGroupMutate(data, {
-      onSuccess: async () => {
-        await queryClient.invalidateQueries(['groupList'], { exact: true }, { refetchType: 'all' });
+      onSuccess: () => {
+        queryClient.invalidateQueries(['groupList'], { exact: true }, { refetchType: 'all' });
         onClose && onClose();
       },
     });
