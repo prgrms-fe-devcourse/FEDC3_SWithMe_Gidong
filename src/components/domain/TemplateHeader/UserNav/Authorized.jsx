@@ -5,7 +5,7 @@ import AlarmModal from '@/components/domain/AlarmModal';
 
 import { useAuthContext } from '@/context/AuthProvider';
 
-import { useGetAlarms } from '@/hooks/queries/notifications';
+import { useGetNotifications } from '@/hooks/queries/notifications';
 
 import { memo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +23,7 @@ const Authorized = () => {
   };
 
   const [alarmModalVisible, setAlarmModalVisible] = useState(false);
-  const { data: alarms, isLoading } = useGetAlarms();
+  const { data: alarms, isLoading } = useGetNotifications();
 
   return (
     <>

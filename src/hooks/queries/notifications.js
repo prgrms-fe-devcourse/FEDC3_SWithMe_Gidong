@@ -1,4 +1,4 @@
-import { getNotifications } from '@/api/alarm';
+import { getNotifications } from '@/api/notification';
 import { useQuery } from '@tanstack/react-query';
 
-export const useGetAlarms = () => useQuery(['notifications'], getNotifications, { refetchInterval: 2000 });
+export const useGetNotifications = () => useQuery(['notifications'], getNotifications, { refetchInterval: 2000 });

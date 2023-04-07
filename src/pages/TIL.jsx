@@ -1,4 +1,4 @@
-import { createNotification, deleteNotification } from '@/api/alarm';
+import { createNotification, deleteNotification } from '@/api/notification';
 
 import { Avatar, Button, Divider, Heading, Spinner, Tag, Text } from '@/components/base';
 import AuthorNav from '@/components/domain/AuthorNav';

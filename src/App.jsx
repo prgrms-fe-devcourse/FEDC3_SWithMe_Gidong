@@ -35,7 +35,6 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        <ReactQueryDevtools initialIsOpen={true} />
         <GlobalStyle />
         <ThemeProvider theme={theme}>
           <AuthProvider>
@@ -49,6 +48,7 @@ function App() {
             </GroupProvider>
           </AuthProvider>
         </ThemeProvider>
+        <ReactQueryDevtools initialIsOpen={true} />
       </RecoilRoot>
     </QueryClientProvider>
   );
