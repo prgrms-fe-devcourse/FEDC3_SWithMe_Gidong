@@ -3,7 +3,7 @@ import { useAuthState, useResetAuthState } from '@/stores/auth';
 import { useUserState, useResetUserState } from '@/stores/user';
 
 const useLogin = () => {
-  const [isAuthed, setIsAuthed] = useAuthState();
+  const [isAuthorized, setIsAuthorized] = useAuthState();
   const [loggedUser, setLoggedUser] = useUserState();
 
   const resetAuth = useResetAuthState();
@@ -11,7 +11,7 @@ const useLogin = () => {
 
   const onLogin = ({ user, token }) => {
     setItem('token', token);
-    setIsAuthed(true);
+    setIsAuthorized(true);
     setLoggedUser(user);
   };
 
