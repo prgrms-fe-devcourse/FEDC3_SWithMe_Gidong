@@ -2,7 +2,7 @@ import { postUserSignIn } from '@/api/userSign';
 import { imgLogin } from '@/assets/images';
 import { Button, Heading, Image, Spinner, Text } from '@/components/base';
 import SignInput from '@/components/domain/SignInput';
-import useAuth from '@/hooks/useAuth';
+import useLogin from '@/hooks/useLogin';
 import { useToastContext } from '@/context/ToastProvider';
 import { COLOR } from '@/styles/color';
 import theme from '@/styles/theme';
@@ -25,7 +25,7 @@ const INPUT_NUMBER_LIMIT = {
 
 function SignIn() {
   const navigate = useNavigate();
-  const { onLogin } = useAuth();
+  const { onLogin } = useLogin();
   const { addToast } = useToastContext();
 
   const [email, setEmail] = useState('');

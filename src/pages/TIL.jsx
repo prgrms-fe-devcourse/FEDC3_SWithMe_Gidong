@@ -4,7 +4,6 @@ import AuthorNav from '@/components/domain/AuthorNav';
 import CommentList from '@/components/domain/CommentList';
 import CreateComment from '@/components/domain/CreateComment';
 import FloatingLikeButton from '@/components/domain/FloatingLikeButton';
-import useAuth from '@/hooks/useAuth';
 import { useCommentContext } from '@/context/CommentProvider';
 import { useLikeContext } from '@/context/LikeProvider';
 import { useTILContext } from '@/context/TILProvider';
@@ -19,11 +18,11 @@ import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { userAtom } from '@/stores/user';
 
 function TIL() {
-  const {
-    authState: { loggedUser },
-  } = useAuth();
+  const loggedUser = useRecoilValue(userAtom);
   const navigate = useNavigate();
   const { onDeleteTIL, onGetTIL } = useTILContext();
   const { comments, onInitComment, onCreateComment } = useCommentContext();

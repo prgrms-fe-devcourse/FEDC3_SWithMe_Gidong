@@ -2,20 +2,19 @@ import { imgSearch } from '@/assets/images';
 import { Empty, Spinner } from '@/components/base';
 import GroupItem from '@/components/domain/GroupItem';
 import TILList from '@/components/domain/TILList';
-import useAuth from '@/hooks/useAuth';
 import { useGroupContext } from '@/context/GroupProvider';
 import { COLOR } from '@/styles/color';
 import { Fragment, useEffect, useState } from 'react';
 import { StyledGroupList } from './styles';
+import { useRecoilValue } from 'recoil';
+import { userAtom } from '@/stores/user';
 
 function GroupList() {
   const {
     groups: { value: groups, isLoading },
     openedGroupId,
   } = useGroupContext();
-  const {
-    authState: { loggedUser },
-  } = useAuth();
+  const loggedUser = useRecoilValue(userAtom);
   const [myGroupList, setMyGroupList] = useState([]);
 
   useEffect(() => {

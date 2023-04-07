@@ -2,17 +2,16 @@ import { Button } from '@/components/base';
 import Authorized from '@/components/domain/TemplateHeader/UserNav/Authorized';
 import { useNavigate } from 'react-router-dom';
 import { StyledUserNav } from '../styles';
-import useAuth from '@/hooks/useAuth';
+import { useRecoilValue } from 'recoil';
+import { authAtom } from '@/stores/auth';
 
 const UserNav = () => {
-  const {
-    authState: { isLoggedIn },
-  } = useAuth();
+  const isAuthed = useRecoilValue(authAtom);
   const navigate = useNavigate();
 
   return (
     <StyledUserNav>
-      {isLoggedIn ? (
+      {isAuthed ? (
         <Authorized />
       ) : (
         <Button fontSize='large' version='transparent' onClick={() => navigate('/signIn')}>

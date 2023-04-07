@@ -2,7 +2,6 @@ import { createAlarm, deleteAlarm } from '@/api/alarm';
 import { getTIL } from '@/api/post';
 import { Avatar, Text, Textarea } from '@/components/base';
 import AuthorNav from '@/components/domain/AuthorNav';
-import useAuth from '@/hooks/useAuth';
 import { useCommentContext } from '@/context/CommentProvider';
 import { useToastContext } from '@/context/ToastProvider';
 import useInput from '@/hooks/useInput';
@@ -12,11 +11,12 @@ import { isAuthor } from '@/utils/post';
 import { getItem, removeItem, setItem } from '@/utils/storage';
 import { useState } from 'react';
 import { StyledCommentItem, StyledFlexContainer, StyledWriterInfoContainer, StyledCommentWrapper } from './styles';
+import { userAtom } from '@/stores/user';
+import { useRecoilValue } from 'recoil';
 
 function CommentItem({ comment }) {
-  const {
-    authState: { loggedUser },
-  } = useAuth();
+  const loggedUser = useRecoilValue(userAtom);
+
   const { onDeleteComment, onUpdateComment } = useCommentContext();
   const { addToast } = useToastContext();
 
