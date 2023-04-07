@@ -1,9 +1,13 @@
 import { Button, Icon, Input, TagInput, Text, Textarea } from '@/components/base';
+
 import { useAuthContext } from '@/context/AuthProvider';
 import { useGroupContext } from '@/context/GroupProvider';
-import { useToastContext } from '@/context/ToastProvider';
+
 import useInput from '@/hooks/useInput';
+import useToasts from '@/hooks/useToasts';
+
 import { useState } from 'react';
+
 import { StyledButtonContainer, StyledContentContainer, StyledHeaderContainer, StyledModal } from './styles';
 
 const MAX_STEP_SIZE = 4;
@@ -24,7 +28,7 @@ function CreateGroupModal({ visible, onClose, ...props }) {
     authState: { loggedUser },
   } = useAuthContext();
   const { onCreateGroup, groups } = useGroupContext();
-  const { addToast } = useToastContext();
+  const { addToast } = useToasts();
 
   const [step, setStep] = useState(1);
   const groupName = useInput('');

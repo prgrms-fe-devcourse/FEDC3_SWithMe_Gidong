@@ -1,8 +1,11 @@
 import { Button, Icon } from '@/components/base';
-import { useToastContext } from '@/context/ToastProvider';
-import { COLOR } from '@/styles/color';
+
+import useToasts from '@/hooks/useToasts';
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { COLOR } from '@/styles/color';
 import { StyledDropdownTrigger, StyledDropdownUl, StyledHeaderSearchBar, StyledSearchInput } from './styles';
 
 const FILLTER_OPTIONS = ['전체', '그룹명', '태그'];
@@ -12,7 +15,7 @@ const SEARCH_ERROR = {
 };
 
 const SearchBar = () => {
-  const { addToast } = useToastContext();
+  const { addToast } = useToasts();
   const navigate = useNavigate();
   const [dropdown, setDropdown] = useState(false);
   const [filterValue, setFilterValue] = useState('전체');

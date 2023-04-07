@@ -1,10 +1,14 @@
 import { Heading, Icon, SearchBar } from '@/components/base';
 import { Member, MemberList } from '@/components/domain/groupInfo';
+
 import { useGroupContext } from '@/context/GroupProvider';
-import { useToastContext } from '@/context/ToastProvider';
+
 import useInput from '@/hooks/useInput';
+import useToasts from '@/hooks/useToasts';
+
 import { useNavigate } from 'react-router-dom';
-import { StyledManageMember, StyledGroupInfo } from './styles';
+
+import { StyledGroupInfo, StyledManageMember } from './styles';
 
 const MESSAGE = {
   ALERT_MEMBER_KICK: '이 강퇴 되었습니다.',
@@ -15,7 +19,7 @@ const MESSAGE = {
 
 function ManageMember({ group, setGroup, member }) {
   const { onUpdateGroup } = useGroupContext();
-  const { addToast } = useToastContext();
+  const { addToast } = useToasts();
   const { value, onChange } = useInput('');
   const navigate = useNavigate();
 

@@ -1,15 +1,21 @@
 import { Text } from '@/components/base';
+
 import useTimeout from '@/hooks/useTimeout';
+import useToasts from '@/hooks/useToasts';
+
 import PropTypes from 'prop-types';
+
 import { useState } from 'react';
+
 import { StyledProgressBar, StyledToastItemContainer } from './styles';
 
-function ToastItem({ id, message, duration, onDone }) {
+function ToastItem({ id, message, duration }) {
   const [show, setShow] = useState(true);
+  const { removeToast } = useToasts();
 
   useTimeout(() => {
     setShow(false);
-    setTimeout(() => onDone(), 400);
+    setTimeout(() => removeToast(id), 400);
   }, duration);
 
   return (
@@ -24,7 +30,6 @@ ToastItem.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   message: PropTypes.string,
   duration: PropTypes.number,
-  onDone: PropTypes.func,
 };
 
 export default ToastItem;

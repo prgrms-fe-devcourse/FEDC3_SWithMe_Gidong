@@ -5,10 +5,7 @@ import { imgLogin } from '@/assets/images';
 import { Heading, Image, Spinner, Text } from '@/components/base';
 import SignInput from '@/components/domain/SignInput';
 
-import { useToastContext } from '@/context/ToastProvider';
-
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
+import useToasts from '@/hooks/useToasts';
 
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +14,8 @@ import { usersState } from '@/stores/users';
 import { useSetRecoilState } from 'recoil';
 
 import { COLOR } from '@/styles/color';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 const ERRORS = {
   FULLNAME_EMPTY_ERROR: '이름을 입력해 주세요.',
@@ -41,7 +40,7 @@ const INPUT_NUMBER_LIMIT = {
 
 function SignUp() {
   const navigate = useNavigate();
-  const { addToast } = useToastContext();
+  const { addToast } = useToasts();
 
   const setUsers = useSetRecoilState(usersState);
 

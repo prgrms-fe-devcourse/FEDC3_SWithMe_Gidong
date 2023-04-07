@@ -4,10 +4,10 @@ import { Avatar, Text, Textarea } from '@/components/base';
 import AuthorNav from '@/components/domain/AuthorNav';
 
 import { useAuthContext } from '@/context/AuthProvider';
-import { useToastContext } from '@/context/ToastProvider';
 
 import { useCreateComment, useDeleteComment } from '@/hooks/queries/comments';
 import useInput from '@/hooks/useInput';
+import useToasts from '@/hooks/useToasts';
 
 import { convertDate } from '@/utils/date';
 import { isAuthor } from '@/utils/post';
@@ -22,7 +22,7 @@ function CommentItem({ comment, authorId }) {
   const {
     authState: { loggedUser },
   } = useAuthContext();
-  const { addToast } = useToastContext();
+  const { addToast } = useToasts();
 
   const { mutate: deleteComment } = useDeleteComment();
   const { mutate: createComment } = useCreateComment();

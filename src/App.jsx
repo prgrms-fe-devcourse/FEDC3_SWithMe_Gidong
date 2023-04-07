@@ -3,9 +3,10 @@ import { useCallback } from 'react';
 
 import { createChannel, deleteChannel, getChannelList, updateChannel } from '@/api/channel';
 
+import { Toast } from '@/components/base';
+
 import AuthProvider from '@/context/AuthProvider';
 import GroupProvider from '@/context/GroupProvider';
-import ToastProvider from '@/context/ToastProvider';
 
 import { useAsync } from '@/hooks';
 
@@ -37,17 +38,16 @@ function App() {
         <ReactQueryDevtools initialIsOpen={true} />
         <GlobalStyle />
         <ThemeProvider theme={theme}>
-          <ToastProvider>
-            <AuthProvider>
-              <GroupProvider
-                initialGroups={initialGroups}
-                handleCreateGroup={handleCreateGroup}
-                handleUpdateGroup={handleUpdateGroup}
-                handleDeleteGroup={handleDeleteGroup}>
-                <Router />
-              </GroupProvider>
-            </AuthProvider>
-          </ToastProvider>
+          <AuthProvider>
+            <GroupProvider
+              initialGroups={initialGroups}
+              handleCreateGroup={handleCreateGroup}
+              handleUpdateGroup={handleUpdateGroup}
+              handleDeleteGroup={handleDeleteGroup}>
+              <Toast />
+              <Router />
+            </GroupProvider>
+          </AuthProvider>
         </ThemeProvider>
       </RecoilRoot>
     </QueryClientProvider>

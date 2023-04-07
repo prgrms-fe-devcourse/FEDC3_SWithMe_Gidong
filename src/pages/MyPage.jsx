@@ -1,12 +1,18 @@
 import { postUserAvatar, putUserFullName, putUserPassword } from '@/api/userInfo';
+
 import { imgMypage } from '@/assets/images';
+
 import { Avatar, Button, Input, Text } from '@/components/base';
+
 import { useAuthContext } from '@/context/AuthProvider';
-import { useToastContext } from '@/context/ToastProvider';
-import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
+
+import useToasts from '@/hooks/useToasts';
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { COLOR } from '@/styles/color';
+import styled from '@emotion/styled';
 
 const TOGGLE_PASSWORD_BLIND_TYPES = {
   PASSWORD: 'password',
@@ -34,7 +40,7 @@ function MyPage() {
     authState: { isLoggedIn, loggedUser },
     onReload,
   } = useAuthContext();
-  const { addToast } = useToastContext();
+  const { addToast } = useToasts();
 
   if (!isLoggedIn) navigate('/');
 

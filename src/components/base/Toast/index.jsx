@@ -1,12 +1,18 @@
 import ToastItem from '@/components/base/Toast/ToastItem';
+
+import useToasts from '@/hooks/useToasts';
+
 import PropTypes from 'prop-types';
+
 import { StyledToast } from './styles';
 
-function Toast({ toasts, removeToast }) {
+function Toast() {
+  const { toasts } = useToasts();
+
   return (
     <StyledToast>
       {toasts.map((toast) => (
-        <ToastItem key={toast.id} {...toast} onDone={() => removeToast(toast.id)} />
+        <ToastItem key={toast.id} {...toast} />
       ))}
     </StyledToast>
   );
