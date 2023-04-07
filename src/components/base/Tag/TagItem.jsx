@@ -1,20 +1,20 @@
-import { Button, Text, Icon } from '@/components/base';
-import { COLOR } from '@/styles/color';
+import { Button, Icon, Text } from '@/components/base';
+import theme from '@/styles/theme';
 import PropTypes from 'prop-types';
-import { StyledTagItem } from './styles';
+import * as S from './styles';
 
 function TagItem({ tag, onDeleteTagButtonClick, fontsize }) {
   return (
-    <StyledTagItem>
-      <Text size={fontsize ? fontsize : 'xSmall'} weight={300} color={COLOR.WHITE}>
+    <S.TagItem>
+      <Text size={fontsize ? fontsize : 'xSmall'} weight={300} color={theme.colors.white_900}>
         {tag}
         {onDeleteTagButtonClick && (
           <Button fontSize='xSmall' version='transparent' onClick={onDeleteTagButtonClick}>
-            <Icon name='trash-can' />
+            <Icon name='trash-can' color={theme.colors.black_900} />
           </Button>
         )}
       </Text>
-    </StyledTagItem>
+    </S.TagItem>
   );
 }
 

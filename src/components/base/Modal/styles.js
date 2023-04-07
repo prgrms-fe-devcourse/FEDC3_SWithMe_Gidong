@@ -1,7 +1,6 @@
-import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 
-const StyledBackgroundDim = styled.div`
+export const BackgroundDim = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -11,17 +10,15 @@ const StyledBackgroundDim = styled.div`
   z-index: 2000;
 `;
 
-const StyledModalContainer = styled.div`
+export const ModalContainer = styled.div`
   position: fixed;
   top: 50%;
   right: 50%;
   transform: translate(50%, -50%);
   padding: 1rem;
-  background-color: ${COLOR.WHITE};
-  box-shadow: 0 1rem 2rem ${COLOR.MODAL_BOX_SHADOW};
+  background-color: ${({ theme }) => theme.colors.white_900};
+  box-shadow: 0 1rem 2rem ${({ theme }) => theme.shadows[700]};
   box-sizing: border-box;
 
   border-radius: ${({ round }) => (round ? '1rem' : 'none')};
 `;
-
-export { StyledBackgroundDim, StyledModalContainer };

@@ -1,14 +1,11 @@
-import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 
-const StyledPagination = styled.div`
+export const Pagination = styled.div`
   padding-top: 3rem;
   text-align: center;
 
   & > button {
     font-weight: bold;
-    color: ${COLOR.GRAY_30};
+    color: ${({ theme }) => theme.colors.black_200};
   }
 `;
-
-export { StyledPagination };

@@ -1,29 +1,27 @@
-import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 
-const DefaultWrapper = styled.div`
+export const DefaultWrapper = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
 `;
 
-const StyledTagListWrapper = styled(DefaultWrapper)`
+export const TagListWrapper = styled(DefaultWrapper)`
   justify-content: center;
   margin: 1rem 0;
   padding: 1rem;
-  border: 0.2rem solid rgba(0, 0, 0, 0.3);
+  border: 0.2rem solid ${({ theme }) => theme.shadows[900]};
   border-radius: 1rem;
-
-  border-color: ${({ disabled }) => (disabled ? 'none' : COLOR.PRIMARY_BTN)};
+  border-color: ${({ disabled, theme }) => (disabled ? 'none' : theme.colors.sub_800)};
 `;
 
-const StyledTagItem = styled.div`
+export const TagItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 0 0.3rem;
   padding: 0.5rem;
-  background-color: ${COLOR.PRIMARY_BTN};
+  background-color: ${({ theme }) => theme.colors.sub_800};
   border-radius: 0.4rem;
 
   &:nth-of-type(1) {
@@ -34,5 +32,3 @@ const StyledTagItem = styled.div`
     padding-left: 1rem;
   }
 `;
-
-export { DefaultWrapper, StyledTagListWrapper, StyledTagItem };
