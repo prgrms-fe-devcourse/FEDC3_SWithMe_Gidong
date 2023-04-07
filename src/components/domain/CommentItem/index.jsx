@@ -11,11 +11,11 @@ import { isAuthor } from '@/utils/post';
 import { getItem, removeItem, setItem } from '@/utils/storage';
 import { useState } from 'react';
 import { StyledCommentItem, StyledFlexContainer, StyledWriterInfoContainer, StyledCommentWrapper } from './styles';
-import { userAtom } from '@/stores/user';
+import { userState } from '@/stores/user';
 import { useRecoilValue } from 'recoil';
 
 function CommentItem({ comment }) {
-  const loggedUser = useRecoilValue(userAtom);
+  const loggedUser = useRecoilValue(userState);
 
   const { onDeleteComment, onUpdateComment } = useCommentContext();
   const { addToast } = useToastContext();

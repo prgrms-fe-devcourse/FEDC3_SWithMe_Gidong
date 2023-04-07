@@ -2,10 +2,10 @@ import { Icon, Text } from '@/components/base';
 import { checkIsEmptyObj } from '@/utils/validation';
 import { StyledLikeButtonContainer } from './styles';
 import { useRecoilValue } from 'recoil';
-import { userAtom } from '@/stores/user';
+import { userState } from '@/stores/user';
 
 function FloatingLikeButton({ likes, likeButtonRef, onClick }) {
-  const loggedUser = useRecoilValue(userAtom);
+  const loggedUser = useRecoilValue(userState);
 
   return (
     <StyledLikeButtonContainer

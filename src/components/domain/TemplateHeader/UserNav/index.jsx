@@ -3,10 +3,10 @@ import Authorized from '@/components/domain/TemplateHeader/UserNav/Authorized';
 import { useNavigate } from 'react-router-dom';
 import { StyledUserNav } from '../styles';
 import { useRecoilValue } from 'recoil';
-import { authAtom } from '@/stores/auth';
+import { isAuthorizedState } from '@/stores/auth';
 
 const UserNav = () => {
-  const isAuthed = useRecoilValue(authAtom);
+  const isAuthed = useRecoilValue(isAuthorizedState);
   const navigate = useNavigate();
 
   return (

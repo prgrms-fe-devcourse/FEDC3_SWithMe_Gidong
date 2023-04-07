@@ -15,14 +15,14 @@ import {
   StyledToggleButton,
 } from './styles';
 import { useRecoilValue } from 'recoil';
-import { userAtom } from '@/stores/user';
+import { userState } from '@/stores/user';
 
 function GroupItem({ group, isLastGroup }) {
   const [groupInfoModalVisible, setGroupInfoModalVisible] = useState(false);
   const { openedGroupId, setOpenedGroupId } = useGroupContext();
   const { _id, name, description } = group;
   const { master: masterId, tagList, intro } = description;
-  const loggedUser = useRecoilValue(userAtom);
+  const loggedUser = useRecoilValue(userState);
   const isOpened = openedGroupId === _id;
   const isMaster = masterId === loggedUser._id;
   const navigate = useNavigate();

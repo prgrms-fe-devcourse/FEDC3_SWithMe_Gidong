@@ -13,11 +13,11 @@ import {
   StyledMemberListContainerLabel,
   StyledModal,
 } from './styles';
-import { userAtom } from '@/stores/user';
+import { userState } from '@/stores/user';
 import { useRecoilValue } from 'recoil';
 
 function GroupInfoModal({ group, visible, onClose, ...props }) {
-  const loggedUser = useRecoilValue(userAtom);
+  const loggedUser = useRecoilValue(userState);
   const { onUpdateGroup } = useGroupContext();
   const { users } = useUserContext();
 

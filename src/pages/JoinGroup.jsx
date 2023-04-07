@@ -8,8 +8,8 @@ import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { authAtom } from '@/stores/auth';
-import { userAtom } from '@/stores/user';
+import { isAuthorizedState } from '@/stores/auth';
+import { userState } from '@/stores/user';
 
 const DISABLED_MESSAGE = {
   NEED_LOGIN: '로그인이 필요한 서비스입니다.',
@@ -18,8 +18,8 @@ const DISABLED_MESSAGE = {
 };
 
 function JoinGroup() {
-  const isAuthed = useRecoilValue(authAtom);
-  const loggedUser = useRecoilValue(userAtom);
+  const isAuthed = useRecoilValue(isAuthorizedState);
+  const loggedUser = useRecoilValue(userState);
   const {
     state: { group },
   } = useLocation();

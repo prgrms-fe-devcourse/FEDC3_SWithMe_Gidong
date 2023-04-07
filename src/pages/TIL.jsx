@@ -19,10 +19,10 @@ import { Viewer } from '@toast-ui/react-editor';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { userAtom } from '@/stores/user';
+import { userState } from '@/stores/user';
 
 function TIL() {
-  const loggedUser = useRecoilValue(userAtom);
+  const loggedUser = useRecoilValue(userState);
   const navigate = useNavigate();
   const { onDeleteTIL, onGetTIL } = useTILContext();
   const { comments, onInitComment, onCreateComment } = useCommentContext();

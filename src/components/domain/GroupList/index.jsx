@@ -7,14 +7,14 @@ import { COLOR } from '@/styles/color';
 import { Fragment, useEffect, useState } from 'react';
 import { StyledGroupList } from './styles';
 import { useRecoilValue } from 'recoil';
-import { userAtom } from '@/stores/user';
+import { userState } from '@/stores/user';
 
 function GroupList() {
   const {
     groups: { value: groups, isLoading },
     openedGroupId,
   } = useGroupContext();
-  const loggedUser = useRecoilValue(userAtom);
+  const loggedUser = useRecoilValue(userState);
   const [myGroupList, setMyGroupList] = useState([]);
 
   useEffect(() => {
