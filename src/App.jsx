@@ -19,10 +19,10 @@ function App() {
   const initialUsers = useAsync(getAllUsers, []);
 
   return (
-    <RecoilRoot>
-      <ThemeProvider theme={theme}>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
         <GlobalStyle />
-        <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
           <ToastProvider>
             <UserProvider initialUsers={initialUsers}>
               <TILProvider>
@@ -34,10 +34,10 @@ function App() {
               </TILProvider>
             </UserProvider>
           </ToastProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </ThemeProvider>
-    </RecoilRoot>
+        </ThemeProvider>
+      </RecoilRoot>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 
