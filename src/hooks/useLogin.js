@@ -10,21 +10,18 @@ const useLogin = () => {
   const resetLoggedUser = useResetUserState();
 
   const onLogin = ({ user, token }) => {
-    setItem('user', user);
     setItem('token', token);
     setIsAuthed(true);
     setLoggedUser(user);
   };
 
   const onLogout = () => {
-    removeItem('user');
     removeItem('token');
     resetAuth();
     resetLoggedUser();
   };
 
   const onReload = (user) => {
-    setItem('user', user);
     setLoggedUser(user);
   };
 
