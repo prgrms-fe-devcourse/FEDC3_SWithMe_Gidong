@@ -24,8 +24,8 @@ function CommentItem({ comment, authorId }) {
   } = useAuthContext();
   const { addToast } = useToasts();
 
-  const { mutate: deleteComment } = useDeleteComment();
-  const { mutate: createComment } = useCreateComment();
+  const createComment = useCreateComment();
+  const deleteComment = useDeleteComment();
 
   const [mode, setMode] = useState('view');
 
@@ -35,7 +35,7 @@ function CommentItem({ comment, authorId }) {
   const commentInput = useInput(body);
 
   const handleDeleteButtonClick = async () => {
-    await deleteComment(
+    await deleteComment.mutate(
       { id },
       {
         onSuccess: async ({ _id: commentId }) => {
@@ -56,7 +56,7 @@ function CommentItem({ comment, authorId }) {
       return;
     }
 
-    await deleteComment(
+    await deleteComment.mutate(
       { id },
       {
         onSuccess: async ({ _id: commentId }) => {
@@ -66,7 +66,7 @@ function CommentItem({ comment, authorId }) {
       },
     );
 
-    await createComment(
+    await createComment.mutate(
       {
         comment: commentInput.value,
         postId,

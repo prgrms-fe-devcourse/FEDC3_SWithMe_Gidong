@@ -31,8 +31,8 @@ function TILEditor() {
   } = useLocation();
   const editMode = til ? '수정' : '작성';
 
-  const { mutate: updateTIL } = useUpdateTIL();
-  const { mutate: createTIL } = useCreateTIL();
+  const updateTIL = useUpdateTIL();
+  const createTIL = useCreateTIL();
 
   const title = useInput(til ? til.title.title : '');
   const tagList = useInput(til ? [...til.title.tagList] : []);
@@ -65,16 +65,17 @@ function TILEditor() {
       formData.append('channelId', til.channel._id);
       formData.append('image', null);
 
-      const response = await updateTIL(formData);
-      navigate(`/TIL/${til._id}`, { state: { til: response } });
+      await updateTIL.mutate(formData, {
+        onSuccess: (data) => navigate(`/TIL/${til._id}`, { state: { til: data } }),
+      });
+
       return;
     }
 
     formData.append('channelId', groupId);
     formData.append('image', null);
 
-    await createTIL(formData);
-    navigate('/myGroup');
+    await createTIL.mutate(formData, { onSuccess: () => navigate('/myGroup') });
   };
 
   useEffect(() => {

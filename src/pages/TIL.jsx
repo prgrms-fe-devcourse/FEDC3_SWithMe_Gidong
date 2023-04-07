@@ -36,11 +36,10 @@ function TIL() {
   } = useAuthContext();
 
   const { data: til, isLoading } = useGetTIL(id);
-  const { mutate: deleteTIL } = useDeleteTIL();
-
-  const { mutate: createComment } = useCreateComment();
-  const { mutate: createLike } = useCreateLike();
-  const { mutate: deleteLike } = useDeleteLike();
+  const deleteTIL = useDeleteTIL();
+  const createComment = useCreateComment();
+  const createLike = useCreateLike();
+  const deleteLike = useDeleteLike();
 
   const viewerRef = useRef(null);
   const comment = useInput('');
@@ -55,7 +54,7 @@ function TIL() {
   const handleDeleteButtonClick = async () => {
     if (!confirm('정말 삭제하시겠습니까? 한번 삭제하면 되돌릴 수 없습니다.')) return;
 
-    deleteTIL({ id: til._id });
+    deleteTIL.mutate({ id: til._id });
     navigate('/myGroup');
   };
 
@@ -67,7 +66,7 @@ function TIL() {
       author: { _id: userId },
     } = til;
 
-    await createComment(
+    await createComment.mutate(
       {
         comment: comment.value,
         postId,
@@ -96,7 +95,7 @@ function TIL() {
         author: { _id: userId },
       } = til;
 
-      await createLike(
+      await createLike.mutate(
         {
           comment: comment.value,
           postId,
@@ -117,7 +116,7 @@ function TIL() {
       return;
     }
 
-    await deleteLike(
+    await deleteLike.mutate(
       {
         id: loggedUserLike._id,
       },
