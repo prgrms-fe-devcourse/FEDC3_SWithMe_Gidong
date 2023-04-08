@@ -1,6 +1,6 @@
 import { Text } from '@/components/base';
 import PropTypes from 'prop-types';
-import { StyledLabel, StyledTextarea, StyledTextareaContainer } from './styles';
+import * as S from './styles';
 
 function Textarea({
   value = '',
@@ -37,8 +37,8 @@ function Textarea({
   };
 
   return (
-    <StyledTextareaContainer block={block}>
-      <StyledTextarea
+    <S.TextareaContainer block={block}>
+      <S.Textarea
         required={required}
         disabled={disabled}
         readOnly={readonly}
@@ -50,12 +50,12 @@ function Textarea({
         needBorder={needBorder}
         {...props}
       />
-      <StyledLabel>
+      <S.Label>
         <Text size='small' weight={300}>
           {label ? label : max ? value.length + ' / ' + max : ''}
         </Text>
-      </StyledLabel>
-    </StyledTextareaContainer>
+      </S.Label>
+    </S.TextareaContainer>
   );
 }
 

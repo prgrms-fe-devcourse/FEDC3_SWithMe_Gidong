@@ -6,8 +6,6 @@ import CommentList from '@/components/domain/CommentList';
 import CreateComment from '@/components/domain/CreateComment';
 import FloatingLikeButton from '@/components/domain/FloatingLikeButton';
 
-import { useAuthContext } from '@/context/AuthProvider';
-
 import { useCreateComment } from '@/hooks/queries/comments';
 import { useCreateLike, useDeleteLike } from '@/hooks/queries/likes';
 import { useDeleteTIL, useGetTIL } from '@/hooks/queries/tils';
@@ -21,8 +19,10 @@ import { checkAbleSubmit, checkIsEmptyObj } from '@/utils/validation';
 
 import { Viewer } from '@toast-ui/react-editor';
 
+import { userState } from '@/stores/user';
 import { useEffect, useMemo, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
@@ -31,9 +31,7 @@ function TIL() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const {
-    authState: { loggedUser },
-  } = useAuthContext();
+  const loggedUser = useRecoilValue(userState);
 
   const { data: til, isLoading } = useGetTIL(id);
   const deleteTIL = useDeleteTIL();

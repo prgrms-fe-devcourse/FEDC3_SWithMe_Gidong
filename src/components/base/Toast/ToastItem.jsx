@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 import { useState } from 'react';
 
-import { StyledProgressBar, StyledToastItemContainer } from './styles';
+import * as S from './styles';
 
 function ToastItem({ id, message, duration }) {
   const [show, setShow] = useState(true);
@@ -19,10 +19,10 @@ function ToastItem({ id, message, duration }) {
   }, duration);
 
   return (
-    <StyledToastItemContainer style={{ opacity: show ? 1 : 0 }}>
-      <StyledProgressBar style={{ animationDuration: `${duration}ms` }} />
+    <S.ToastItemContainer style={{ opacity: show ? 1 : 0 }}>
+      <S.ProgressBar style={{ animationDuration: `${duration}ms` }} />
       <Text size='medium'>{message}</Text>
-    </StyledToastItemContainer>
+    </S.ToastItemContainer>
   );
 }
 

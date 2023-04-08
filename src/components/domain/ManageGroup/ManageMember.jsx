@@ -1,13 +1,12 @@
 import { Heading, Icon, SearchBar } from '@/components/base';
 import { Member, MemberList } from '@/components/domain/groupInfo';
 
-import { useGroupContext } from '@/context/GroupProvider';
-
 import useInput from '@/hooks/useInput';
 import useToasts from '@/hooks/useToasts';
 
 import { useNavigate } from 'react-router-dom';
 
+import { useUpdateGroup } from '@/hooks/queries/group';
 import { StyledGroupInfo, StyledManageMember } from './styles';
 
 const MESSAGE = {
@@ -18,10 +17,12 @@ const MESSAGE = {
 };
 
 function ManageMember({ group, setGroup, member }) {
-  const { onUpdateGroup } = useGroupContext();
-  const { addToast } = useToasts();
-  const { value, onChange } = useInput('');
   const navigate = useNavigate();
+
+  const { addToast } = useToasts();
+  const updateGroup = useUpdateGroup();
+
+  const { value, onChange } = useInput('');
 
   const featureNames = {
     k: 'MEMBER_KICK',
@@ -41,16 +42,21 @@ function ManageMember({ group, setGroup, member }) {
             master: _id,
             member: [...group.description.member.filter((memberId) => memberId !== _id), group.description.master],
           };
-    const updatedGroup = {
+    const data = {
       ...group,
       description: JSON.stringify({
         ...group.description,
         ...updatedMember,
       }),
     };
-    setGroup(await onUpdateGroup(updatedGroup));
-    addToast(`'${fullName}'님${MESSAGE[alert]}`);
-    feat === 'd' && navigate('/myGroup');
+    updateGroup.mutate(data, {
+      onSuccess: (data) => {
+        const updatedGroup = { ...data, description: JSON.parse(data.description) };
+        setGroup(updatedGroup);
+        addToast(`'${fullName}'님${MESSAGE[alert]}`);
+        feat === 'd' && navigate('/myGroup');
+      },
+    });
   };
 
   return (

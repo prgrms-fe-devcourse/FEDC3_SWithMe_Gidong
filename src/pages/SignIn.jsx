@@ -5,16 +5,15 @@ import { imgLogin } from '@/assets/images';
 import { Button, Heading, Image, Spinner, Text } from '@/components/base';
 import SignInput from '@/components/domain/SignInput';
 
-import { useAuthContext } from '@/context/AuthProvider';
-
+import useAuth from '@/hooks/useAuth';
 import useToasts from '@/hooks/useToasts';
 
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { COLOR } from '@/styles/color';
-import { css } from '@emotion/react';
 import theme from '@/styles/theme';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 const ERRORS = {
@@ -31,7 +30,7 @@ const INPUT_NUMBER_LIMIT = {
 
 function SignIn() {
   const navigate = useNavigate();
-  const { onLogin } = useAuthContext();
+  const { onLogin } = useAuth();
   const { addToast } = useToasts();
 
   const [email, setEmail] = useState('');

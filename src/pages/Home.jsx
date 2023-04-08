@@ -2,7 +2,7 @@ import { getPostListByChannel } from '@/api/post';
 import { imgHomeIllust } from '@/assets/images';
 import { Button, Divider, Text } from '@/components/base';
 import TILItem from '@/components/domain/TILItem';
-import { useGroupContext } from '@/context/GroupProvider';
+import { useGetGroupList } from '@/hooks/queries/group';
 import { COLOR } from '@/styles/color';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -11,19 +11,19 @@ import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const navigate = useNavigate();
-  const { groups } = useGroupContext();
   const [allTILs, setAllTILs] = useState([]);
   const getTILsByGroup = useCallback(async (groupId) => {
     return await getPostListByChannel(groupId);
   }, []);
   const TILTemp = useRef([]);
   const [isSortByLike, setIsSortByLike] = useState(true);
+  const { data: groupList } = useGetGroupList();
 
   useEffect(() => {
     let ignore = false;
-    if (groups.value) {
+    if (groupList) {
       (async () => {
-        for await (const group of groups.value) {
+        for await (const group of groupList) {
           const data = await getTILsByGroup(group._id);
           if (!ignore) TILTemp.current.push(...data);
         }
@@ -33,17 +33,11 @@ function Home() {
     return () => {
       ignore = true;
     };
-  }, [groups]);
+  }, [groupList]);
 
   const filterTILList = () => {
     const filtered = isSortByLike
-      ? allTILs.sort((a, b) => {
-          if (a.likes.length < b.likes.length) return 1;
-          if (a.likes.length > b.likes.length) return -1;
-          if (new Date(b.createdAt) > new Date(a.createdAt)) return 1;
-          if (new Date(b.createdAt) < new Date(a.createdAt)) return -1;
-          return 0;
-        })
+      ? allTILs.sort((a, b) => b.likes.length - a.likes.length || new Date(b.createdAt) - new Date(a.createdAt))
       : allTILs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     return (

@@ -3,18 +3,17 @@ import ToastItem from '@/components/base/Toast/ToastItem';
 import useToasts from '@/hooks/useToasts';
 
 import PropTypes from 'prop-types';
-
-import { StyledToast } from './styles';
+import * as S from './styles';
 
 function Toast() {
   const { toasts } = useToasts();
 
   return (
-    <StyledToast>
+    <S.Toast>
       {toasts.map((toast) => (
         <ToastItem key={toast.id} {...toast} />
       ))}
-    </StyledToast>
+    </S.Toast>
   );
 }
 

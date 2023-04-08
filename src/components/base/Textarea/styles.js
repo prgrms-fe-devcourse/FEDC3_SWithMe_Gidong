@@ -1,14 +1,13 @@
-import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 
-const StyledTextareaContainer = styled.div`
+export const TextareaContainer = styled.div`
   width: 100%;
   position: relative;
   display: ${({ block }) => (block ? 'block' : 'inline-block')};
   margin: 1rem 0 2rem 0;
 `;
 
-const StyledLabel = styled.label`
+export const Label = styled.label`
   display: block;
   position: absolute;
   bottom: -1.6em;
@@ -16,18 +15,16 @@ const StyledLabel = styled.label`
   background-color: transparent;
 `;
 
-const StyledTextarea = styled.textarea`
+export const Textarea = styled.textarea`
   width: 100%;
   height: 16rem;
   padding: 1rem;
   font-size: 1.2rem;
 
   outline: none;
-  border: ${({ needBorder }) => (needBorder ? `0.1rem solid ${COLOR.DARK}` : 'none')};
+  border: ${({ needBorder, theme }) => (needBorder ? `0.1rem solid ${theme.colors.black_800}` : 'none')};
 
-  background-color: ${COLOR.TEXTAREA_BG};
+  background-color: ${({ theme }) => theme.colors.white_500};
   box-sizing: border-box;
   resize: none;
 `;
-
-export { StyledTextareaContainer, StyledLabel, StyledTextarea };

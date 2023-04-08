@@ -1,44 +1,37 @@
 import { Button, Icon, Input, TagInput, Text, Textarea } from '@/components/base';
 
-import { useAuthContext } from '@/context/AuthProvider';
-import { useGroupContext } from '@/context/GroupProvider';
-
 import useInput from '@/hooks/useInput';
 import useToasts from '@/hooks/useToasts';
+import { useCreateGroup } from '@/hooks/queries/group';
 
 import { useState } from 'react';
+
+import { useRecoilValue } from 'recoil';
+import { userState } from '@/stores/user';
 
 import { StyledButtonContainer, StyledContentContainer, StyledHeaderContainer, StyledModal } from './styles';
 
 const MAX_STEP_SIZE = 4;
 const STEPS = {
-  1: {
-    MIN: 1,
-    ERROR_MESSAGE: '그룹 이름은 타 그룹과 중복되지 않는 1글자 이상이어야 합니다.',
-  },
-  2: {
-    MIN: 2,
-    ERROR_MESSAGE: '그룹 최대 인원은 최소 2명 이상이어야 합니다.',
-  },
+  1: { MIN: 1, ERROR_MESSAGE: '그룹 이름은 타 그룹과 중복되지 않는 1글자 이상이어야 합니다.' },
+  2: { MIN: 2, ERROR_MESSAGE: '그룹 최대 인원은 최소 2명 이상이어야 합니다.' },
   4: { MIN: 1, ERROR_MESSAGE: '그룹 태그는 최소 1개 이상이어야 합니다.' },
 };
 
-function CreateGroupModal({ visible, onClose, ...props }) {
-  const {
-    authState: { loggedUser },
-  } = useAuthContext();
-  const { onCreateGroup, groups } = useGroupContext();
+function CreateGroupModal({ visible, groups, setMyGroupList, onClose, ...props }) {
   const { addToast } = useToasts();
+  const createGroup = useCreateGroup();
 
-  const [step, setStep] = useState(1);
   const groupName = useInput('');
   const headCount = useInput('');
   const intro = useInput('');
   const tagList = useInput([]);
+  const [step, setStep] = useState(1);
+  const loggedUser = useRecoilValue(userState);
 
   const checkNextButtonClickAble = () => {
     if (step === 1) {
-      return groupName.value.length >= STEPS[step].MIN && !groups.value.some(({ name }) => name === groupName.value);
+      return groupName.value.length >= STEPS[step].MIN && !groups.some(({ name }) => name === groupName.value);
     } else if (step === 2) {
       return headCount.value >= STEPS[step].MIN;
     } else if (step === 4) {
@@ -62,7 +55,7 @@ function CreateGroupModal({ visible, onClose, ...props }) {
     }
 
     if (step === MAX_STEP_SIZE) {
-      await onCreateGroup({
+      const data = {
         name: groupName.value,
         description: JSON.stringify({
           master: loggedUser._id,
@@ -71,8 +64,14 @@ function CreateGroupModal({ visible, onClose, ...props }) {
           intro: intro.value,
           member: [],
         }),
+      };
+      createGroup.mutate(data, {
+        onSuccess: (data) => {
+          const createdGroup = { ...data, description: JSON.parse(data.description) };
+          setMyGroupList((prev) => [...prev, createdGroup]);
+          onClose && onClose();
+        },
       });
-      onClose && onClose();
     } else {
       setStep(step + 1);
     }

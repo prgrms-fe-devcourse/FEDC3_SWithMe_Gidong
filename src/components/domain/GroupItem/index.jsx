@@ -1,9 +1,7 @@
 import { Divider, Heading, Icon, Text } from '@/components/base';
 import GroupInfoModal from '@/components/domain/GroupInfoModal';
 
-import { useAuthContext } from '@/context/AuthProvider';
-import { useGroupContext } from '@/context/GroupProvider';
-
+import { userState } from '@/stores/user';
 import { usersState } from '@/stores/users';
 import { useRecoilValue } from 'recoil';
 
@@ -21,20 +19,19 @@ import {
   StyledToggleButton,
 } from './styles';
 
-function GroupItem({ group, isLastGroup }) {
-  const [groupInfoModalVisible, setGroupInfoModalVisible] = useState(false);
-  const { openedGroupId, setOpenedGroupId } = useGroupContext();
-  const { _id, name, description } = group;
-  const { master: masterId, tagList, intro } = description;
-  const {
-    authState: { loggedUser },
-  } = useAuthContext();
-  const isOpened = openedGroupId === _id;
-  const isMaster = masterId === loggedUser._id;
+function GroupItem({ group, isLastGroup, openedGroupId, setOpenedGroupId }) {
   const navigate = useNavigate();
 
+  const { _id, name, description } = group;
+  const { master: masterId, tagList, intro } = description;
+
+  const loggedUser = useRecoilValue(userState);
   const users = useRecoilValue(usersState);
   const [master, setMaster] = useState();
+  const [groupInfoModalVisible, setGroupInfoModalVisible] = useState(false);
+
+  const isOpened = openedGroupId === _id;
+  const isMaster = masterId === loggedUser._id;
 
   useEffect(() => {
     const getMasterInfo = () => {

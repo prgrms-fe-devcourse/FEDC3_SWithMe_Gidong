@@ -4,12 +4,15 @@ import { imgMypage } from '@/assets/images';
 
 import { Avatar, Button, Input, Text } from '@/components/base';
 
-import { useAuthContext } from '@/context/AuthProvider';
-
+import useAuth from '@/hooks/useAuth';
 import useToasts from '@/hooks/useToasts';
 
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { isAuthorizedState } from '@/stores/auth';
+import { userState } from '@/stores/user';
+import { useRecoilValue } from 'recoil';
 
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
@@ -36,13 +39,14 @@ const INPUT_NUMBER_LIMIT = {
 
 function MyPage() {
   const navigate = useNavigate();
-  const {
-    authState: { isLoggedIn, loggedUser },
-    onReload,
-  } = useAuthContext();
-  const { addToast } = useToasts();
 
-  if (!isLoggedIn) navigate('/');
+  const isAuthorized = useRecoilValue(isAuthorizedState);
+  const loggedUser = useRecoilValue(userState);
+
+  const { addToast } = useToasts();
+  const { onReload } = useAuth();
+
+  if (!isAuthorized) navigate('/');
 
   const [values, setValues] = useState({
     image: '',

@@ -1,7 +1,7 @@
 import { SearchResultContainer } from '@/components/domain/SearchResult';
-import { useGroupContext } from '@/context/GroupProvider';
 import styled from '@emotion/styled';
 import { useLocation } from 'react-router-dom';
+import { useGetGroupList } from '@/hooks/queries/group';
 
 const FILTER_BY = {
   NAME: '그룹명',
@@ -12,9 +12,7 @@ function SearchResult() {
   const {
     state: { filterValue, searchValue },
   } = useLocation();
-  const {
-    groups: { value: groupList },
-  } = useGroupContext();
+  const { data: groupList } = useGetGroupList();
   const lowerSearchValue = searchValue.toLowerCase();
 
   const searchGroupByName = () => {

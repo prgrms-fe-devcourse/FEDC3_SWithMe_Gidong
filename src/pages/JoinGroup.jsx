@@ -1,13 +1,15 @@
 import { Heading, Image, Text, Icon } from '@/components/base';
 import { icCrown } from '@/assets/icons';
 import { imgDefaultAvatar, imgJoin } from '@/assets/images';
-import { useAuthContext } from '@/context/AuthProvider';
-import { useGroupContext } from '@/context/GroupProvider';
 import { COLOR } from '@/styles/color';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { isAuthorizedState } from '@/stores/auth';
+import { userState } from '@/stores/user';
+import { useUpdateGroup } from '@/hooks/queries/group';
 
 const DISABLED_MESSAGE = {
   NEED_LOGIN: '로그인이 필요한 서비스입니다.',
@@ -16,16 +18,15 @@ const DISABLED_MESSAGE = {
 };
 
 function JoinGroup() {
+  const isAuthorized = useRecoilValue(isAuthorizedState);
+  const loggedUser = useRecoilValue(userState);
   const {
     state: { group },
   } = useLocation();
   const { name, description } = group;
   const { master, tagList, intro, headCount, member } = description;
-  const {
-    authState: { isLoggedIn, loggedUser },
-  } = useAuthContext();
   const [guideMessage, setGuideMessage] = useState('');
-  const { onUpdateGroup } = useGroupContext();
+  const { mutate: updateGroupMutate } = useUpdateGroup();
   const navigate = useNavigate();
 
   const handleJoinClick = async () => {
@@ -36,8 +37,9 @@ function JoinGroup() {
         member: [...member, loggedUser._id],
       }),
     };
-    await onUpdateGroup(data);
-    navigate('/myGroup');
+    updateGroupMutate(data, {
+      onSuccess: () => navigate('/myGroup'),
+    });
   };
 
   useEffect(() => {
@@ -45,7 +47,7 @@ function JoinGroup() {
   }, []);
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!isAuthorized) {
       setGuideMessage(DISABLED_MESSAGE.NEED_LOGIN);
       return;
     } else if (master === loggedUser._id || member.some((id) => id === loggedUser._id)) {

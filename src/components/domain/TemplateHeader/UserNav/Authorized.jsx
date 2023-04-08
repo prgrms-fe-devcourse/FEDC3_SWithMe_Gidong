@@ -3,9 +3,8 @@ import { postUserSignOut } from '@/api/userSign';
 import { Badge, Button, Icon } from '@/components/base';
 import AlarmModal from '@/components/domain/AlarmModal';
 
-import { useAuthContext } from '@/context/AuthProvider';
-
 import { useGetNotifications } from '@/hooks/queries/notifications';
+import useAuth from '@/hooks/useAuth';
 
 import { memo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +13,7 @@ import { COLOR } from '@/styles/color';
 
 const Authorized = () => {
   const navigate = useNavigate();
-  const { onLogout } = useAuthContext();
+  const { onLogout } = useAuth();
 
   const signOut = async () => {
     await postUserSignOut();

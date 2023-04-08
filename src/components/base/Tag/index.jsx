@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
-import { DefaultWrapper } from './styles';
+import * as S from './styles';
 import TagList from './TagList';
 
 function Tag({ tagList, fontsize, ...props }) {
   return (
-    <DefaultWrapper style={{ ...props.style }} {...props}>
+    <S.DefaultWrapper style={{ ...props.style }} {...props}>
       <TagList fontsize={fontsize} tagList={tagList} />
-    </DefaultWrapper>
+    </S.DefaultWrapper>
   );
 }
 

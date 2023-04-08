@@ -6,7 +6,7 @@ import useToasts from '@/hooks/useToasts';
 
 import PropTypes from 'prop-types';
 
-import { StyledTagListWrapper } from './styles';
+import * as S from './styles';
 
 function TagInput({ tagList = [], onChange, wrapperProps, inputProps, ...props }) {
   const tag = useInput('');
@@ -36,9 +36,9 @@ function TagInput({ tagList = [], onChange, wrapperProps, inputProps, ...props }
   return (
     <>
       {tagList.length !== 0 && (
-        <StyledTagListWrapper disabled={tagList.length === 5} {...wrapperProps}>
+        <S.TagListWrapper disabled={tagList.length === 5} {...wrapperProps}>
           <TagList tagList={tagList} onDeleteTagButtonClick={removeTagItem} {...props} />
-        </StyledTagListWrapper>
+        </S.TagListWrapper>
       )}
       {tagList.length < 5 ? (
         <Input

@@ -3,8 +3,6 @@ import { createNotification, deleteNotification } from '@/api/notification';
 import { Avatar, Text, Textarea } from '@/components/base';
 import AuthorNav from '@/components/domain/AuthorNav';
 
-import { useAuthContext } from '@/context/AuthProvider';
-
 import { useCreateComment, useDeleteComment } from '@/hooks/queries/comments';
 import useInput from '@/hooks/useInput';
 import useToasts from '@/hooks/useToasts';
@@ -13,25 +11,24 @@ import { convertDate } from '@/utils/date';
 import { isAuthor } from '@/utils/post';
 import { getItem, removeItem, setItem } from '@/utils/storage';
 
+import { userState } from '@/stores/user';
+import { useRecoilValue } from 'recoil';
+
 import { useState } from 'react';
 
 import { COLOR } from '@/styles/color';
 import { StyledCommentItem, StyledCommentWrapper, StyledFlexContainer, StyledWriterInfoContainer } from './styles';
 
 function CommentItem({ comment, authorId }) {
-  const {
-    authState: { loggedUser },
-  } = useAuthContext();
-  const { addToast } = useToasts();
-
-  const createComment = useCreateComment();
-  const deleteComment = useDeleteComment();
-
-  const [mode, setMode] = useState('view');
-
   const { author, comment: body, updatedAt, _id: id, post: postId } = comment;
   const writtenTime = convertDate(new Date(updatedAt));
 
+  const createComment = useCreateComment();
+  const deleteComment = useDeleteComment();
+  const { addToast } = useToasts();
+
+  const loggedUser = useRecoilValue(userState);
+  const [mode, setMode] = useState('view');
   const commentInput = useInput(body);
 
   const handleDeleteButtonClick = async () => {
