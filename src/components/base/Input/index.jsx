@@ -46,7 +46,7 @@ function Input({
   return (
     <S.Container block={block} size={size}>
       <S.Input
-        type='text'
+        type={type}
         placeholder={placeholder}
         invalid={invalid}
         required={required}
@@ -73,7 +73,7 @@ function Input({
 
 Input.propTypes = {
   type: PropTypes.oneOf(['text', 'number']),
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,
   onKeyPress: PropTypes.func,
   placeholder: PropTypes.string,
@@ -84,7 +84,7 @@ Input.propTypes = {
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   max: PropTypes.number,
-  size: PropTypes.oneOf(['full', 'small']),
+  size: PropTypes.oneOf(['full', 'medium']),
   fontSize: PropTypes.oneOf(['default', 'medium', 'large']),
 };
 
