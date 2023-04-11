@@ -72,10 +72,14 @@ function GroupItem({ group, isLastGroup, openedGroupId, setOpenedGroupId }) {
               <Text color={COLOR.GRAY_30} size='large'>
                 <i className='fa-solid fa-crown'></i> {master.fullName}
               </Text>
-              <Divider type='vertical' />
-              <Text color={COLOR.GRAY_30} size='large' weight={300}>
-                {intro}
-              </Text>
+              {intro && (
+                <>
+                  <Divider type='vertical' height='1.4rem' color={COLOR.GRAY_30} />
+                  <Text color={COLOR.GRAY_30} size='large' weight={300}>
+                    {intro}
+                  </Text>
+                </>
+              )}
             </div>
             <StyledTagList>
               {tagList.map((tag, i) => (
