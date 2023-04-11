@@ -37,7 +37,7 @@ Button.propTypes = {
   version: PropTypes.oneOf(['transparent', 'primary', 'primaryInverted', 'main', 'grayInverted', 'red']),
   shape: PropTypes.oneOf(['square', 'round', 'circle']),
   fontSize: PropTypes.oneOf(['xSmall', 'small', 'medium', 'large', 'xLarge']),
-  size: PropTypes.oneOf(['default', 'small', 'medium', 'full']),
+  size: PropTypes.oneOf(['default', 'small', 'medium', 'large', 'full']),
   isBold: PropTypes.bool,
   disabled: PropTypes.bool,
   underline: PropTypes.bool,
