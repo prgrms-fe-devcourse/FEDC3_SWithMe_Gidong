@@ -10,7 +10,7 @@ const StyledHeaderLogo = styled.button`
   margin-left: 2rem;
   padding: 0;
 
-  & > h1 {
+  & > h5 {
     white-space: nowrap;
   }
 `;
@@ -94,8 +94,20 @@ const StyledUserNav = styled.div`
 
   position: relative;
 
+  & button {
+    white-space: nowrap;
+  }
+
   & button:hover {
     color: ${COLOR.GRAY3};
+  }
+
+  & > i:first-of-type {
+    display: none;
+
+    @media (max-width: 623.98px) {
+      display: block;
+    }
   }
 `;
 

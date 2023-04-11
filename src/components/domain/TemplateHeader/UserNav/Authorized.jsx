@@ -6,6 +6,9 @@ import AlarmModal from '@/components/domain/AlarmModal';
 import { useGetNotifications } from '@/hooks/queries/notifications';
 import useAuth from '@/hooks/useAuth';
 
+import { isSearchBarVisibleState } from '@/stores/searchBar';
+import { useSetRecoilState } from 'recoil';
+
 import { memo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,6 +17,7 @@ import { COLOR } from '@/styles/color';
 const Authorized = () => {
   const navigate = useNavigate();
   const { onLogout } = useAuth();
+  const setIsSearchBarVisible = useSetRecoilState(isSearchBarVisibleState);
 
   const signOut = async () => {
     await postUserSignOut();
@@ -27,11 +31,12 @@ const Authorized = () => {
   return (
     <>
       {alarmModalVisible && <AlarmModal visible={alarmModalVisible} onClose={() => setAlarmModalVisible(false)} />}
-      <Icon name='users' size='medium' isPointer={true} onClick={() => navigate('/myGroup')} />
+      <Icon name='magnifying-glass' size='medium' isPointer onClick={() => setIsSearchBarVisible(true)} />
+      <Icon name='users' size='medium' isPointer onClick={() => navigate('/myGroup')} />
       <Badge dot={!isLoading && alarms.length > 0 && alarms.some(({ seen }) => !seen)} bgColor={COLOR.ALARM_GREEN}>
-        <Icon name='bell' size='medium' isPointer={true} onClick={() => setAlarmModalVisible(true)} />
+        <Icon name='bell' size='medium' isPointer onClick={() => setAlarmModalVisible(true)} />
       </Badge>
-      <Icon name='user' size='medium' isPointer={true} onClick={() => navigate('/myPage')} />
+      <Icon name='user' size='medium' isPointer onClick={() => navigate('/myPage')} />
       <Button fontSize='large' version='transparent' onClick={() => signOut()}>
         로그아웃
       </Button>

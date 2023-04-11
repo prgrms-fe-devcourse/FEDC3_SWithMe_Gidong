@@ -7,12 +7,10 @@ const Logo = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <StyledHeaderLogo onClick={() => navigate('/')}>
-        <img src={icLogo} alt='' />
-        <Heading level={5}>스윗미</Heading>
-      </StyledHeaderLogo>
-    </div>
+    <StyledHeaderLogo onClick={() => navigate('/')}>
+      <img src={icLogo} alt='logo' />
+      <Heading level={5}>스윗미</Heading>
+    </StyledHeaderLogo>
   );
 };
 
