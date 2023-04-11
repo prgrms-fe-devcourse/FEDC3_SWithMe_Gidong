@@ -46,7 +46,7 @@ Avatar.propTypes = {
   lazy: PropTypes.bool,
   threshold: PropTypes.number,
   src: PropTypes.string,
-  size: PropTypes.oneOf(['small', 'large']),
+  size: PropTypes.oneOf(['small', 'medium', 'large']),
   shape: PropTypes.oneOf(['circle', 'round', 'square']),
   placeholder: PropTypes.string,
   alt: PropTypes.string,
