@@ -1,9 +1,13 @@
 import { Button, Heading, Input, TagInput } from '@/components/base';
-import { useTILContext } from '@/context/TILProvider';
+
+import { useCreateTIL, useUpdateTIL } from '@/hooks/queries/tils';
 import useInput from '@/hooks/useInput';
-import { COLOR } from '@/styles/color';
+
 import { checkAbleSubmit } from '@/utils/validation';
+
+import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
+
 import { useEffect, useMemo, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -21,13 +25,14 @@ import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-sy
 import 'tui-color-picker/dist/tui-color-picker.css';
 
 function TILEditor() {
-  const { onCreateTIL, onUpdateTIL } = useTILContext();
-
   const navigate = useNavigate();
   const {
     state: { til, groupName, groupId },
   } = useLocation();
   const editMode = til ? '수정' : '작성';
+
+  const updateTIL = useUpdateTIL();
+  const createTIL = useCreateTIL();
 
   const title = useInput(til ? til.title.title : '');
   const tagList = useInput(til ? [...til.title.tagList] : []);
@@ -45,38 +50,32 @@ function TILEditor() {
   const handleSubmitButtonClick = async () => {
     if (!ableSubmit) return;
 
+    const formData = new FormData();
+    formData.append(
+      'title',
+      JSON.stringify({
+        title: title.value,
+        body: editorRef.current.getInstance().getMarkdown(),
+        tagList: tagList.value,
+      }),
+    );
+
     if (til) {
-      const formData = new FormData();
-      formData.append(
-        'title',
-        JSON.stringify({
-          title: title.value,
-          body: editorRef.current.getInstance().getMarkdown(),
-          tagList: tagList.value,
-        }),
-      );
       formData.append('postId', til._id);
       formData.append('channelId', til.channel._id);
       formData.append('image', null);
 
-      const response = await onUpdateTIL(formData);
-      navigate(`/TIL/${til._id}`, { state: { til: response } });
-    } else {
-      const formData = new FormData();
-      formData.append(
-        'title',
-        JSON.stringify({
-          title: title.value,
-          body: editorRef.current.getInstance().getMarkdown(),
-          tagList: tagList.value,
-        }),
-      );
-      formData.append('channelId', groupId);
-      formData.append('image', null);
+      await updateTIL.mutate(formData, {
+        onSuccess: (data) => navigate(`/TIL/${til._id}`, { state: { til: data } }),
+      });
 
-      await onCreateTIL(formData);
-      navigate('/myGroup');
+      return;
     }
+
+    formData.append('channelId', groupId);
+    formData.append('image', null);
+
+    await createTIL.mutate(formData, { onSuccess: () => navigate('/myGroup') });
   };
 
   useEffect(() => {

@@ -1,39 +1,46 @@
-import { createAlarm, deleteAlarm } from '@/api/alarm';
-import { getTIL } from '@/api/post';
+import { createNotification, deleteNotification } from '@/api/notification';
+
 import { Avatar, Text, Textarea } from '@/components/base';
 import AuthorNav from '@/components/domain/AuthorNav';
-import { useCommentContext } from '@/context/CommentProvider';
-import { useToastContext } from '@/context/ToastProvider';
+
+import { useCreateComment, useDeleteComment } from '@/hooks/queries/comments';
 import useInput from '@/hooks/useInput';
-import { COLOR } from '@/styles/color';
+import useToasts from '@/hooks/useToasts';
+
 import { convertDate } from '@/utils/date';
 import { isAuthor } from '@/utils/post';
 import { getItem, removeItem, setItem } from '@/utils/storage';
-import { useState } from 'react';
-import { StyledCommentItem, StyledFlexContainer, StyledWriterInfoContainer, StyledCommentWrapper } from './styles';
+
 import { userState } from '@/stores/user';
 import { useRecoilValue } from 'recoil';
 
-function CommentItem({ comment }) {
-  const loggedUser = useRecoilValue(userState);
+import { useState } from 'react';
 
-  const { onDeleteComment, onUpdateComment } = useCommentContext();
-  const { addToast } = useToastContext();
+import { COLOR } from '@/styles/color';
+import { StyledCommentItem, StyledCommentWrapper, StyledFlexContainer, StyledWriterInfoContainer } from './styles';
 
-  const [mode, setMode] = useState('view');
-
+function CommentItem({ comment, authorId }) {
   const { author, comment: body, updatedAt, _id: id, post: postId } = comment;
   const writtenTime = convertDate(new Date(updatedAt));
 
+  const createComment = useCreateComment();
+  const deleteComment = useDeleteComment();
+  const { addToast } = useToasts();
+
+  const loggedUser = useRecoilValue(userState);
+  const [mode, setMode] = useState('view');
   const commentInput = useInput(body);
 
   const handleDeleteButtonClick = async () => {
-    const { _id: commentId } = await onDeleteComment({ id });
-
-    await deleteAlarm({
-      id: getItem(commentId, ''),
-    });
-    removeItem(commentId);
+    await deleteComment.mutate(
+      { id },
+      {
+        onSuccess: async ({ _id: commentId }) => {
+          await deleteNotification({ id: getItem(commentId, '') });
+          removeItem(commentId);
+        },
+      },
+    );
   };
 
   const handleSubmitButtonClick = async () => {
@@ -46,30 +53,33 @@ function CommentItem({ comment }) {
       return;
     }
 
-    const {
-      author: { _id: userId },
-    } = await getTIL(postId);
+    await deleteComment.mutate(
+      { id },
+      {
+        onSuccess: async ({ _id: commentId }) => {
+          await deleteNotification({ id: getItem(commentId, '') });
+          removeItem(commentId);
+        },
+      },
+    );
 
-    const [{ _id: deletedId }, { _id: createdId }] = await onUpdateComment(
+    await createComment.mutate(
       {
         comment: commentInput.value,
         postId,
       },
-      { id },
+      {
+        onSuccess: async ({ _id: notificationTypeId }) => {
+          const { _id: alarmId } = await createNotification({
+            notificationType: 'COMMENT',
+            notificationTypeId,
+            userId: authorId,
+            postId,
+          });
+          setItem(notificationTypeId, alarmId);
+        },
+      },
     );
-
-    await deleteAlarm({
-      id: getItem(deletedId, ''),
-    });
-    removeItem(deletedId);
-
-    const { _id: alarmId } = await createAlarm({
-      notificationType: 'COMMENT',
-      notificationTypeId: createdId,
-      userId,
-      postId,
-    });
-    setItem(createdId, alarmId);
   };
 
   const toggleEditButtonClick = () => {

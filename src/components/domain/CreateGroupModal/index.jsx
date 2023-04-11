@@ -1,11 +1,15 @@
 import { Button, Icon, Input, TagInput, Text, Textarea } from '@/components/base';
-import { useToastContext } from '@/context/ToastProvider';
+
 import useInput from '@/hooks/useInput';
+import useToasts from '@/hooks/useToasts';
+import { useCreateGroup } from '@/hooks/queries/group';
+
 import { useState } from 'react';
-import { StyledButtonContainer, StyledContentContainer, StyledHeaderContainer, StyledModal } from './styles';
+
 import { useRecoilValue } from 'recoil';
 import { userState } from '@/stores/user';
-import { useCreateGroup } from '@/hooks/queries/group';
+
+import { StyledButtonContainer, StyledContentContainer, StyledHeaderContainer, StyledModal } from './styles';
 
 const MAX_STEP_SIZE = 4;
 const STEPS = {
@@ -15,14 +19,15 @@ const STEPS = {
 };
 
 function CreateGroupModal({ visible, groups, setMyGroupList, onClose, ...props }) {
-  const loggedUser = useRecoilValue(userState);
-  const { addToast } = useToastContext();
-  const { mutate: createGroupMutate } = useCreateGroup();
-  const [step, setStep] = useState(1);
+  const { addToast } = useToasts();
+  const createGroup = useCreateGroup();
+
   const groupName = useInput('');
   const headCount = useInput('');
   const intro = useInput('');
   const tagList = useInput([]);
+  const [step, setStep] = useState(1);
+  const loggedUser = useRecoilValue(userState);
 
   const checkNextButtonClickAble = () => {
     if (step === 1) {
@@ -60,7 +65,7 @@ function CreateGroupModal({ visible, groups, setMyGroupList, onClose, ...props }
           member: [],
         }),
       };
-      createGroupMutate(data, {
+      createGroup.mutate(data, {
         onSuccess: (data) => {
           const createdGroup = { ...data, description: JSON.parse(data.description) };
           setMyGroupList((prev) => [...prev, createdGroup]);

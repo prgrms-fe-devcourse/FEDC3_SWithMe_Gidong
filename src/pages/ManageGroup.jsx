@@ -1,13 +1,18 @@
 import { GroupDelete, ManageMember, UpdateGroupInfo } from '@/components/domain/ManageGroup';
-import { useUserContext } from '@/context/UserProvider';
-import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
+
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { usersState } from '@/stores/users';
+import { useRecoilValue } from 'recoil';
+
+import { COLOR } from '@/styles/color';
+import styled from '@emotion/styled';
+
 function ManageGroup() {
   const { state } = useLocation();
-  const { users } = useUserContext();
+
+  const users = useRecoilValue(usersState);
   const [group, setGroup] = useState(state);
   const [member, setMember] = useState();
 

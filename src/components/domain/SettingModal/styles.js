@@ -1,9 +1,9 @@
-import { Button, Modal } from '@/components/base';
+import { Modal } from '@/components/base';
 import { COLOR } from '@/styles/color';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-const StyledSettingModal = styled(Modal)`
+export const SettingModal = styled(Modal)`
   padding: 0;
   position: absolute;
   top: 9rem;
@@ -20,14 +20,14 @@ const StyledSettingModal = styled(Modal)`
   }
 `;
 
-const StyledSettingModalWrapper = styled.div`
+export const SettingModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
 
   padding: 1rem;
 `;
 
-const StyledFilterTabContainer = styled.div`
+export const FilterTabContainer = styled.div`
   display: flex;
   flex-direction: column;
 
@@ -36,7 +36,7 @@ const StyledFilterTabContainer = styled.div`
   gap: 0.3rem;
 `;
 
-const StyledFilterTab = styled.div`
+export const FilterTab = styled.div`
   cursor: pointer;
   padding: 0.3rem 1rem;
   border-radius: 0.6rem;
@@ -53,15 +53,3 @@ const StyledFilterTab = styled.div`
     color: ${COLOR.HEADER_SEARCHBAR_SUBMIT_BG};
   }
 `;
-
-const StyledButton = styled(Button)`
-  background-color: transparent;
-  font-size: 1.4rem;
-  padding: 0.3rem 1rem;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-export { StyledSettingModal, StyledSettingModalWrapper, StyledFilterTabContainer, StyledFilterTab, StyledButton };

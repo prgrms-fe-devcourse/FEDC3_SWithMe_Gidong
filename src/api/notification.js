@@ -1,7 +1,6 @@
 import { axiosInstance } from '@/api/core';
-import useSWR from 'swr';
 
-export const getAlarms = async () => {
+export const getNotifications = async () => {
   try {
     const response = await axiosInstance.get('notifications');
     const parsedResponse = response.map((res) =>
@@ -27,14 +26,15 @@ export const getAlarms = async () => {
             },
           },
     );
+    const orderedResponse = parsedResponse.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 
-    return parsedResponse;
+    return orderedResponse;
   } catch (error) {
     console.error(error);
   }
 };
 
-export const createAlarm = async (data) => {
+export const createNotification = async (data) => {
   try {
     const response = await axiosInstance.post('notifications/create', data);
 
@@ -44,7 +44,7 @@ export const createAlarm = async (data) => {
   }
 };
 
-export const deleteAlarm = async (data) => {
+export const deleteNotification = async (data) => {
   try {
     const response = await axiosInstance.delete('notifications/delete', { data });
 
@@ -54,7 +54,7 @@ export const deleteAlarm = async (data) => {
   }
 };
 
-export const updateSeenAlarm = async () => {
+export const updateSeenNotification = async () => {
   try {
     const response = await axiosInstance.put('notifications/seen');
 
@@ -62,11 +62,4 @@ export const updateSeenAlarm = async () => {
   } catch (error) {
     console.error(error);
   }
-};
-
-const fetcher = (url) => axiosInstance.get(url);
-export const useAlarms = () => {
-  const { data, error, isLoading } = useSWR('notifications', fetcher, { refreshInterval: 1000 });
-
-  return { data, isLoading, error };
 };

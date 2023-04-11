@@ -1,10 +1,17 @@
 import { Button, Icon, SearchBar, Tag, Text } from '@/components/base';
 import { Introduction, Member, MemberList } from '@/components/domain/groupInfo';
-import { useUserContext } from '@/context/UserProvider';
+
+import { useUpdateGroup } from '@/hooks/queries/group';
 import useInput from '@/hooks/useInput';
+
+import { usersState } from '@/stores/users';
+import { useRecoilValue } from 'recoil';
+
+import { useEffect, useState } from 'react';
+
+import { userState } from '@/stores/user';
 import { COLOR } from '@/styles/color';
 import theme from '@/styles/theme';
-import { useEffect, useState } from 'react';
 import {
   StyledButtonWrapper,
   StyledContentContainer,
@@ -12,20 +19,16 @@ import {
   StyledMemberListContainerLabel,
   StyledModal,
 } from './styles';
-import { userState } from '@/stores/user';
-import { useRecoilValue } from 'recoil';
-import { useUpdateGroup } from '@/hooks/queries/group';
 
 function GroupInfoModal({ group, visible, onClose, ...props }) {
-  const loggedUser = useRecoilValue(userState);
-  const { mutate: updateGroupMutate } = useUpdateGroup();
-
-  const { users } = useUserContext();
-
   const { name, description, _id } = group;
   const { master: masterId, tagList, intro, member: memberIds } = description;
-  const { value, onChange } = useInput('');
 
+  const updateGroup = useUpdateGroup();
+
+  const { value, onChange } = useInput('');
+  const users = useRecoilValue(usersState);
+  const loggedUser = useRecoilValue(userState);
   const [member, setMember] = useState();
   const [master, setMaster] = useState();
 
@@ -68,7 +71,7 @@ function GroupInfoModal({ group, visible, onClose, ...props }) {
         member: [...memberIds.filter((memberId) => memberId !== loggedUser._id)],
       }),
     };
-    updateGroupMutate(data, { onSuccess: () => onClose && onClose() });
+    updateGroup.mutate(data, { onSuccess: () => onClose && onClose() });
   };
 
   return (

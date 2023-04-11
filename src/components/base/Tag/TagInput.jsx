@@ -1,13 +1,16 @@
 import { Input, Text } from '@/components/base';
-import { useToastContext } from '@/context/ToastProvider';
-import useInput from '@/hooks/useInput';
-import PropTypes from 'prop-types';
-import * as S from './styles';
 import TagList from './TagList';
+
+import useInput from '@/hooks/useInput';
+import useToasts from '@/hooks/useToasts';
+
+import PropTypes from 'prop-types';
+
+import * as S from './styles';
 
 function TagInput({ tagList = [], onChange, wrapperProps, inputProps, ...props }) {
   const tag = useInput('');
-  const { addToast } = useToastContext();
+  const { addToast } = useToasts();
 
   const addTagItem = (value) => {
     if (tagList.includes(value)) {

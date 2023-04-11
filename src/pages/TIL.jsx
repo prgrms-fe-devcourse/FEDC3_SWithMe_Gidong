@@ -1,72 +1,58 @@
-import { createAlarm, deleteAlarm } from '@/api/alarm';
-import { Avatar, Button, Divider, Heading, Tag, Text } from '@/components/base';
+import { createNotification, deleteNotification } from '@/api/notification';
+
+import { Avatar, Button, Divider, Heading, Spinner, Tag, Text } from '@/components/base';
 import AuthorNav from '@/components/domain/AuthorNav';
 import CommentList from '@/components/domain/CommentList';
 import CreateComment from '@/components/domain/CreateComment';
 import FloatingLikeButton from '@/components/domain/FloatingLikeButton';
-import { useCommentContext } from '@/context/CommentProvider';
-import { useLikeContext } from '@/context/LikeProvider';
-import { useTILContext } from '@/context/TILProvider';
+
+import { useCreateComment } from '@/hooks/queries/comments';
+import { useCreateLike, useDeleteLike } from '@/hooks/queries/likes';
+import { useDeleteTIL, useGetTIL } from '@/hooks/queries/tils';
 import useInput from '@/hooks/useInput';
-import { COLOR } from '@/styles/color';
+
 import { convertDate } from '@/utils/date';
 import { isMember } from '@/utils/group';
 import { isAuthor } from '@/utils/post';
 import { getItem, removeItem, setItem } from '@/utils/storage';
 import { checkAbleSubmit, checkIsEmptyObj } from '@/utils/validation';
-import styled from '@emotion/styled';
+
 import { Viewer } from '@toast-ui/react-editor';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
+import { userState } from '@/stores/user';
+import { useEffect, useMemo, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { userState } from '@/stores/user';
+
+import { COLOR } from '@/styles/color';
+import styled from '@emotion/styled';
 
 function TIL() {
-  const loggedUser = useRecoilValue(userState);
   const navigate = useNavigate();
-  const { onDeleteTIL, onGetTIL } = useTILContext();
-  const { comments, onInitComment, onCreateComment } = useCommentContext();
-  const { likes, onInitLike, onCreateLike, onDeleteLike } = useLikeContext();
+  const { id } = useParams();
+
+  const loggedUser = useRecoilValue(userState);
+
+  const { data: til, isLoading } = useGetTIL(id);
+  const deleteTIL = useDeleteTIL();
+  const createComment = useCreateComment();
+  const createLike = useCreateLike();
+  const deleteLike = useDeleteLike();
+
   const viewerRef = useRef(null);
   const comment = useInput('');
   const likeButtonRef = useRef(null);
 
-  const { id } = useParams();
-  const [til, setTil] = useState();
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const getTIL = useCallback(async () => {
-    const response = await onGetTIL(id);
-    await setTil(response);
-
-    return response;
-  }, [id]);
-
-  const init = useCallback(async (til) => {
-    await onInitComment(til.comments);
-    await onInitLike(til.likes);
-  }, []);
-
-  useEffect(() => {
-    if (!id) return;
-
-    (async () => {
-      const til = await getTIL();
-      init(til);
-    })();
-  }, [id]);
 
   const ableSubmit = useMemo(() => checkAbleSubmit([comment.value.length]), [comment.value]);
 
   const handleDeleteButtonClick = async () => {
     if (!confirm('정말 삭제하시겠습니까? 한번 삭제하면 되돌릴 수 없습니다.')) return;
 
-    await onDeleteTIL({
-      id: til._id,
-    });
+    deleteTIL.mutate({ id: til._id });
     navigate('/myGroup');
   };
 
@@ -77,59 +63,80 @@ function TIL() {
       _id: postId,
       author: { _id: userId },
     } = til;
-    const { _id: notificationTypeId } = await onCreateComment({
-      comment: comment.value,
-      postId,
-    });
-    const { _id: alarmId } = await createAlarm({
-      notificationType: 'COMMENT',
-      notificationTypeId,
-      userId,
-      postId,
-    });
-    setItem(notificationTypeId, alarmId);
 
-    comment.onChange('');
+    await createComment.mutate(
+      {
+        comment: comment.value,
+        postId,
+      },
+      {
+        onSuccess: async ({ _id: notificationTypeId }) => {
+          const { _id: alarmId } = await createNotification({
+            notificationType: 'COMMENT',
+            notificationTypeId,
+            userId,
+            postId,
+          });
+          setItem(notificationTypeId, alarmId);
+          comment.onChange('');
+        },
+      },
+    );
   };
 
-  const toggleLikeButtonClick = async () => {
-    const loggedUserLike = likes.find((like) => like.user === loggedUser._id);
+  const handleLikeToggle = async () => {
+    const loggedUserLike = til.likes.find((like) => like.user === loggedUser._id);
 
     if (!loggedUserLike) {
       const {
         _id: postId,
         author: { _id: userId },
       } = til;
-      const { _id: notificationTypeId } = await onCreateLike({
-        comment: comment.value,
-        postId,
-      });
-      const { _id: alarmId } = await createAlarm({
-        notificationType: 'LIKE',
-        notificationTypeId,
-        userId,
-        postId,
-      });
 
-      setItem(notificationTypeId, alarmId);
-    } else {
-      const { _id: likeId } = await onDeleteLike({
-        id: loggedUserLike._id,
-      });
-      await deleteAlarm({
-        id: getItem(likeId, ''),
-      });
+      await createLike.mutate(
+        {
+          comment: comment.value,
+          postId,
+        },
+        {
+          onSuccess: async ({ _id: notificationTypeId }) => {
+            const { _id: alarmId } = await createNotification({
+              notificationType: 'LIKE',
+              notificationTypeId,
+              userId,
+              postId,
+            });
+            setItem(notificationTypeId, alarmId);
+          },
+        },
+      );
 
-      removeItem(likeId);
+      return;
     }
+
+    await deleteLike.mutate(
+      {
+        id: loggedUserLike._id,
+      },
+      {
+        onSuccess: async ({ _id: likeId }) => {
+          await deleteNotification({
+            id: getItem(likeId, ''),
+          });
+          removeItem(likeId);
+        },
+      },
+    );
   };
 
   return (
     <StyledPageWrapper>
       <StyledTIL className='til'>
-        {!checkIsEmptyObj(til) && (
+        {isLoading ? (
+          <Spinner size='xLarge' color={COLOR.TAG_COLOR[1]} />
+        ) : (
           <>
-            <FloatingLikeButton likes={likes} likeButtonRef={likeButtonRef} onClick={toggleLikeButtonClick} />
+            <FloatingLikeButton likes={til.likes} likeButtonRef={likeButtonRef} onClick={handleLikeToggle} />
             <StyledHeader>
               <Heading level={1}>📚 [{til.channel.name}]에 대한 TIL</Heading>
               {!isMember(til.channel, loggedUser._id) && (
@@ -172,7 +179,7 @@ function TIL() {
               <CreateComment comment={comment} ableSubmit={ableSubmit} onSubmit={handleSubmitButtonClick} />
             )}
             <StyledCommentListWrapper marginTop={checkIsEmptyObj(loggedUser) ? '0' : '4rem'}>
-              <CommentList comments={comments} />
+              <CommentList comments={til.comments} authorId={til.author._id} />
             </StyledCommentListWrapper>
           </>
         )}

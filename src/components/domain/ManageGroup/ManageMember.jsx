@@ -1,10 +1,13 @@
 import { Heading, Icon, SearchBar } from '@/components/base';
 import { Member, MemberList } from '@/components/domain/groupInfo';
-import { useToastContext } from '@/context/ToastProvider';
+
 import useInput from '@/hooks/useInput';
+import useToasts from '@/hooks/useToasts';
+
 import { useNavigate } from 'react-router-dom';
-import { StyledManageMember, StyledGroupInfo } from './styles';
+
 import { useUpdateGroup } from '@/hooks/queries/group';
+import { StyledGroupInfo, StyledManageMember } from './styles';
 
 const MESSAGE = {
   ALERT_MEMBER_KICK: '이 강퇴 되었습니다.',
@@ -14,10 +17,12 @@ const MESSAGE = {
 };
 
 function ManageMember({ group, setGroup, member }) {
-  const { mutate: updateGroupMutate } = useUpdateGroup();
-  const { addToast } = useToastContext();
-  const { value, onChange } = useInput('');
   const navigate = useNavigate();
+
+  const { addToast } = useToasts();
+  const updateGroup = useUpdateGroup();
+
+  const { value, onChange } = useInput('');
 
   const featureNames = {
     k: 'MEMBER_KICK',
@@ -44,7 +49,7 @@ function ManageMember({ group, setGroup, member }) {
         ...updatedMember,
       }),
     };
-    updateGroupMutate(data, {
+    updateGroup.mutate(data, {
       onSuccess: (data) => {
         const updatedGroup = { ...data, description: JSON.parse(data.description) };
         setGroup(updatedGroup);

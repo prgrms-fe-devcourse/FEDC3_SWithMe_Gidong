@@ -1,9 +1,9 @@
 import { Divider, Text } from '@/components/base';
 import CommentItem from '@/components/domain/CommentItem';
-import { COLOR } from '@/styles/color';
+
 import { StyledCommentList } from './styles';
 
-function CommentList({ comments }) {
+function CommentList({ comments, authorId }) {
   return (
     <>
       {comments.length ? (
@@ -11,7 +11,7 @@ function CommentList({ comments }) {
           {comments.map((comment, i) => {
             return (
               <div key={comment._id}>
-                <CommentItem comment={comment} />
+                <CommentItem comment={comment} authorId={authorId} />
                 {comments.length !== i + 1 && <Divider height='0.05rem' />}
               </div>
             );

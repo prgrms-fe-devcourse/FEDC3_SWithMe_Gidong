@@ -1,32 +1,37 @@
 import { Divider, Heading, Icon, Text } from '@/components/base';
 import GroupInfoModal from '@/components/domain/GroupInfoModal';
-import { useUserContext } from '@/context/UserProvider';
-import { COLOR } from '@/styles/color';
+
+import { userState } from '@/stores/user';
+import { usersState } from '@/stores/users';
+import { useRecoilValue } from 'recoil';
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { COLOR } from '@/styles/color';
 import {
   StyledGroupHeader,
+  StyledGroupIcons,
   StyledGroupInfo,
   StyledGroupTitle,
-  StyledGroupIcons,
-  StyledTagList,
   StyledTag,
+  StyledTagList,
   StyledToggleButton,
 } from './styles';
-import { useRecoilValue } from 'recoil';
-import { userState } from '@/stores/user';
 
 function GroupItem({ group, isLastGroup, openedGroupId, setOpenedGroupId }) {
-  const [groupInfoModalVisible, setGroupInfoModalVisible] = useState(false);
-  const { _id, name, description } = group;
-  const { master: masterId, tagList, intro } = description;
-  const loggedUser = useRecoilValue(userState);
-  const isOpened = openedGroupId === _id;
-  const isMaster = masterId === loggedUser._id;
   const navigate = useNavigate();
 
-  const { users } = useUserContext();
+  const { _id, name, description } = group;
+  const { master: masterId, tagList, intro } = description;
+
+  const loggedUser = useRecoilValue(userState);
+  const users = useRecoilValue(usersState);
   const [master, setMaster] = useState();
+  const [groupInfoModalVisible, setGroupInfoModalVisible] = useState(false);
+
+  const isOpened = openedGroupId === _id;
+  const isMaster = masterId === loggedUser._id;
 
   useEffect(() => {
     const getMasterInfo = () => {

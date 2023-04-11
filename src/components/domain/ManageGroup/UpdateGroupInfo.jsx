@@ -1,8 +1,11 @@
 import { Button, Heading, Input, TagInput, Text, Textarea } from '@/components/base';
-import { useToastContext } from '@/context/ToastProvider';
+
 import { useUpdateGroup } from '@/hooks/queries/group';
 import useInput from '@/hooks/useInput';
+import useToasts from '@/hooks/useToasts';
+
 import { useEffect, useState } from 'react';
+
 import { StyledGroupBox, StyledGroupInfo } from './styles';
 
 const ALERT_MESSAGE = {
@@ -15,8 +18,10 @@ const ALERT_MESSAGE = {
 
 function UpdateGroupInfo({ group, setGroup }) {
   const { headCount: memberCount, tagList: tags, intro: introduction } = group.description;
+
+  const { addToast } = useToasts();
   const { mutate: updateGroupMutate } = useUpdateGroup();
-  const { addToast } = useToastContext();
+
   const groupName = useInput('');
   const headCount = useInput(0);
   const intro = useInput('');

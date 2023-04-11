@@ -1,15 +1,20 @@
 import { postUserSignIn } from '@/api/userSign';
+
 import { imgLogin } from '@/assets/images';
+
 import { Button, Heading, Image, Spinner, Text } from '@/components/base';
 import SignInput from '@/components/domain/SignInput';
+
 import useAuth from '@/hooks/useAuth';
-import { useToastContext } from '@/context/ToastProvider';
+import useToasts from '@/hooks/useToasts';
+
+import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { COLOR } from '@/styles/color';
 import theme from '@/styles/theme';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const ERRORS = {
   EMAIL_EMPTY_ERROR: '이메일을 입력해 주세요.',
@@ -26,7 +31,7 @@ const INPUT_NUMBER_LIMIT = {
 function SignIn() {
   const navigate = useNavigate();
   const { onLogin } = useAuth();
-  const { addToast } = useToastContext();
+  const { addToast } = useToasts();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

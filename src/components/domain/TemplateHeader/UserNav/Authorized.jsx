@@ -1,11 +1,15 @@
-import { useAlarms } from '@/api/alarm';
 import { postUserSignOut } from '@/api/userSign';
+
 import { Badge, Button, Icon } from '@/components/base';
 import AlarmModal from '@/components/domain/AlarmModal';
+
+import { useGetNotifications } from '@/hooks/queries/notifications';
 import useAuth from '@/hooks/useAuth';
-import { COLOR } from '@/styles/color';
-import { useState } from 'react';
+
+import { memo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { COLOR } from '@/styles/color';
 
 const Authorized = () => {
   const navigate = useNavigate();
@@ -18,13 +22,13 @@ const Authorized = () => {
   };
 
   const [alarmModalVisible, setAlarmModalVisible] = useState(false);
-  const { data, isLoading } = useAlarms();
+  const { data: alarms, isLoading } = useGetNotifications();
 
   return (
     <>
       {alarmModalVisible && <AlarmModal visible={alarmModalVisible} onClose={() => setAlarmModalVisible(false)} />}
       <Icon name='users' size='medium' isPointer={true} onClick={() => navigate('/myGroup')} />
-      <Badge dot={!isLoading && data && data.length > 0 && data.some(({ seen }) => !seen)} bgColor={COLOR.ALARM_GREEN}>
+      <Badge dot={!isLoading && alarms.length > 0 && alarms.some(({ seen }) => !seen)} bgColor={COLOR.ALARM_GREEN}>
         <Icon name='bell' size='medium' isPointer={true} onClick={() => setAlarmModalVisible(true)} />
       </Badge>
       <Icon name='user' size='medium' isPointer={true} onClick={() => navigate('/myPage')} />
@@ -35,4 +39,4 @@ const Authorized = () => {
   );
 };
 
-export default Authorized;
+export default memo(Authorized);

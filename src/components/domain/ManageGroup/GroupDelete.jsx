@@ -1,7 +1,10 @@
-import { Button, Heading, Text } from '@/components/base';
-import { useToastContext } from '@/context/ToastProvider';
+import { Heading, Text, Button } from '@/components/base';
+
+import useToasts from '@/hooks/useToasts';
+
 import { useDeleteGroup } from '@/hooks/queries/group';
 import { useNavigate } from 'react-router-dom';
+
 import { StyledGroupDelete } from './styles';
 
 const TOAST_MESSAGE = {
@@ -10,13 +13,14 @@ const TOAST_MESSAGE = {
 };
 
 function GroupDelete({ groupId }) {
-  const { addToast } = useToastContext();
   const navigate = useNavigate();
-  const { mutate: deleteGroupMutate } = useDeleteGroup();
+
+  const deleteGroup = useDeleteGroup();
+  const { addToast } = useToasts();
 
   const handleDeleteClick = async () => {
     if (!confirm(TOAST_MESSAGE.CONFIRM_GROUP_DELETE)) return;
-    deleteGroupMutate(
+    deleteGroup.mutate(
       { id: groupId },
       {
         onSuccess: () => {
