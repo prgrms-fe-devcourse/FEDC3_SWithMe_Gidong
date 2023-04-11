@@ -6,6 +6,7 @@ const StyledHeaderLogo = styled.button`
   align-items: center;
   gap: 0.5rem;
 
+  width: fit-content;
   height: 6.4rem;
   margin-left: 2rem;
   padding: 0;

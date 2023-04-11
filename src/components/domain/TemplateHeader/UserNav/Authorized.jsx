@@ -33,10 +33,10 @@ const Authorized = () => {
       {alarmModalVisible && <AlarmModal visible={alarmModalVisible} onClose={() => setAlarmModalVisible(false)} />}
       <Icon name='magnifying-glass' size='medium' isPointer onClick={() => setIsSearchBarVisible(true)} />
       <Icon name='users' size='medium' isPointer onClick={() => navigate('/myGroup')} />
+      <Icon name='user' size='medium' isPointer onClick={() => navigate('/myPage')} />
       <Badge dot={!isLoading && alarms.length > 0 && alarms.some(({ seen }) => !seen)} bgColor={COLOR.ALARM_GREEN}>
         <Icon name='bell' size='medium' isPointer onClick={() => setAlarmModalVisible(true)} />
       </Badge>
-      <Icon name='user' size='medium' isPointer onClick={() => navigate('/myPage')} />
       <Button fontSize='large' version='transparent' onClick={() => signOut()}>
         로그아웃
       </Button>
