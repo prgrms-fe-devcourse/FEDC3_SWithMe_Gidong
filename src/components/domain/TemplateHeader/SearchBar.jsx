@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { COLOR } from '@/styles/color';
 import { StyledDropdownTrigger, StyledDropdownUl, StyledHeaderSearchBar, StyledSearchInput } from './styles';
 
-const FILLTER_OPTIONS = ['전체', '그룹명', '태그'];
+const FILTER_OPTIONS = ['전체', '그룹명', '태그'];
 const SEARCH_VALUE_LENGTH_MIN = 2;
 const SEARCH_ERROR = {
   INPUT_VALUE_LENGTH_MIN: '두 글자 이상 입력해주세요.',
@@ -61,7 +61,7 @@ const SearchBar = () => {
       </StyledDropdownTrigger>
       {dropdown && (
         <StyledDropdownUl>
-          {FILLTER_OPTIONS.map((option, index) => (
+          {FILTER_OPTIONS.map((option, index) => (
             <li key={index}>
               <button value={option} onMouseDown={handleDropdown} style={{ color: COLOR.DARK }}>
                 {option}
