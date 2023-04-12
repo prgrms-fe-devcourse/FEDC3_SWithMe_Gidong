@@ -6,7 +6,7 @@ const StyledAlarmModal = styled(Modal)`
   padding: 0;
   position: absolute;
   top: 7rem;
-  right: 14rem;
+  right: 10rem;
   transform: none;
 
   width: 40rem;
@@ -21,6 +21,10 @@ const StyledAlarmModal = styled(Modal)`
 
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 991.98px) {
+    right: 6rem;
+  }
 
   @media (max-width: 624px) {
     position: fixed;

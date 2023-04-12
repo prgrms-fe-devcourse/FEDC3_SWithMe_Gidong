@@ -89,9 +89,7 @@ const StyledSearchInput = styled.input`
 const StyledUserNav = styled.div`
   display: flex;
   justify-content: flex-end;
-  align-items: center;
   margin-right: 2rem;
-  gap: 2rem;
 
   position: relative;
 
@@ -102,11 +100,33 @@ const StyledUserNav = styled.div`
   & button:hover {
     color: ${COLOR.GRAY3};
   }
+`;
+
+const StyledAuthorized = styled.div`
+  display: flex;
+  gap: 2rem;
 
   & > i:first-of-type {
     display: none;
 
     @media (max-width: 623.98px) {
+      display: block;
+    }
+  }
+
+  & > i:nth-of-type(n + 2):nth-of-type(-n + 3),
+  button {
+    display: block;
+
+    @media (max-width: 991.98px) {
+      display: none;
+    }
+  }
+
+  & > i:last-of-type {
+    display: none;
+
+    @media (max-width: 991.98px) {
       display: block;
     }
   }
@@ -119,4 +139,5 @@ export {
   StyledDropdownUl,
   StyledSearchInput,
   StyledUserNav,
+  StyledAuthorized,
 };
