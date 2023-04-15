@@ -23,7 +23,7 @@ function TagInput({ tagList = [], onChange, wrapperProps, inputProps, ...props }
   };
 
   const removeTagItem = (e) => {
-    const deleteTagItem = e.target.parentNode.firstChild.nodeValue;
+    const deleteTagItem = e.target.parentNode.parentNode.firstChild.nodeValue;
     const filteredTagList = tagList.filter((tagItem) => tagItem !== deleteTagItem);
     onChange && onChange(filteredTagList);
   };

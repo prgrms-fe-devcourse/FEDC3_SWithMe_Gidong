@@ -6,11 +6,11 @@ import * as S from './styles';
 function TagItem({ tag, onDeleteTagButtonClick, fontsize }) {
   return (
     <S.TagItem>
-      <Text size={fontsize ? fontsize : 'xSmall'} weight={300} color={theme.colors.white_900}>
+      <Text size={fontsize ? fontsize : 'small'} weight={300} color={theme.colors.white_900}>
         {tag}
         {onDeleteTagButtonClick && (
           <Button fontSize='xSmall' version='transparent' onClick={onDeleteTagButtonClick}>
-            <Icon name='trash-can' color={theme.colors.black_900} />
+            <Icon name='trash-can' color={theme.colors.white_900} />
           </Button>
         )}
       </Text>

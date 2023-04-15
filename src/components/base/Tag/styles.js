@@ -12,7 +12,7 @@ export const TagListWrapper = styled(DefaultWrapper)`
   padding: 1rem;
   border: 0.2rem solid ${({ theme }) => theme.shadows[900]};
   border-radius: 1rem;
-  border-color: ${({ disabled, theme }) => (disabled ? 'none' : theme.colors.sub_800)};
+  border-color: ${({ disabled, theme }) => (disabled ? 'none' : theme.colors.main_100)};
 `;
 
 export const TagItem = styled.div`
@@ -20,8 +20,8 @@ export const TagItem = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 0 0.3rem;
-  padding: 0.5rem;
-  background-color: ${({ theme }) => theme.colors.sub_800};
+  padding: 0.5rem 0.8rem;
+  background-color: ${({ theme }) => theme.colors.main_100};
   border-radius: 0.4rem;
 
   &:nth-of-type(1) {

@@ -36,6 +36,11 @@ const StyledGroupInfo = styled.div`
   gap: 1rem;
   padding: 1rem 0;
   font-size: 2rem;
+
+  & > div:nth-of-type(2) {
+    display: flex;
+    align-items: center;
+  }
 `;
 
 const StyledGroupTitle = styled.div`
