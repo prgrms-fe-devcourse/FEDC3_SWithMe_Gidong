@@ -1,5 +1,7 @@
+import { rightSlideIn, rightSlideOut } from '@/styles/keyframes';
 import theme from '@/styles/theme';
-import { css, keyframes } from '@emotion/react';
+
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Template = styled.div`
@@ -42,28 +44,6 @@ export const HeaderContainer = styled.div`
         color: ${theme.colors.black_900};
       }
     `};
-`;
-
-const rightSlideIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(20rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-`;
-
-const rightSlideOut = keyframes`
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(20rem);
-  }
 `;
 
 export const MobileSearchBarContainer = styled.div`
