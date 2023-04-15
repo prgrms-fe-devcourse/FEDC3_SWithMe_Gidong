@@ -14,9 +14,6 @@ export const HamburgerModal = styled(Modal)`
   box-sizing: border-box;
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
 
-  display: flex;
-  flex-direction: column;
-
   @media (min-width: 991.98px) {
     display: none;
   }
@@ -25,7 +22,6 @@ export const HamburgerModal = styled(Modal)`
 export const List = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 `;
 
 export const Item = styled.li`

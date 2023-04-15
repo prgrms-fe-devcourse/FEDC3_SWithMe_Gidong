@@ -20,7 +20,7 @@ function HamburgerModal({ visible, onClose }) {
 
   return (
     <S.HamburgerModal visible={visible} onClose={onClose} isDimTransparent>
-      <ul>
+      <S.List>
         <S.Item
           onClick={() => {
             navigate('/myPage');
@@ -36,7 +36,7 @@ function HamburgerModal({ visible, onClose }) {
           내 그룹
         </S.Item>
         <S.Item onClick={signOut}>로그아웃</S.Item>
-      </ul>
+      </S.List>
     </S.HamburgerModal>
   );
 }
