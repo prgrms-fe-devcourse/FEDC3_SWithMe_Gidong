@@ -1,4 +1,4 @@
-import { COLOR } from '@/styles/color';
+import theme from '@/styles/theme';
 import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
@@ -27,19 +27,19 @@ export const HeaderContainer = styled.div`
     css`
       & button,
       & i {
-        color: ${COLOR.WHITE};
+        color: ${theme.colors.white_900};
       }
     `};
 
   ${({ isScrolled }) =>
     isScrolled &&
     css`
-      background-color: ${COLOR.WHITE};
-      box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+      background-color: ${theme.colors.white_900};
+      box-shadow: 0 0.5rem 1.5rem ${theme.shadows[700]};
 
       & button,
       & div > i {
-        color: black;
+        color: ${theme.colors.black_900};
       }
     `};
 `;
