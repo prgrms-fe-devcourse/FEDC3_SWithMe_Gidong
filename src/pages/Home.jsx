@@ -140,6 +140,10 @@ const StyledTILWrapper = styled.div`
   margin: 0 auto;
   max-width: 150rem;
 
+  @media (max-width: 623.98px) {
+    padding: 0 5rem;
+  }
+
   @keyframes smoothAppear {
     from {
       opacity: 0;
@@ -158,6 +162,10 @@ const StyledViewType = styled.div`
   display: flex;
   align-items: center;
   padding: 2rem 0 3rem 10rem;
+
+  @media (max-width: 623.98px) {
+    padding: 2rem 0 3rem 4rem;
+  }
 `;
 
 const StyledFilterButton = styled.div`
