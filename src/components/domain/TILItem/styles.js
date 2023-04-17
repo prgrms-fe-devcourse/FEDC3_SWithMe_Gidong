@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-const StyledTILItem = styled.div`
+export const TILItem = styled.div`
   position: relative;
 
   width: 22rem;
@@ -16,12 +16,12 @@ const StyledTILItem = styled.div`
   }
 `;
 
-const StyledDate = styled.div`
+export const Date = styled.div`
   padding-bottom: 0.5rem;
   text-align: right;
 `;
 
-const StyledTILContent = styled.div`
+export const TILContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -46,7 +46,7 @@ const StyledTILContent = styled.div`
   }
 `;
 
-const StyledPlusButton = styled.div`
+export const PlusButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -71,13 +71,13 @@ const StyledPlusButton = styled.div`
   }
 `;
 
-const StyledTagList = styled.div`
+export const TagList = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 1rem;
 `;
 
-const StyledTag = styled.div`
+export const Tag = styled.div`
   min-width: fit-content;
   padding: 0.5rem;
   border-radius: 1rem;
@@ -85,5 +85,3 @@ const StyledTag = styled.div`
   box-shadow: 0 0.1rem 0.4rem ${({ theme }) => theme.shadows[900]};
   font-size: 1.2rem;
 `;
-
-export { StyledTILItem, StyledDate, StyledTILContent, StyledPlusButton, StyledTagList, StyledTag };
