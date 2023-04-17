@@ -1,6 +1,6 @@
 import { Text } from '@/components/base';
 
-import { cleanText } from '@/utils/cleanText';
+import { cleanMarkdown } from '@/utils/cleanMarkdown';
 
 import { Link } from 'react-router-dom';
 
@@ -25,7 +25,7 @@ function TILItem({ til }) {
           {title}
         </Text>
         <Text paragraph size='large' weight={300} color={theme.colors.black_800}>
-          {cleanText(body)}
+          {cleanMarkdown(body)}
         </Text>
         <S.TagList>
           {tagList?.map((tag) => (
