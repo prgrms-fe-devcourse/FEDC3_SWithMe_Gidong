@@ -1,7 +1,10 @@
 import { Text } from '@/components/base';
-import { COLOR } from '@/styles/color';
+
 import { cleanText } from '@/utils/cleanText';
+
 import { Link } from 'react-router-dom';
+
+import { COLOR } from '@/styles/color';
 import { StyledDate, StyledPlusButton, StyledTag, StyledTagList, StyledTILContent, StyledTILItem } from './styles';
 
 function TILItem({ til }) {
