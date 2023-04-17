@@ -1,5 +1,6 @@
 import { Text } from '@/components/base';
 import { COLOR } from '@/styles/color';
+import { cleanText } from '@/utils/cleanText';
 import { Link } from 'react-router-dom';
 import { StyledDate, StyledPlusButton, StyledTag, StyledTagList, StyledTILContent, StyledTILItem } from './styles';
 
@@ -21,7 +22,7 @@ function TILItem({ til }) {
           {title}
         </Text>
         <Text paragraph size='large' weight={300} color={COLOR.DARK}>
-          {body}
+          {cleanText(body)}
         </Text>
         <StyledTagList>
           {tagList?.map((tag) => (
