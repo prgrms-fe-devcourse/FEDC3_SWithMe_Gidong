@@ -4,7 +4,7 @@ import { cleanText } from '@/utils/cleanText';
 
 import { Link } from 'react-router-dom';
 
-import { COLOR } from '@/styles/color';
+import theme from '@/styles/theme';
 import { StyledDate, StyledPlusButton, StyledTag, StyledTagList, StyledTILContent, StyledTILItem } from './styles';
 
 function TILItem({ til }) {
@@ -16,7 +16,7 @@ function TILItem({ til }) {
   return (
     <StyledTILItem>
       <StyledDate>
-        <Text paragraph size='small' weight={300} color={COLOR.DARK}>
+        <Text paragraph size='small' weight={300} color={theme.colors.black_800}>
           {createdAt.slice(0, 10)}
         </Text>
       </StyledDate>
@@ -24,7 +24,7 @@ function TILItem({ til }) {
         <Text paragraph size='xxLarge' weight={600}>
           {title}
         </Text>
-        <Text paragraph size='large' weight={300} color={COLOR.DARK}>
+        <Text paragraph size='large' weight={300} color={theme.colors.black_800}>
           {cleanText(body)}
         </Text>
         <StyledTagList>

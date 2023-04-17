@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { COLOR } from '@/styles/color';
 
 const StyledTILItem = styled.div`
   position: relative;
@@ -8,9 +7,9 @@ const StyledTILItem = styled.div`
   height: 28rem;
   padding: 1.2rem;
   border-radius: 1rem;
-  background-color: ${COLOR.CARD_BG};
-  box-shadow: 0 0.1rem 0.4rem ${COLOR.SHADOW};
-  color: ${COLOR.DARK};
+  background-color: ${({ theme }) => theme.colors.white_600};
+  box-shadow: 0 0.1rem 0.4rem ${({ theme }) => theme.shadows[900]};
+  color: ${({ theme }) => theme.colors.black_800};
 
   & > p:nth-of-type(2) {
     word-break: break-all;
@@ -57,13 +56,13 @@ const StyledPlusButton = styled.div`
 
   width: 5rem;
   height: 5rem;
-  border-top: 0.3rem solid ${COLOR.GRAY_20};
-  border-left: 0.3rem solid ${COLOR.GRAY_20};
+  border-top: 0.3rem solid ${({ theme }) => theme.shadows[600]};
+  border-left: 0.3rem solid ${({ theme }) => theme.shadows[600]};
   border-radius: 1rem 0;
-  background-color: ${COLOR.TAG_COLOR[0]};
+  background-color: ${({ theme }) => theme.colors.TAG_COLOR[0]};
 
   font-size: 2.5rem;
-  color: white;
+  color: ${({ theme }) => theme.colors.white_900};
   cursor: pointer;
   transition: background-color 0.2s ease-in;
 
@@ -83,7 +82,7 @@ const StyledTag = styled.div`
   padding: 0.5rem;
   border-radius: 1rem;
   background-color: white;
-  box-shadow: 0 0.1rem 0.4rem ${COLOR.SHADOW};
+  box-shadow: 0 0.1rem 0.4rem ${({ theme }) => theme.shadows[900]};
   font-size: 1.2rem;
 `;
 
