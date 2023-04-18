@@ -1,9 +1,11 @@
 import { imgSearch } from '@/assets/images';
 import { Empty, Heading, Pagination, Text } from '@/components/base';
 import { SearchResultGroup } from '@/components/domain/SearchResult';
-import { COLOR } from '@/styles/color';
+
 import { useState } from 'react';
-import { StyledGroupList, StyledHeader, StyledSearchResult, StyledSearchResultContainer } from './styles';
+
+import { COLOR } from '@/styles/color';
+import * as S from './styles';
 
 const PAGINATION_CONTENTS_LIMIT = 5;
 
@@ -12,8 +14,8 @@ function SearchResultContainer({ title, groupList }) {
   const offset = currentPage * PAGINATION_CONTENTS_LIMIT;
 
   return (
-    <StyledSearchResultContainer>
-      <StyledHeader>
+    <S.SearchResultContainer>
+      <S.SearchResultHeader>
         <Heading level={4}>{title}</Heading>
         <Text size='medium'>
           전체{' '}
@@ -22,22 +24,22 @@ function SearchResultContainer({ title, groupList }) {
           </Text>{' '}
           그룹
         </Text>
-      </StyledHeader>
-      <StyledSearchResult>
+      </S.SearchResultHeader>
+      <S.SearchResultBody>
         {groupList?.length > 0 ? (
           <>
-            <StyledGroupList>
+            <S.SearchResultGroupList>
               {groupList.slice(offset, offset + PAGINATION_CONTENTS_LIMIT).map((group, index) => (
                 <SearchResultGroup key={group._id} group={group} index={index} />
               ))}
-            </StyledGroupList>
+            </S.SearchResultGroupList>
             <Pagination limit={PAGINATION_CONTENTS_LIMIT} total={groupList?.length} onChange={setCurrentPage} />
           </>
         ) : (
           <Empty src={imgSearch} imageWidth='30rem' mainText='그룹 검색 결과가 없습니다.' />
         )}
-      </StyledSearchResult>
-    </StyledSearchResultContainer>
+      </S.SearchResultBody>
+    </S.SearchResultContainer>
   );
 }
 

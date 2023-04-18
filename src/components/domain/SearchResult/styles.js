@@ -1,7 +1,7 @@
 import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 
-const StyledSearchResultContainer = styled.div`
+export const SearchResultContainer = styled.div`
   position: relative;
   flex: 1;
   padding: 10rem 10rem 0 10rem;
@@ -11,20 +11,20 @@ const StyledSearchResultContainer = styled.div`
   }
 `;
 
-const StyledHeader = styled.div`
+export const SearchResultHeader = styled.div`
   display: flex;
   align-items: flex-end;
   gap: 1rem;
 `;
 
-const StyledSearchResult = styled.div`
+export const SearchResultBody = styled.div`
   margin: 3rem 0;
   padding: 3rem;
   border-radius: 1rem;
   background-color: ${COLOR.GRAY_10};
 `;
 
-const StyledGroupList = styled.div`
+export const SearchResultGroupList = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, 24rem);
   gap: 3rem 0;
@@ -36,7 +36,7 @@ const StyledGroupList = styled.div`
   margin: 0 auto;
 `;
 
-const StyledResultGroupCard = styled.div`
+export const GroupCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -58,14 +58,14 @@ const StyledResultGroupCard = styled.div`
   }
 `;
 
-const StyledGroupUserAmount = styled.div`
+export const GroupUserCount = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
   width: 100%;
 `;
 
-const StyledResultGroupTags = styled.div`
+export const GroupTags = styled.div`
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -78,13 +78,3 @@ const StyledResultGroupTags = styled.div`
   background-color: ${COLOR.GRAY_10};
   color: ${COLOR.GRAY4};
 `;
-
-export {
-  StyledSearchResultContainer,
-  StyledHeader,
-  StyledSearchResult,
-  StyledGroupList,
-  StyledResultGroupCard,
-  StyledGroupUserAmount,
-  StyledResultGroupTags,
-};
