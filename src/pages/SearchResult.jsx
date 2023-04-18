@@ -1,7 +1,9 @@
 import { SearchResultContainer } from '@/components/domain/SearchResult';
-import styled from '@emotion/styled';
-import { useLocation } from 'react-router-dom';
+
 import { useGetGroupList } from '@/hooks/queries/group';
+import { useLocation } from 'react-router-dom';
+
+import styled from '@emotion/styled';
 
 const FILTER_BY = {
   NAME: '그룹명',
