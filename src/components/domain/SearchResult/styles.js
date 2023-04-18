@@ -5,6 +5,10 @@ const StyledSearchResultContainer = styled.div`
   position: relative;
   flex: 1;
   padding: 10rem 10rem 0 10rem;
+
+  @media (max-width: 623.98px) {
+    padding: 10rem 4rem 0 4rem;
+  }
 `;
 
 const StyledHeader = styled.div`
@@ -45,7 +49,7 @@ const StyledResultGroupCard = styled.div`
   border-radius: 2rem;
   background-color: ${COLOR.WHITE};
 
-  h2 {
+  & > h6 {
     width: 18rem;
     text-align: center;
     overflow: hidden;
