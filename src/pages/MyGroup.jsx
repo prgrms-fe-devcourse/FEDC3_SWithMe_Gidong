@@ -86,8 +86,8 @@ const StyledMyGroup = styled.div`
   padding: 10rem;
   background-color: ${COLOR.MY_GROUP_BG};
 
-  @media (max-width: 624px) {
-    padding: 10rem 6rem;
+  @media (max-width: 623.98px) {
+    padding: 10rem 4rem;
   }
 `;
 
@@ -127,7 +127,7 @@ const StyledDesc = styled.div`
     flex: 0;
   }
 
-  @media (max-width: 624px) {
+  @media (max-width: 991.98px) {
     & > img {
       display: none;
     }
