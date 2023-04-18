@@ -1,4 +1,3 @@
-import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 
 export const SearchResultContainer = styled.div`
@@ -21,7 +20,7 @@ export const SearchResultBody = styled.div`
   margin: 3rem 0;
   padding: 3rem;
   border-radius: 1rem;
-  background-color: ${COLOR.GRAY_10};
+  background-color: ${({ theme }) => theme.colors.white_300};
 `;
 
 export const SearchResultGroupList = styled.div`
@@ -47,7 +46,7 @@ export const GroupCard = styled.div`
   height: 30rem;
   padding: 2rem;
   border-radius: 2rem;
-  background-color: ${COLOR.WHITE};
+  background-color: ${({ theme }) => theme.colors.white_900};
 
   & > h6 {
     width: 18rem;
@@ -75,6 +74,6 @@ export const GroupTags = styled.div`
   height: 17.6rem;
   padding: 1.8rem 0;
   border-radius: 2.4rem;
-  background-color: ${COLOR.GRAY_10};
-  color: ${COLOR.GRAY4};
+  background-color: ${({ theme }) => theme.colors.white_300};
+  color: ${({ theme }) => theme.colors.black_500};
 `;

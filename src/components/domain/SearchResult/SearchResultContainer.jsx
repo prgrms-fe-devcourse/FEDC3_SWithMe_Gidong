@@ -4,7 +4,7 @@ import { SearchResultGroup } from '@/components/domain/SearchResult';
 
 import { useState } from 'react';
 
-import { COLOR } from '@/styles/color';
+import theme from '@/styles/theme';
 import * as S from './styles';
 
 const PAGINATION_CONTENTS_LIMIT = 5;
@@ -19,7 +19,7 @@ function SearchResultContainer({ title, groupList }) {
         <Heading level={4}>{title}</Heading>
         <Text size='medium'>
           전체{' '}
-          <Text color={COLOR.RED} inherit>
+          <Text color={theme.colors.red_900} inherit>
             {groupList?.length}개
           </Text>{' '}
           그룹

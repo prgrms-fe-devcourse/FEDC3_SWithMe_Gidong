@@ -2,7 +2,7 @@ import { Button, Heading, Icon, Text } from '@/components/base';
 
 import { useNavigate } from 'react-router-dom';
 
-import { COLOR } from '@/styles/color';
+import theme from '@/styles/theme';
 import * as S from './styles';
 
 function SearchResultGroup({ group, index }) {
@@ -14,7 +14,7 @@ function SearchResultGroup({ group, index }) {
 
   return (
     <S.GroupCard>
-      <S.GroupUserCount style={{ color: COLOR.GROUP_SEARCH_RESULT_COLOR[index] }}>
+      <S.GroupUserCount style={{ color: theme.colors.GROUP_CARD_COLOR[index] }}>
         <Icon name='user' size='medium' />
         <Text size='medium'>
           {group.description.member.length + 1}/{group.description.headCount}
