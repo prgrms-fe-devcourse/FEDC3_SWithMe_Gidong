@@ -1,7 +1,11 @@
 import { Text } from '@/components/base';
-import { COLOR } from '@/styles/color';
+
+import { cleanMarkdown } from '@/utils/cleanMarkdown';
+
 import { Link } from 'react-router-dom';
-import { StyledDate, StyledPlusButton, StyledTag, StyledTagList, StyledTILContent, StyledTILItem } from './styles';
+
+import theme from '@/styles/theme';
+import * as S from './styles';
 
 function TILItem({ til }) {
   const {
@@ -10,31 +14,31 @@ function TILItem({ til }) {
   } = til;
 
   return (
-    <StyledTILItem>
-      <StyledDate>
-        <Text paragraph size='small' weight={300} color={COLOR.DARK}>
+    <S.TILItem>
+      <S.Date>
+        <Text paragraph size='small' weight={300} color={theme.colors.black_800}>
           {createdAt.slice(0, 10)}
         </Text>
-      </StyledDate>
-      <StyledTILContent>
+      </S.Date>
+      <S.TILContent>
         <Text paragraph size='xxLarge' weight={600}>
           {title}
         </Text>
-        <Text paragraph size='large' weight={300} color={COLOR.DARK}>
-          {body}
+        <Text paragraph size='large' weight={300} color={theme.colors.black_800}>
+          {cleanMarkdown(body)}
         </Text>
-        <StyledTagList>
+        <S.TagList>
           {tagList?.map((tag) => (
-            <StyledTag key={tag}>{tag}</StyledTag>
+            <S.Tag key={tag}>{tag}</S.Tag>
           ))}
-        </StyledTagList>
-      </StyledTILContent>
+        </S.TagList>
+      </S.TILContent>
       <Link to={`/TIL/${til._id}`}>
-        <StyledPlusButton>
+        <S.PlusButton>
           <i className='fa-solid fa-plus'></i>
-        </StyledPlusButton>
+        </S.PlusButton>
       </Link>
-    </StyledTILItem>
+    </S.TILItem>
   );
 }
 
