@@ -222,10 +222,17 @@ const StyledHeader = styled.div`
     right: -5rem;
     width: 45rem;
     transform: rotate(-10deg);
+    z-index: 1;
+
+    @media (max-width: 623.98px) {
+      width: 40rem;
+    }
   }
 `;
 
 const StyledProfile = styled.div`
+  z-index: 2;
+
   & > label {
     display: flex;
     justify-content: center;
@@ -247,18 +254,17 @@ const StyledMyInfoBox = styled.div`
   align-items: center;
   justify-content: center;
 
-  width: 80rem;
+  width: 59rem;
   padding: 2rem;
   border-radius: 1rem;
   background-color: ${COLOR.WHITE};
 
-  & > div {
-    width: 45rem;
+  @media (max-width: 623.98px) {
+    width: 100%;
   }
 `;
 
 const StyledUserInfoInput = styled.input`
-  width: 40rem;
   height: 4rem;
   font-size: 3.2rem;
   border-bottom: 0.1rem solid ${({ invalid }) => (invalid ? COLOR.RED : COLOR.GRAY)};

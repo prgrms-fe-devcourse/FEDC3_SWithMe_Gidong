@@ -15,7 +15,7 @@ export const HeaderContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  z-index: 1;
+  z-index: 1000;
   position: fixed;
   top: 0;
 
