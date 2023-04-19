@@ -1,26 +1,29 @@
-import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
 
-const StyledSearchResultContainer = styled.div`
+export const SearchResultContainer = styled.div`
   position: relative;
   flex: 1;
   padding: 10rem 10rem 0 10rem;
+
+  @media (max-width: 623.98px) {
+    padding: 10rem 4rem 0 4rem;
+  }
 `;
 
-const StyledHeader = styled.div`
+export const SearchResultHeader = styled.div`
   display: flex;
   align-items: flex-end;
   gap: 1rem;
 `;
 
-const StyledSearchResult = styled.div`
+export const SearchResultBody = styled.div`
   margin: 3rem 0;
   padding: 3rem;
   border-radius: 1rem;
-  background-color: ${COLOR.GRAY_10};
+  background-color: ${({ theme }) => theme.colors.white_300};
 `;
 
-const StyledGroupList = styled.div`
+export const SearchResultGroupList = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, 24rem);
   gap: 3rem 0;
@@ -32,7 +35,7 @@ const StyledGroupList = styled.div`
   margin: 0 auto;
 `;
 
-const StyledResultGroupCard = styled.div`
+export const GroupCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -43,9 +46,9 @@ const StyledResultGroupCard = styled.div`
   height: 30rem;
   padding: 2rem;
   border-radius: 2rem;
-  background-color: ${COLOR.WHITE};
+  background-color: ${({ theme }) => theme.colors.white_900};
 
-  h2 {
+  & > h6 {
     width: 18rem;
     text-align: center;
     overflow: hidden;
@@ -54,14 +57,14 @@ const StyledResultGroupCard = styled.div`
   }
 `;
 
-const StyledGroupUserAmount = styled.div`
+export const GroupUserCount = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
   width: 100%;
 `;
 
-const StyledResultGroupTags = styled.div`
+export const GroupTags = styled.div`
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -71,16 +74,6 @@ const StyledResultGroupTags = styled.div`
   height: 17.6rem;
   padding: 1.8rem 0;
   border-radius: 2.4rem;
-  background-color: ${COLOR.GRAY_10};
-  color: ${COLOR.GRAY4};
+  background-color: ${({ theme }) => theme.colors.white_300};
+  color: ${({ theme }) => theme.colors.black_500};
 `;
-
-export {
-  StyledSearchResultContainer,
-  StyledHeader,
-  StyledSearchResult,
-  StyledGroupList,
-  StyledResultGroupCard,
-  StyledGroupUserAmount,
-  StyledResultGroupTags,
-};
