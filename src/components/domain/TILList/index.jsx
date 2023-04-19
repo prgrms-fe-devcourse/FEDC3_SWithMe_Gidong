@@ -73,7 +73,7 @@ function TILList({ groupId, groupName }) {
                     <StyledFilterButton isActive={!isViewByDate} onClick={() => setIsViewByDate(false)}>
                       전체 보기
                     </StyledFilterButton>
-                    <Divider type='vertical' />
+                    <Divider type='vertical' margin={0.1} />
                     <StyledFilterButton isActive={isViewByDate} onClick={() => setIsViewByDate(true)}>
                       날짜 보기
                     </StyledFilterButton>
@@ -83,7 +83,7 @@ function TILList({ groupId, groupName }) {
                     <StyledFilterButton isActive={!isSortByLike} onClick={() => setIsSortByLike(false)}>
                       최신순
                     </StyledFilterButton>
-                    <Divider type='vertical' />
+                    <Divider type='vertical' margin={0.1} />
                     <StyledFilterButton isActive={isSortByLike} onClick={() => setIsSortByLike(true)}>
                       좋아요순
                     </StyledFilterButton>

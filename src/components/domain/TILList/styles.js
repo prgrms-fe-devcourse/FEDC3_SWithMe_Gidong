@@ -42,6 +42,8 @@ const StyledFilterWrapper = styled.div`
 const StyledFilter = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
 
   padding-top: 0.5rem;
 
@@ -77,6 +79,7 @@ const StyledButtonWrapper = styled.div`
   justify-content: flex-end;
 
   margin-bottom: 2rem;
+  margin-top: 3rem;
 
   & > button > i {
     margin-right: 1rem;
