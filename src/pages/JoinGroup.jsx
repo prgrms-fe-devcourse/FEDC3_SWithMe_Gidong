@@ -1,15 +1,19 @@
-import { Heading, Image, Text, Icon } from '@/components/base';
 import { icCrown } from '@/assets/icons';
 import { imgDefaultAvatar, imgJoin } from '@/assets/images';
-import { COLOR } from '@/styles/color';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
+
+import { Button, Heading, Icon, Image, Text } from '@/components/base';
+
+import { useUpdateGroup } from '@/hooks/queries/group';
+
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+
 import { isAuthorizedState } from '@/stores/auth';
 import { userState } from '@/stores/user';
-import { useUpdateGroup } from '@/hooks/queries/group';
+import { useRecoilValue } from 'recoil';
+
+import { COLOR } from '@/styles/color';
+import styled from '@emotion/styled';
 
 const DISABLED_MESSAGE = {
   NEED_LOGIN: '로그인이 필요한 서비스입니다.',
@@ -93,9 +97,17 @@ function JoinGroup() {
           {intro}
         </Text>
       </StyledBody>
-      <StyledButton disabled={guideMessage !== ''} guideMessage={guideMessage} onClick={() => handleJoinClick()}>
-        그룹 가입하기
-      </StyledButton>
+      <StyledButtonWrapper>
+        <Button
+          fontSize='large'
+          size='full'
+          version='primary'
+          shape='round'
+          disabled={guideMessage !== ''}
+          onClick={handleJoinClick}>
+          그룹 가입하기
+        </Button>
+      </StyledButtonWrapper>
       {guideMessage && (
         <Text paragraph color={COLOR.GRAY_30}>
           {guideMessage}
@@ -123,8 +135,7 @@ const StyledHeader = styled.div`
   position: relative;
 
   width: 100%;
-  height: 43rem;
-  padding-top: 11rem;
+  padding: 11rem 0 5rem 0;
   background: linear-gradient(135deg, ${COLOR.JOIN_GROUP_GRADIENT_LEFT} 0%, ${COLOR.JOIN_GROUP_GRADIENT_RIGHT} 100%);
   border-radius: 0 0 20rem 3rem;
   color: ${COLOR.WHITE};
@@ -132,7 +143,7 @@ const StyledHeader = styled.div`
   & > img {
     position: absolute;
     bottom: 1rem;
-    right: 10rem;
+    right: 2rem;
     width: 32rem;
     transform: rotate(-20deg);
   }
@@ -156,7 +167,11 @@ const StyledMaster = styled.div`
 
 const StyledTagList = styled.div`
   display: flex;
-  column-gap: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+
+  margin: 0 12rem;
 `;
 
 const StyledTag = styled.div`
@@ -179,25 +194,18 @@ const StyledBody = styled.div`
   background-color: ${COLOR.JOIN_GROUP_CONTENT_BG};
   border-radius: 10px;
   color: ${COLOR.DARK};
+
+  @media (max-width: 623.98px) {
+    margin: 0 4rem;
+    width: calc(100% - 4rem);
+  }
 `;
 
-const StyledButton = styled.button`
-  padding: 1rem;
-  border-radius: 0.6rem;
-  background-color: ${COLOR.JOIN_GROUP_BTN_BG};
-  color: ${COLOR.WHITE};
-  font-size: 1.8rem;
-  &:hover {
-    opacity: 0.9;
-  }
+const StyledButtonWrapper = styled.div`
+  width: 12rem;
 
-  ${({ guideMessage }) =>
-    guideMessage !== '' &&
-    css`
-      background-color: ${COLOR.GRAY_30};
-      cursor: not-allowed;
-      &:hover {
-        opacity: 1;
-      }
-    `};
+  @media (max-width: 623.98px) {
+    margin: 0 4rem;
+    width: calc(100% - 4rem);
+  }
 `;
