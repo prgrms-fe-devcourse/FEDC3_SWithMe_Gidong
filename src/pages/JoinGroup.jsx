@@ -18,7 +18,7 @@ import styled from '@emotion/styled';
 const DISABLED_MESSAGE = {
   NEED_LOGIN: '로그인이 필요한 서비스입니다.',
   FULL_MEMBER: '그룹의 정원이 모두 찼습니다.',
-  ALREADY_JOINED: '이미 가입된 그룹입니다.',
+  ALREADY_JOINED: '이미 가입한 그룹입니다.',
 };
 
 function JoinGroup() {
@@ -94,10 +94,10 @@ function JoinGroup() {
       </StyledHeader>
       <StyledBody>
         <Text paragraph size='large'>
-          {intro}
+          {intro || '그룹에 등록된 소개가 없어요.. 🥹'}
         </Text>
       </StyledBody>
-      <StyledButtonWrapper>
+      <StyledFooter>
         <Button
           fontSize='large'
           size='full'
@@ -107,12 +107,12 @@ function JoinGroup() {
           onClick={handleJoinClick}>
           그룹 가입하기
         </Button>
-      </StyledButtonWrapper>
-      {guideMessage && (
-        <Text paragraph color={COLOR.GRAY_30}>
-          {guideMessage}
-        </Text>
-      )}
+        {guideMessage && (
+          <Text paragraph color={COLOR.GRAY_30}>
+            {guideMessage}
+          </Text>
+        )}
+      </StyledFooter>
     </StyledJoinGroup>
   );
 }
@@ -123,8 +123,8 @@ const StyledJoinGroup = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
-  padding-bottom: 8rem;
+  gap: 4rem;
+  padding-bottom: 4rem;
 `;
 
 const StyledHeader = styled.div`
@@ -143,8 +143,8 @@ const StyledHeader = styled.div`
   & > img {
     position: absolute;
     bottom: 1rem;
-    right: 2rem;
-    width: 32rem;
+    right: 4rem;
+    width: 24rem;
     transform: rotate(-20deg);
   }
 
@@ -186,10 +186,11 @@ const StyledTag = styled.div`
 const StyledBody = styled.div`
   display: flex;
   justify-content: center;
-  padding: 1rem;
+  align-items: center;
 
   width: 50rem;
-  height: 30rem;
+  min-height: 20rem;
+  padding: 3rem 4rem;
 
   background-color: ${COLOR.JOIN_GROUP_CONTENT_BG};
   border-radius: 10px;
@@ -201,11 +202,23 @@ const StyledBody = styled.div`
   }
 `;
 
-const StyledButtonWrapper = styled.div`
-  width: 12rem;
+const StyledFooter = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
 
-  @media (max-width: 623.98px) {
-    margin: 0 4rem;
-    width: calc(100% - 4rem);
+  & > button {
+    width: 14rem;
+
+    @media (max-width: 623.98px) {
+      margin: 0 4rem;
+      width: calc(100% - 4rem);
+    }
+  }
+
+  & > p {
+    text-align: center;
   }
 `;
