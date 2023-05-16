@@ -11,6 +11,7 @@ import JoinGroup from '@/pages/JoinGroup';
 import ManageGroup from '@/pages/ManageGroup';
 import SearchResult from '@/pages/SearchResult';
 import Template from '@/components/template';
+import NotFound from './pages/NotFound';
 
 function Router() {
   return (
@@ -28,6 +29,7 @@ function Router() {
           <Route path='/updateTIL/:id' element={<TILEditor />} />
           <Route path='/TIL/:id' element={<TIL />} />
           <Route path='/searchResult' element={<SearchResult />} />
+          <Route path='/*' element={<NotFound />} />
         </Routes>
       </Template>
     </BrowserRouter>
