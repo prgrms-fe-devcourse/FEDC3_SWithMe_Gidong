@@ -2,6 +2,7 @@ import { SearchResultContainer } from '@/components/domain/SearchResult';
 
 import { useGetGroupList } from '@/hooks/queries/group';
 import { useLocation } from 'react-router-dom';
+import { cleanWordSpacing } from '@/utils/regex';
 
 import styled from '@emotion/styled';
 
@@ -15,15 +16,19 @@ function SearchResult() {
     state: { filterValue, searchValue },
   } = useLocation();
   const { data: groupList } = useGetGroupList();
-  const lowerSearchValue = searchValue.toLowerCase();
+
+  const filterText = (textValue) => {
+    return cleanWordSpacing(textValue.toLowerCase());
+  };
 
   const searchGroupByName = () => {
-    return groupList?.filter(({ name }) => name.toLowerCase().includes(lowerSearchValue));
+    return groupList?.filter(({ name }) => filterText(name).includes(filterText(searchValue)));
   };
 
   const searchGroupByTag = () => {
+    console.log(groupList);
     return groupList?.filter(({ description }) =>
-      description.tagList.some((tag) => tag.toLowerCase().includes(lowerSearchValue)),
+      description.tagList.some((tag) => filterText(tag).includes(filterText(searchValue))),
     );
   };
 
