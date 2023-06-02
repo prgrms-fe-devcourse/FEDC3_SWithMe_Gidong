@@ -11,7 +11,7 @@ import JoinGroup from '@/pages/JoinGroup';
 import ManageGroup from '@/pages/ManageGroup';
 import SearchResult from '@/pages/SearchResult';
 import Template from '@/components/template';
-import NotFound from './pages/NotFound';
+import NotFound from '@/pages/NotFound';
 
 function Router() {
   return (
