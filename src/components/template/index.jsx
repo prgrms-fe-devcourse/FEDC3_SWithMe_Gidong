@@ -1,19 +1,38 @@
+import { Icon } from '@/components/base';
 import { Logo, SearchBar, UserNav } from '@/components/domain/TemplateHeader';
-import { COLOR } from '@/styles/color';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { useEffect, useRef, useState } from 'react';
+
+import { isSearchBarVisibleState } from '@/stores/searchBar';
+import { useRecoilState } from 'recoil';
+
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+
+import * as S from './styles';
+
+const PATH_NAMES = ['/', '/joinGroup', '/myPage'];
 
 function Template({ children }) {
   const headerRef = useRef(null);
   const location = useLocation();
   const [isFontWhite, setIsFontWhite] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const pathnameList = ['/', '/joinGroup', '/myPage'];
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 624);
+  const [isSearchBarVisible, setIsSearchBarVisible] = useRecoilState(isSearchBarVisibleState);
+  const [visibility, setVisibility] = useState(isSearchBarVisible && isMobile);
+
+  const handleSearchBarVisibility = useCallback(() => {
+    setVisibility((prevVisibility) => !prevVisibility);
+
+    const timeout = setTimeout(() => {
+      setIsSearchBarVisible((prevVisibility) => !prevVisibility);
+      clearTimeout(timeout);
+      setVisibility((prevVisibility) => !prevVisibility);
+    }, 200);
+  }, [setIsSearchBarVisible, isMobile]);
 
   useEffect(() => {
-    if (pathnameList.includes(location.pathname)) return setIsFontWhite(true);
+    if (PATH_NAMES.includes(location.pathname)) return setIsFontWhite(true);
     setIsFontWhite(false);
   }, [location]);
 
@@ -21,64 +40,44 @@ function Template({ children }) {
     const changeHeaderBackground = () => {
       setIsScrolled(window.scrollY > 0);
     };
+    const handleScreenResize = () => {
+      if (window.innerWidth >= 624) {
+        setIsMobile(false);
+        setIsSearchBarVisible(false);
+        return;
+      }
+
+      setIsMobile(true);
+    };
+
     window.addEventListener('scroll', changeHeaderBackground);
+    window.addEventListener('resize', handleScreenResize);
+
     return () => {
       window.removeEventListener('scroll', changeHeaderBackground);
+      window.removeEventListener('resize', handleScreenResize);
     };
   }, []);
 
   return (
-    <StyledTemplate>
-      <StyledHeaderContainer ref={headerRef} isFontWhite={isFontWhite} isScrolled={isScrolled}>
-        <Logo />
-        <SearchBar />
-        <UserNav />
-      </StyledHeaderContainer>
+    <S.Template>
+      <S.HeaderContainer ref={headerRef} isFontWhite={isFontWhite} isScrolled={isScrolled}>
+        {isSearchBarVisible && isMobile ? (
+          <S.MobileSearchBarContainer isVisible={visibility}>
+            <Icon name='arrow-left' size='medium' isPointer onClick={handleSearchBarVisibility} />
+            <SearchBar />
+          </S.MobileSearchBarContainer>
+        ) : (
+          <>
+            <Logo />
+            {isMobile ? <span /> : <SearchBar />}
+            <UserNav />
+          </>
+        )}
+      </S.HeaderContainer>
       {children}
-    </StyledTemplate>
+    </S.Template>
   );
 }
 
 export default Template;
-
-const StyledTemplate = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-
-const StyledHeaderContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  justify-content: space-between;
-  align-items: center;
-  top: 0;
-
-  z-index: 1;
-  position: fixed;
-
-  width: 100%;
-  height: 7rem;
-  background-color: transparent;
-  box-shadow: none;
-
-  ${({ isFontWhite }) =>
-    isFontWhite &&
-    css`
-      & button,
-      & i {
-        color: ${COLOR.WHITE};
-      }
-    `};
-
-  ${({ isScrolled }) =>
-    isScrolled &&
-    css`
-      background-color: white;
-      box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
-
-      & button,
-      & i {
-        color: black;
-      }
-    `};
-`;

@@ -1,12 +1,12 @@
-import { Header, Input, TagInput, Text, Textarea } from '@/components/base';
-import * as S from '@/components/domain/ManageGroup/styles';
-import { useGroupContext } from '@/context/GroupProvider';
-import { useToastContext } from '@/context/ToastProvider';
+import { Button, Heading, Input, TagInput, Text, Textarea } from '@/components/base';
+
+import { useUpdateGroup } from '@/hooks/queries/group';
 import useInput from '@/hooks/useInput';
-import { COLOR } from '@/styles/color';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
+import useToasts from '@/hooks/useToasts';
+
 import { useEffect, useState } from 'react';
+
+import { StyledGroupBox, StyledGroupInfo } from './styles';
 
 const ALERT_MESSAGE = {
   GROUP_NAME: '그룹명은 한 글자 이상이어야 합니다.',
@@ -18,8 +18,10 @@ const ALERT_MESSAGE = {
 
 function UpdateGroupInfo({ group, setGroup }) {
   const { headCount: memberCount, tagList: tags, intro: introduction } = group.description;
-  const { onUpdateGroup } = useGroupContext();
-  const { addToast } = useToastContext();
+
+  const { addToast } = useToasts();
+  const { mutate: updateGroupMutate } = useUpdateGroup();
+
   const groupName = useInput('');
   const headCount = useInput(0);
   const intro = useInput('');
@@ -66,7 +68,7 @@ function UpdateGroupInfo({ group, setGroup }) {
   const handleSubmit = async () => {
     if (!inputValidate()) return false;
 
-    const updatedGroup = await onUpdateGroup({
+    const data = {
       ...group,
       name: groupName.value,
       description: JSON.stringify({
@@ -75,44 +77,47 @@ function UpdateGroupInfo({ group, setGroup }) {
         tagList: tagList.value,
         intro: intro.value,
       }),
+    };
+    updateGroupMutate(data, {
+      onSuccess: (data) => {
+        const updatedGroup = { ...data, description: JSON.parse(data.description) };
+        setGroup(updatedGroup);
+        addToast(ALERT_MESSAGE.GROUP_UPDATE);
+      },
     });
-    setGroup(updatedGroup);
-    addToast(ALERT_MESSAGE.GROUP_UPDATE);
   };
 
   return (
-    <S.GroupBox>
-      <Header level={3} size={25}>
-        그룹 정보 관리
-      </Header>
-      <S.GroupInfo>
-        <Text block size={2}>
+    <StyledGroupBox>
+      <Heading level={5}>그룹 정보 관리</Heading>
+      <StyledGroupInfo>
+        <Text block size='xLarge'>
           그룹명
         </Text>
-        <Input type='text' value={groupName.value} onChange={groupName.onChange} max={15} block required />
-      </S.GroupInfo>
-      <S.GroupInfo>
-        <Text block size={2}>
+        <Input value={groupName.value} onChange={groupName.onChange} max={15} block required />
+      </StyledGroupInfo>
+      <StyledGroupInfo>
+        <Text block size='xLarge'>
           최대 인원
         </Text>
         <Input
           type='number'
           block
-          label={`최대 2~50명`}
+          label='최대 2~50명'
           value={headCount.value}
           onChange={headCount.onChange}
           max={50}
           required
         />
-      </S.GroupInfo>
-      <S.GroupInfo>
-        <Text block size={2}>
+      </StyledGroupInfo>
+      <StyledGroupInfo>
+        <Text block size='xLarge'>
           태그
         </Text>
         <TagInput tagList={tagList.value} onChange={tagList.onChange} />
-      </S.GroupInfo>
-      <S.GroupInfo>
-        <Text block size={2}>
+      </StyledGroupInfo>
+      <StyledGroupInfo>
+        <Text block size='xLarge'>
           소개
         </Text>
         <Textarea
@@ -120,26 +125,13 @@ function UpdateGroupInfo({ group, setGroup }) {
           onChange={intro.onChange}
           placeholder='그룹을 소개하는 글을 작성해주세요.'
           max={300}
-          wrapperProps={{ style: { width: '100%' } }}
         />
-      </S.GroupInfo>
-      <StyledUpdateButton disabled={!isInfoChanged} isInfoChanged={isInfoChanged} onClick={handleSubmit}>
+      </StyledGroupInfo>
+      <Button size='large' version='primary' shape='round' disabled={!isInfoChanged} onClick={handleSubmit}>
         수정
-      </StyledUpdateButton>
-    </S.GroupBox>
+      </Button>
+    </StyledGroupBox>
   );
 }
 
 export default UpdateGroupInfo;
-
-const StyledUpdateButton = styled(S.Button)`
-  ${({ isInfoChanged }) =>
-    !isInfoChanged &&
-    css`
-      background-color: ${COLOR.GRAY_30};
-      cursor: not-allowed;
-      &:hover {
-        opacity: 1;
-      }
-    `};
-`;

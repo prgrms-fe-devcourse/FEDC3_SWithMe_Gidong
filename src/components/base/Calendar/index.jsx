@@ -1,10 +1,7 @@
-import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
 import { ko } from 'date-fns/esm/locale';
+import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import '@/styles/datepicker_custom.css';
+import * as S from './styles';
 
 function Calendar({ onChange }) {
   const [startDate, setStartDate] = useState(new Date());
@@ -21,7 +18,7 @@ function Calendar({ onChange }) {
   }, [startDate]);
 
   return (
-    <StyledDatePicker
+    <S.DatePicker
       selected={startDate}
       locale={ko}
       disabledKeyboardNavigation
@@ -31,11 +28,8 @@ function Calendar({ onChange }) {
   );
 }
 
-export default Calendar;
+Calendar.propTypes = {
+  onChange: PropTypes.func,
+};
 
-const StyledDatePicker = styled(DatePicker)`
-  width: 10rem;
-  padding-left: 1rem;
-  color: ${COLOR.DARK};
-  cursor: pointer;
-`;
+export default Calendar;

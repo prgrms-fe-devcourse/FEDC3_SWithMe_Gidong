@@ -1,9 +1,13 @@
-import { Button, Header, SearchBar, TagInput } from '@/components/base';
-import { useTILContext } from '@/context/TILProvider';
+import { Button, Heading, Input, TagInput } from '@/components/base';
+
+import { useCreateTIL, useUpdateTIL } from '@/hooks/queries/tils';
 import useInput from '@/hooks/useInput';
-import { COLOR } from '@/styles/color';
+
 import { checkAbleSubmit } from '@/utils/validation';
+
+import { COLOR } from '@/styles/color';
 import styled from '@emotion/styled';
+
 import { useEffect, useMemo, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -21,13 +25,14 @@ import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-sy
 import 'tui-color-picker/dist/tui-color-picker.css';
 
 function TILEditor() {
-  const { onCreateTIL, onUpdateTIL } = useTILContext();
-
   const navigate = useNavigate();
   const {
     state: { til, groupName, groupId },
   } = useLocation();
   const editMode = til ? '수정' : '작성';
+
+  const updateTIL = useUpdateTIL();
+  const createTIL = useCreateTIL();
 
   const title = useInput(til ? til.title.title : '');
   const tagList = useInput(til ? [...til.title.tagList] : []);
@@ -45,38 +50,32 @@ function TILEditor() {
   const handleSubmitButtonClick = async () => {
     if (!ableSubmit) return;
 
+    const formData = new FormData();
+    formData.append(
+      'title',
+      JSON.stringify({
+        title: title.value,
+        body: editorRef.current.getInstance().getMarkdown(),
+        tagList: tagList.value,
+      }),
+    );
+
     if (til) {
-      const formData = new FormData();
-      formData.append(
-        'title',
-        JSON.stringify({
-          title: title.value,
-          body: editorRef.current.getInstance().getMarkdown(),
-          tagList: tagList.value,
-        }),
-      );
       formData.append('postId', til._id);
       formData.append('channelId', til.channel._id);
       formData.append('image', null);
 
-      const response = await onUpdateTIL(formData);
-      navigate(`/TIL/${til._id}`, { state: { til: response } });
-    } else {
-      const formData = new FormData();
-      formData.append(
-        'title',
-        JSON.stringify({
-          title: title.value,
-          body: editorRef.current.getInstance().getMarkdown(),
-          tagList: tagList.value,
-        }),
-      );
-      formData.append('channelId', groupId);
-      formData.append('image', null);
+      await updateTIL.mutate(formData, {
+        onSuccess: (data) => navigate(`/TIL/${til._id}`, { state: { til: data } }),
+      });
 
-      await onCreateTIL(formData);
-      navigate('/myGroup');
+      return;
     }
+
+    formData.append('channelId', groupId);
+    formData.append('image', null);
+
+    await createTIL.mutate(formData, { onSuccess: () => navigate('/myGroup') });
   };
 
   useEffect(() => {
@@ -86,17 +85,16 @@ function TILEditor() {
   return (
     <StyledPageWrapper>
       <StyledTILEditor>
-        <Header level={1} strong size={40} color={COLOR.DARK}>
+        <Heading level={1}>
           📚 [{til ? til.channel.name : groupName}]에 대한 TIL {editMode}하기
-        </Header>
-        <SearchBar
+        </Heading>
+        <Input
           placeholder='제목을 입력하세요.'
           value={title.value}
           onChange={title.onChange}
           label={!title.value.length ? '한 글자 이상 입력해주세요.' : ''}
-          wrapperProps={{ style: { width: '60%', margin: '6rem 40% 3rem 0' } }}
-          style={{ fontSize: '3rem', backgroundColor: `${COLOR.MY_GROUP_BG}` }}
-          icon={+false}
+          fontSize='large'
+          block
         />
         <EditorWrapper>
           <Editor
@@ -111,28 +109,22 @@ function TILEditor() {
         </EditorWrapper>
         <StyledFooterContanier>
           <div>
-            <TagInput
-              tagList={tagList.value}
-              onChange={tagList.onChange}
-              wrapperProps={{ style: { width: '100%' } }}
-              inputProps={{ style: { backgroundColor: COLOR.MY_GROUP_BG } }}
-            />
+            <TagInput tagList={tagList.value} onChange={tagList.onChange} />
           </div>
           <div>
             <Button
-              as='button'
-              style={{ fontSize: '2.2rem', padding: '1.3rem 7rem', borderRadius: '1rem' }}
-              round={+true}
+              version='grayInverted'
+              fontSize='xLarge'
+              size='full'
+              shape='round'
               onClick={handleCancelButtonClick}>
               취소
             </Button>
             <Button
-              as='button'
+              fontSize='xLarge'
+              size='full'
+              shape='round'
               disabled={!ableSubmit}
-              bgcolor={!ableSubmit ? COLOR.GRAY : COLOR.PRIMARY_BTN}
-              color={!ableSubmit ? COLOR.DARK : COLOR.WHITE}
-              style={{ fontSize: '2.2rem', padding: '1.3rem 7rem', borderRadius: '1rem', marginLeft: '1rem' }}
-              round={+true}
               onClick={handleSubmitButtonClick}>
               {editMode}
             </Button>
@@ -165,6 +157,15 @@ const StyledTILEditor = styled.div`
   & > button:not(:last-child) {
     margin-right: 2rem;
   }
+
+  & > div:first-of-type {
+    width: 60%;
+    margin: 4rem 0 3rem 0;
+
+    @media (max-width: 624px) {
+      width: 100%;
+    }
+  }
 `;
 
 const StyledFooterContanier = styled.div`
@@ -180,13 +181,19 @@ const StyledFooterContanier = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    flex: 1 1 40rem;
+    flex: 1 1 50rem;
+
+    & > div:first-of-type {
+      width: 100%;
+    }
   }
 
   & > div:nth-of-type(2) {
     display: flex;
     justify-content: flex-end;
     flex: 1 1 40rem;
+
+    gap: 3rem;
   }
 `;
 

@@ -1,14 +1,20 @@
 import { postUserSignIn } from '@/api/userSign';
+
 import { imgLogin } from '@/assets/images';
-import { Button, Header, Image, Spinner, Text } from '@/components/base';
+
+import { Button, Heading, Image, Spinner, Text } from '@/components/base';
 import SignInput from '@/components/domain/SignInput';
-import { useAuthContext } from '@/context/AuthProvider';
-import { useToastContext } from '@/context/ToastProvider';
-import { COLOR } from '@/styles/color';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
+
+import useAuth from '@/hooks/useAuth';
+import useToasts from '@/hooks/useToasts';
+
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { COLOR } from '@/styles/color';
+import theme from '@/styles/theme';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 const ERRORS = {
   EMAIL_EMPTY_ERROR: '이메일을 입력해 주세요.',
@@ -24,8 +30,8 @@ const INPUT_NUMBER_LIMIT = {
 
 function SignIn() {
   const navigate = useNavigate();
-  const { onLogin } = useAuthContext();
-  const { addToast } = useToastContext();
+  const { onLogin } = useAuth();
+  const { addToast } = useToasts();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -68,7 +74,7 @@ function SignIn() {
   if (isLoading) {
     return (
       <StyledSpinnerWrapper>
-        <Spinner size={64} />
+        <Spinner size='huge' />
       </StyledSpinnerWrapper>
     );
   }
@@ -77,17 +83,21 @@ function SignIn() {
     <StyledPageWrapper>
       <StyledContainer>
         <StyledLoginBox onKeyDown={onClickEnter}>
-          <Header level={3} size={25}>
-            로그인
-          </Header>
+          <Heading level={5}>로그인</Heading>
           <StyledDesc>
             <div>
-              <Text paragraph color={COLOR.DARK} size={2.1} weight={500}>
-                <Text color={COLOR.TAG_COLOR[0]}>로그인</Text>하여 <Text color={COLOR.TAG_COLOR[1]}>스윗미</Text>의
-                서비스를 즐겨보세요.
+              <Text paragraph color={COLOR.DARK} size='xLarge' weight={500}>
+                <Text color={COLOR.TAG_COLOR[0]} inherit>
+                  로그인
+                </Text>
+                하여{' '}
+                <Text color={COLOR.TAG_COLOR[1]} inherit>
+                  스윗미
+                </Text>
+                의 서비스를 즐겨보세요.
               </Text>
             </div>
-            <Image src={imgLogin} width={20} />
+            <Image src={imgLogin} width='20rem' />
           </StyledDesc>
           <StyledLoginItem>
             <SignInput
@@ -116,15 +126,11 @@ function SignIn() {
             />
           </StyledLoginItem>
           <StyledSignUpNav>
-            <Text paragraph style={{ marginRight: '1rem', fontSize: '1.5rem' }}>
+            <Text paragraph size='medium'>
               계정이 없으신가요?
             </Text>
-            <Button
-              bgcolor={COLOR.HEADER_TRANSPARENT_BG}
-              color={COLOR.SIGNIN_SIGNUP_FONT}
-              style={{ fontSize: '1.5rem', padding: '0' }}
-              onClick={() => navigate('/signUp')}>
-              회원가입
+            <Button fontSize='small' version='transparent' onClick={() => navigate('/signUp')}>
+              <Text color={theme.colors.sub_700}>회원가입</Text>
             </Button>
           </StyledSignUpNav>
           <StyledButton onClick={handleSignUp}>로그인</StyledButton>
@@ -249,4 +255,8 @@ const StyledSignUpNav = styled.div`
   align-items: center;
   width: 100%;
   padding-bottom: 4rem;
+
+  & > :first-child {
+    margin-right: 1rem;
+  }
 `;

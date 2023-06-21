@@ -1,29 +1,29 @@
-import styled from '@emotion/styled';
-import { COLOR } from '@/styles/color';
-import { Text, Divider } from '@/components/base';
-import { imgHomeIllust } from '@/assets/images';
-import TILItem from '@/components/domain/TILItem';
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useCallback, useState, useRef } from 'react';
-import { useGroupContext } from '@/context/GroupProvider';
 import { getPostListByChannel } from '@/api/post';
+import { imgHomeIllust } from '@/assets/images';
+import { Button, Divider, Text } from '@/components/base';
+import TILItem from '@/components/domain/TILItem';
+import { useGetGroupList } from '@/hooks/queries/group';
+import { COLOR } from '@/styles/color';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const navigate = useNavigate();
-  const { groups } = useGroupContext();
   const [allTILs, setAllTILs] = useState([]);
   const getTILsByGroup = useCallback(async (groupId) => {
     return await getPostListByChannel(groupId);
   }, []);
   const TILTemp = useRef([]);
   const [isSortByLike, setIsSortByLike] = useState(true);
+  const { data: groupList } = useGetGroupList();
 
   useEffect(() => {
     let ignore = false;
-    if (groups.value) {
+    if (groupList) {
       (async () => {
-        for await (const group of groups.value) {
+        for await (const group of groupList) {
           const data = await getTILsByGroup(group._id);
           if (!ignore) TILTemp.current.push(...data);
         }
@@ -33,17 +33,11 @@ function Home() {
     return () => {
       ignore = true;
     };
-  }, [groups]);
+  }, [groupList]);
 
   const filterTILList = () => {
     const filtered = isSortByLike
-      ? allTILs.sort((a, b) => {
-          if (a.likes.length < b.likes.length) return 1;
-          if (a.likes.length > b.likes.length) return -1;
-          if (new Date(b.createdAt) > new Date(a.createdAt)) return 1;
-          if (new Date(b.createdAt) < new Date(a.createdAt)) return -1;
-          return 0;
-        })
+      ? allTILs.sort((a, b) => b.likes.length - a.likes.length || new Date(b.createdAt) - new Date(a.createdAt))
       : allTILs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     return (
@@ -59,14 +53,16 @@ function Home() {
     <StyledHome>
       <StyledHeader>
         <StyledInfo>
-          <Text paragraph strong size={3.4} lineHeight={1.2}>
+          <Text paragraph size='huge' weight={600} color={COLOR.WHITE}>
             그룹을 생성하여 TIL을 공유하고,
             <br /> 서로 피드백을 나누자!
           </Text>
-          <Text paragraph size={2.2} weight={300}>
+          <Text paragraph size='xLarge' weight={300} color={COLOR.WHITE}>
             함께 공부해요. 스터디 윗미, 스윗미!
           </Text>
-          <button onClick={() => navigate('/myGroup')}>내 그룹 보러가기</button>
+          <Button version='main' size='large' shape='round' onClick={() => navigate('/myGroup')}>
+            내 그룹 보러가기
+          </Button>
         </StyledInfo>
         <img src={imgHomeIllust} alt='' />
       </StyledHeader>
@@ -75,7 +71,7 @@ function Home() {
           <StyledFilterButton isActive={isSortByLike} onClick={() => setIsSortByLike(true)}>
             인기 TIL
           </StyledFilterButton>
-          <Divider type='vertical' color={COLOR.GRAY_30} height={2} size={1.2} />
+          <Divider type='vertical' height='2rem' />
           <StyledFilterButton isActive={!isSortByLike} onClick={() => setIsSortByLike(false)}>
             최신 TIL
           </StyledFilterButton>
@@ -121,28 +117,12 @@ const StyledInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  align-items: flex-start;
   gap: 2rem;
-  flex: 1 0 40rem;
-
-  min-width: 45rem;
-  /* width: fit-content; */
   padding: 10rem;
-
-  & > p {
-    min-width: 45rem;
-  }
 
   @media (max-width: 624px) {
     padding: 10rem 4rem;
-  }
-
-  & > button {
-    width: fit-content;
-    padding: 1.5rem;
-    border-radius: 3rem;
-    background-color: #f6416c;
-    font-size: 1.6rem;
-    color: white;
   }
 `;
 
@@ -160,6 +140,10 @@ const StyledTILWrapper = styled.div`
   margin: 0 auto;
   max-width: 150rem;
 
+  @media (max-width: 623.98px) {
+    padding: 0 5rem;
+  }
+
   @keyframes smoothAppear {
     from {
       opacity: 0;
@@ -176,8 +160,12 @@ const StyledTILWrapper = styled.div`
 
 const StyledViewType = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   padding: 2rem 0 3rem 10rem;
+
+  @media (max-width: 623.98px) {
+    padding: 2rem 0 3rem 4rem;
+  }
 `;
 
 const StyledFilterButton = styled.div`

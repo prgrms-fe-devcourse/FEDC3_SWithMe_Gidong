@@ -1,5 +1,6 @@
 export const COLOR = {
   PRIMARY_BTN: '#617CEB',
+  BLACK: '#000',
   WHITE: '#fff',
   DARK: '#3A3A3A',
   GRAY: '#D9D9D9',
@@ -50,4 +51,10 @@ export const COLOR = {
   TEXTAREA_BG: '#F3F3F3',
   CREATEDAT: '#606060',
   ALARM_GREEN: '#1fd771',
+
+  MODAL_BOX_SHADOW: 'rgba(0, 0, 0, 0.2)',
+
+  SPINNER_COLOR: '#919EAB',
+  AVATAR_WRAPPER_BORDER: '#DADADA',
+  AVATAR_WRAPPER_BG: '#EEEEEE',
 };

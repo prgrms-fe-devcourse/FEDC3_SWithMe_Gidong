@@ -15,7 +15,7 @@
     "object-curly-newline": 0,
     "no-unused-vars": "warn",
     "no-use-before-define": 1,
-    "indent": [2, 2, { "SwitchCase": 1, "offsetTernaryExpressions": 1 }],
+    "indent": [2, 2, { "SwitchCase": 1, "offsetTernaryExpressions": true }],
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".jsx"] }],
     "import/prefer-default-export": "off",

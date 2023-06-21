@@ -1,15 +1,12 @@
 import { Text } from '@/components/base';
-import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
+import { StyledIntroductionContainer, StyledTextWrapper } from './styles';
 
 function Introduction({ intro, containerProps, textProps, ...props }) {
   return (
     <StyledIntroductionContainer {...containerProps}>
       {intro ? (
         <StyledTextWrapper style={{ ...props.style }} {...props}>
-          <Text size={1.4} {...textProps}>
-            {intro}
-          </Text>
+          <Text {...textProps}>{intro}</Text>
         </StyledTextWrapper>
       ) : null}
     </StyledIntroductionContainer>
@@ -17,13 +14,3 @@ function Introduction({ intro, containerProps, textProps, ...props }) {
 }
 
 export default Introduction;
-
-const StyledIntroductionContainer = styled.div`
-  width: 100%;
-`;
-
-const StyledTextWrapper = styled.div`
-  padding: 1.6rem;
-  border-radius: 1rem;
-  background-color: ${COLOR.TEXTAREA_BG};
-`;

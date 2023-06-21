@@ -1,40 +1,46 @@
-import { createAlarm, deleteAlarm } from '@/api/alarm';
-import { getTIL } from '@/api/post';
-import { imgDefaultAvatar } from '@/assets/images';
+import { createNotification, deleteNotification } from '@/api/notification';
+
 import { Avatar, Text, Textarea } from '@/components/base';
 import AuthorNav from '@/components/domain/AuthorNav';
-import { useAuthContext } from '@/context/AuthProvider';
-import { useCommentContext } from '@/context/CommentProvider';
-import { useToastContext } from '@/context/ToastProvider';
+
+import { useCreateComment, useDeleteComment } from '@/hooks/queries/comments';
 import useInput from '@/hooks/useInput';
-import { COLOR } from '@/styles/color';
+import useToasts from '@/hooks/useToasts';
+
 import { convertDate } from '@/utils/date';
 import { isAuthor } from '@/utils/post';
 import { getItem, removeItem, setItem } from '@/utils/storage';
-import styled from '@emotion/styled';
+
+import { userState } from '@/stores/user';
+import { useRecoilValue } from 'recoil';
+
 import { useState } from 'react';
 
-function CommentItem({ comment }) {
-  const {
-    authState: { loggedUser },
-  } = useAuthContext();
-  const { onDeleteComment, onUpdateComment } = useCommentContext();
-  const { addToast } = useToastContext();
+import { COLOR } from '@/styles/color';
+import { StyledCommentItem, StyledCommentWrapper, StyledFlexContainer, StyledWriterInfoContainer } from './styles';
 
-  const [mode, setMode] = useState('view');
-
+function CommentItem({ comment, authorId }) {
   const { author, comment: body, updatedAt, _id: id, post: postId } = comment;
   const writtenTime = convertDate(new Date(updatedAt));
 
+  const createComment = useCreateComment();
+  const deleteComment = useDeleteComment();
+  const { addToast } = useToasts();
+
+  const loggedUser = useRecoilValue(userState);
+  const [mode, setMode] = useState('view');
   const commentInput = useInput(body);
 
   const handleDeleteButtonClick = async () => {
-    const { _id: commentId } = await onDeleteComment({ id });
-
-    await deleteAlarm({
-      id: getItem(commentId, ''),
-    });
-    removeItem(commentId);
+    await deleteComment.mutate(
+      { id },
+      {
+        onSuccess: async ({ _id: commentId }) => {
+          await deleteNotification({ id: getItem(commentId, '') });
+          removeItem(commentId);
+        },
+      },
+    );
   };
 
   const handleSubmitButtonClick = async () => {
@@ -47,30 +53,33 @@ function CommentItem({ comment }) {
       return;
     }
 
-    const {
-      author: { _id: userId },
-    } = await getTIL(postId);
+    await deleteComment.mutate(
+      { id },
+      {
+        onSuccess: async ({ _id: commentId }) => {
+          await deleteNotification({ id: getItem(commentId, '') });
+          removeItem(commentId);
+        },
+      },
+    );
 
-    const [{ _id: deletedId }, { _id: createdId }] = await onUpdateComment(
+    await createComment.mutate(
       {
         comment: commentInput.value,
         postId,
       },
-      { id },
+      {
+        onSuccess: async ({ _id: notificationTypeId }) => {
+          const { _id: alarmId } = await createNotification({
+            notificationType: 'COMMENT',
+            notificationTypeId,
+            userId: authorId,
+            postId,
+          });
+          setItem(notificationTypeId, alarmId);
+        },
+      },
     );
-
-    await deleteAlarm({
-      id: getItem(deletedId, ''),
-    });
-    removeItem(deletedId);
-
-    const { _id: alarmId } = await createAlarm({
-      notificationType: 'COMMENT',
-      notificationTypeId: createdId,
-      userId,
-      postId,
-    });
-    setItem(createdId, alarmId);
   };
 
   const toggleEditButtonClick = () => {
@@ -82,8 +91,8 @@ function CommentItem({ comment }) {
     <StyledCommentItem>
       <StyledFlexContainer>
         <StyledWriterInfoContainer>
-          <Avatar src={author.image || imgDefaultAvatar} size={3} />
-          <Text size={2} color={COLOR.DARK}>
+          <Avatar src={author.image} />
+          <Text size='xLarge' color={COLOR.DARK}>
             {author.fullName}
           </Text>
         </StyledWriterInfoContainer>
@@ -97,12 +106,12 @@ function CommentItem({ comment }) {
           />
         )}
       </StyledFlexContainer>
-      <Text size={1.2} color={COLOR.DARK}>
+      <Text size='small' color={COLOR.DARK}>
         {writtenTime}
       </Text>
       <StyledCommentWrapper>
         {!isAuthor(author._id, loggedUser._id) || mode === 'view' ? (
-          <Text size={1.8} color={COLOR.DARK}>
+          <Text size='large' color={COLOR.DARK}>
             {body}
           </Text>
         ) : (
@@ -110,8 +119,7 @@ function CommentItem({ comment }) {
             value={commentInput.value}
             placeholder='댓글을 입력하세요.'
             max={300}
-            wrapperProps={{ style: { width: '100%', border: `0.1rem solid ${COLOR.DARK}` } }}
-            style={{ fontSize: '1.2rem', height: '16rem' }}
+            needBorder
             handleParentChange={commentInput.onChange}
           />
         )}
@@ -121,27 +129,3 @@ function CommentItem({ comment }) {
 }
 
 export default CommentItem;
-
-const StyledCommentItem = styled.div`
-  display: flex;
-  gap: 1rem;
-  flex-direction: column;
-  padding: 1.6rem;
-  background-color: ${COLOR.TEXTAREA_BG};
-`;
-
-const StyledFlexContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const StyledWriterInfoContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-`;
-
-const StyledCommentWrapper = styled.div`
-  margin-top: 2rem;
-`;

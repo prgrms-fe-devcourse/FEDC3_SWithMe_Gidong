@@ -1,7 +1,6 @@
 import { Text } from '@/components/base';
-import useInput from '@/hooks/useInput';
-import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
+import * as S from './styles';
+import PropTypes from 'prop-types';
 
 function Input({
   type = 'text',
@@ -16,7 +15,8 @@ function Input({
   disabled = false,
   readonly = false,
   max,
-  wrapperProps,
+  size = 'full',
+  fontSize = 'default',
   ...props
 }) {
   const handleInputChange = (e) => {
@@ -44,49 +44,48 @@ function Input({
   };
 
   return (
-    <StyledInputContainer block={block} {...wrapperProps}>
-      <StyledInput
-        type='text'
+    <S.Container block={block} size={size}>
+      <S.Input
+        type={type}
         placeholder={placeholder}
         invalid={invalid}
         required={required}
         disabled={disabled}
+        readonly={readonly}
         readOnly={readonly}
         max={max ? max : 'none'}
         value={type === 'number' ? (parseInt(value) ? parseInt(value) : 0) : value}
         onChange={(e) => handleInputChange(e)}
         onKeyPress={handleKeyPress}
+        size={size}
+        block={block}
+        fontSize={fontSize}
         {...props}
       />
-      <StyledLabel>
-        <Text size={type === 'number' ? 0.9 : 1.2} weight={300}>
+      <S.Label>
+        <Text size={type === 'number' ? 'xSmall' : 'small'} weight={300}>
           {label ? label : max ? value.length + ' / ' + max : ''}
         </Text>
-      </StyledLabel>
-    </StyledInputContainer>
+      </S.Label>
+    </S.Container>
   );
 }
 
+Input.propTypes = {
+  type: PropTypes.oneOf(['text', 'number']),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onChange: PropTypes.func,
+  onKeyPress: PropTypes.func,
+  placeholder: PropTypes.string,
+  label: PropTypes.string,
+  block: PropTypes.bool,
+  invalid: PropTypes.bool,
+  required: PropTypes.bool,
+  disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
+  max: PropTypes.number,
+  size: PropTypes.oneOf(['full', 'medium']),
+  fontSize: PropTypes.oneOf(['default', 'medium', 'large']),
+};
+
 export default Input;
-
-const StyledInputContainer = styled.div`
-  position: relative;
-  display: ${({ block }) => (block ? 'block' : 'inline-block')};
-  margin: 1rem 0 2rem 0;
-`;
-
-const StyledLabel = styled.label`
-  display: block;
-  position: absolute;
-  bottom: -1.6em;
-  right: 0;
-  background-color: transparent;
-`;
-
-const StyledInput = styled.input`
-  width: 100%;
-  border: none;
-  outline: none;
-  border-bottom: 0.1rem solid ${({ invalid }) => (invalid ? COLOR.RED : COLOR.GRAY)};
-  box-sizing: border-box;
-`;

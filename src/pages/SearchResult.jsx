@@ -1,7 +1,10 @@
 import { SearchResultContainer } from '@/components/domain/SearchResult';
-import { useGroupContext } from '@/context/GroupProvider';
-import styled from '@emotion/styled';
+
+import { useGetGroupList } from '@/hooks/queries/group';
 import { useLocation } from 'react-router-dom';
+import { cleanWordSpacing } from '@/utils/regex';
+
+import styled from '@emotion/styled';
 
 const FILTER_BY = {
   NAME: '그룹명',
@@ -12,18 +15,20 @@ function SearchResult() {
   const {
     state: { filterValue, searchValue },
   } = useLocation();
-  const {
-    groups: { value: groupList },
-  } = useGroupContext();
-  const lowerSearchValue = searchValue.toLowerCase();
+  const { data: groupList } = useGetGroupList();
+
+  const filterText = (textValue) => {
+    return cleanWordSpacing(textValue.toLowerCase());
+  };
 
   const searchGroupByName = () => {
-    return groupList?.filter(({ name }) => name.toLowerCase().includes(lowerSearchValue));
+    return groupList?.filter(({ name }) => filterText(name).includes(filterText(searchValue)));
   };
 
   const searchGroupByTag = () => {
+    console.log(groupList);
     return groupList?.filter(({ description }) =>
-      description.tagList.some((tag) => tag.toLowerCase().includes(lowerSearchValue)),
+      description.tagList.some((tag) => filterText(tag).includes(filterText(searchValue))),
     );
   };
 

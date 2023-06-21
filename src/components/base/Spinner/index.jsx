@@ -1,55 +1,20 @@
-import styled from '@emotion/styled';
+import { Icon } from '@/components/base';
+import theme from '@/styles/theme';
+import PropTypes from 'prop-types';
+import * as S from './styles';
 
-const Spinner = ({ size = 24, color = '#919EAB', loading = true, ...props }) => {
-  const sizeStyle = {
-    width: size,
-    height: size,
-  };
-
+const Spinner = ({ size = 'xLarge', color = theme.colors.whiteGray_600, loading = true }) => {
   return loading ? (
-    <StyledSpinnerWrapper>
-      <Icon>
-        <svg viewBox='0 0 38 38' xmlns='http://www.w3.org/2000/svg' style={sizeStyle}>
-          <g fill='none' fillRule='evenodd'>
-            <g transform='translate(1 1)'>
-              <path d='M36 18c0-9.94-8.06-18-18-18' stroke={color} strokeWidth='2'>
-                <animateTransform
-                  attributeName='transform'
-                  type='rotate'
-                  from='0 18 18'
-                  to='360 18 18'
-                  dur='0.9s'
-                  repeatCount='indefinite'
-                />
-              </path>
-              <circle fill={color} cx='36' cy='18' r='1'>
-                <animateTransform
-                  attributeName='transform'
-                  type='rotate'
-                  from='0 18 18'
-                  to='360 18 18'
-                  dur='0.9s'
-                  repeatCount='indefinite'
-                />
-              </circle>
-            </g>
-          </g>
-        </svg>
-      </Icon>
-    </StyledSpinnerWrapper>
+    <S.SpinnerWrapper>
+      <Icon className='fas fa-spin' name='circle-notch' size={size} color={color} />
+    </S.SpinnerWrapper>
   ) : null;
 };
 
+Spinner.propTypes = {
+  size: PropTypes.oneOf(['xLarge', 'huge']),
+  color: PropTypes.string,
+  loading: PropTypes.bool,
+};
+
 export default Spinner;
-
-const StyledSpinnerWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-bottom: 3rem;
-`;
-
-const Icon = styled.i`
-  display: inline-block;
-  vertical-align: middle;
-`;

@@ -1,6 +1,6 @@
 import { Text } from '@/components/base';
-import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
+import * as S from './styles';
 
 function Textarea({
   value = '',
@@ -9,16 +9,13 @@ function Textarea({
   max,
   label,
   block = false,
-  invalid = false,
   required = false,
   disabled = false,
   readonly = false,
-  resize = false,
+  needBorder = false,
   handleParentChange,
-  wrapperProps,
   ...props
 }) {
-
   const handleChange = (e) => {
     if (max && e.target.value.length > max) {
       e.target.value = e.target.value.slice(0, max);
@@ -40,51 +37,40 @@ function Textarea({
   };
 
   return (
-    <StyledTextareaContainer block={block} {...wrapperProps}>
-      <StyledTextarea
-        invalid={invalid}
+    <S.TextareaContainer block={block}>
+      <S.Textarea
         required={required}
         disabled={disabled}
         readOnly={readonly}
-        resize={resize}
         placeholder={placeholder}
         value={value}
-        onChange={(e) => handleChange(e)}
-        onKeyDown={(e) => handleKeyDown(e)}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
         maxLength={max}
+        needBorder={needBorder}
         {...props}
       />
-      <StyledLabel>
-        <Text size={1.2} weight={300}>
+      <S.Label>
+        <Text size='small' weight={300}>
           {label ? label : max ? value.length + ' / ' + max : ''}
         </Text>
-      </StyledLabel>
-    </StyledTextareaContainer>
+      </S.Label>
+    </S.TextareaContainer>
   );
 }
 
+Textarea.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+  placeholer: PropTypes.string,
+  max: PropTypes.number,
+  label: PropTypes.string,
+  block: PropTypes.bool,
+  required: PropTypes.bool,
+  disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
+  needBorder: PropTypes.bool,
+  handleParentChange: PropTypes.func,
+};
+
 export default Textarea;
-
-const StyledTextareaContainer = styled.div`
-  position: relative;
-  display: ${({ block }) => (block ? 'block' : 'inline-block')};
-  margin: 1rem 0 2rem 0;
-`;
-
-const StyledLabel = styled.label`
-  display: block;
-  position: absolute;
-  bottom: -1.6em;
-  right: 0;
-  background-color: transparent;
-`;
-
-const StyledTextarea = styled.textarea`
-  width: 100%;
-  outline: none;
-  border: none;
-  background-color: ${COLOR.TEXTAREA_BG};
-  box-sizing: border-box;
-  padding: 1rem;
-  resize: ${({ resize }) => (resize ? 'auto' : 'none')};
-`;

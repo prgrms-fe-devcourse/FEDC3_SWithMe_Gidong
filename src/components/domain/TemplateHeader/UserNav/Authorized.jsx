@@ -1,15 +1,25 @@
-import { useAlarms } from '@/api/alarm';
 import { postUserSignOut } from '@/api/userSign';
+
 import { Badge, Button, Icon } from '@/components/base';
 import AlarmModal from '@/components/domain/AlarmModal';
-import { useAuthContext } from '@/context/AuthProvider';
-import { COLOR } from '@/styles/color';
-import { useState } from 'react';
+import HamburgerModal from '@/components/domain/HamburgerModal';
+
+import { useGetNotifications } from '@/hooks/queries/notifications';
+import useAuth from '@/hooks/useAuth';
+
+import { isSearchBarVisibleState } from '@/stores/searchBar';
+import { useSetRecoilState } from 'recoil';
+
+import { memo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { COLOR } from '@/styles/color';
+import { StyledAuthorized } from '../styles';
 
 const Authorized = () => {
   const navigate = useNavigate();
-  const { onLogout } = useAuthContext();
+  const { onLogout } = useAuth();
+  const setIsSearchBarVisible = useSetRecoilState(isSearchBarVisibleState);
 
   const signOut = async () => {
     await postUserSignOut();
@@ -18,24 +28,27 @@ const Authorized = () => {
   };
 
   const [alarmModalVisible, setAlarmModalVisible] = useState(false);
-  const { data, isLoading, error } = useAlarms();
+  const [hamburgerModalVisible, setHamburgerModalVisible] = useState(false);
+  const { data: alarms, isLoading } = useGetNotifications();
 
   return (
-    <>
+    <StyledAuthorized>
       {alarmModalVisible && <AlarmModal visible={alarmModalVisible} onClose={() => setAlarmModalVisible(false)} />}
-      <Icon name='users' size={2} onClick={() => navigate('/myGroup')} style={{ cursor: 'pointer' }} />
-      <Badge dot={!isLoading && data && data.length && data.some(({ seen }) => !seen)} bgColor={COLOR.ALARM_GREEN}>
-        <Icon name='bell' size={2} onClick={() => setAlarmModalVisible(true)} style={{ cursor: 'pointer' }} />
+      {hamburgerModalVisible && (
+        <HamburgerModal visible={hamburgerModalVisible} onClose={() => setHamburgerModalVisible(false)} />
+      )}
+      <Icon name='magnifying-glass' size='medium' isPointer onClick={() => setIsSearchBarVisible(true)} />
+      <Icon name='users' size='medium' isPointer onClick={() => navigate('/myGroup')} />
+      <Icon name='user' size='medium' isPointer onClick={() => navigate('/myPage')} />
+      <Badge dot={!isLoading && alarms.length > 0 && alarms.some(({ seen }) => !seen)} bgColor={COLOR.ALARM_GREEN}>
+        <Icon name='bell' size='medium' isPointer onClick={() => setAlarmModalVisible(true)} />
       </Badge>
-      <Icon name='user' size={2} onClick={() => navigate('/myPage')} style={{ cursor: 'pointer' }} />
-      <Button
-        style={{ width: '7.7rem', height: '2.1rem', margin: '0.7rem 0', padding: '0', fontSize: '1.8rem' }}
-        bgcolor={COLOR.HEADER_TRANSPARENT_BG}
-        onClick={() => signOut()}>
+      <Icon name='bars' size='medium' isPointer onClick={() => setHamburgerModalVisible(true)} />
+      <Button fontSize='large' version='transparent' onClick={() => signOut()}>
         로그아웃
       </Button>
-    </>
+    </StyledAuthorized>
   );
 };
 
-export default Authorized;
+export default memo(Authorized);

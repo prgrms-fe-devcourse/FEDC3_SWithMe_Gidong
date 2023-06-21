@@ -1,6 +1,6 @@
 import { Text } from '@/components/base';
 import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
+import { StyledSignInputContainer, StyledSignInput, StyledLabel, StyledLengthLabel } from './styles';
 import { useEffect } from 'react';
 
 function SignInput(props) {
@@ -24,7 +24,7 @@ function SignInput(props) {
 
   return (
     <StyledSignInputContainer>
-      <Text block size={2}>
+      <Text block size='xLarge'>
         {header}
       </Text>
       <StyledSignInput
@@ -39,13 +39,13 @@ function SignInput(props) {
       />
       {isSignupInput && (
         <StyledLengthLabel>
-          <Text size={1.2} weight={300}>
+          <Text size='small' weight={300}>
             {value.length}/20
           </Text>
         </StyledLengthLabel>
       )}
       <StyledLabel>
-        <Text paragraph size={1.2} color={COLOR.RED}>
+        <Text paragraph size='small' color={COLOR.RED}>
           {alert}
         </Text>
       </StyledLabel>
@@ -54,28 +54,3 @@ function SignInput(props) {
 }
 
 export default SignInput;
-
-const StyledSignInputContainer = styled.div`
-  position: relative;
-  display: block;
-`;
-
-const StyledSignInput = styled.input`
-  width: 100%;
-  border: none;
-  outline: none;
-  border-bottom: 0.1rem solid ${({ invalid }) => (invalid ? COLOR.RED : COLOR.GRAY)};
-  box-sizing: border-box;
-  margin: 1rem 0 2rem 0;
-`;
-
-const StyledLabel = styled.label`
-  display: block;
-  position: absolute;
-  bottom: 0.3em;
-  background-color: transparent;
-`;
-
-const StyledLengthLabel = styled(StyledLabel)`
-  right: 0;
-`;

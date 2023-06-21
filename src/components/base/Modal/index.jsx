@@ -1,8 +1,8 @@
 import useClickAway from '@/hooks/useClickAway';
-import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import { useCallback, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
+import * as S from './styles';
 
 function Modal({
   children,
@@ -10,9 +10,9 @@ function Modal({
   height,
   visible = false,
   round = true,
-  dimColor = 'rgba(0, 0, 0, 0.5)',
   onClose,
   hasChild,
+  isDimTransparent = false,
   ...props
 }) {
   const ref = useClickAway(() => {
@@ -44,36 +44,24 @@ function Modal({
   }, [hasChild]);
 
   return ReactDOM.createPortal(
-    <StyledBackgroundDim style={{ display: visible ? 'block' : 'none' }} dimColor={dimColor}>
-      <StyledModalContainer ref={ref} round={round} {...props} style={{ ...containerStyle, ...props.style }}>
+    <S.BackgroundDim style={{ display: visible ? 'block' : 'none' }} isDimTransparent={isDimTransparent}>
+      <S.ModalContainer ref={ref} round={round} {...props} style={{ ...containerStyle, ...props.style }}>
         {children}
-      </StyledModalContainer>
-    </StyledBackgroundDim>,
+      </S.ModalContainer>
+    </S.BackgroundDim>,
     modal,
   );
 }
 
+Modal.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+  width: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
+  height: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
+  visible: PropTypes.bool,
+  round: PropTypes.bool,
+  onClose: PropTypes.func.isRequired,
+  hasChild: PropTypes.bool,
+  isDimTransparent: PropTypes.bool,
+};
+
 export default Modal;
-
-const StyledBackgroundDim = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: ${({ dimColor }) => dimColor};
-  z-index: 2000;
-`;
-
-const StyledModalContainer = styled.div`
-  position: fixed;
-  top: 50%;
-  right: 50%;
-  transform: translate(50%, -50%);
-  padding: 1rem;
-  background-color: ${COLOR.WHITE};
-  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-
-  border-radius: ${({ round }) => (round ? '1rem' : 'none')};
-`;

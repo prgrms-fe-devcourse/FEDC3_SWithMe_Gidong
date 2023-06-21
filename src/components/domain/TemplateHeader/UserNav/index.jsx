@@ -1,29 +1,25 @@
+import { Button } from '@/components/base';
 import Authorized from '@/components/domain/TemplateHeader/UserNav/Authorized';
-import NotAuthorized from '@/components/domain/TemplateHeader/UserNav/NotAuthorized';
-import { useAuthContext } from '@/context/AuthProvider';
-import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
+import { StyledUserNav } from '../styles';
+import { useRecoilValue } from 'recoil';
+import { isAuthorizedState } from '@/stores/auth';
 
 const UserNav = () => {
-  const {
-    authState: { isLoggedIn },
-  } = useAuthContext();
+  const isAuthorized = useRecoilValue(isAuthorizedState);
+  const navigate = useNavigate();
 
-  return <StyledUserNav>{isLoggedIn ? <Authorized /> : <NotAuthorized />}</StyledUserNav>;
+  return (
+    <StyledUserNav>
+      {isAuthorized ? (
+        <Authorized />
+      ) : (
+        <Button fontSize='large' version='transparent' onClick={() => navigate('/signIn')}>
+          로그인
+        </Button>
+      )}
+    </StyledUserNav>
+  );
 };
 
 export default UserNav;
-
-const StyledUserNav = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-right: 2rem;
-  gap: 2rem;
-
-  position: relative;
-
-  & button:hover {
-    color: ${COLOR.GRAY3};
-  }
-`;

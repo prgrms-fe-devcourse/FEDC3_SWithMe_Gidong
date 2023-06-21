@@ -1,43 +1,53 @@
-const Text = ({
+import PropTypes from 'prop-types';
+import theme from '@/styles/theme';
+
+const SizeToCssValue = {
+  default: '1.4rem',
+  xSmall: '0.9rem',
+  small: '1.2rem',
+  medium: '1.6rem',
+  large: '1.8rem',
+  xLarge: '2rem',
+  xxLarge: '2.4rem',
+  huge: '3rem',
+};
+
+function Text({
   children,
-  block,
-  paragraph,
-  size,
-  strong,
-  weight,
-  underline,
-  delete: del,
-  color,
-  mark,
-  code,
-  lineHeight,
+  block = false,
+  paragraph = false,
+  size = 'default',
+  weight = 400,
+  underline = false,
+  color = theme.colors.black_900,
+  inherit = false,
   ...props
-}) => {
+}) {
   const Tag = block ? 'div' : paragraph ? 'p' : 'span';
   const fontStyle = {
-    fontWeight: strong ? 'bold' : weight ? `${weight}` : undefined,
-    fontSize: typeof size === 'number' ? `${size}rem` : undefined,
+    fontWeight: inherit ? 'inherit' : weight,
+    fontSize: inherit ? 'inherit' : SizeToCssValue[size],
     textDecoration: underline ? 'underline' : undefined,
     textUnderlinePosition: underline ? 'under' : undefined,
     color,
-    lineHeight,
   };
-
-  if (mark) {
-    children = <mark>{children}</mark>;
-  }
-  if (code) {
-    children = <code>{children}</code>;
-  }
-  if (del) {
-    children = <del>{children}</del>;
-  }
 
   return (
     <Tag style={{ ...fontStyle, ...props.style }} {...props}>
       {children}
     </Tag>
   );
+}
+
+Text.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+  block: PropTypes.bool,
+  paragraph: PropTypes.bool,
+  size: PropTypes.oneOf(['default', 'xSmall', 'small', 'medium', 'large', 'xLarge', 'xxLarge', 'huge']),
+  weight: PropTypes.oneOf([300, 400, 500, 600, 700, 800]),
+  underline: PropTypes.bool,
+  color: PropTypes.string,
+  inherit: PropTypes.bool,
 };
 
 export default Text;

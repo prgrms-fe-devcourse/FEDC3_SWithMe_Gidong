@@ -1,13 +1,21 @@
 import { postUserAvatar, putUserFullName, putUserPassword } from '@/api/userInfo';
-import { imgMypage, imgUserAvatar } from '@/assets/images';
-import { Avatar, Input, Text } from '@/components/base';
-import { MyPageButton } from '@/components/domain/MyPage';
-import { useAuthContext } from '@/context/AuthProvider';
-import { useToastContext } from '@/context/ToastProvider';
-import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
+
+import { imgMypage } from '@/assets/images';
+
+import { Avatar, Button, Input, Text } from '@/components/base';
+
+import useAuth from '@/hooks/useAuth';
+import useToasts from '@/hooks/useToasts';
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { isAuthorizedState } from '@/stores/auth';
+import { userState } from '@/stores/user';
+import { useRecoilValue } from 'recoil';
+
+import { COLOR } from '@/styles/color';
+import styled from '@emotion/styled';
 
 const TOGGLE_PASSWORD_BLIND_TYPES = {
   PASSWORD: 'password',
@@ -31,13 +39,14 @@ const INPUT_NUMBER_LIMIT = {
 
 function MyPage() {
   const navigate = useNavigate();
-  const {
-    authState: { isLoggedIn, loggedUser },
-    onReload,
-  } = useAuthContext();
-  const { addToast } = useToastContext();
 
-  if (!isLoggedIn) navigate('/');
+  const isAuthorized = useRecoilValue(isAuthorizedState);
+  const loggedUser = useRecoilValue(userState);
+
+  const { addToast } = useToasts();
+  const { onReload } = useAuth();
+
+  if (!isAuthorized) navigate('/');
 
   const [values, setValues] = useState({
     image: '',
@@ -126,7 +135,7 @@ function MyPage() {
       <StyledHeader>
         <StyledProfile>
           <label htmlFor='upload'>
-            <Avatar src={values.image ? values.image : imgUserAvatar} size={'23'} shape={'circle'} />
+            <Avatar src={values.image} size='large' />
           </label>
           <input id='upload' type='file' accept='image/*' onChange={(e) => onClickEditAvatar(e.target.files[0])} />
         </StyledProfile>
@@ -134,21 +143,13 @@ function MyPage() {
       </StyledHeader>
       <StyledMyInfoBox>
         <StyledMyInfoItem>
-          <Text block size={2}>
+          <Text block size='xLarge'>
             이메일
           </Text>
-          <Input
-            type='text'
-            value={values.email}
-            block
-            readOnly
-            style={{
-              borderBottom: 'none',
-            }}
-          />
+          <Input value={values.email} block readonly />
         </StyledMyInfoItem>
         <StyledMyInfoItem>
-          <Text block size={2}>
+          <Text block size='xLarge'>
             이름
           </Text>
           <StyledInputBox>
@@ -158,11 +159,13 @@ function MyPage() {
               value={values.fullName}
               onChange={(e) => setValues({ ...values, fullName: e.target.value })}
             />
-            <MyPageButton content={'수정'} onClick={onClickEditFullName} />
+            <Button version='primary' shape='round' fontSize='large' size='small' onClick={onClickEditFullName}>
+              수정
+            </Button>
           </StyledInputBox>
         </StyledMyInfoItem>
         <StyledMyInfoItem>
-          <Text block size={2}>
+          <Text block size='xLarge'>
             비밀번호
           </Text>
           <StyledInputBox>
@@ -173,8 +176,12 @@ function MyPage() {
               maxLength='20'
               onChange={(e) => setValues({ ...values, password: e.target.value })}
             />
-            <MyPageButton content={'보기'} onClick={togglePasswordBlind} />
-            <MyPageButton content={'수정'} onClick={onClickEditPassword} />
+            <Button version='primary' shape='round' fontSize='large' size='small' onClick={togglePasswordBlind}>
+              보기
+            </Button>
+            <Button version='primary' shape='round' fontSize='large' size='small' onClick={onClickEditPassword}>
+              수정
+            </Button>
           </StyledInputBox>
         </StyledMyInfoItem>
       </StyledMyInfoBox>
@@ -215,10 +222,17 @@ const StyledHeader = styled.div`
     right: -5rem;
     width: 45rem;
     transform: rotate(-10deg);
+    z-index: 1;
+
+    @media (max-width: 623.98px) {
+      width: 40rem;
+    }
   }
 `;
 
 const StyledProfile = styled.div`
+  z-index: 2;
+
   & > label {
     display: flex;
     justify-content: center;
@@ -240,19 +254,17 @@ const StyledMyInfoBox = styled.div`
   align-items: center;
   justify-content: center;
 
-  width: 80rem;
+  width: 59rem;
   padding: 2rem;
   border-radius: 1rem;
   background-color: ${COLOR.WHITE};
 
-  & > div {
-    width: 45rem;
+  @media (max-width: 623.98px) {
+    width: 100%;
   }
 `;
 
 const StyledUserInfoInput = styled.input`
-  margin: 1rem 0 2rem 0;
-  width: 40rem;
   height: 4rem;
   font-size: 3.2rem;
   border-bottom: 0.1rem solid ${({ invalid }) => (invalid ? COLOR.RED : COLOR.GRAY)};
@@ -263,7 +275,6 @@ const StyledMyInfoItem = styled.div`
   padding: 2rem 0;
 
   & input {
-    height: 3rem;
     font-weight: 100;
     font-size: 1.6rem;
     color: ${COLOR.DARK};
@@ -273,4 +284,13 @@ const StyledMyInfoItem = styled.div`
 const StyledInputBox = styled.div`
   display: flex;
   gap: 1rem;
+  margin: 1rem 0;
+
+  & > input {
+    flex: 1 1 50%;
+  }
+
+  & > button {
+    flex: 0 1 calc(25% - 1rem);
+  }
 `;

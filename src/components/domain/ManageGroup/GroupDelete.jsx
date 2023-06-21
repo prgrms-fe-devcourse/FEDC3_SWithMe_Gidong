@@ -1,10 +1,11 @@
-import { Header, Text } from '@/components/base';
-import * as S from '@/components/domain/ManageGroup/styles';
-import { useGroupContext } from '@/context/GroupProvider';
-import { useToastContext } from '@/context/ToastProvider';
-import { COLOR } from '@/styles/color';
-import styled from '@emotion/styled';
+import { Heading, Text, Button } from '@/components/base';
+
+import useToasts from '@/hooks/useToasts';
+
+import { useDeleteGroup } from '@/hooks/queries/group';
 import { useNavigate } from 'react-router-dom';
+
+import { StyledGroupDelete } from './styles';
 
 const TOAST_MESSAGE = {
   ALERT_GROUP_DELETE: '그룹이 삭제되었습니다.',
@@ -12,48 +13,35 @@ const TOAST_MESSAGE = {
 };
 
 function GroupDelete({ groupId }) {
-  const { onDeleteGroup } = useGroupContext();
-  const { addToast } = useToastContext();
   const navigate = useNavigate();
+
+  const deleteGroup = useDeleteGroup();
+  const { addToast } = useToasts();
 
   const handleDeleteClick = async () => {
     if (!confirm(TOAST_MESSAGE.CONFIRM_GROUP_DELETE)) return;
-    await onDeleteGroup({
-      id: groupId,
-    });
-    addToast(TOAST_MESSAGE.ALERT_GROUP_DELETE);
-    navigate('/myGroup');
+    deleteGroup.mutate(
+      { id: groupId },
+      {
+        onSuccess: () => {
+          addToast(TOAST_MESSAGE.ALERT_GROUP_DELETE);
+          navigate('/myGroup');
+        },
+      },
+    );
   };
 
   return (
     <StyledGroupDelete>
-      <Header level={3} size={25}>
-        그룹 삭제
-      </Header>
-      <Text paragraph strong size={1.6}>
+      <Heading level={5}>그룹 삭제</Heading>
+      <Text paragraph size='medium' weight={600}>
         한번 그룹을 삭제하면 다시 되돌릴 수 없습니다.
       </Text>
-      <StyledDeleteButton onClick={handleDeleteClick}>삭제</StyledDeleteButton>
+      <Button size='large' version='red' shape='round' onClick={handleDeleteClick}>
+        삭제
+      </Button>
     </StyledGroupDelete>
   );
 }
 
 export default GroupDelete;
-
-const StyledGroupDelete = styled(S.GroupBox)`
-  background-color: ${COLOR.MY_GROUP_BOX_BG};
-
-  & > h3 {
-    border-bottom: 1px solid ${COLOR.RED_20};
-    color: ${COLOR.RED_20};
-  }
-
-  & > p {
-    padding: 1rem 0;
-  }
-`;
-
-const StyledDeleteButton = styled(S.Button)`
-  margin-top: 1rem;
-  background-color: ${COLOR.RED_20};
-`;
